@@ -3,7 +3,7 @@
   "theme": "mint",
   "name": "Revive API",
   "colors": {
-    "primary": "#16A34A",
+    "primary": "#1b1f4f",
     "light": "#07C983",
     "dark": "#15803D"
   },
@@ -39,8 +39,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/white-logo.png",
+    "dark": "/logo/blue-logo.png"
   },
   "navbar": {
     "links": [
