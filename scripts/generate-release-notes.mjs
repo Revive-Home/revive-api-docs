@@ -15,6 +15,7 @@ const version = requiredEnv('RELEASE_VERSION');
 
 const label = process.env.RELEASE_LABEL || 'released';
 const since = process.env.RELEASE_SINCE; // optional; ISO date or YYYY-MM-DD
+const overwrite = (process.env.RELEASE_OVERWRITE || '').toLowerCase() === 'true';
 
 const repoQueryParts = REPOS.map((r) => `repo:${ORG}/${r}`).join(' ');
 
@@ -163,8 +164,8 @@ async function main() {
   ensureDir(outDir);
 
   const mdxPath = path.join(outDir, `${version}.mdx`);
-  if (fs.existsSync(mdxPath)) {
-    throw new Error(`Release notes already exist: ${mdxPath}`);
+  if (fs.existsSync(mdxPath) && !overwrite) {
+    throw new Error(`Release notes already exist: ${mdxPath}. Set RELEASE_OVERWRITE=true to regenerate.`);
   }
 
   fs.writeFileSync(mdxPath, toReleaseNotesMdx(grouped));
