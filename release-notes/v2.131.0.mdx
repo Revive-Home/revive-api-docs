@@ -1,0 +1,138 @@
+---
+title: "v2.131.0"
+description: "Revive platform production release"
+---
+
+## Highlights
+
+- Weekly Update Character Limit
+- Improved the Updates section now displays only when updates are available, eliminating... and improved refined the Updates header styling with updated typography and simplified...
+- Tec 6946/intake launch/volodymyr mykolaichyk
+- Fixed enhanced deal submission tracking to capture the user type responsible for...
+- Fixed fixed an issue where missing user name information could cause errors when...
+- **Updates** * Refined renovation plan estimate messaging for improved clarity * Added details about home value maintenance and preservation benefits
+
+## Changes shipped to production
+
+### revive-dashboard
+
+- Fixed removed the 300-character limit from the weekly update notes field and fixed removed the character counter display from notes input ([#2307](https://github.com/Revive-Home/revive-dashboard/pull/2307))
+- Weekly Update Character Limit ([#2315](https://github.com/Revive-Home/revive-dashboard/pull/2315))
+- Improved the Updates section now displays only when updates are available, eliminating... and improved refined the Updates header styling with updated typography and simplified... ([#2314](https://github.com/Revive-Home/revive-dashboard/pull/2314))
+- Step navigation now records progress and exposes current step and tracked..., wizard advancement respects authentication state and accepts authenticated..., navigation logic rebuilt to use freshest… ([#2310](https://github.com/Revive-Home/revive-dashboard/pull/2310))
+- Tec 6946/intake launch/volodymyr mykolaichyk ([#2290](https://github.com/Revive-Home/revive-dashboard/pull/2290))
+- Fixed enhanced deal submission tracking to capture the user type responsible for... ([#2308](https://github.com/Revive-Home/revive-dashboard/pull/2308))
+- Fixed improved avatar display reliability to handle cases where first or last name... ([#2295](https://github.com/Revive-Home/revive-dashboard/pull/2295))
+- Fixed fixed an issue where missing user name information could cause errors when... ([#2304](https://github.com/Revive-Home/revive-dashboard/pull/2304))
+- **Updates** * Refined renovation plan estimate messaging for improved clarity * Added details about home value maintenance and preservation benefits ([#2303](https://github.com/Revive-Home/revive-dashboard/pull/2303))
+- Fixed fixed an issue where user profile photos could be unintentionally removed... ([#2300](https://github.com/Revive-Home/revive-dashboard/pull/2300))
+- Improve footer button height and add callback cleanup on back navigation ([#2298](https://github.com/Revive-Home/revive-dashboard/pull/2298))
+- Intake now captures estated valuation, owner, and deed/loan details., low-valuation gating: properties with high valuation under $400,000 are..., fixed property notes are now sent without… ([#2297](https://github.com/Revive-Home/revive-dashboard/pull/2297))
+- Consolidated link text rendering to use consistent span-based elements for..., removed legacy icon asset and related exports to streamline icon usage., <sub>✏️ Tip: You can customize this high-level… ([#2291](https://github.com/Revive-Home/revive-dashboard/pull/2291))
+- Fixed improved OTP verification: better error handling, automatic recovery, and..., fixed fixed reCAPTCHA initialization/reset so verification is more reliable., internal submission and auto-submit… ([#2293](https://github.com/Revive-Home/revive-dashboard/pull/2293))
+- Promo code support across Getting Started: apply, dismiss, remove, badge UI,..., weekly update photos gallery with lightbox, download, and "Show more" controls., fixed property summary now uses HTML… ([#2281](https://github.com/Revive-Home/revive-dashboard/pull/2281))
+- Tec 6992/fix meet property advisor text/dalip jaggi ([#2285](https://github.com/Revive-Home/revive-dashboard/pull/2285))
+- Apply promo codes in the Getting Started flow (via dialog or URL); validate,..., visible "Code Applied" badge with dismiss/remove actions and confirmation..., added comprehensive promo code… ([#2276](https://github.com/Revive-Home/revive-dashboard/pull/2276))
+- Adds privacy-preserving hashing utility for analytics to support production..., improved enforced 10-digit phone validation and normalized storage as +1-prefixed., and improved signup now captures… ([#2280](https://github.com/Revive-Home/revive-dashboard/pull/2280))
+- Weekly updates photo gallery added with responsive grid and lightbox (photos... and gallery integrated into property pages and main gallery view with a new "view... ([#2279](https://github.com/Revive-Home/revive-dashboard/pull/2279))
+- Deal creation now supports automatic referral code attribution; when..., property intake summary formatting updated to use HTML line breaks for..., and <sub>✏️ Tip: You can customize this high-level… ([#2282](https://github.com/Revive-Home/revive-dashboard/pull/2282))
+- Improved responsive sizing and visual display of the logo in the Agent Intake... and <sub>✏️ Tip: You can customize this high-level summary in your review... ([#2283](https://github.com/Revive-Home/revive-dashboard/pull/2283))
+- Updated profit calculation to show net value gain after deducting renovation..., fixed improved handling of incomplete financial data to display $0 instead of..., and fixed <sub>✏️ Tip: You can… ([#2278](https://github.com/Revive-Home/revive-dashboard/pull/2278))
+- Centralized calendar name handling in the meeting scheduling flow, removing... and improves consistency and maintainability without changing exported behavior... ([#2275](https://github.com/Revive-Home/revive-dashboard/pull/2275))
+- Estimated profit now displayed within property trend information., improved consistent parsing and USD formatting of currency values., and improved avatars now show fallback initials when no image is… ([#2274](https://github.com/Revive-Home/revive-dashboard/pull/2274))
+- Merge pull request #2270 from Revive Home/TEC 6779/HOTFIX Estimate pr… ([#2273](https://github.com/Revive-Home/revive-dashboard/pull/2273))
+- Simplified the layout structure of the Estimate Proposal view by removing... and bEFORE: ([#2270](https://github.com/Revive-Home/revive-dashboard/pull/2270))
+- Tec 6779/hotfix estimate proposal broken pdf generating/volodymyr mykolaichyk ([#2271](https://github.com/Revive-Home/revive-dashboard/pull/2271))
+
+### revive-admin
+
+- Downloadable Change Orders CSV with CSV-safe content., new styled UI primitives: dropdown menu, form field components, and..., fixed reset-to-draft now also appears for additional signed estimate… ([#1704](https://github.com/Revive-Home/revive-admin/pull/1704))
+- Fixed "Next" button in the weekly update step is now always enabled. and fixed uI Updates ([#1714](https://github.com/Revive-Home/revive-admin/pull/1714))
+- Update contractor dashboard to use accurate chart bre… ([#1711](https://github.com/Revive-Home/revive-admin/pull/1711))
+- Collapsible UI for expandable sections., comprehensive Field system: reusable form blocks (labels, descriptions,..., redesigned estimate removal UI to a dialog-based, single-selection workflow...,… ([#1710](https://github.com/Revive-Home/revive-admin/pull/1710))
+- Fixed streamlined RMA creation so users see immediate success and are redirected to..., improved rMA amount fields initialize consistently and auto-format to two-decimal..., improved release action… ([#1708](https://github.com/Revive-Home/revive-admin/pull/1708))
+- The "Reset to draft" button is now available for signed estimates, expanding... ([#1706](https://github.com/Revive-Home/revive-admin/pull/1706))
+- New styled dropdown menu for actions and navigation., added "Change Orders" CSV export and enhanced "Estimates" CSV export controls., improved improved responsive layout and control alignment on… ([#1705](https://github.com/Revive-Home/revive-admin/pull/1705))
+- Admin Intake Promo Codes: listing grid, promo card, create/edit/view modal,... and purchase Commitment preview button in finance workflows. ([#1692](https://github.com/Revive-Home/revive-admin/pull/1692))
+- Fixed improved promo code status messaging to display expiration and usage limit... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1699](https://github.com/Revive-Home/revive-admin/pull/1699))
+- Sprint 1 fixes ([#1697](https://github.com/Revive-Home/revive-admin/pull/1697))
+- Added intake promo code management system allowing users to create, edit,... and support for multiple promo code types and configurable discounts (percentage... ([#1686](https://github.com/Revive-Home/revive-admin/pull/1686))
+- Contract preview flow for purchase commitments — click "Purchase commitment"... and optional "Factored" toggle for custom items on change orders to control... ([#1690](https://github.com/Revive-Home/revive-admin/pull/1690))
+- Save-changes confirmation modal when navigating with unsaved edits., centralized, more accurate dirty/change detection across products and options., fixed smoother, consistent unsaved-change… ([#1689](https://github.com/Revive-Home/revive-admin/pull/1689))
+- Fixed improved creator information capture in weekly progress reports to include... and fixed enhanced update process for existing weekly progress reports to ensure proper... ([#1688](https://github.com/Revive-Home/revive-admin/pull/1688))
+- Updated the list of available lead source options, including new partner... and <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1685](https://github.com/Revive-Home/revive-admin/pull/1685))
+
+### revive-mobile
+
+No updates in this release.
+
+### revive-api
+
+- Remove project scope items filtered by source., automatic cleanup when estimates are "awaiting signature" or "signed" (unlink..., fixed preserve original subtotal by avoiding unintended mutation… ([#1861](https://github.com/Revive-Home/revive-api/pull/1861))
+- Update contractor dashboard to accurately reflect proj… ([#1874](https://github.com/Revive-Home/revive-api/pull/1874))
+- Adds selective product-removal options allowing finer control over which... and improved updates removal behavior to preserve and filter scope items in specific... ([#1870](https://github.com/Revive-Home/revive-api/pull/1870))
+- Added "review" as a new RMA workflow state; notifications now include richer..., contract signing recipients/signing order improved; Finance may be added in..., validation and type definitions… ([#1869](https://github.com/Revive-Home/revive-api/pull/1869))
+- Enhance support ticket service and validation to include contact information fields ([#1866](https://github.com/Revive-Home/revive-api/pull/1866))
+- Fixed fixed global value calculations to prevent data mutation and ensure accurate... ([#1863](https://github.com/Revive-Home/revive-api/pull/1863))
+- Enhanced estimate reset to clean up associated project scope items and unlink... and improved reset flow now treats "awaiting signature" and "signed" as valid states,... ([#1867](https://github.com/Revive-Home/revive-api/pull/1867))
+- Correct reference to product.removeL4Ids in L4 item de… ([#1872](https://github.com/Revive-Home/revive-api/pull/1872))
+- Introduced new removal type options for managing project scope items with..., l4-type scope removals now update documents selectively by filtering specific..., and improved enhanced removal workflow… ([#1871](https://github.com/Revive-Home/revive-api/pull/1871))
+- Calendar routing now considers property value to assign deals and..., deals and opportunities include a high-value flag so high-value properties..., and fixed preserved existing market-listed… ([#1859](https://github.com/Revive-Home/revive-api/pull/1859))
+- Fixed updated HubSpot ticket creation to use correct pipeline configuration for... and fixed enhanced Special Services deal type handling in calendar selection logic to... ([#1864](https://github.com/Revive-Home/revive-api/pull/1864))
+- Fixed improved HTML content handling in estimate descriptions to ensure clean,... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1848](https://github.com/Revive-Home/revive-api/pull/1848))
+- Sprint 2 :rocket: ([#1850](https://github.com/Revive-Home/revive-api/pull/1850))
+- Service Provider dashboards now aggregate deals from multiple contractors... and contact detail retrieval now recognizes contractor associations to include... ([#1856](https://github.com/Revive-Home/revive-api/pull/1856))
+- Optimized internal logic for contact data handling in the dashboard. and note:** This release contains internal code improvements with no user-facing... ([#1858](https://github.com/Revive-Home/revive-api/pull/1858))
+- Tec 7029/allow sp to view deals from all associated contractors/yasha movchan ([#1857](https://github.com/Revive-Home/revive-api/pull/1857))
+- Added a photo analysis endpoint where users submit image URLs for automated... and returns a structured analysis: property condition, identified features, and... ([#1851](https://github.com/Revive-Home/revive-api/pull/1851))
+- Enhanced code clarity by implementing more explicit null handling in data... ([#1855](https://github.com/Revive-Home/revive-api/pull/1855))
+- Allow PC generation when missing global fees ([#1854](https://github.com/Revive-Home/revive-api/pull/1854))
+- Removed agent-side fallback for Special Services dealtype handling. Agent... ([#1852](https://github.com/Revive-Home/revive-api/pull/1852))
+- Deals now route dynamically to appropriate pipelines and stages on create,..., meeting bookings set the correct stage per pipeline., fixed listings/homeowner flags propagated to calendar and deal… ([#1846](https://github.com/Revive-Home/revive-api/pull/1846))
+- AVM API and service added to fetch, aggregate, and cache property valuations;..., new external property lookups integrated (Zillow, Redfin, HouseCanary,..., improved deals: optional referral code on… ([#1829](https://github.com/Revive-Home/revive-api/pull/1829))
+- RET Fix value preserve calculation ([#1844](https://github.com/Revive-Home/revive-api/pull/1844))
+- Fixed ensured delay updates are awaited and applied consistently, reducing timing..., fixed <sub>✏️ Tip: You can customize this high-level summary in your review..., and improved async handling and… ([#1842](https://github.com/Revive-Home/revive-api/pull/1842))
+- Automated Valuation Model (AVM) computing property valuations using Zillow,... and new AVM API endpoint to request valuations by address (POST). ([#1832](https://github.com/Revive-Home/revive-api/pull/1832))
+- Fixed adjusted validation requirements for estimates to allow more flexible... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1841](https://github.com/Revive-Home/revive-api/pull/1841))
+- Fixed improved error handling for missing contact data to prevent runtime errors., fixed enhanced robustness of scope of work updates with better null/undefined checks., improved calendar lookup now… ([#1834](https://github.com/Revive-Home/revive-api/pull/1834))
+- Estimates validation accepts an optional isFactored boolean for custom..., fixed estimates item generation now excludes custom products flagged to be excluded..., fixed <sub>✏️ Tip: You can customize… ([#1826](https://github.com/Revive-Home/revive-api/pull/1826))
+- Updated internal notification system infrastructure to support platform... and <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1835](https://github.com/Revive-Home/revive-api/pull/1835))
+- Add optional referralCode field to createDealSchema ([#1830](https://github.com/Revive-Home/revive-api/pull/1830))
+- Fix/weekly updates ([#1828](https://github.com/Revive-Home/revive-api/pull/1828))
+- Fixed weekly updates creator information fields are now optional, reducing... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1827](https://github.com/Revive-Home/revive-api/pull/1827))
+- Fixed fixed an issue where the creator information of weekly updates could be... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1825](https://github.com/Revive-Home/revive-api/pull/1825))
+- HOTFIX Dashboard Preestimate calculation issues ([#1824](https://github.com/Revive-Home/revive-api/pull/1824))
+- Optimized cost allocation logic for improved system performance and... and <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1823](https://github.com/Revive-Home/revive-api/pull/1823))
+- Fixed default unspecified items to "preserve" so selections, options, custom... and fixed separate preserve vs add totals and ensure value-add uses the direct add... ([#1819](https://github.com/Revive-Home/revive-api/pull/1819))
+- Fixed updated estimate proposal to no longer display placeholder images for missing... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1821](https://github.com/Revive-Home/revive-api/pull/1821))
+- Dashboard Preestimate calculation issues Jay Chang) ([#1820](https://github.com/Revive-Home/revive-api/pull/1820))
+- Fixed generated video URLs are now properly saved to contact profiles following... and fixed adjusted timing for consecutive video generation operations for improved... ([#1816](https://github.com/Revive-Home/revive-api/pull/1816))
+- Updated wrapped video asset to the latest version. and <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1814](https://github.com/Revive-Home/revive-api/pull/1814))
+- Added endpoints to trigger wrapped video generation and to receive... and batch generation now iterates agents and schedules wrapped video creation... ([#1811](https://github.com/Revive-Home/revive-api/pull/1811))
+- Added automated video generation for marketing wrapped campaigns with... and introduced webhook system to handle video completion callbacks and trigger... ([#1812](https://github.com/Revive-Home/revive-api/pull/1812))
+
+## Fixes
+
+- Step navigation now records progress and exposes current step and tracked..., wizard advancement respects authentication state and accepts authenticated..., navigation logic rebuilt to use freshest… ([#2310](https://github.com/Revive-Home/revive-dashboard/pull/2310))
+- Fixed fixed an issue where user profile photos could be unintentionally removed... ([#2300](https://github.com/Revive-Home/revive-dashboard/pull/2300))
+- Improve footer button height and add callback cleanup on back navigation ([#2298](https://github.com/Revive-Home/revive-dashboard/pull/2298))
+- Tec 6992/fix meet property advisor text/dalip jaggi ([#2285](https://github.com/Revive-Home/revive-dashboard/pull/2285))
+- Centralized calendar name handling in the meeting scheduling flow, removing... and improves consistency and maintainability without changing exported behavior... ([#2275](https://github.com/Revive-Home/revive-dashboard/pull/2275))
+- Fixed improved promo code status messaging to display expiration and usage limit... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1699](https://github.com/Revive-Home/revive-admin/pull/1699))
+- Save-changes confirmation modal when navigating with unsaved edits., centralized, more accurate dirty/change detection across products and options., fixed smoother, consistent unsaved-change… ([#1689](https://github.com/Revive-Home/revive-admin/pull/1689))
+- Update contractor dashboard to accurately reflect proj… ([#1874](https://github.com/Revive-Home/revive-api/pull/1874))
+- Enhance support ticket service and validation to include contact information fields ([#1866](https://github.com/Revive-Home/revive-api/pull/1866))
+- Fixed fixed global value calculations to prevent data mutation and ensure accurate... ([#1863](https://github.com/Revive-Home/revive-api/pull/1863))
+- Correct reference to product.removeL4Ids in L4 item de… ([#1872](https://github.com/Revive-Home/revive-api/pull/1872))
+- Fixed updated HubSpot ticket creation to use correct pipeline configuration for... and fixed enhanced Special Services deal type handling in calendar selection logic to... ([#1864](https://github.com/Revive-Home/revive-api/pull/1864))
+- Optimized internal logic for contact data handling in the dashboard. and note:** This release contains internal code improvements with no user-facing... ([#1858](https://github.com/Revive-Home/revive-api/pull/1858))
+- Removed agent-side fallback for Special Services dealtype handling. Agent... ([#1852](https://github.com/Revive-Home/revive-api/pull/1852))
+- RET Fix value preserve calculation ([#1844](https://github.com/Revive-Home/revive-api/pull/1844))
+- Fixed adjusted validation requirements for estimates to allow more flexible... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1841](https://github.com/Revive-Home/revive-api/pull/1841))
+- Fix/weekly updates ([#1828](https://github.com/Revive-Home/revive-api/pull/1828))
+- Fixed weekly updates creator information fields are now optional, reducing... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1827](https://github.com/Revive-Home/revive-api/pull/1827))
+- Fixed updated estimate proposal to no longer display placeholder images for missing... and fixed <sub>✏️ Tip: You can customize this high-level summary in your review... ([#1821](https://github.com/Revive-Home/revive-api/pull/1821))
+
+## Breaking changes
+
+No breaking changes.

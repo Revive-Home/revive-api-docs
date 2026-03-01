@@ -200,19 +200,41 @@ function shouldExcludePRTitle(title) {
 const token = process.env.GITHUB_TOKEN;
 if (!token) { console.error('Set GITHUB_TOKEN env var'); process.exit(1); }
 
-async function ghJson(url) {
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
-    },
-  });
-  if (!res.ok) {
+async function ghJson(url, retries = 3) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    });
+
+    if (res.ok) return res.json();
+
+    // Handle rate limiting — wait until reset
+    if (res.status === 403 || res.status === 429) {
+      const resetHeader = res.headers.get('x-ratelimit-reset');
+      const remaining = res.headers.get('x-ratelimit-remaining');
+      if (resetHeader && (remaining === '0' || remaining === null)) {
+        const resetTime = parseInt(resetHeader, 10) * 1000;
+        const waitMs = Math.max(resetTime - Date.now(), 0) + 5000; // 5s buffer
+        const waitMin = Math.ceil(waitMs / 60000);
+        console.log(`  ⏳ Rate limited. Waiting ${waitMin} min until reset...`);
+        await new Promise((r) => setTimeout(r, waitMs));
+        continue; // retry
+      }
+      // Secondary rate limit — exponential backoff
+      const backoff = Math.pow(2, attempt) * 10000;
+      console.log(`  ⏳ Rate limited (no reset header). Waiting ${Math.ceil(backoff / 1000)}s...`);
+      await new Promise((r) => setTimeout(r, backoff));
+      continue;
+    }
+
     const text = await res.text();
     throw new Error(`GitHub API error ${res.status} for ${url}: ${text}`);
   }
-  return res.json();
+  throw new Error(`GitHub API failed after ${retries} retries for ${url}`);
 }
 
 // Fetch all pages of results
@@ -445,10 +467,21 @@ async function main() {
 
   const generatedVersions = [];
 
+  let skippedCount = 0;
+
   for (let i = 0; i < targetReleases.length; i++) {
     const release = targetReleases[i];
     const version = release.tag.replace(/^v/, 'v'); // normalize
     const untilDate = release.date;
+    const mdxPath = path.join(outDir, `${version}.mdx`);
+
+    // Skip releases that already have a generated file
+    if (fs.existsSync(mdxPath)) {
+      generatedVersions.push({ version, date: untilDate });
+      skippedCount++;
+      continue;
+    }
+
     // Previous release date is the "since" boundary
     const prevRelease = targetReleases[i + 1] || releases[releases.indexOf(release) + 1];
     const sinceDate = prevRelease?.date || null;
@@ -476,11 +509,13 @@ async function main() {
         } catch (e) {
           console.warn(`  Warning: failed to fetch ${repo}#${item.number}: ${e.message}`);
         }
+
+        // Small delay between individual PR fetches to stay under rate limit
+        await new Promise((r) => setTimeout(r, 150));
       }
 
       const grouped = buildGrouped(enriched);
       const mdxContent = toReleaseNotesMdx(version, grouped);
-      const mdxPath = path.join(outDir, `${version}.mdx`);
       fs.writeFileSync(mdxPath, mdxContent);
       console.log(`  Generated: ${mdxPath}`);
 
@@ -489,8 +524,12 @@ async function main() {
       console.error(`  Error processing ${version}: ${e.message}`);
     }
 
-    // Rate limit: small delay between releases
-    await new Promise((r) => setTimeout(r, 1000));
+    // Delay between releases
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+
+  if (skippedCount > 0) {
+    console.log(`\nSkipped ${skippedCount} releases (already generated)`);
   }
 
   // Sort by date descending (newest first)
