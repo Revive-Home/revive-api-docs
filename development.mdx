@@ -5,6 +5,7 @@ description: 'Preview changes locally to update your docs'
 
 <Info>
   **Prerequisites**:
+
   - Node.js version 19 or higher
   - A docs repository with a `docs.json` file
 </Info>
@@ -17,6 +18,7 @@ Follow these steps to install and run Mintlify on your operating system.
 ```bash
 npm i -g mint
 ```
+
 </Step>
 
 <Step title="Preview locally">
@@ -51,7 +53,7 @@ Port 3000 is already in use. Trying 3001 instead.
 Please note that each CLI release is associated with a specific version of Mintlify. If your local preview does not align with the production version, please update the CLI:
 
 ```bash
-npm mint update
+mint update
 ```
 
 ## Validating links
@@ -80,6 +82,7 @@ We suggest using extensions on your IDE to recognize and format MDX. If you're a
   <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
 
     This may be due to an outdated version of node. Try the following:
+
     1. Remove the currently-installed version of the CLI: `npm remove -g mint`
     2. Upgrade to Node v19 or higher.
     3. Reinstall the CLI: `npm i -g mint`
