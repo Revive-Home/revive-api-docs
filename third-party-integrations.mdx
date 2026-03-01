@@ -1,0 +1,99 @@
+---
+title: "Third-party integrations"
+description: "External systems and data sources used by the Revive platform"
+---
+
+Use this page to understand which third-party systems Revive integrates with, what data they provide, and which API endpoints are involved.
+
+## HubSpot
+
+**What it is**
+
+HubSpot is used for CRM workflows and operational automation.
+
+**Data source**
+
+Inbound webhook payloads sent from HubSpot into Revive.
+
+**Related API endpoints**
+
+- `/v1/webhooks/hubspot/createCompany`
+- `/v1/webhooks/hubspot/updateCompany`
+- `/v1/webhooks/hubspot/updateContractor`
+- `/v1/webhooks/hubspot/invite-realtor`
+- `/v1/webhooks/hubspot/production`
+- `/v1/webhooks/hubspot/report-reminder/{emailId}`
+- `/v1/webhooks/hubspot/revive-team`
+- `/v1/webhooks/hubspot/updateRealtorEdgeUrl`
+
+## PandaDoc
+
+**What it is**
+
+PandaDoc is used for document workflows that connect into project scope and linked object updates.
+
+**Data source**
+
+Inbound webhook payloads sent from PandaDoc into Revive.
+
+**Related API endpoints**
+
+- `/v1/webhooks/pandadoc/linked-objects`
+- `/v1/webhooks/pandadoc/project-scope`
+- `/v1/project-scopes/fill-from-pandadoc/{dealId}`
+
+## Automated valuation models (AVM)
+
+**What it is**
+
+AVM endpoints provide property valuation and analysis capabilities.
+
+**Data source**
+
+Third-party property data providers (the specific provider may vary by environment and configuration).
+
+**Related API endpoints**
+
+- `/v1/avm/`
+
+## Affiliate partners
+
+**What it is**
+
+Affiliate partner events sent into Revive.
+
+**Data source**
+
+Inbound webhook payloads sent from partner systems into Revive.
+
+**Related API endpoints**
+
+- `/v1/webhooks/affiliate-partners`
+
+## GVG
+
+**What it is**
+
+GVG webhook events sent into Revive.
+
+**Data source**
+
+Inbound webhook payloads sent from GVG into Revive.
+
+**Related API endpoints**
+
+- `/v1/webhooks/gvg`
+
+## Website case studies
+
+**What it is**
+
+Website case study submissions sent into Revive.
+
+**Data source**
+
+Inbound webhook payloads from Revive’s website forms.
+
+**Related API endpoints**
+
+- `/v1/webhooks/website-case-study`

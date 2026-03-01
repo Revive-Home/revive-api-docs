@@ -16,7 +16,8 @@
           {
             "group": "Getting started",
             "pages": [
-              "index"
+              "index",
+              "third-party-integrations"
             ]
           },
           {
