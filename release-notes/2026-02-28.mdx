@@ -1,38 +1,26 @@
 ---
-title: "2026-02-28"
-description: "Revive platform updates"
+title: "Getting started with release notes"
+description: "How Revive platform release notes are generated"
 ---
 
-## Highlights
+This page was created as a placeholder when setting up release notes.
 
-- 
+Real release notes are published as versioned pages (for example, `v1.12.0`) and are generated from merged pull requests across:
 
-## Changes
+- `revive-dashboard`
+- `revive-admin`
+- `revive-mobile`
+- `revive-api`
 
-### revive-dashboard
+Only pull requests with the `released` label should be included.
 
-- 
+## Generate a new release notes entry
 
-### revive-mobile
+1. In GitHub, open `Revive-Home/revive-api-docs`.
+2. Go to **Actions**.
+3. Run **Generate release notes**.
+4. Enter a `release_version` like `v1.12.0`.
+5. Optionally set `since` to limit results (recommended for the first run).
+6. Merge the generated PR.
 
-- 
-
-### revive-admin
-
-- 
-
-### revive-api
-
-- 
-
-## Fixes
-
-- 
-
-## Breaking changes
-
-- None.
-
-## Migration notes
-
-- 
+After your first versioned release notes entry is generated, you can delete this page.

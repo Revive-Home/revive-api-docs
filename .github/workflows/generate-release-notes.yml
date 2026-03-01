@@ -7,6 +7,11 @@ on:
         description: "Release version for the docs page (example: v1.12.0)"
         required: true
         type: string
+      overwrite:
+        description: "Overwrite the release notes page if it already exists"
+        required: false
+        default: false
+        type: boolean
       since:
         description: "Only include PRs merged on/after this date (YYYY-MM-DD). Optional."
         required: false
@@ -35,6 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB }}
           RELEASE_VERSION: ${{ inputs.release_version }}
+          RELEASE_OVERWRITE: ${{ inputs.overwrite }}
           RELEASE_SINCE: ${{ inputs.since }}
           RELEASE_LABEL: ${{ inputs.label }}
         run: node scripts/generate-release-notes.mjs
