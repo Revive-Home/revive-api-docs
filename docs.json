@@ -16,8 +16,7 @@
           {
             "group": "Getting started",
             "pages": [
-              "index",
-              "third-party-integrations"
+              "index"
             ]
           },
           {
@@ -29,6 +28,17 @@
                   "release-notes/v1.146.0"
                 ]
               }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Third-party integrations",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "third-party-integrations"
             ]
           }
         ]
