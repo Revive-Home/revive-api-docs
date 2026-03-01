@@ -1,0 +1,49 @@
+name: Generate release notes
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: "Release version for the docs page (example: v1.12.0)"
+        required: true
+        type: string
+      since:
+        description: "Only include PRs merged on/after this date (YYYY-MM-DD). Optional."
+        required: false
+        type: string
+      label:
+        description: "PR label that indicates the change shipped to production"
+        required: false
+        default: "released"
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate release notes files
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
+          RELEASE_SINCE: ${{ inputs.since }}
+          RELEASE_LABEL: ${{ inputs.label }}
+        run: node scripts/generate-release-notes.mjs
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "docs: add release notes ${{ inputs.release_version }}"
+          title: "Release notes: ${{ inputs.release_version }}"
+          body: "Generated from merged PRs labeled `${{ inputs.label }}` across Revive repos."
+          branch: "automation/release-notes-${{ inputs.release_version }}"
+          delete-branch: true

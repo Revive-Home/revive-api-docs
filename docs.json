@@ -18,6 +18,12 @@
             "pages": [
               "index"
             ]
+          },
+          {
+            "group": "Release notes",
+            "pages": [
+              "release-notes/index"
+            ]
           }
         ]
       },
