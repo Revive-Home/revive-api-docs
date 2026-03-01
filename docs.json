@@ -20,9 +20,15 @@
             ]
           },
           {
-            "group": "Release notes",
+            "group": "Releases",
             "pages": [
-              "release-notes/index"
+              "release-notes/index",
+              {
+                "group": "2026 Release Notes",
+                "pages": [
+                  "release-notes/v1.146.0"
+                ]
+              }
             ]
           }
         ]

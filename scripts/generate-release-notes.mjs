@@ -27,6 +27,44 @@ const CODERABBIT_SECTION_TITLES = new Set([
   'Data',
 ]);
 
+/**
+ * Convert raw branch-name-style PR titles into human-readable text.
+ * Examples:
+ *   "TEC-7097/Weekly-Update-Character-Limit/Carlo-Sanchez" → "Weekly update character limit"
+ *   "feat(TEC-6520): Allow deleting L4 items in change orders" → "Allow deleting L4 items in change orders"
+ *   "Sprint 3" → "Sprint 3" (unchanged)
+ */
+function cleanPRTitle(raw) {
+  let t = raw.trim();
+
+  // Strip conventional-commit prefixes: feat(...): fix(...): chore(...):
+  t = t.replace(/^(?:feat|fix|chore|refactor|docs|ci|style|perf|test|build)\s*(?:\([^)]*\))?\s*:\s*/i, '');
+
+  // If it looks like a branch name (has slashes), take the descriptive middle segment
+  if (/^[A-Z]{2,}-\d+\//.test(t)) {
+    const segments = t.split('/');
+    // Remove ticket prefix segment and author suffix segment
+    const meaningful = segments.filter((s) => {
+      if (/^[A-Z]{2,}-\d+$/.test(s)) return false; // ticket id
+      if (segments.indexOf(s) === segments.length - 1 && /^[A-Z][a-z]+-[A-Z][a-z]+$/.test(s)) return false; // Author-Name
+      return true;
+    });
+    if (meaningful.length > 0) t = meaningful.join(' ');
+  }
+
+  // Replace hyphens with spaces, collapse whitespace
+  t = t.replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
+
+  // Sentence case: capitalize first letter, lowercase the rest only if ALL CAPS
+  if (t === t.toUpperCase() && t.length > 3) {
+    t = t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+  } else {
+    t = t.charAt(0).toUpperCase() + t.slice(1);
+  }
+
+  return t;
+}
+
 function requiredEnv(name) {
   const v = process.env[name];
   if (!v) throw new Error(`Missing required env var: ${name}`);
@@ -86,6 +124,11 @@ async function fetchPull(repo, number) {
 }
 
 function toReleaseNotesMdx(grouped) {
+  // Collect all PRs for highlights and fixes
+  const allPRs = REPOS.flatMap((r) => (grouped[r] || []));
+  const fixes = allPRs.filter((pr) => pr.isFix);
+  const features = allPRs.filter((pr) => !pr.isFix && !pr.isSprint);
+
   const lines = [];
   lines.push('---');
   lines.push(`title: "${version}"`);
@@ -94,7 +137,13 @@ function toReleaseNotesMdx(grouped) {
   lines.push('');
   lines.push('## Highlights');
   lines.push('');
-  lines.push('- ');
+  if (features.length > 0) {
+    for (const pr of features.slice(0, 6)) {
+      lines.push(`- ${pr.title}`);
+    }
+  } else {
+    lines.push('- Maintenance and bug fix release');
+  }
   lines.push('');
   lines.push('## Changes shipped to production');
   lines.push('');
@@ -119,7 +168,13 @@ function toReleaseNotesMdx(grouped) {
 
   lines.push('## Fixes');
   lines.push('');
-  lines.push('- ');
+  if (fixes.length > 0) {
+    for (const pr of fixes) {
+      lines.push(`- ${pr.title} ([#${pr.number}](${pr.url}))`);
+    }
+  } else {
+    lines.push('- None.');
+  }
   lines.push('');
   lines.push('## Breaking changes');
   lines.push('');
@@ -146,6 +201,49 @@ function updateIndexMdx(indexPath) {
   const insertion = `\n${cardLine}\n    Production release notes.\n  </Card>`;
   current = current.slice(0, insertAt) + insertion + current.slice(insertAt);
   fs.writeFileSync(indexPath, current);
+}
+
+function updateDocsJson(docsJsonPath) {
+  const pagePath = `release-notes/${version}`;
+  const raw = fs.readFileSync(docsJsonPath, 'utf8');
+  const config = JSON.parse(raw);
+
+  // Determine the year from the version or fall back to current year
+  const year = new Date().getFullYear().toString();
+  const yearGroupName = `${year} Release Notes`;
+
+  // Find the Releases group in navigation
+  const tabs = config.navigation?.tabs || [];
+  let releasesGroup = null;
+  for (const tab of tabs) {
+    for (const group of tab.groups || []) {
+      if (group.group === 'Releases') {
+        releasesGroup = group;
+        break;
+      }
+    }
+    if (releasesGroup) break;
+  }
+
+  if (!releasesGroup) return;
+
+  // Find or create the year subgroup
+  let yearGroup = releasesGroup.pages.find(
+    (p) => typeof p === 'object' && p.group === yearGroupName
+  );
+
+  if (!yearGroup) {
+    yearGroup = { group: yearGroupName, pages: [] };
+    releasesGroup.pages.push(yearGroup);
+  }
+
+  // Add the page if not already present
+  if (!yearGroup.pages.includes(pagePath)) {
+    // Insert at the beginning so newest is first
+    yearGroup.pages.unshift(pagePath);
+  }
+
+  fs.writeFileSync(docsJsonPath, JSON.stringify(config, null, 2) + '\n');
 }
 
 function ensureDir(dir) {
@@ -325,13 +423,18 @@ async function main() {
     if (shouldExcludePRTitle(pr.title)) continue;
 
     const preferredSummary = extractPreferredSummaryFromBody(pr.body);
-    const displaySummary = toSingleLineSummary(preferredSummary) || pr.title;
+    const displaySummary = toSingleLineSummary(preferredSummary) || cleanPRTitle(pr.title);
+
+    const isFix = /^fix/i.test(pr.title);
+    const isSprint = /^sprint\s+\d+/i.test(pr.title);
 
     grouped[repo].push({
       number: pr.number,
       title: displaySummary,
       url: pr.html_url,
       mergedAt: pr.merged_at,
+      isFix,
+      isSprint,
     });
   }
 
@@ -349,6 +452,9 @@ async function main() {
 
   const indexPath = path.join(outDir, 'index.mdx');
   updateIndexMdx(indexPath);
+
+  const docsJsonPath = path.join(process.cwd(), 'docs.json');
+  updateDocsJson(docsJsonPath);
 
   console.log(`Generated: ${mdxPath}`);
 }
