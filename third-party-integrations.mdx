@@ -3,7 +3,30 @@ title: "Third-party integrations"
 description: "External systems and data sources used by the Revive platform"
 ---
 
-Use this page to understand which third-party systems Revive integrates with, what data they provide, and which API endpoints are involved.
+Use this page to understand which third-party systems Revive integrates with, why they exist, where the integration is implemented, and what you need to operate it.
+
+## Architecture overview
+
+- **Core system of record**
+  - `revive-api` uses Firebase Admin (`firebase-admin`) for Firestore and Cloud Storage.
+  - `revive-admin`, `revive-dashboard`, and `revive-mobile` use Firebase client SDKs for auth + Firestore + storage access.
+- **External system of record (CRM)**
+  - HubSpot is used for CRM objects and workflows (contacts, deals, custom objects).
+- **Common data flows**
+  - Webhook-driven: third parties send events into `revive-api` endpoints under `/v1/webhooks/*`.
+  - API pull: `revive-api` fetches property/valuation data from external providers on demand.
+  - Client analytics/monitoring: frontends initialize analytics/monitoring vendors in their app roots.
+
+## Integration catalog
+
+Each section below includes:
+
+- **What it is**
+- **Why we use it**
+- **Data flow**
+- **Owner repo(s)**
+- **Relevant modules/endpoints**
+- **Operational notes**
 
 ## HubSpot
 
@@ -11,11 +34,21 @@ Use this page to understand which third-party systems Revive integrates with, wh
 
 HubSpot is used for CRM workflows and operational automation.
 
-**Data source**
+**Why we use it**
 
-Inbound webhook payloads sent from HubSpot into Revive.
+HubSpot owns CRM objects (contacts, deals, custom objects) and triggers workflows that keep Revive systems in sync.
 
-**Related API endpoints**
+**Data flow**
+
+- Inbound: HubSpot workflows/webhooks call `revive-api`.
+- Outbound: `revive-api` calls HubSpot APIs for CRM reads/writes and transactional emails.
+
+**Owner repo(s)**
+
+- `revive-api` (webhook endpoints + API client)
+- `revive-admin` / `revive-dashboard` (HubSpot tracking script + UI deep links)
+
+**Relevant modules/endpoints**
 
 - `/v1/webhooks/hubspot/createCompany`
 - `/v1/webhooks/hubspot/updateCompany`
@@ -25,6 +58,14 @@ Inbound webhook payloads sent from HubSpot into Revive.
 - `/v1/webhooks/hubspot/report-reminder/{emailId}`
 - `/v1/webhooks/hubspot/revive-team`
 - `/v1/webhooks/hubspot/updateRealtorEdgeUrl`
+- `revive-api/src/utils/hubspotV2/hubspot.js` (HubSpot SDK client)
+- `revive-api/src/utils/hubspot.js` (HubSpot mapping + associations)
+- `revive-api/src/utils/transactional-emails.js` (HubSpot transactional emails)
+
+**Operational notes**
+
+- Webhooks are routed via `revive-api/src/webhooks/webhooks.routes.js`.
+- Some webhook handlers update Firestore and then fan out push notifications.
 
 ## PandaDoc
 
@@ -32,15 +73,30 @@ Inbound webhook payloads sent from HubSpot into Revive.
 
 PandaDoc is used for document workflows that connect into project scope and linked object updates.
 
-**Data source**
+**Why we use it**
 
-Inbound webhook payloads sent from PandaDoc into Revive.
+PandaDoc templates and envelopes power signature and underwriting document flows.
 
-**Related API endpoints**
+**Data flow**
+
+- Inbound: PandaDoc webhooks call `revive-api`.
+- Outbound: `revive-api` calls PandaDoc Public API.
+
+**Owner repo(s)**
+
+- `revive-api`
+
+**Relevant modules/endpoints**
 
 - `/v1/webhooks/pandadoc/linked-objects`
 - `/v1/webhooks/pandadoc/project-scope`
 - `/v1/project-scopes/fill-from-pandadoc/{dealId}`
+- `revive-api/src/lib/pandadoc/index.js` (PandaDoc API client)
+- `revive-api/src/webhooks/webhooks.service.js` (`pandadocProjectScopeWHService`, `pandaDocLinkedObjectWHService`)
+
+**Operational notes**
+
+- PandaDoc webhook payloads can contain PII; API client code sanitizes/masks logs.
 
 ## Automated valuation models (AVM)
 
@@ -48,13 +104,313 @@ Inbound webhook payloads sent from PandaDoc into Revive.
 
 AVM endpoints provide property valuation and analysis capabilities.
 
-**Data source**
+**Why we use it**
+
+We combine multiple providers to improve coverage and produce valuation ranges.
+
+**Data flow**
 
 Third-party property data providers (the specific provider may vary by environment and configuration).
 
-**Related API endpoints**
+`revive-api` requests provider data, then stores/updates aggregated results in Firestore (`AVM` collection) for caching.
+
+**Owner repo(s)**
+
+- `revive-api`
+
+**Relevant modules/endpoints**
 
 - `/v1/avm/`
+- `revive-api/src/automated-valuation-models/avm.service.ts`
+- `revive-api/src/utils/estated/index.js`
+- `revive-api/src/lib/houseCanary/index.js`
+- `revive-api/src/lib/rentcast/index.ts`
+- `revive-api/src/lib/apify/index.ts` (Zillow + Redfin via Apify actors)
+
+**Operational notes**
+
+- AVM results are cached for ~30 days in Firestore.
+- Zillow/Redfin data is fetched via Apify actors; outages or rate limits will impact AVM completeness.
+
+## Firebase (auth, Firestore, Cloud Storage, FCM)
+
+**What it is**
+
+Firebase provides:
+
+- Firestore for application data
+- Cloud Storage for file uploads
+- Firebase Auth for user identity
+- FCM for push notifications
+
+**Why we use it**
+
+Firebase is the primary operational datastore and supports real-time client experiences.
+
+**Data flow**
+
+- `revive-api` uses Firebase Admin SDK for privileged access.
+- Frontend apps use Firebase client SDKs.
+- `revive-api` sends push notifications via FCM device identifiers stored on contacts.
+
+**Owner repo(s)**
+
+- `revive-api` (admin SDK + push notifications)
+- `revive-admin` / `revive-dashboard` (client SDK)
+- `revive-mobile` (client SDK)
+
+**Relevant modules/endpoints**
+
+- `revive-api/src/lib/firebase/index.js` (admin init)
+- `revive-api/src/utils/push-notifications.js` (FCM send)
+- `revive-api/src/media/media.service.js` (file tree metadata in Firestore)
+- `revive-admin/utils/firebase.ts`
+- `revive-dashboard/src/utils/firebase.ts`
+
+**Operational notes**
+
+- Client-side push notifications are wired in app roots (Firebase messaging `onMessage`).
+
+## Slack
+
+**What it is**
+
+Slack is used for internal notifications.
+
+**Why we use it**
+
+To post operational updates into team channels.
+
+**Data flow**
+
+`revive-api` posts messages to Slack using the Bolt client.
+
+**Owner repo(s)**
+
+- `revive-api`
+
+**Relevant modules/endpoints**
+
+- `revive-api/src/lib/slack/index.js`
+- `revive-api/src/lib/slack/sendMessage.js`
+
+**Operational notes**
+
+- Channel routing is configured in `revive-api/src/config/index.js`.
+
+## Twilio (SMS/MMS)
+
+**What it is**
+
+Twilio is used to send SMS/MMS messages.
+
+**Why we use it**
+
+For messaging workflows that require phone delivery.
+
+**Data flow**
+
+`revive-api` sends messages via Twilio REST API.
+
+**Owner repo(s)**
+
+- `revive-api`
+
+**Relevant modules/endpoints**
+
+- `revive-api/src/lib/twilio/index.js`
+- `revive-api/src/lib/twilio/sendMessage.js`
+
+**Operational notes**
+
+- Phone numbers are normalized before sending.
+
+## Stripe
+
+**What it is**
+
+Stripe powers payment and subscription workflows.
+
+**Why we use it**
+
+To create payment intents/sessions and process webhook events.
+
+**Data flow**
+
+- Inbound: Stripe calls webhook endpoint(s) in `revive-api`.
+- Outbound: `revive-api` uses Stripe SDK for payment APIs.
+
+**Owner repo(s)**
+
+- `revive-api`
+
+**Relevant modules/endpoints**
+
+- `revive-api/src/lib/stripe/index.js`
+- `revive-api/src/payments/payments.controller.js` (Stripe webhook signature verification)
+
+**Operational notes**
+
+- Stripe webhook handling uses the `stripe-signature` header and raw request body.
+
+## Google Maps
+
+**What it is**
+
+Google Maps APIs are used for mapping and geocoding-related functionality.
+
+**Why we use it**
+
+To power address/map UX in frontend apps.
+
+**Data flow**
+
+Frontend apps call Google APIs directly from the client.
+
+**Owner repo(s)**
+
+- `revive-admin`
+- `revive-dashboard`
+- `revive-api` (configuration)
+
+**Relevant modules/endpoints**
+
+- `revive-api/src/config/index.js`
+- `revive-admin/config/index.ts`
+- `revive-dashboard/config/index.ts`
+
+## SmartyStreets
+
+**What it is**
+
+SmartyStreets is used for address autocomplete and address verification.
+
+**Why we use it**
+
+To normalize addresses during intake and reduce downstream data quality issues.
+
+**Data flow**
+
+Frontend apps call SmartyStreets autocomplete and street verification.
+
+**Owner repo(s)**
+
+- `revive-admin`
+- `revive-dashboard`
+- `revive-mobile`
+
+**Relevant modules/endpoints**
+
+- `revive-admin/hooks/useSmartyStreets.ts`
+- `revive-dashboard/src/hooks/useSmartyStreets.ts`
+
+## Mixpanel
+
+**What it is**
+
+Mixpanel is used for product analytics.
+
+**Why we use it**
+
+To track user events and diagnose funnel drop-off.
+
+**Data flow**
+
+Frontends send events client-side.
+
+**Owner repo(s)**
+
+- `revive-admin`
+- `revive-dashboard`
+- `revive-mobile`
+
+**Relevant modules/endpoints**
+
+- `revive-admin/utils/mixPanel.utils.ts`
+- `revive-dashboard/src/utils/mixPanel.utils.ts`
+- `revive-mobile/src/Helper/mixPanel.utils.ts`
+
+## LogRocket
+
+**What it is**
+
+LogRocket is used for session replay and error reporting.
+
+**Why we use it**
+
+To diagnose production issues with richer client context.
+
+**Data flow**
+
+Frontends initialize LogRocket in the app root and report caught errors from Error Boundaries.
+
+**Owner repo(s)**
+
+- `revive-dashboard`
+- `revive-admin` (ErrorBoundary uses LogRocket, but initialization is currently disabled in `_app.tsx`)
+- `revive-mobile` (app initialization depends on build-time configuration)
+
+**Relevant modules/endpoints**
+
+- `revive-dashboard/src/pages/_app.tsx`
+- `revive-admin/pages/_app.tsx`
+- `revive-admin/src/components/common/ErrorBoundary.tsx`
+- `revive-dashboard/src/components/common/ErrorBoundary.tsx`
+
+## Facebook Pixel
+
+**What it is**
+
+Facebook Pixel is used for marketing attribution.
+
+**Why we use it**
+
+To measure ad performance and conversions.
+
+**Data flow**
+
+Initialized client-side in production.
+
+**Owner repo(s)**
+
+- `revive-admin`
+- `revive-dashboard`
+
+## Google Tag Manager / Google Ads tracking
+
+**What it is**
+
+GTM is used to load marketing/analytics tags; Google Ads tracking ID is used for ad conversion tracking.
+
+**Why we use it**
+
+To manage tags and consented tracking in production.
+
+**Owner repo(s)**
+
+- `revive-dashboard`
+
+## ReferralRock
+
+**What it is**
+
+ReferralRock provides referral program tracking.
+
+**Why we use it**
+
+To power referral attribution and referral program UX.
+
+**Data flow**
+
+Loaded as a client-side script in production.
+
+**Owner repo(s)**
+
+- `revive-dashboard`
+
+**Relevant modules/endpoints**
+
+- `revive-dashboard/scripts/ReferralRock.tsx`
 
 ## Affiliate partners
 
@@ -62,11 +418,15 @@ Third-party property data providers (the specific provider may vary by environme
 
 Affiliate partner events sent into Revive.
 
-**Data source**
+**Data flow**
 
 Inbound webhook payloads sent from partner systems into Revive.
 
-**Related API endpoints**
+**Owner repo(s)**
+
+- `revive-api`
+
+**Relevant modules/endpoints**
 
 - `/v1/webhooks/affiliate-partners`
 
@@ -76,11 +436,15 @@ Inbound webhook payloads sent from partner systems into Revive.
 
 GVG webhook events sent into Revive.
 
-**Data source**
+**Data flow**
 
 Inbound webhook payloads sent from GVG into Revive.
 
-**Related API endpoints**
+**Owner repo(s)**
+
+- `revive-api`
+
+**Relevant modules/endpoints**
 
 - `/v1/webhooks/gvg`
 
@@ -90,10 +454,14 @@ Inbound webhook payloads sent from GVG into Revive.
 
 Website case study submissions sent into Revive.
 
-**Data source**
+**Data flow**
 
 Inbound webhook payloads from Revive’s website forms.
 
-**Related API endpoints**
+**Owner repo(s)**
+
+- `revive-api`
+
+**Relevant modules/endpoints**
 
 - `/v1/webhooks/website-case-study`
