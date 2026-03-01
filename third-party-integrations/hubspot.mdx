@@ -1,0 +1,48 @@
+---
+title: "HubSpot"
+description: "CRM workflows, objects, and inbound webhooks"
+---
+
+## What it is
+
+HubSpot is used for CRM workflows and operational automation.
+
+## Why we use it
+
+HubSpot owns CRM objects (contacts, deals, and custom objects) and runs workflows that keep Revive systems in sync.
+
+## Data flow
+
+- Inbound: HubSpot workflows/webhooks call `revive-api`.
+- Outbound: `revive-api` calls HubSpot APIs for CRM reads/writes and transactional email workflows.
+
+## Owner repo(s)
+
+- `revive-api`
+- `revive-admin`
+- `revive-dashboard`
+
+## Relevant modules/endpoints
+
+Webhook endpoints:
+
+- `/v1/webhooks/hubspot/createCompany`
+- `/v1/webhooks/hubspot/updateCompany`
+- `/v1/webhooks/hubspot/updateContractor`
+- `/v1/webhooks/hubspot/invite-realtor`
+- `/v1/webhooks/hubspot/production`
+- `/v1/webhooks/hubspot/report-reminder/{emailId}`
+- `/v1/webhooks/hubspot/revive-team`
+- `/v1/webhooks/hubspot/updateRealtorEdgeUrl`
+
+Code modules:
+
+- `revive-api/src/utils/hubspotV2/hubspot.js`
+- `revive-api/src/utils/hubspot.js`
+- `revive-api/src/utils/transactional-emails.js`
+- `revive-api/src/webhooks/webhooks.routes.js`
+
+## Operational notes
+
+- Webhook handlers typically update Firestore and may fan out internal notifications.
+- When changing HubSpot field mappings, treat it as a backwards-compatible contract change.

@@ -1,0 +1,33 @@
+---
+title: "Analytics and monitoring"
+description: "Product analytics, session replay, and client monitoring"
+---
+
+## What it is
+
+Analytics and monitoring integrations capture product usage and help diagnose production issues.
+
+## Why we use it
+
+- Understand product usage patterns and funnels
+- Debug production issues with richer client context
+
+## Data flow
+
+- Frontends initialize analytics/monitoring vendors in their app roots.
+
+## Owner repo(s)
+
+- `revive-admin`
+- `revive-dashboard`
+- `revive-mobile`
+
+## Relevant modules/endpoints
+
+- `revive-admin/utils/mixPanel.utils.ts`
+- `revive-dashboard/src/utils/mixPanel.utils.ts`
+- `revive-mobile/src/Helper/mixPanel.utils.ts`
+- `revive-admin/src/components/common/ErrorBoundary.tsx`
+- `revive-dashboard/src/components/common/ErrorBoundary.tsx`
+- `revive-admin/pages/_app.tsx`
+- `revive-dashboard/src/pages/_app.tsx`

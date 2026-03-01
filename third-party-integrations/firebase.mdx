@@ -1,0 +1,42 @@
+---
+title: "Firebase"
+description: "Auth, Firestore, storage, and push notifications"
+---
+
+## What it is
+
+Firebase provides the core platform services used across the Revive applications:
+
+- Firestore for operational data
+- Cloud Storage for file uploads
+- Firebase Auth for user identity
+- FCM for push notifications
+
+## Why we use it
+
+Firebase is the primary system of record for the Revive platform and enables real-time client experiences.
+
+## Data flow
+
+- `revive-api` uses the Firebase Admin SDK for privileged access.
+- `revive-admin`, `revive-dashboard`, and `revive-mobile` use Firebase client SDKs.
+
+## Owner repo(s)
+
+- `revive-api`
+- `revive-admin`
+- `revive-dashboard`
+- `revive-mobile`
+
+## Relevant modules/endpoints
+
+- `revive-api/src/lib/firebase/index.js`
+- `revive-api/src/utils/push-notifications.js`
+- `revive-api/src/media/media.service.js`
+- `revive-admin/utils/firebase.ts`
+- `revive-dashboard/src/utils/firebase.ts`
+
+## Operational notes
+
+- Treat Firestore schemas as shared contracts across all clients.
+- Keep migrations and backfills in `revive-api` when possible so all clients converge on the same data model.

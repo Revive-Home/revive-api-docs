@@ -1,0 +1,31 @@
+---
+title: "Address verification"
+description: "Address autocomplete and normalization"
+---
+
+## What it is
+
+Address verification integrations power address autocomplete and address normalization.
+
+## Why we use it
+
+Normalizing addresses early during intake reduces downstream data quality issues and improves matching against property/valuation providers.
+
+## Data flow
+
+- Frontend apps perform autocomplete/verification during intake and editing flows.
+
+## Owner repo(s)
+
+- `revive-admin`
+- `revive-dashboard`
+- `revive-mobile`
+
+## Relevant modules/endpoints
+
+- `revive-admin/hooks/useSmartyStreets.ts`
+- `revive-dashboard/src/hooks/useSmartyStreets.ts`
+
+## Operational notes
+
+- Address normalization should be consistent across products to avoid fragmented records.

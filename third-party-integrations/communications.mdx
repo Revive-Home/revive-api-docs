@@ -1,0 +1,35 @@
+---
+title: "Communications"
+description: "SMS and internal notifications"
+---
+
+## What it is
+
+Communications integrations support:
+
+- SMS/MMS delivery
+- Internal operational notifications
+
+## Why we use it
+
+To send user-facing messaging and keep internal teams informed of events.
+
+## Data flow
+
+- `revive-api` sends messages to communications providers.
+
+## Owner repo(s)
+
+- `revive-api`
+
+## Relevant modules/endpoints
+
+- `revive-api/src/lib/twilio/index.js`
+- `revive-api/src/lib/twilio/sendMessage.js`
+- `revive-api/src/lib/slack/index.js`
+- `revive-api/src/lib/slack/sendMessage.js`
+
+## Operational notes
+
+- Normalize phone numbers consistently before sending.
+- Prefer structured metadata in internal notifications so they’re searchable.

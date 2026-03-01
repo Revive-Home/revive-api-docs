@@ -1,0 +1,33 @@
+---
+title: "PandaDoc"
+description: "Document workflows and inbound webhooks"
+---
+
+## What it is
+
+PandaDoc is used for document workflows that connect into project scope and linked object updates.
+
+## Why we use it
+
+PandaDoc templates and envelopes support signature and underwriting document flows.
+
+## Data flow
+
+- Inbound: PandaDoc webhooks call `revive-api`.
+- Outbound: `revive-api` calls the PandaDoc public API.
+
+## Owner repo(s)
+
+- `revive-api`
+
+## Relevant modules/endpoints
+
+- `/v1/webhooks/pandadoc/linked-objects`
+- `/v1/webhooks/pandadoc/project-scope`
+- `/v1/project-scopes/fill-from-pandadoc/{dealId}`
+- `revive-api/src/lib/pandadoc/index.js`
+- `revive-api/src/webhooks/webhooks.service.js`
+
+## Operational notes
+
+- Webhook payloads can contain sensitive document metadata. Avoid logging raw payloads.

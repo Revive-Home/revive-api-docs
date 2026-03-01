@@ -1,0 +1,30 @@
+---
+title: "Payments"
+description: "Payment processing and billing"
+---
+
+## What it is
+
+Payments integrations support payment processing and billing workflows.
+
+## Why we use it
+
+To process payments securely and handle payment lifecycle events.
+
+## Data flow
+
+- Inbound: payment providers can send webhook events to `revive-api`.
+- Outbound: `revive-api` calls provider APIs to create sessions/intents and reconcile state.
+
+## Owner repo(s)
+
+- `revive-api`
+
+## Relevant modules/endpoints
+
+- `revive-api/src/lib/stripe/index.js`
+- `revive-api/src/payments/payments.controller.js`
+
+## Operational notes
+
+- Webhook handlers should be idempotent and safe to retry.

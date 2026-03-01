@@ -1,0 +1,40 @@
+---
+title: "Inbound webhooks"
+description: "Webhook endpoints used for third-party event ingestion"
+---
+
+## What it is
+
+Inbound webhook endpoints allow third parties and partner systems to push events into Revive.
+
+## Why we use it
+
+Webhooks provide near real-time event ingestion without polling.
+
+## Data flow
+
+- Third parties send events into `revive-api` endpoints under `/v1/webhooks/*`.
+
+## Owner repo(s)
+
+- `revive-api`
+
+## Relevant modules/endpoints
+
+Common webhook endpoints:
+
+- `/v1/webhooks/affiliate-partners`
+- `/v1/webhooks/gvg`
+- `/v1/webhooks/website-case-study`
+
+HubSpot and PandaDoc webhook endpoints are documented on their respective pages.
+
+Code modules:
+
+- `revive-api/src/webhooks/webhooks.routes.js`
+- `revive-api/src/webhooks/webhooks.service.js`
+
+## Operational notes
+
+- Webhook handlers should be idempotent and safe to retry.
+- Prefer validation at the boundary to reject malformed payloads early.

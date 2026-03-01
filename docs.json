@@ -40,6 +40,47 @@
             "pages": [
               "third-party-integrations"
             ]
+          },
+          {
+            "group": "Core platform",
+            "pages": [
+              "third-party-integrations/firebase"
+            ]
+          },
+          {
+            "group": "CRM + documents",
+            "pages": [
+              "third-party-integrations/hubspot",
+              "third-party-integrations/pandadoc"
+            ]
+          },
+          {
+            "group": "Property + valuation data",
+            "pages": [
+              "third-party-integrations/property-data",
+              "third-party-integrations/address-verification",
+              "third-party-integrations/maps-and-geocoding"
+            ]
+          },
+          {
+            "group": "Payments + communications",
+            "pages": [
+              "third-party-integrations/payments",
+              "third-party-integrations/communications"
+            ]
+          },
+          {
+            "group": "Analytics + marketing",
+            "pages": [
+              "third-party-integrations/analytics-and-monitoring",
+              "third-party-integrations/marketing-attribution"
+            ]
+          },
+          {
+            "group": "Inbound webhooks",
+            "pages": [
+              "third-party-integrations/inbound-webhooks"
+            ]
           }
         ]
       },

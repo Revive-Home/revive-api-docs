@@ -1,0 +1,35 @@
+---
+title: "Property data providers (AVM)"
+description: "Valuation and property enrichment providers"
+---
+
+## What it is
+
+Revive uses multiple property data providers to support valuation and analysis.
+
+## Why we use it
+
+Using multiple providers improves coverage and allows Revive to generate valuation ranges and enrichment even when a single provider is missing data.
+
+## Data flow
+
+- `revive-api` fetches provider data on demand.
+- Results are stored in Firestore for caching.
+
+## Owner repo(s)
+
+- `revive-api`
+
+## Relevant modules/endpoints
+
+- `/v1/avm/`
+- `revive-api/src/automated-valuation-models/avm.service.ts`
+- `revive-api/src/utils/estated/index.js`
+- `revive-api/src/lib/houseCanary/index.js`
+- `revive-api/src/lib/rentcast/index.ts`
+- `revive-api/src/lib/apify/index.ts`
+
+## Operational notes
+
+- Provider outages and rate limits may reduce completeness of results.
+- Treat caching behavior as part of the API contract (changes can impact latency and provider costs).
