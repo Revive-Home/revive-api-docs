@@ -1,97 +1,60 @@
 ---
 title: "Introduction"
-description: "Welcome to the new home for your documentation"
+description: "Overview of the Revive platform, repositories, and how to use these docs"
 ---
 
-## Setting up
+## What is Revive?
 
-Get your documentation site up and running in minutes.
+Revive is the platform powering Revive Home experiences. This documentation is the source of truth for how Revive’s backend API behaves, how to integrate with it, and how to work in the codebase.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+Use this site if you’re:
 
-## Make it yours
+- integrating with the Revive API
+- debugging API behavior across environments
+- developing on Revive services locally
 
-Design a docs site that looks great and empowers your users.
+## Where to start
 
 <Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get set up with the essentials and make your first successful API call.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="API Reference" icon="terminal" href="/api-reference">
+    Browse endpoints, request/response schemas, and try calls in the playground.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Development" icon="code" href="/development">
+    Run the stack locally and understand the repo conventions.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="GitHub" icon="github" href="https://github.com/Revive-Home">
+    View the full organization and find the repo you need.
   </Card>
 </Columns>
 
-## Create beautiful pages
+## Repositories
 
-Everything you need to create world-class documentation.
+Revive is split across multiple repositories. Start with these:
 
 <Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
+  <Card title="revive-dashboard" icon="layout-dashboard" href="https://github.com/Revive-Home/revive-dashboard">
+    Consumer-facing web app for homeowners and agents. Use this repo when you’re working on Revive’s customer experience, flows, and web UI.
   </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
+  <Card title="revive-mobile" icon="mobile" href="https://github.com/Revive-Home/revive-mobile">
+    React Native mobile application. Use this repo for mobile-specific UI, navigation, and native integrations.
   </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
+  <Card title="revive-admin" icon="shield" href="https://github.com/Revive-Home/revive-admin">
+    Internal admin tool for Revive employees. Use this repo for business operations workflows, internal tooling, and data management.
   </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+  <Card title="revive-api" icon="server" href="https://github.com/Revive-Home/revive-api">
+    Backend API layer that connects the platform. Revive operates separate production and admin API environments to support different access patterns and operational needs.
   </Card>
 </Columns>
 
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
+<Card title="revive-api-docs" icon="book" href="https://github.com/Revive-Home/revive-api-docs">
+  This documentation site (Mintlify). Update guides, navigation, and the OpenAPI spec used to generate the API reference.
 </Card>
+
+If you’re looking for other services, clients, or infrastructure repos, use the **GitHub** link above to browse the full Revive-Home organization.
+
+## Environments and health
+
+The navbar includes a link to the production API health endpoint. If you’re troubleshooting availability, start there and then consult the relevant endpoint in the **API Reference** for expected status codes and error responses.
