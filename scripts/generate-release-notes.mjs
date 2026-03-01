@@ -17,15 +17,32 @@ const SUMMARY_HEADING_PATTERNS = [
   /^#{2,3}\s*overview\s*$/i,
 ];
 
-const CODERABBIT_MARKER_RE = /^summary\s+by\s+coderabbit\s*$/i;
-const CODERABBIT_SECTION_TITLES = new Set([
+// Match "Summary by CodeRabbit" in various markdown formats:
+// plain text, bold (**...**), heading (## ...), or inside HTML comments
+const CODERABBIT_MARKER_RE = /^(?:[*_#]*\s*)*summary\s+by\s+coderabbit\s*(?:[*_]*\s*)$/i;
+const CODERABBIT_SECTION_TITLES_LIST = [
   'New Features',
   'Bug Fixes',
   'Improvements',
   'Refactor',
   'Chores',
   'Data',
-]);
+  'Validation',
+  'Documentation',
+  'Tests',
+  'Style',
+  'Performance',
+  'Other Changes',
+  'Enhancements',
+  'Breaking Changes',
+];
+const CODERABBIT_SECTION_TITLES = new Set(CODERABBIT_SECTION_TITLES_LIST);
+
+// Also match bold variants like **New Features** or ### New Features
+function isCodeRabbitSectionTitle(line) {
+  const cleaned = line.replace(/^[*_#]+\s*/, '').replace(/\s*[*_]+$/, '').trim();
+  return CODERABBIT_SECTION_TITLES.has(cleaned) ? cleaned : null;
+}
 
 /**
  * Convert raw branch-name-style PR titles into human-readable text.
@@ -141,8 +158,10 @@ function toReleaseNotesMdx(grouped) {
     for (const pr of features.slice(0, 6)) {
       lines.push(`- ${pr.title}`);
     }
+  } else if (fixes.length > 0) {
+    lines.push('- Bug fixes and stability improvements');
   } else {
-    lines.push('- Maintenance and bug fix release');
+    lines.push('- Routine maintenance release');
   }
   lines.push('');
   lines.push('## Changes shipped to production');
@@ -154,7 +173,7 @@ function toReleaseNotesMdx(grouped) {
     lines.push('');
 
     if (prs.length === 0) {
-      lines.push('- No production changes recorded.');
+      lines.push('No updates in this release.');
       lines.push('');
       continue;
     }
@@ -173,12 +192,12 @@ function toReleaseNotesMdx(grouped) {
       lines.push(`- ${pr.title} ([#${pr.number}](${pr.url}))`);
     }
   } else {
-    lines.push('- None.');
+    lines.push('No bug fixes in this release.');
   }
   lines.push('');
   lines.push('## Breaking changes');
   lines.push('');
-  lines.push('- None.');
+  lines.push('No breaking changes.');
   lines.push('');
 
   return lines.join('\n');
@@ -198,7 +217,7 @@ function updateIndexMdx(indexPath) {
   }
 
   const insertAt = idx + groupTag.length;
-  const insertion = `\n${cardLine}\n    Production release notes.\n  </Card>`;
+  const insertion = `\n${cardLine}\n    See what shipped in ${version}.\n  </Card>`;
   current = current.slice(0, insertAt) + insertion + current.slice(insertAt);
   fs.writeFileSync(indexPath, current);
 }
@@ -339,9 +358,7 @@ function extractCodeRabbitSummary(body) {
   if (!block) return '';
 
   // If the block isn't sectioned, just return it.
-  const hasKnownSection = Array.from(CODERABBIT_SECTION_TITLES).some((s) =>
-    blockLines.some((l) => l.trim() === s)
-  );
+  const hasKnownSection = blockLines.some((l) => isCodeRabbitSectionTitle(l.trim()));
   if (!hasKnownSection) return normalizeSummaryText(block);
 
   const items = [];
@@ -351,8 +368,9 @@ function extractCodeRabbitSummary(body) {
     const line = raw.trim();
     if (!line) continue;
 
-    if (CODERABBIT_SECTION_TITLES.has(line)) {
-      currentSection = line;
+    const sectionMatch = isCodeRabbitSectionTitle(line);
+    if (sectionMatch) {
+      currentSection = sectionMatch;
       continue;
     }
 
@@ -368,11 +386,19 @@ function extractCodeRabbitSummary(body) {
   // Prefer New Features and Bug Fixes first.
   const sectionPriority = {
     'New Features': 0,
+    'Enhancements': 0,
     'Bug Fixes': 1,
-    Improvements: 2,
-    Refactor: 3,
-    Chores: 4,
-    Data: 5,
+    'Improvements': 2,
+    'Validation': 3,
+    'Refactor': 4,
+    'Performance': 4,
+    'Chores': 5,
+    'Data': 6,
+    'Documentation': 7,
+    'Tests': 7,
+    'Style': 8,
+    'Other Changes': 9,
+    'Breaking Changes': 0,
   };
 
   items.sort((a, b) => (sectionPriority[a.section] ?? 99) - (sectionPriority[b.section] ?? 99));
@@ -380,7 +406,7 @@ function extractCodeRabbitSummary(body) {
   const selected = [];
   const seenSections = new Set();
   for (const item of items) {
-    if (selected.length >= 3) break;
+    if (selected.length >= 4) break;
     // At most 2 items per section to keep it concise.
     const key = item.section;
     const countInSection = selected.filter((s) => s.section === key).length;
@@ -389,18 +415,63 @@ function extractCodeRabbitSummary(body) {
     seenSections.add(key);
   }
 
-  const rendered = selected
-    .map((i) => `${i.section}: ${i.text}`)
-    .join('; ');
+  // Build a natural, conversational summary instead of "Section: text; Section: text"
+  const parts = [];
+  for (const item of selected) {
+    // Lowercase the text start to flow naturally in a sentence
+    // Trim individual items so one long bullet doesn't dominate
+    let text = item.text.charAt(0).toLowerCase() + item.text.slice(1);
+    if (text.length > 80) {
+      const cut = text.lastIndexOf(' ', 77);
+      text = text.slice(0, cut > 40 ? cut : 77) + '...';
+    }
+    switch (item.section) {
+      case 'New Features':
+      case 'Enhancements':
+        parts.push(text);
+        break;
+      case 'Bug Fixes':
+        parts.push(`fixed ${text}`);
+        break;
+      case 'Improvements':
+        parts.push(`improved ${text}`);
+        break;
+      case 'Validation':
+        parts.push(`added validation for ${text}`);
+        break;
+      case 'Performance':
+        parts.push(`performance: ${text}`);
+        break;
+      default:
+        parts.push(text);
+        break;
+    }
+  }
+
+  // Join into a natural sentence
+  let rendered;
+  if (parts.length === 1) {
+    rendered = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+  } else if (parts.length === 2) {
+    rendered = parts[0].charAt(0).toUpperCase() + parts[0].slice(1) + ' and ' + parts[1];
+  } else {
+    rendered = parts[0].charAt(0).toUpperCase() + parts[0].slice(1) + ', ' + parts.slice(1, -1).join(', ') + ', and ' + parts[parts.length - 1];
+  }
 
   return normalizeSummaryText(rendered);
 }
 
-function toSingleLineSummary(text, maxLen = 140) {
+function toSingleLineSummary(text, maxLen = 200) {
   const oneLine = normalizeSummaryText(text).replace(/\s+/g, ' ');
   if (!oneLine) return '';
   if (oneLine.length <= maxLen) return oneLine;
-  return `${oneLine.slice(0, maxLen - 1)}…`;
+  // Truncate at word boundary to avoid cutting mid-word
+  const truncated = oneLine.slice(0, maxLen);
+  const lastSpace = truncated.lastIndexOf(' ');
+  if (lastSpace > maxLen * 0.6) {
+    return truncated.slice(0, lastSpace) + '…';
+  }
+  return truncated.slice(0, maxLen - 1) + '…';
 }
 
 async function main() {
@@ -422,11 +493,18 @@ async function main() {
 
     if (shouldExcludePRTitle(pr.title)) continue;
 
-    const preferredSummary = extractPreferredSummaryFromBody(pr.body);
-    const displaySummary = toSingleLineSummary(preferredSummary) || cleanPRTitle(pr.title);
+    // Detect fix/sprint from the ORIGINAL title before any cleaning
+    const originalTitle = pr.title || '';
+    const isFix = /^fix/i.test(originalTitle) || /\bfix\b/i.test(originalTitle);
+    const isSprint = /^sprint\s+\d+/i.test(originalTitle);
 
-    const isFix = /^fix/i.test(pr.title);
-    const isSprint = /^sprint\s+\d+/i.test(pr.title);
+    const preferredSummary = extractPreferredSummaryFromBody(pr.body);
+    let displaySummary = toSingleLineSummary(preferredSummary) || cleanPRTitle(originalTitle);
+
+    // Make sprint PRs more descriptive
+    if (isSprint && /^Sprint\s+\d+$/i.test(displaySummary)) {
+      displaySummary = `${displaySummary} release bundle`;
+    }
 
     grouped[repo].push({
       number: pr.number,
