@@ -4,6 +4,29 @@ import path from 'node:path';
 const ORG = 'Revive-Home';
 const REPOS = ['revive-dashboard', 'revive-admin', 'revive-mobile', 'revive-api'];
 
+const EXCLUDE_TITLE_PATTERNS = [
+  /\bstaging\b/i,
+  /^update staging\b/i,
+  /^staging\b/i,
+];
+
+const SUMMARY_HEADING_PATTERNS = [
+  /^#{2,3}\s*summary\s*$/i,
+  /^#{2,3}\s*tldr\s*$/i,
+  /^#{2,3}\s*tl;dr\s*$/i,
+  /^#{2,3}\s*overview\s*$/i,
+];
+
+const CODERABBIT_MARKER_RE = /^summary\s+by\s+coderabbit\s*$/i;
+const CODERABBIT_SECTION_TITLES = new Set([
+  'New Features',
+  'Bug Fixes',
+  'Improvements',
+  'Refactor',
+  'Chores',
+  'Data',
+]);
+
 function requiredEnv(name) {
   const v = process.env[name];
   if (!v) throw new Error(`Missing required env var: ${name}`);
@@ -133,6 +156,155 @@ function byMergedAtDesc(a, b) {
   return b.mergedAt.localeCompare(a.mergedAt);
 }
 
+function shouldExcludePRTitle(title) {
+  return EXCLUDE_TITLE_PATTERNS.some((re) => re.test(title));
+}
+
+function normalizeSummaryText(text) {
+  return text
+    .replace(/\r\n/g, '\n')
+    .replace(/^[-*]\s+/gm, '')
+    .replace(/^\d+\.\s+/gm, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function extractSectionUnderHeading(body, headingMatchFn) {
+  if (!body) return '';
+  const lines = body.replace(/\r\n/g, '\n').split('\n');
+
+  let start = -1;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (headingMatchFn(line)) {
+      start = i + 1;
+      break;
+    }
+  }
+  if (start === -1) return '';
+
+  let end = lines.length;
+  for (let i = start; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (/^#{2,6}\s+/.test(line)) {
+      end = i;
+      break;
+    }
+  }
+
+  return lines.slice(start, end).join('\n');
+}
+
+function extractPreferredSummaryFromBody(body) {
+  if (!body) return '';
+
+  const codeRabbitSummary = extractCodeRabbitSummary(body);
+  if (codeRabbitSummary) return codeRabbitSummary;
+
+  for (const re of SUMMARY_HEADING_PATTERNS) {
+    const section = extractSectionUnderHeading(body, (line) => re.test(line));
+    const normalized = normalizeSummaryText(section);
+    if (normalized) return normalized;
+  }
+
+  return '';
+}
+
+function extractCodeRabbitSummary(body) {
+  if (!body) return '';
+
+  const lines = body.replace(/\r\n/g, '\n').split('\n');
+  const startIdx = lines.findIndex((l) => CODERABBIT_MARKER_RE.test(l.trim()));
+  if (startIdx === -1) return '';
+
+  // Capture until the next obvious boundary.
+  const blockLines = [];
+  for (let i = startIdx + 1; i < lines.length; i++) {
+    const t = lines[i].trim();
+    if (!t) {
+      // allow internal blank lines; keep them but stop if we already collected enough content
+      blockLines.push('');
+      continue;
+    }
+
+    // Stop if we hit another CodeRabbit marker or a markdown heading (people often paste other sections after).
+    if (CODERABBIT_MARKER_RE.test(t)) break;
+    if (/^#{2,6}\s+/.test(t)) break;
+
+    // A common copy/paste artifact in the UI.
+    if (t.toLowerCase() === 'image') break;
+
+    blockLines.push(lines[i]);
+  }
+
+  const block = blockLines.join('\n').trim();
+  if (!block) return '';
+
+  // If the block isn't sectioned, just return it.
+  const hasKnownSection = Array.from(CODERABBIT_SECTION_TITLES).some((s) =>
+    blockLines.some((l) => l.trim() === s)
+  );
+  if (!hasKnownSection) return normalizeSummaryText(block);
+
+  const items = [];
+  let currentSection = null;
+
+  for (const raw of blockLines) {
+    const line = raw.trim();
+    if (!line) continue;
+
+    if (CODERABBIT_SECTION_TITLES.has(line)) {
+      currentSection = line;
+      continue;
+    }
+
+    // Ignore sectionless lines before the first section header.
+    if (!currentSection) continue;
+
+    // Treat any non-empty line under a section as an item.
+    items.push({ section: currentSection, text: line.replace(/^[-*]\s+/, '').trim() });
+  }
+
+  if (items.length === 0) return '';
+
+  // Prefer New Features and Bug Fixes first.
+  const sectionPriority = {
+    'New Features': 0,
+    'Bug Fixes': 1,
+    Improvements: 2,
+    Refactor: 3,
+    Chores: 4,
+    Data: 5,
+  };
+
+  items.sort((a, b) => (sectionPriority[a.section] ?? 99) - (sectionPriority[b.section] ?? 99));
+
+  const selected = [];
+  const seenSections = new Set();
+  for (const item of items) {
+    if (selected.length >= 3) break;
+    // At most 2 items per section to keep it concise.
+    const key = item.section;
+    const countInSection = selected.filter((s) => s.section === key).length;
+    if (countInSection >= 2) continue;
+    selected.push(item);
+    seenSections.add(key);
+  }
+
+  const rendered = selected
+    .map((i) => `${i.section}: ${i.text}`)
+    .join('; ');
+
+  return normalizeSummaryText(rendered);
+}
+
+function toSingleLineSummary(text, maxLen = 140) {
+  const oneLine = normalizeSummaryText(text).replace(/\s+/g, ' ');
+  if (!oneLine) return '';
+  if (oneLine.length <= maxLen) return oneLine;
+  return `${oneLine.slice(0, maxLen - 1)}…`;
+}
+
 async function main() {
   const items = await searchMergedPRs();
 
@@ -150,9 +322,14 @@ async function main() {
 
     if (!pr.merged_at) continue;
 
+    if (shouldExcludePRTitle(pr.title)) continue;
+
+    const preferredSummary = extractPreferredSummaryFromBody(pr.body);
+    const displaySummary = toSingleLineSummary(preferredSummary) || pr.title;
+
     grouped[repo].push({
       number: pr.number,
-      title: pr.title,
+      title: displaySummary,
       url: pr.html_url,
       mergedAt: pr.merged_at,
     });
