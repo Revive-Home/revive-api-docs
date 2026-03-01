@@ -38,9 +38,14 @@ const CODERABBIT_SECTION_TITLES_LIST = [
 ];
 const CODERABBIT_SECTION_TITLES = new Set(CODERABBIT_SECTION_TITLES_LIST);
 
-// Also match bold variants like **New Features** or ### New Features
+// Match section titles in all CodeRabbit formats:
+// "New Features", "* **New Features**", "### New Features", "**New Features**"
 function isCodeRabbitSectionTitle(line) {
-  const cleaned = line.replace(/^[*_#]+\s*/, '').replace(/\s*[*_]+$/, '').trim();
+  let cleaned = line;
+  // Strip leading bullets, asterisks, underscores, hashes, and whitespace
+  cleaned = cleaned.replace(/^[\s*_#-]+/, '');
+  // Strip trailing asterisks, underscores, and whitespace
+  cleaned = cleaned.replace(/[\s*_#]+$/, '');
   return CODERABBIT_SECTION_TITLES.has(cleaned) ? cleaned : null;
 }
 
@@ -344,6 +349,10 @@ function extractCodeRabbitSummary(body) {
       continue;
     }
 
+    // Stop at HTML comment end marker (CodeRabbit wraps in <!-- ... -->)
+    if (t.startsWith('<!--') && t.includes('end of auto-generated')) break;
+    if (t.startsWith('<!--')) continue; // skip other HTML comments
+
     // Stop if we hit another CodeRabbit marker or a markdown heading (people often paste other sections after).
     if (CODERABBIT_MARKER_RE.test(t)) break;
     if (/^#{2,6}\s+/.test(t)) break;
@@ -378,7 +387,11 @@ function extractCodeRabbitSummary(body) {
     if (!currentSection) continue;
 
     // Treat any non-empty line under a section as an item.
-    items.push({ section: currentSection, text: line.replace(/^[-*]\s+/, '').trim() });
+    // Strip leading bullets (- or *), indentation, and bold markers
+    const itemText = line.replace(/^[\s*_-]+/, '').replace(/[\s*_]+$/, '').trim();
+    if (itemText) {
+      items.push({ section: currentSection, text: itemText });
+    }
   }
 
   if (items.length === 0) return '';
