@@ -1,33 +1,76 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API reference'
+description: 'How to authenticate, pick an environment, and make your first calls'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## What this page is
 
-## Welcome
+This is the landing page for the auto-generated API reference. It’s written for internal engineers working across `revive-api`, `revive-admin`, `revive-dashboard`, and `revive-mobile`.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Use this page to:
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+- pick the right base URL for your environment
+- confirm authentication requirements
+- copy/paste a first request
+- understand basic conventions (errors, pagination)
+
+## Base URLs
+
+The API reference is generated from `openapi.json`, which defines these servers:
+
+- Production: `https://revive-api-v2-production.herokuapp.com`
+- Staging: `https://revive-api-v2-staging.herokuapp.com`
+- Local: `http://localhost:3001`
+
+Paths are typically versioned under `/v1` and `/v2`.
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Most endpoints require a Firebase JWT passed via the `Authorization` header.
+
+```bash
+Authorization: Bearer <firebase_jwt>
+```
+
+In the OpenAPI spec this is represented as `BearerAuth` with `bearerFormat: Firebase JWT`.
+
+## Make your first request
+
+Start with the unauthenticated health check:
+
+```bash
+curl -sS https://revive-api-v2-production.herokuapp.com/health
+```
+
+Then try an authenticated endpoint from the sidebar (any endpoint with a lock icon) using your Firebase JWT.
+
+## Conventions
+
+### Errors
+
+- `401` typically indicates a missing/invalid token
+- `403` typically indicates the token is valid but the caller lacks required permissions
+- `404` is returned for unknown routes as:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "status": "error",
+  "message": "invalid endpoint",
+  "code": 404
+}
 ```
+
+### Pagination
+
+Pagination is endpoint-specific. Check each endpoint’s query parameters (for example, `limit`) in the reference.
+
+## Where to go next
+
+Jump to common resource groups:
+
+<CardGroup cols={2}>
+  <Card title="Auth" icon="key" href="/api-reference/post-v1-auth-login" />
+  <Card title="Admins" icon="shield" href="/api-reference/patch-v1-admins-uid" />
+  <Card title="Agents" icon="users" href="/api-reference/post-v1-agents-search" />
+  <Card title="Automated valuation models" icon="sparkles" href="/api-reference/post-v1-avm" />
+</CardGroup>
