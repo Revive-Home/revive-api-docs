@@ -3,7 +3,7 @@
   "info": {
     "title": "Revive API",
     "description": "Backend API for the Revive platform — pre-sale renovation management, property analysis, deal tracking, and more.",
-    "version": "0.0.0"
+    "version": "v2.147.0"
   },
   "servers": [
     {
@@ -64,6 +64,7 @@
     "/v1/admins/email/{uid}": {
       "patch": {
         "operationId": "patch_v1_admins_email_uid_",
+        "summary": "v1/admins/email/{uid}",
         "tags": [
           "Admins"
         ],
@@ -107,6 +108,7 @@
     "/v1/admins/{uid}": {
       "patch": {
         "operationId": "patch_v1_admins_uid_",
+        "summary": "v1/admins/{uid}",
         "tags": [
           "Admins"
         ],
@@ -159,6 +161,7 @@
     "/v1/agents/get-opportunities": {
       "post": {
         "operationId": "post_v1_agents_get_opportunities",
+        "summary": "v1/agents/get-opportunities",
         "tags": [
           "Agents"
         ],
@@ -207,6 +210,7 @@
     "/v1/agents/search": {
       "post": {
         "operationId": "post_v1_agents_search",
+        "summary": "v1/agents/search",
         "tags": [
           "Agents"
         ],
@@ -243,6 +247,7 @@
     "/v1/agents/{agentId}": {
       "get": {
         "operationId": "get_v1_agents_agentId_",
+        "summary": "v1/agents/{agentId}",
         "tags": [
           "Agents"
         ],
@@ -271,6 +276,7 @@
     "/v1/app-config/feature-flags/{app}": {
       "get": {
         "operationId": "get_v1_app_config_feature_flags_app_",
+        "summary": "v1/app-config/feature-flags/{app}",
         "tags": [
           "AppConfigs"
         ],
@@ -310,6 +316,7 @@
       },
       "post": {
         "operationId": "post_v1_app_config_feature_flags_app_",
+        "summary": "v1/app-config/feature-flags/{app}",
         "tags": [
           "AppConfigs"
         ],
@@ -341,6 +348,7 @@
       },
       "patch": {
         "operationId": "patch_v1_app_config_feature_flags_app_",
+        "summary": "v1/app-config/feature-flags/{app}",
         "tags": [
           "AppConfigs"
         ],
@@ -372,6 +380,7 @@
       },
       "put": {
         "operationId": "put_v1_app_config_feature_flags_app_",
+        "summary": "v1/app-config/feature-flags/{app}",
         "tags": [
           "AppConfigs"
         ],
@@ -413,6 +422,7 @@
     "/v1/auth/login": {
       "post": {
         "operationId": "post_v1_auth_login",
+        "summary": "v1/auth/login",
         "tags": [
           "Auth"
         ],
@@ -444,6 +454,7 @@
     "/v1/auth/register": {
       "post": {
         "operationId": "post_v1_auth_register",
+        "summary": "v1/auth/register",
         "tags": [
           "Auth"
         ],
@@ -489,6 +500,7 @@
     "/v1/avm/": {
       "post": {
         "operationId": "post_v1_avm_",
+        "summary": "v1/avm/",
         "tags": [
           "Automated Valuation Models"
         ],
@@ -532,6 +544,7 @@
     "/v1/broadcast/": {
       "get": {
         "operationId": "get_v1_broadcast_",
+        "summary": "v1/broadcast/",
         "tags": [
           "Broadcast"
         ],
@@ -550,6 +563,7 @@
     "/v1/broadcast/create": {
       "post": {
         "operationId": "post_v1_broadcast_create",
+        "summary": "v1/broadcast/create",
         "tags": [
           "Broadcast"
         ],
@@ -598,6 +612,7 @@
     "/v1/broadcast/read/{id}": {
       "get": {
         "operationId": "get_v1_broadcast_read_id_",
+        "summary": "v1/broadcast/read/{id}",
         "tags": [
           "Broadcast"
         ],
@@ -626,6 +641,7 @@
     "/v1/broadcast/{id}": {
       "patch": {
         "operationId": "patch_v1_broadcast_id_",
+        "summary": "v1/broadcast/{id}",
         "tags": [
           "Broadcast"
         ],
@@ -662,6 +678,7 @@
       },
       "delete": {
         "operationId": "delete_v1_broadcast_id_",
+        "summary": "v1/broadcast/{id}",
         "tags": [
           "Broadcast"
         ],
@@ -690,6 +707,7 @@
     "/v1/brokerages/": {
       "post": {
         "operationId": "post_v1_brokerages_",
+        "summary": "v1/brokerages/",
         "tags": [
           "Brokerages"
         ],
@@ -749,6 +767,7 @@
     "/v1/brokerages/associate/{companyId}": {
       "post": {
         "operationId": "post_v1_brokerages_associate_companyId_",
+        "summary": "v1/brokerages/associate/{companyId}",
         "tags": [
           "Brokerages"
         ],
@@ -799,6 +818,7 @@
     "/v1/brokerages/get-associate": {
       "post": {
         "operationId": "post_v1_brokerages_get_associate",
+        "summary": "v1/brokerages/get-associate",
         "tags": [
           "Brokerages"
         ],
@@ -857,6 +877,7 @@
     "/v1/brokerages/public": {
       "get": {
         "operationId": "get_v1_brokerages_public",
+        "summary": "v1/brokerages/public",
         "tags": [
           "Brokerages"
         ],
@@ -870,6 +891,7 @@
     "/v1/brokerages/search": {
       "post": {
         "operationId": "post_v1_brokerages_search",
+        "summary": "v1/brokerages/search",
         "tags": [
           "Brokerages"
         ],
@@ -906,6 +928,7 @@
     "/v1/brokerages/{companyId}": {
       "patch": {
         "operationId": "patch_v1_brokerages_companyId_",
+        "summary": "v1/brokerages/{companyId}",
         "tags": [
           "Brokerages"
         ],
@@ -969,6 +992,7 @@
       },
       "get": {
         "operationId": "get_v1_brokerages_companyId_",
+        "summary": "v1/brokerages/{companyId}",
         "tags": [
           "Brokerages"
         ],
@@ -997,6 +1021,7 @@
     "/v1/case-studies/search": {
       "post": {
         "operationId": "post_v1_case_studies_search",
+        "summary": "v1/case-studies/search",
         "tags": [
           "Case Studies"
         ],
@@ -1031,6 +1056,7 @@
     "/v1/contacts/": {
       "post": {
         "operationId": "post_v1_contacts_",
+        "summary": "v1/contacts/",
         "tags": [
           "Contacts"
         ],
@@ -1089,6 +1115,7 @@
     "/v1/contacts/dashboard": {
       "get": {
         "operationId": "get_v1_contacts_dashboard",
+        "summary": "v1/contacts/dashboard",
         "tags": [
           "Contacts"
         ],
@@ -1107,6 +1134,7 @@
     "/v1/contacts/edge-view": {
       "post": {
         "operationId": "post_v1_contacts_edge_view",
+        "summary": "v1/contacts/edge-view",
         "tags": [
           "Contacts"
         ],
@@ -1143,6 +1171,7 @@
     "/v1/contacts/invite": {
       "post": {
         "operationId": "post_v1_contacts_invite",
+        "summary": "v1/contacts/invite",
         "tags": [
           "Contacts"
         ],
@@ -1188,6 +1217,7 @@
     "/v1/contacts/merge": {
       "post": {
         "operationId": "post_v1_contacts_merge",
+        "summary": "v1/contacts/merge",
         "tags": [
           "Contacts"
         ],
@@ -1224,6 +1254,7 @@
     "/v1/contacts/remove-from-deal": {
       "post": {
         "operationId": "post_v1_contacts_remove_from_deal",
+        "summary": "v1/contacts/remove-from-deal",
         "tags": [
           "Contacts"
         ],
@@ -1260,6 +1291,7 @@
     "/v1/contacts/search": {
       "post": {
         "operationId": "post_v1_contacts_search",
+        "summary": "v1/contacts/search",
         "tags": [
           "Contacts"
         ],
@@ -1306,6 +1338,7 @@
     "/v1/contacts/{contactId}": {
       "get": {
         "operationId": "get_v1_contacts_contactId_",
+        "summary": "v1/contacts/{contactId}",
         "tags": [
           "Contacts"
         ],
@@ -1332,6 +1365,7 @@
       },
       "patch": {
         "operationId": "patch_v1_contacts_contactId_",
+        "summary": "v1/contacts/{contactId}",
         "tags": [
           "Contacts"
         ],
@@ -1368,6 +1402,7 @@
       },
       "delete": {
         "operationId": "delete_v1_contacts_contactId_",
+        "summary": "v1/contacts/{contactId}",
         "tags": [
           "Contacts"
         ],
@@ -1396,6 +1431,7 @@
     "/v1/contacts/{contactId}/edge-view": {
       "get": {
         "operationId": "get_v1_contacts_contactId_edge_view",
+        "summary": "v1/contacts/{contactId}/edge-view",
         "tags": [
           "Contacts"
         ],
@@ -1424,6 +1460,7 @@
     "/v1/contacts/{contactId}/homes": {
       "get": {
         "operationId": "get_v1_contacts_contactId_homes",
+        "summary": "v1/contacts/{contactId}/homes",
         "tags": [
           "Contacts"
         ],
@@ -1452,6 +1489,7 @@
     "/v1/contacts/{contactId}/referrals": {
       "get": {
         "operationId": "get_v1_contacts_contactId_referrals",
+        "summary": "v1/contacts/{contactId}/referrals",
         "tags": [
           "Contacts"
         ],
@@ -1480,6 +1518,7 @@
     "/v1/contractors/": {
       "post": {
         "operationId": "post_v1_contractors_",
+        "summary": "v1/contractors/",
         "tags": [
           "Contractors"
         ],
@@ -1523,6 +1562,7 @@
       },
       "patch": {
         "operationId": "patch_v1_contractors_",
+        "summary": "v1/contractors/",
         "tags": [
           "Contractors"
         ],
@@ -1579,6 +1619,7 @@
       },
       "get": {
         "operationId": "get_v1_contractors_",
+        "summary": "v1/contractors/",
         "tags": [
           "Contractors"
         ],
@@ -1597,6 +1638,7 @@
     "/v1/contractors/associate/{companyId}": {
       "post": {
         "operationId": "post_v1_contractors_associate_companyId_",
+        "summary": "v1/contractors/associate/{companyId}",
         "tags": [
           "Contractors"
         ],
@@ -1647,6 +1689,7 @@
     "/v1/contractors/atlist": {
       "post": {
         "operationId": "post_v1_contractors_atlist",
+        "summary": "v1/contractors/atlist",
         "tags": [
           "Contractors"
         ],
@@ -1675,6 +1718,7 @@
     "/v1/contractors/get-association": {
       "post": {
         "operationId": "post_v1_contractors_get_association",
+        "summary": "v1/contractors/get-association",
         "tags": [
           "Contractors"
         ],
@@ -1730,6 +1774,7 @@
     "/v1/contractors/import": {
       "post": {
         "operationId": "post_v1_contractors_import",
+        "summary": "v1/contractors/import",
         "tags": [
           "Contractors"
         ],
@@ -1758,6 +1803,7 @@
     "/v1/contractors/opportunity/{opportunityId}": {
       "get": {
         "operationId": "get_v1_contractors_opportunity_opportunityId_",
+        "summary": "v1/contractors/opportunity/{opportunityId}",
         "tags": [
           "Contractors"
         ],
@@ -1786,6 +1832,7 @@
     "/v1/contractors/search": {
       "post": {
         "operationId": "post_v1_contractors_search",
+        "summary": "v1/contractors/search",
         "tags": [
           "Contractors"
         ],
@@ -1825,6 +1872,7 @@
     "/v1/contractors/{contractorId}": {
       "get": {
         "operationId": "get_v1_contractors_contractorId_",
+        "summary": "v1/contractors/{contractorId}",
         "tags": [
           "Contractors"
         ],
@@ -1851,6 +1899,7 @@
       },
       "patch": {
         "operationId": "patch_v1_contractors_contractorId_",
+        "summary": "v1/contractors/{contractorId}",
         "tags": [
           "Contractors"
         ],
@@ -1889,6 +1938,7 @@
     "/v1/contractors/{contractorId}/files": {
       "post": {
         "operationId": "post_v1_contractors_contractorId_files",
+        "summary": "v1/contractors/{contractorId}/files",
         "tags": [
           "Contractors"
         ],
@@ -1950,6 +2000,7 @@
     "/v1/contractors/{contractorId}/files/{type}": {
       "delete": {
         "operationId": "delete_v1_contractors_contractorId_files_type_",
+        "summary": "v1/contractors/{contractorId}/files/{type}",
         "tags": [
           "Contractors"
         ],
@@ -1986,6 +2037,7 @@
     "/v1/contractors/{contractorId}/set-primary-contact": {
       "patch": {
         "operationId": "patch_v1_contractors_contractorId_set_primary_contact",
+        "summary": "v1/contractors/{contractorId}/set-primary-contact",
         "tags": [
           "Contractors"
         ],
@@ -2024,6 +2076,7 @@
     "/v1/contracts/": {
       "post": {
         "operationId": "post_v1_contracts_",
+        "summary": "v1/contracts/",
         "tags": [
           "Contracts"
         ],
@@ -2066,6 +2119,7 @@
     "/v1/contracts/download/{contractId}": {
       "get": {
         "operationId": "get_v1_contracts_download_contractId_",
+        "summary": "v1/contracts/download/{contractId}",
         "tags": [
           "Contracts"
         ],
@@ -2094,6 +2148,7 @@
     "/v1/contracts/edit-session/{contractId}": {
       "get": {
         "operationId": "get_v1_contracts_edit_session_contractId_",
+        "summary": "v1/contracts/edit-session/{contractId}",
         "tags": [
           "Contracts"
         ],
@@ -2122,6 +2177,7 @@
     "/v1/contracts/send-for-signature/{contractId}": {
       "get": {
         "operationId": "get_v1_contracts_send_for_signature_contractId_",
+        "summary": "v1/contracts/send-for-signature/{contractId}",
         "tags": [
           "Contracts"
         ],
@@ -2150,6 +2206,7 @@
     "/v1/contracts/session/{contractId}": {
       "get": {
         "operationId": "get_v1_contracts_session_contractId_",
+        "summary": "v1/contracts/session/{contractId}",
         "tags": [
           "Contracts"
         ],
@@ -2178,6 +2235,7 @@
     "/v1/contracts/webhook/complete": {
       "post": {
         "operationId": "post_v1_contracts_webhook_complete",
+        "summary": "v1/contracts/webhook/complete",
         "tags": [
           "Contracts"
         ],
@@ -2201,6 +2259,7 @@
     "/v1/contracts/{contractId}": {
       "delete": {
         "operationId": "delete_v1_contracts_contractId_",
+        "summary": "v1/contracts/{contractId}",
         "tags": [
           "Contracts"
         ],
@@ -2229,6 +2288,7 @@
     "/v1/esignatures/{dealId}": {
       "post": {
         "operationId": "post_v1_esignatures_dealId_",
+        "summary": "v1/esignatures/{dealId}",
         "tags": [
           "Esignatures"
         ],
@@ -2275,6 +2335,7 @@
     "/v1/estimates/": {
       "post": {
         "operationId": "post_v1_estimates_",
+        "summary": "v1/estimates/",
         "tags": [
           "Estimates"
         ],
@@ -2318,6 +2379,7 @@
     "/v1/estimates/approve/{estimateId}": {
       "get": {
         "operationId": "get_v1_estimates_approve_estimateId_",
+        "summary": "v1/estimates/approve/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2346,6 +2408,7 @@
     "/v1/estimates/complete/{estimateId}": {
       "post": {
         "operationId": "post_v1_estimates_complete_estimateId_",
+        "summary": "v1/estimates/complete/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2384,6 +2447,7 @@
     "/v1/estimates/create-document/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_create_document_estimateId_",
+        "summary": "v1/estimates/create-document/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2430,6 +2494,7 @@
     "/v1/estimates/delete-contract/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_delete_contract_estimateId_",
+        "summary": "v1/estimates/delete-contract/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2477,6 +2542,7 @@
     "/v1/estimates/duplicate": {
       "post": {
         "operationId": "post_v1_estimates_duplicate",
+        "summary": "v1/estimates/duplicate",
         "tags": [
           "Estimates"
         ],
@@ -2505,6 +2571,7 @@
     "/v1/estimates/generation": {
       "post": {
         "operationId": "post_v1_estimates_generation",
+        "summary": "v1/estimates/generation",
         "tags": [
           "Estimates"
         ],
@@ -2541,6 +2608,7 @@
     "/v1/estimates/migrate-products": {
       "post": {
         "operationId": "post_v1_estimates_migrate_products",
+        "summary": "v1/estimates/migrate-products",
         "tags": [
           "Estimates"
         ],
@@ -2578,6 +2646,7 @@
     "/v1/estimates/reset/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_reset_estimateId_",
+        "summary": "v1/estimates/reset/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2628,6 +2697,7 @@
     "/v1/estimates/save/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_save_estimateId_",
+        "summary": "v1/estimates/save/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2674,6 +2744,7 @@
     "/v1/estimates/search": {
       "post": {
         "operationId": "post_v1_estimates_search",
+        "summary": "v1/estimates/search",
         "tags": [
           "Estimates"
         ],
@@ -2702,6 +2773,7 @@
     "/v1/estimates/send-for-signature/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_send_for_signature_estimateId_",
+        "summary": "v1/estimates/send-for-signature/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2749,6 +2821,7 @@
     "/v1/estimates/sort-products": {
       "post": {
         "operationId": "post_v1_estimates_sort_products",
+        "summary": "v1/estimates/sort-products",
         "tags": [
           "Estimates"
         ],
@@ -2794,6 +2867,7 @@
     "/v1/estimates/{estimateId}": {
       "get": {
         "operationId": "get_v1_estimates_estimateId_",
+        "summary": "v1/estimates/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2820,6 +2894,7 @@
       },
       "patch": {
         "operationId": "patch_v1_estimates_estimateId_",
+        "summary": "v1/estimates/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2856,6 +2931,7 @@
       },
       "delete": {
         "operationId": "delete_v1_estimates_estimateId_",
+        "summary": "v1/estimates/{estimateId}",
         "tags": [
           "Estimates"
         ],
@@ -2884,6 +2960,7 @@
     "/v1/estimates/{estimateId}/proposal": {
       "get": {
         "operationId": "get_v1_estimates_estimateId_proposal",
+        "summary": "v1/estimates/{estimateId}/proposal",
         "tags": [
           "Estimates"
         ],
@@ -2912,6 +2989,7 @@
     "/v1/estimates/{estimateId}/{uid}": {
       "delete": {
         "operationId": "delete_v1_estimates_estimateId_uid_",
+        "summary": "v1/estimates/{estimateId}/{uid}",
         "tags": [
           "Estimates"
         ],
@@ -2948,6 +3026,7 @@
     "/v1/follow-up-boss/activate": {
       "post": {
         "operationId": "post_v1_follow_up_boss_activate",
+        "summary": "v1/follow-up-boss/activate",
         "tags": [
           "Follow Up Boss"
         ],
@@ -2984,6 +3063,7 @@
     "/v1/follow-up-boss/connect-users": {
       "post": {
         "operationId": "post_v1_follow_up_boss_connect_users",
+        "summary": "v1/follow-up-boss/connect-users",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3007,6 +3087,7 @@
     "/v1/follow-up-boss/deactivate": {
       "delete": {
         "operationId": "delete_v1_follow_up_boss_deactivate",
+        "summary": "v1/follow-up-boss/deactivate",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3025,6 +3106,7 @@
     "/v1/follow-up-boss/get-user-pipelines": {
       "get": {
         "operationId": "get_v1_follow_up_boss_get_user_pipelines",
+        "summary": "v1/follow-up-boss/get-user-pipelines",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3043,6 +3125,7 @@
     "/v1/follow-up-boss/logs": {
       "get": {
         "operationId": "get_v1_follow_up_boss_logs",
+        "summary": "v1/follow-up-boss/logs",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3061,6 +3144,7 @@
     "/v1/follow-up-boss/webhook": {
       "post": {
         "operationId": "post_v1_follow_up_boss_webhook",
+        "summary": "v1/follow-up-boss/webhook",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3084,6 +3168,7 @@
     "/v1/homes/{dealId}": {
       "get": {
         "operationId": "get_v1_homes_dealId_",
+        "summary": "v1/homes/{dealId}",
         "tags": [
           "Homes"
         ],
@@ -3126,6 +3211,7 @@
       },
       "patch": {
         "operationId": "patch_v1_homes_dealId_",
+        "summary": "v1/homes/{dealId}",
         "tags": [
           "Homes"
         ],
@@ -3164,6 +3250,7 @@
     "/v1/homes/{dealId}/associate": {
       "put": {
         "operationId": "put_v1_homes_dealId_associate",
+        "summary": "v1/homes/{dealId}/associate",
         "tags": [
           "Homes"
         ],
@@ -3200,6 +3287,7 @@
       },
       "delete": {
         "operationId": "delete_v1_homes_dealId_associate",
+        "summary": "v1/homes/{dealId}/associate",
         "tags": [
           "Homes"
         ],
@@ -3244,6 +3332,7 @@
     "/v1/homes/{dealId}/note": {
       "post": {
         "operationId": "post_v1_homes_dealId_note",
+        "summary": "v1/homes/{dealId}/note",
         "tags": [
           "Homes"
         ],
@@ -3290,6 +3379,7 @@
     "/v1/marketing-center/automation/agent": {
       "post": {
         "operationId": "post_v1_marketing_center_automation_agent",
+        "summary": "v1/marketing-center/automation/agent",
         "tags": [
           "Marketing Center"
         ],
@@ -3319,6 +3409,7 @@
     "/v1/marketing-center/automation/opportunity": {
       "post": {
         "operationId": "post_v1_marketing_center_automation_opportunity",
+        "summary": "v1/marketing-center/automation/opportunity",
         "tags": [
           "Marketing Center"
         ],
@@ -3348,6 +3439,7 @@
     "/v1/marketing-center/automation/rebuild": {
       "post": {
         "operationId": "post_v1_marketing_center_automation_rebuild",
+        "summary": "v1/marketing-center/automation/rebuild",
         "tags": [
           "Marketing Center"
         ],
@@ -3391,6 +3483,7 @@
     "/v1/marketing-center/create-image": {
       "post": {
         "operationId": "post_v1_marketing_center_create_image",
+        "summary": "v1/marketing-center/create-image",
         "tags": [
           "Marketing Center"
         ],
@@ -3424,6 +3517,7 @@
     "/v1/marketing-center/download-counter/{id}": {
       "get": {
         "operationId": "get_v1_marketing_center_download_counter_id_",
+        "summary": "v1/marketing-center/download-counter/{id}",
         "tags": [
           "Marketing Center"
         ],
@@ -3447,6 +3541,7 @@
     "/v1/marketing-center/generate-wrapped": {
       "get": {
         "operationId": "get_v1_marketing_center_generate_wrapped",
+        "summary": "v1/marketing-center/generate-wrapped",
         "tags": [
           "Marketing Center"
         ],
@@ -3460,6 +3555,7 @@
     "/v1/marketing-center/generate-wrapped/webhook": {
       "post": {
         "operationId": "post_v1_marketing_center_generate_wrapped_webhook",
+        "summary": "v1/marketing-center/generate-wrapped/webhook",
         "tags": [
           "Marketing Center"
         ],
@@ -3483,6 +3579,7 @@
     "/v1/marketing-center/get-templates": {
       "get": {
         "operationId": "get_v1_marketing_center_get_templates",
+        "summary": "v1/marketing-center/get-templates",
         "tags": [
           "Marketing Center"
         ],
@@ -3501,6 +3598,7 @@
     "/v1/marketing-center/rebuild-agent-templates": {
       "post": {
         "operationId": "post_v1_marketing_center_rebuild_agent_templates",
+        "summary": "v1/marketing-center/rebuild-agent-templates",
         "tags": [
           "Marketing Center"
         ],
@@ -3535,6 +3633,7 @@
     "/v1/marketing-center/send-mms": {
       "post": {
         "operationId": "post_v1_marketing_center_send_mms",
+        "summary": "v1/marketing-center/send-mms",
         "tags": [
           "Marketing Center"
         ],
@@ -3574,6 +3673,7 @@
     "/v1/marketing-center/submit-template/{id}": {
       "post": {
         "operationId": "post_v1_marketing_center_submit_template_id_",
+        "summary": "v1/marketing-center/submit-template/{id}",
         "tags": [
           "Marketing Center"
         ],
@@ -3617,6 +3717,7 @@
     "/v1/marketing-center/template/{id}": {
       "get": {
         "operationId": "get_v1_marketing_center_template_id_",
+        "summary": "v1/marketing-center/template/{id}",
         "tags": [
           "Marketing Center"
         ],
@@ -3643,6 +3744,7 @@
       },
       "delete": {
         "operationId": "delete_v1_marketing_center_template_id_",
+        "summary": "v1/marketing-center/template/{id}",
         "tags": [
           "Marketing Center"
         ],
@@ -3671,6 +3773,7 @@
     "/v1/marketing-center/webhook/create-image": {
       "post": {
         "operationId": "post_v1_marketing_center_webhook_create_image",
+        "summary": "v1/marketing-center/webhook/create-image",
         "tags": [
           "Marketing Center"
         ],
@@ -3694,6 +3797,7 @@
     "/v1/media/": {
       "delete": {
         "operationId": "delete_v1_media_",
+        "summary": "v1/media/",
         "tags": [
           "Media"
         ],
@@ -3733,6 +3837,7 @@
     "/v1/media/change-document-status": {
       "patch": {
         "operationId": "patch_v1_media_change_document_status",
+        "summary": "v1/media/change-document-status",
         "tags": [
           "Media"
         ],
@@ -3776,6 +3881,7 @@
     "/v1/media/check-required-folders": {
       "post": {
         "operationId": "post_v1_media_check_required_folders",
+        "summary": "v1/media/check-required-folders",
         "tags": [
           "Media"
         ],
@@ -3812,6 +3918,7 @@
     "/v1/media/convert-webp-to-png": {
       "post": {
         "operationId": "post_v1_media_convert_webp_to_png",
+        "summary": "v1/media/convert-webp-to-png",
         "tags": [
           "Media"
         ],
@@ -3835,6 +3942,7 @@
     "/v1/media/create-folder": {
       "post": {
         "operationId": "post_v1_media_create_folder",
+        "summary": "v1/media/create-folder",
         "tags": [
           "Media"
         ],
@@ -3875,6 +3983,7 @@
     "/v1/media/moving": {
       "post": {
         "operationId": "post_v1_media_moving",
+        "summary": "v1/media/moving",
         "tags": [
           "Media"
         ],
@@ -3919,6 +4028,7 @@
     "/v1/media/remove-folder": {
       "post": {
         "operationId": "post_v1_media_remove_folder",
+        "summary": "v1/media/remove-folder",
         "tags": [
           "Media"
         ],
@@ -3955,6 +4065,7 @@
     "/v1/media/rename": {
       "patch": {
         "operationId": "patch_v1_media_rename",
+        "summary": "v1/media/rename",
         "tags": [
           "Media"
         ],
@@ -3999,6 +4110,7 @@
     "/v1/media/share-document": {
       "post": {
         "operationId": "post_v1_media_share_document",
+        "summary": "v1/media/share-document",
         "tags": [
           "Media"
         ],
@@ -4039,6 +4151,7 @@
     "/v1/media/upload-document-as-data": {
       "patch": {
         "operationId": "patch_v1_media_upload_document_as_data",
+        "summary": "v1/media/upload-document-as-data",
         "tags": [
           "Media"
         ],
@@ -4067,6 +4180,7 @@
     "/v1/media/upload-media": {
       "post": {
         "operationId": "post_v1_media_upload_media",
+        "summary": "v1/media/upload-media",
         "tags": [
           "Media"
         ],
@@ -4106,6 +4220,7 @@
     "/v1/meetings/": {
       "get": {
         "operationId": "get_v1_meetings_",
+        "summary": "v1/meetings/",
         "tags": [
           "Meetings"
         ],
@@ -4160,6 +4275,7 @@
       },
       "post": {
         "operationId": "post_v1_meetings_",
+        "summary": "v1/meetings/",
         "tags": [
           "Meetings"
         ],
@@ -4183,6 +4299,7 @@
     "/v1/meetings/available-calendars": {
       "get": {
         "operationId": "get_v1_meetings_available_calendars",
+        "summary": "v1/meetings/available-calendars",
         "tags": [
           "Meetings"
         ],
@@ -4196,6 +4313,7 @@
     "/v1/notifications/send": {
       "post": {
         "operationId": "post_v1_notifications_send",
+        "summary": "v1/notifications/send",
         "tags": [
           "Notifications"
         ],
@@ -4219,6 +4337,7 @@
     "/v1/notifications/upsert-novu-subscribers": {
       "get": {
         "operationId": "get_v1_notifications_upsert_novu_subscribers",
+        "summary": "v1/notifications/upsert-novu-subscribers",
         "tags": [
           "Notifications"
         ],
@@ -4237,6 +4356,7 @@
     "/v1/notifications/wu-reminder": {
       "post": {
         "operationId": "post_v1_notifications_wu_reminder",
+        "summary": "v1/notifications/wu-reminder",
         "tags": [
           "Notifications"
         ],
@@ -4268,6 +4388,7 @@
     "/v1/onsite-visit/": {
       "get": {
         "operationId": "get_v1_onsite_visit_",
+        "summary": "v1/onsite-visit/",
         "tags": [
           "Onsite Visits"
         ],
@@ -4286,6 +4407,7 @@
     "/v1/onsite-visit/mobile-geolocation": {
       "post": {
         "operationId": "post_v1_onsite_visit_mobile_geolocation",
+        "summary": "v1/onsite-visit/mobile-geolocation",
         "tags": [
           "Onsite Visits"
         ],
@@ -4330,6 +4452,7 @@
     "/v1/onsite-visit/{onSiteVisitId}": {
       "patch": {
         "operationId": "patch_v1_onsite_visit_onSiteVisitId_",
+        "summary": "v1/onsite-visit/{onSiteVisitId}",
         "tags": [
           "Onsite Visits"
         ],
@@ -4380,6 +4503,7 @@
       },
       "delete": {
         "operationId": "delete_v1_onsite_visit_onSiteVisitId_",
+        "summary": "v1/onsite-visit/{onSiteVisitId}",
         "tags": [
           "Onsite Visits"
         ],
@@ -4408,6 +4532,7 @@
     "/v1/onsite-visit/{sessionId}/comment": {
       "post": {
         "operationId": "post_v1_onsite_visit_sessionId_comment",
+        "summary": "v1/onsite-visit/{sessionId}/comment",
         "tags": [
           "Onsite Visits"
         ],
@@ -4446,6 +4571,7 @@
     "/v1/onsite-visit/{sessionId}/comment/{commentId}": {
       "delete": {
         "operationId": "delete_v1_onsite_visit_sessionId_comment_commentId_",
+        "summary": "v1/onsite-visit/{sessionId}/comment/{commentId}",
         "tags": [
           "Onsite Visits"
         ],
@@ -4482,6 +4608,7 @@
     "/v1/onsite-visit/{sessionId}/comments": {
       "get": {
         "operationId": "get_v1_onsite_visit_sessionId_comments",
+        "summary": "v1/onsite-visit/{sessionId}/comments",
         "tags": [
           "Onsite Visits"
         ],
@@ -4535,6 +4662,7 @@
     "/v1/onsite-visit/{sessionId}/image-notes": {
       "post": {
         "operationId": "post_v1_onsite_visit_sessionId_image_notes",
+        "summary": "v1/onsite-visit/{sessionId}/image-notes",
         "tags": [
           "Onsite Visits"
         ],
@@ -4573,6 +4701,7 @@
     "/v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}": {
       "patch": {
         "operationId": "patch_v1_onsite_visit_sessionId_image_notes_imageNoteId_",
+        "summary": "v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}",
         "tags": [
           "Onsite Visits"
         ],
@@ -4617,6 +4746,7 @@
       },
       "delete": {
         "operationId": "delete_v1_onsite_visit_sessionId_image_notes_imageNoteId_",
+        "summary": "v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}",
         "tags": [
           "Onsite Visits"
         ],
@@ -4653,6 +4783,7 @@
     "/v1/partners/realtycom": {
       "post": {
         "operationId": "post_v1_partners_realtycom",
+        "summary": "v1/partners/realtycom",
         "tags": [
           "Partners"
         ],
@@ -4676,6 +4807,7 @@
     "/v1/production/": {
       "post": {
         "operationId": "post_v1_production_",
+        "summary": "v1/production/",
         "tags": [
           "Production"
         ],
@@ -4716,6 +4848,7 @@
     "/v1/project-scopes/": {
       "post": {
         "operationId": "post_v1_project_scopes_",
+        "summary": "v1/project-scopes/",
         "tags": [
           "Project Scopes"
         ],
@@ -4753,6 +4886,7 @@
       },
       "delete": {
         "operationId": "delete_v1_project_scopes_",
+        "summary": "v1/project-scopes/",
         "tags": [
           "Project Scopes"
         ],
@@ -4789,6 +4923,7 @@
     "/v1/project-scopes/fill-from-pandadoc/{dealId}": {
       "get": {
         "operationId": "get_v1_project_scopes_fill_from_pandadoc_dealId_",
+        "summary": "v1/project-scopes/fill-from-pandadoc/{dealId}",
         "tags": [
           "Project Scopes"
         ],
@@ -4817,6 +4952,7 @@
     "/v1/project-scopes/update": {
       "patch": {
         "operationId": "patch_v1_project_scopes_update",
+        "summary": "v1/project-scopes/update",
         "tags": [
           "Project Scopes"
         ],
@@ -4868,6 +5004,7 @@
     "/v1/property/": {
       "post": {
         "operationId": "post_v1_property_",
+        "summary": "v1/property/",
         "tags": [
           "Property"
         ],
@@ -4931,6 +5068,7 @@
     "/v1/property/admin/migrate-latest-leads-to-reports-meta": {
       "post": {
         "operationId": "post_v1_property_admin_migrate_latest_leads_to_reports_meta",
+        "summary": "v1/property/admin/migrate-latest-leads-to-reports-meta",
         "tags": [
           "Property"
         ],
@@ -4954,6 +5092,7 @@
     "/v1/property/admin/migrate-leads": {
       "post": {
         "operationId": "post_v1_property_admin_migrate_leads",
+        "summary": "v1/property/admin/migrate-leads",
         "tags": [
           "Property"
         ],
@@ -4977,6 +5116,7 @@
     "/v1/property/association": {
       "post": {
         "operationId": "post_v1_property_association",
+        "summary": "v1/property/association",
         "tags": [
           "Property"
         ],
@@ -5013,6 +5153,7 @@
     "/v1/property/complete-report": {
       "post": {
         "operationId": "post_v1_property_complete_report",
+        "summary": "v1/property/complete-report",
         "tags": [
           "Property"
         ],
@@ -5052,6 +5193,7 @@
     "/v1/property/create-comparable": {
       "post": {
         "operationId": "post_v1_property_create_comparable",
+        "summary": "v1/property/create-comparable",
         "tags": [
           "Property"
         ],
@@ -5125,6 +5267,7 @@
     "/v1/property/log/comparable/{reportId}": {
       "post": {
         "operationId": "post_v1_property_log_comparable_reportId_",
+        "summary": "v1/property/log/comparable/{reportId}",
         "tags": [
           "Property"
         ],
@@ -5163,6 +5306,7 @@
     "/v1/property/log/pdf/{reportId}": {
       "post": {
         "operationId": "post_v1_property_log_pdf_reportId_",
+        "summary": "v1/property/log/pdf/{reportId}",
         "tags": [
           "Property"
         ],
@@ -5216,6 +5360,7 @@
     "/v1/property/log/view/{reportId}": {
       "post": {
         "operationId": "post_v1_property_log_view_reportId_",
+        "summary": "v1/property/log/view/{reportId}",
         "tags": [
           "Property"
         ],
@@ -5269,6 +5414,7 @@
     "/v1/property/neighborhood-report-and-register-user": {
       "post": {
         "operationId": "post_v1_property_neighborhood_report_and_register_user",
+        "summary": "v1/property/neighborhood-report-and-register-user",
         "tags": [
           "Property"
         ],
@@ -5303,6 +5449,7 @@
     "/v1/property/search-comparable": {
       "post": {
         "operationId": "post_v1_property_search_comparable",
+        "summary": "v1/property/search-comparable",
         "tags": [
           "Property"
         ],
@@ -5347,6 +5494,7 @@
     "/v1/property/share/{reportId}": {
       "post": {
         "operationId": "post_v1_property_share_reportId_",
+        "summary": "v1/property/share/{reportId}",
         "tags": [
           "Property"
         ],
@@ -5400,6 +5548,7 @@
     "/v1/property/upgrade-to-v2": {
       "post": {
         "operationId": "post_v1_property_upgrade_to_v2",
+        "summary": "v1/property/upgrade-to-v2",
         "tags": [
           "Property"
         ],
@@ -5436,6 +5585,7 @@
     "/v1/property/{id}": {
       "get": {
         "operationId": "get_v1_property_id_",
+        "summary": "v1/property/{id}",
         "tags": [
           "Property"
         ],
@@ -5464,6 +5614,7 @@
     "/v1/property/{id}/recalculate": {
       "post": {
         "operationId": "post_v1_property_id_recalculate",
+        "summary": "v1/property/{id}/recalculate",
         "tags": [
           "Property"
         ],
@@ -5508,6 +5659,7 @@
     "/v1/punch-list/update-punch-data": {
       "patch": {
         "operationId": "patch_v1_punch_list_update_punch_data",
+        "summary": "v1/punch-list/update-punch-data",
         "tags": [
           "Punch List"
         ],
@@ -5553,6 +5705,7 @@
     "/v1/punch-list/update-tasks": {
       "post": {
         "operationId": "post_v1_punch_list_update_tasks",
+        "summary": "v1/punch-list/update-tasks",
         "tags": [
           "Punch List"
         ],
@@ -5589,6 +5742,7 @@
     "/v1/punch-list/{dealId}": {
       "get": {
         "operationId": "get_v1_punch_list_dealId_",
+        "summary": "v1/punch-list/{dealId}",
         "tags": [
           "Punch List"
         ],
@@ -5617,6 +5771,7 @@
     "/v1/realtors/": {
       "post": {
         "operationId": "post_v1_realtors_",
+        "summary": "v1/realtors/",
         "tags": [
           "Realtors"
         ],
@@ -5640,6 +5795,7 @@
     "/v1/realtors/{contactId}": {
       "get": {
         "operationId": "get_v1_realtors_contactId_",
+        "summary": "v1/realtors/{contactId}",
         "tags": [
           "Realtors"
         ],
@@ -5701,6 +5857,7 @@
     "/v1/referrals/": {
       "get": {
         "operationId": "get_v1_referrals_",
+        "summary": "v1/referrals/",
         "tags": [
           "Referrals"
         ],
@@ -5717,6 +5874,7 @@
       },
       "post": {
         "operationId": "post_v1_referrals_",
+        "summary": "v1/referrals/",
         "tags": [
           "Referrals"
         ],
@@ -5773,6 +5931,7 @@
     "/v1/referrals/update-user-visit": {
       "post": {
         "operationId": "post_v1_referrals_update_user_visit",
+        "summary": "v1/referrals/update-user-visit",
         "tags": [
           "Referrals"
         ],
@@ -5809,6 +5968,7 @@
     "/v1/referrals/{dealId}": {
       "get": {
         "operationId": "get_v1_referrals_dealId_",
+        "summary": "v1/referrals/{dealId}",
         "tags": [
           "Referrals"
         ],
@@ -5835,6 +5995,7 @@
       },
       "patch": {
         "operationId": "patch_v1_referrals_dealId_",
+        "summary": "v1/referrals/{dealId}",
         "tags": [
           "Referrals"
         ],
@@ -5871,6 +6032,7 @@
       },
       "delete": {
         "operationId": "delete_v1_referrals_dealId_",
+        "summary": "v1/referrals/{dealId}",
         "tags": [
           "Referrals"
         ],
@@ -5921,6 +6083,7 @@
     "/v1/reimagine/create-image": {
       "post": {
         "operationId": "post_v1_reimagine_create_image",
+        "summary": "v1/reimagine/create-image",
         "tags": [
           "Reimagine"
         ],
@@ -5978,6 +6141,7 @@
     "/v1/reimagine/report-association": {
       "post": {
         "operationId": "post_v1_reimagine_report_association",
+        "summary": "v1/reimagine/report-association",
         "tags": [
           "Reimagine"
         ],
@@ -6006,6 +6170,7 @@
     "/v1/reimagine/{id}": {
       "patch": {
         "operationId": "patch_v1_reimagine_id_",
+        "summary": "v1/reimagine/{id}",
         "tags": [
           "Reimagine"
         ],
@@ -6051,6 +6216,7 @@
       },
       "get": {
         "operationId": "get_v1_reimagine_id_",
+        "summary": "v1/reimagine/{id}",
         "tags": [
           "Reimagine"
         ],
@@ -6077,6 +6243,7 @@
       },
       "delete": {
         "operationId": "delete_v1_reimagine_id_",
+        "summary": "v1/reimagine/{id}",
         "tags": [
           "Reimagine"
         ],
@@ -6105,6 +6272,7 @@
     "/v1/renovation-progress/": {
       "post": {
         "operationId": "post_v1_renovation_progress_",
+        "summary": "v1/renovation-progress/",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6145,6 +6313,7 @@
     "/v1/renovation-progress/what-was-done/{dealId}": {
       "patch": {
         "operationId": "patch_v1_renovation_progress_what_was_done_dealId_",
+        "summary": "v1/renovation-progress/what-was-done/{dealId}",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6191,6 +6360,7 @@
     "/v1/renovation-progress/{renovationProgressId}": {
       "get": {
         "operationId": "get_v1_renovation_progress_renovationProgressId_",
+        "summary": "v1/renovation-progress/{renovationProgressId}",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6217,6 +6387,7 @@
       },
       "patch": {
         "operationId": "patch_v1_renovation_progress_renovationProgressId_",
+        "summary": "v1/renovation-progress/{renovationProgressId}",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6265,6 +6436,7 @@
       },
       "delete": {
         "operationId": "delete_v1_renovation_progress_renovationProgressId_",
+        "summary": "v1/renovation-progress/{renovationProgressId}",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6293,6 +6465,7 @@
     "/v1/reports/": {
       "post": {
         "operationId": "post_v1_reports_",
+        "summary": "v1/reports/",
         "tags": [
           "Reports"
         ],
@@ -6329,6 +6502,7 @@
     "/v1/ret-catalog/": {
       "get": {
         "operationId": "get_v1_ret_catalog_",
+        "summary": "v1/ret-catalog/",
         "tags": [
           "Ret Catalog"
         ],
@@ -6345,6 +6519,7 @@
       },
       "post": {
         "operationId": "post_v1_ret_catalog_",
+        "summary": "v1/ret-catalog/",
         "tags": [
           "Ret Catalog"
         ],
@@ -6373,6 +6548,7 @@
     "/v1/ret-catalog/all-product-types": {
       "get": {
         "operationId": "get_v1_ret_catalog_all_product_types",
+        "summary": "v1/ret-catalog/all-product-types",
         "tags": [
           "Ret Catalog"
         ],
@@ -6391,6 +6567,7 @@
     "/v1/ret-catalog/{productId}": {
       "get": {
         "operationId": "get_v1_ret_catalog_productId_",
+        "summary": "v1/ret-catalog/{productId}",
         "tags": [
           "Ret Catalog"
         ],
@@ -6417,6 +6594,7 @@
       },
       "patch": {
         "operationId": "patch_v1_ret_catalog_productId_",
+        "summary": "v1/ret-catalog/{productId}",
         "tags": [
           "Ret Catalog"
         ],
@@ -6453,6 +6631,7 @@
       },
       "delete": {
         "operationId": "delete_v1_ret_catalog_productId_",
+        "summary": "v1/ret-catalog/{productId}",
         "tags": [
           "Ret Catalog"
         ],
@@ -6481,6 +6660,7 @@
     "/v1/ret-catalog/{productTypeId}/options": {
       "get": {
         "operationId": "get_v1_ret_catalog_productTypeId_options",
+        "summary": "v1/ret-catalog/{productTypeId}/options",
         "tags": [
           "Ret Catalog"
         ],
@@ -6504,6 +6684,7 @@
     "/v1/ret-catalog/{productTypeId}/options/{optionId}/selections": {
       "get": {
         "operationId": "get_v1_ret_catalog_productTypeId_options_optionId_selections",
+        "summary": "v1/ret-catalog/{productTypeId}/options/{optionId}/selections",
         "tags": [
           "Ret Catalog"
         ],
@@ -6535,6 +6716,7 @@
     "/v1/rma/": {
       "post": {
         "operationId": "post_v1_rma_",
+        "summary": "v1/rma/",
         "tags": [
           "Rma"
         ],
@@ -6576,6 +6758,7 @@
       },
       "get": {
         "operationId": "get_v1_rma_",
+        "summary": "v1/rma/",
         "tags": [
           "Rma"
         ],
@@ -6594,6 +6777,7 @@
     "/v1/rma/contracts": {
       "get": {
         "operationId": "get_v1_rma_contracts",
+        "summary": "v1/rma/contracts",
         "tags": [
           "Rma"
         ],
@@ -6612,6 +6796,7 @@
     "/v1/rma/contracts/{contractId}/session": {
       "post": {
         "operationId": "post_v1_rma_contracts_contractId_session",
+        "summary": "v1/rma/contracts/{contractId}/session",
         "tags": [
           "Rma"
         ],
@@ -6650,6 +6835,7 @@
     "/v1/rma/{rmaId}": {
       "get": {
         "operationId": "get_v1_rma_rmaId_",
+        "summary": "v1/rma/{rmaId}",
         "tags": [
           "Rma"
         ],
@@ -6715,6 +6901,7 @@
       },
       "patch": {
         "operationId": "patch_v1_rma_rmaId_",
+        "summary": "v1/rma/{rmaId}",
         "tags": [
           "Rma"
         ],
@@ -6753,6 +6940,7 @@
     "/v1/rma/{rmaId}/activity-logs": {
       "get": {
         "operationId": "get_v1_rma_rmaId_activity_logs",
+        "summary": "v1/rma/{rmaId}/activity-logs",
         "tags": [
           "Rma"
         ],
@@ -6781,6 +6969,7 @@
     "/v1/rma/{rmaId}/contract": {
       "post": {
         "operationId": "post_v1_rma_rmaId_contract",
+        "summary": "v1/rma/{rmaId}/contract",
         "tags": [
           "Rma"
         ],
@@ -6817,6 +7006,7 @@
       },
       "delete": {
         "operationId": "delete_v1_rma_rmaId_contract",
+        "summary": "v1/rma/{rmaId}/contract",
         "tags": [
           "Rma"
         ],
@@ -6845,6 +7035,7 @@
     "/v1/rma/{rmaId}/contract/download": {
       "get": {
         "operationId": "get_v1_rma_rmaId_contract_download",
+        "summary": "v1/rma/{rmaId}/contract/download",
         "tags": [
           "Rma"
         ],
@@ -6873,6 +7064,7 @@
     "/v1/rma/{rmaId}/contract/edit-session": {
       "get": {
         "operationId": "get_v1_rma_rmaId_contract_edit_session",
+        "summary": "v1/rma/{rmaId}/contract/edit-session",
         "tags": [
           "Rma"
         ],
@@ -6901,6 +7093,7 @@
     "/v1/rma/{rmaId}/contract/send": {
       "post": {
         "operationId": "post_v1_rma_rmaId_contract_send",
+        "summary": "v1/rma/{rmaId}/contract/send",
         "tags": [
           "Rma"
         ],
@@ -6939,6 +7132,7 @@
     "/v1/rma/{rmaId}/notes": {
       "post": {
         "operationId": "post_v1_rma_rmaId_notes",
+        "summary": "v1/rma/{rmaId}/notes",
         "tags": [
           "Rma"
         ],
@@ -6983,6 +7177,7 @@
       },
       "get": {
         "operationId": "get_v1_rma_rmaId_notes",
+        "summary": "v1/rma/{rmaId}/notes",
         "tags": [
           "Rma"
         ],
@@ -7011,6 +7206,7 @@
     "/v1/support/": {
       "post": {
         "operationId": "post_v1_support_",
+        "summary": "v1/support/",
         "tags": [
           "Support"
         ],
@@ -7049,6 +7245,7 @@
     "/v1/utility/house-canary/market-health": {
       "post": {
         "operationId": "post_v1_utility_house_canary_market_health",
+        "summary": "v1/utility/house-canary/market-health",
         "tags": [
           "Utility"
         ],
@@ -7085,6 +7282,7 @@
     "/v1/vision-ai/": {
       "get": {
         "operationId": "get_v1_vision_ai_",
+        "summary": "v1/vision-ai/",
         "tags": [
           "Vision Ai"
         ],
@@ -7101,6 +7299,7 @@
       },
       "post": {
         "operationId": "post_v1_vision_ai_",
+        "summary": "v1/vision-ai/",
         "tags": [
           "Vision Ai"
         ],
@@ -7151,6 +7350,7 @@
     "/v1/vision-ai/finish-neighborhood-report": {
       "post": {
         "operationId": "post_v1_vision_ai_finish_neighborhood_report",
+        "summary": "v1/vision-ai/finish-neighborhood-report",
         "tags": [
           "Vision Ai"
         ],
@@ -7190,6 +7390,7 @@
     "/v1/vision-ai/neighbor-report-and-register": {
       "post": {
         "operationId": "post_v1_vision_ai_neighbor_report_and_register",
+        "summary": "v1/vision-ai/neighbor-report-and-register",
         "tags": [
           "Vision Ai"
         ],
@@ -7218,6 +7419,7 @@
     "/v1/vision-ai/neighbor-report-photos": {
       "post": {
         "operationId": "post_v1_vision_ai_neighbor_report_photos",
+        "summary": "v1/vision-ai/neighbor-report-photos",
         "tags": [
           "Vision Ai"
         ],
@@ -7257,6 +7459,7 @@
     "/v1/vision-ai/neighbor-report-with-photos-finish": {
       "post": {
         "operationId": "post_v1_vision_ai_neighbor_report_with_photos_finish",
+        "summary": "v1/vision-ai/neighbor-report-with-photos-finish",
         "tags": [
           "Vision Ai"
         ],
@@ -7293,6 +7496,7 @@
     "/v1/vision-ai/search": {
       "post": {
         "operationId": "post_v1_vision_ai_search",
+        "summary": "v1/vision-ai/search",
         "tags": [
           "Vision Ai"
         ],
@@ -7329,6 +7533,7 @@
     "/v1/vision-ai/upgrade-to-v2": {
       "post": {
         "operationId": "post_v1_vision_ai_upgrade_to_v2",
+        "summary": "v1/vision-ai/upgrade-to-v2",
         "tags": [
           "Vision Ai"
         ],
@@ -7365,6 +7570,7 @@
     "/v1/vision-ai/{id}": {
       "get": {
         "operationId": "get_v1_vision_ai_id_",
+        "summary": "v1/vision-ai/{id}",
         "tags": [
           "Vision Ai"
         ],
@@ -7386,6 +7592,7 @@
       },
       "patch": {
         "operationId": "patch_v1_vision_ai_id_",
+        "summary": "v1/vision-ai/{id}",
         "tags": [
           "Vision Ai"
         ],
@@ -7422,6 +7629,7 @@
       },
       "delete": {
         "operationId": "delete_v1_vision_ai_id_",
+        "summary": "v1/vision-ai/{id}",
         "tags": [
           "Vision Ai"
         ],
@@ -7450,6 +7658,7 @@
     "/v1/vision-ai/{id}/recalculate": {
       "post": {
         "operationId": "post_v1_vision_ai_id_recalculate",
+        "summary": "v1/vision-ai/{id}/recalculate",
         "tags": [
           "Vision Ai"
         ],
@@ -7496,6 +7705,7 @@
     "/v1/webhooks/affiliate-partners": {
       "post": {
         "operationId": "post_v1_webhooks_affiliate_partners",
+        "summary": "v1/webhooks/affiliate-partners",
         "tags": [
           "Webhooks"
         ],
@@ -7519,6 +7729,7 @@
     "/v1/webhooks/gvg": {
       "post": {
         "operationId": "post_v1_webhooks_gvg",
+        "summary": "v1/webhooks/gvg",
         "tags": [
           "Webhooks"
         ],
@@ -7542,6 +7753,7 @@
     "/v1/webhooks/hubspot/createCompany": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_createCompany",
+        "summary": "v1/webhooks/hubspot/createCompany",
         "tags": [
           "Webhooks"
         ],
@@ -7565,6 +7777,7 @@
     "/v1/webhooks/hubspot/invite-realtor": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_invite_realtor",
+        "summary": "v1/webhooks/hubspot/invite-realtor",
         "tags": [
           "Webhooks"
         ],
@@ -7588,6 +7801,7 @@
     "/v1/webhooks/hubspot/production": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_production",
+        "summary": "v1/webhooks/hubspot/production",
         "tags": [
           "Webhooks"
         ],
@@ -7611,6 +7825,7 @@
     "/v1/webhooks/hubspot/report-reminder/{emailId}": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_report_reminder_emailId_",
+        "summary": "v1/webhooks/hubspot/report-reminder/{emailId}",
         "tags": [
           "Webhooks"
         ],
@@ -7644,6 +7859,7 @@
     "/v1/webhooks/hubspot/revive-team": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_revive_team",
+        "summary": "v1/webhooks/hubspot/revive-team",
         "tags": [
           "Webhooks"
         ],
@@ -7667,6 +7883,7 @@
     "/v1/webhooks/hubspot/updateCompany": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_updateCompany",
+        "summary": "v1/webhooks/hubspot/updateCompany",
         "tags": [
           "Webhooks"
         ],
@@ -7690,6 +7907,7 @@
     "/v1/webhooks/hubspot/updateContractor": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_updateContractor",
+        "summary": "v1/webhooks/hubspot/updateContractor",
         "tags": [
           "Webhooks"
         ],
@@ -7713,6 +7931,7 @@
     "/v1/webhooks/hubspot/updateRealtorEdgeUrl": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_updateRealtorEdgeUrl",
+        "summary": "v1/webhooks/hubspot/updateRealtorEdgeUrl",
         "tags": [
           "Webhooks"
         ],
@@ -7736,6 +7955,7 @@
     "/v1/webhooks/pandadoc/linked-objects": {
       "post": {
         "operationId": "post_v1_webhooks_pandadoc_linked_objects",
+        "summary": "v1/webhooks/pandadoc/linked-objects",
         "tags": [
           "Webhooks"
         ],
@@ -7759,6 +7979,7 @@
     "/v1/webhooks/pandadoc/project-scope": {
       "post": {
         "operationId": "post_v1_webhooks_pandadoc_project_scope",
+        "summary": "v1/webhooks/pandadoc/project-scope",
         "tags": [
           "Webhooks"
         ],
@@ -7782,6 +8003,7 @@
     "/v1/webhooks/website-case-study": {
       "post": {
         "operationId": "post_v1_webhooks_website_case_study",
+        "summary": "v1/webhooks/website-case-study",
         "tags": [
           "Webhooks"
         ],
@@ -7825,6 +8047,7 @@
     "/v2/analyze/comparables": {
       "post": {
         "operationId": "post_v2_analyze_comparables",
+        "summary": "v2/analyze/comparables",
         "tags": [
           "Analyze"
         ],
@@ -7859,6 +8082,7 @@
     "/v2/analyze/condition": {
       "post": {
         "operationId": "post_v2_analyze_condition",
+        "summary": "v2/analyze/condition",
         "tags": [
           "Analyze"
         ],
@@ -7891,6 +8115,7 @@
     "/v2/analyze/create-report": {
       "post": {
         "operationId": "post_v2_analyze_create_report",
+        "summary": "v2/analyze/create-report",
         "tags": [
           "Analyze"
         ],
@@ -7947,6 +8172,7 @@
     "/v2/analyze/feedback/{id}": {
       "post": {
         "operationId": "post_v2_analyze_feedback_id_",
+        "summary": "v2/analyze/feedback/{id}",
         "tags": [
           "Analyze"
         ],
@@ -7998,6 +8224,7 @@
     "/v2/analyze/photos": {
       "post": {
         "operationId": "post_v2_analyze_photos",
+        "summary": "v2/analyze/photos",
         "tags": [
           "Analyze"
         ],
@@ -8035,6 +8262,7 @@
     "/v2/analyze/reanalyze": {
       "post": {
         "operationId": "post_v2_analyze_reanalyze",
+        "summary": "v2/analyze/reanalyze",
         "tags": [
           "Analyze"
         ],
@@ -8071,6 +8299,7 @@
     "/v2/analyze/renovation/{id}": {
       "get": {
         "operationId": "get_v2_analyze_renovation_id_",
+        "summary": "v2/analyze/renovation/{id}",
         "tags": [
           "Analyze"
         ],
@@ -8094,6 +8323,7 @@
     "/v2/analyze/v2/comparables": {
       "post": {
         "operationId": "post_v2_analyze_v2_comparables",
+        "summary": "v2/analyze/v2/comparables",
         "tags": [
           "Analyze"
         ],
@@ -8117,6 +8347,7 @@
     "/v2/calendars/": {
       "get": {
         "operationId": "get_v2_calendars_",
+        "summary": "v2/calendars/",
         "tags": [
           "Calendars"
         ],
@@ -8133,6 +8364,7 @@
       },
       "post": {
         "operationId": "post_v2_calendars_",
+        "summary": "v2/calendars/",
         "tags": [
           "Calendars"
         ],
@@ -8188,6 +8420,7 @@
     "/v2/calendars/{calendarId}": {
       "get": {
         "operationId": "get_v2_calendars_calendarId_",
+        "summary": "v2/calendars/{calendarId}",
         "tags": [
           "Calendars"
         ],
@@ -8214,6 +8447,7 @@
       },
       "patch": {
         "operationId": "patch_v2_calendars_calendarId_",
+        "summary": "v2/calendars/{calendarId}",
         "tags": [
           "Calendars"
         ],
@@ -8250,6 +8484,7 @@
       },
       "delete": {
         "operationId": "delete_v2_calendars_calendarId_",
+        "summary": "v2/calendars/{calendarId}",
         "tags": [
           "Calendars"
         ],
@@ -8278,6 +8513,7 @@
     "/v2/deals/": {
       "post": {
         "operationId": "post_v2_deals_",
+        "summary": "v2/deals/",
         "tags": [
           "Deals"
         ],
@@ -8315,6 +8551,7 @@
     "/v2/opportunities/": {
       "get": {
         "operationId": "get_v2_opportunities_",
+        "summary": "v2/opportunities/",
         "tags": [
           "Opportunities"
         ],
@@ -8333,6 +8570,7 @@
     "/v2/opportunities/admin/{adminId}": {
       "get": {
         "operationId": "get_v2_opportunities_admin_adminId_",
+        "summary": "v2/opportunities/admin/{adminId}",
         "tags": [
           "Opportunities"
         ],
@@ -8361,6 +8599,7 @@
     "/v2/opportunities/{opportunityId}": {
       "patch": {
         "operationId": "patch_v2_opportunities_opportunityId_",
+        "summary": "v2/opportunities/{opportunityId}",
         "tags": [
           "Opportunities"
         ],
@@ -8397,6 +8636,7 @@
       },
       "get": {
         "operationId": "get_v2_opportunities_opportunityId_",
+        "summary": "v2/opportunities/{opportunityId}",
         "tags": [
           "Opportunities"
         ],
@@ -8423,6 +8663,7 @@
       },
       "delete": {
         "operationId": "delete_v2_opportunities_opportunityId_",
+        "summary": "v2/opportunities/{opportunityId}",
         "tags": [
           "Opportunities"
         ],
@@ -8466,6 +8707,7 @@
     "/v2/opportunities/{opportunityId}/associate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_associate_contact",
+        "summary": "v2/opportunities/{opportunityId}/associate-contact",
         "tags": [
           "Opportunities"
         ],
@@ -8504,6 +8746,7 @@
     "/v2/opportunities/{opportunityId}/create-and-associate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_create_and_associate_contact",
+        "summary": "v2/opportunities/{opportunityId}/create-and-associate-contact",
         "tags": [
           "Opportunities"
         ],
@@ -8542,6 +8785,7 @@
     "/v2/opportunities/{opportunityId}/disassociate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_disassociate_contact",
+        "summary": "v2/opportunities/{opportunityId}/disassociate-contact",
         "tags": [
           "Opportunities"
         ],
@@ -8580,6 +8824,7 @@
     "/v2/opportunities/{opportunityId}/onsite-visit": {
       "get": {
         "operationId": "get_v2_opportunities_opportunityId_onsite_visit",
+        "summary": "v2/opportunities/{opportunityId}/onsite-visit",
         "tags": [
           "Opportunities"
         ],
@@ -8606,6 +8851,7 @@
       },
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_onsite_visit",
+        "summary": "v2/opportunities/{opportunityId}/onsite-visit",
         "tags": [
           "Opportunities"
         ],
@@ -8644,6 +8890,7 @@
     "/v2/payments/reno/create-checkout-session": {
       "post": {
         "operationId": "post_v2_payments_reno_create_checkout_session",
+        "summary": "v2/payments/reno/create-checkout-session",
         "tags": [
           "Payments"
         ],
@@ -8682,6 +8929,7 @@
     "/v2/payments/reno/payment-intents": {
       "post": {
         "operationId": "post_v2_payments_reno_payment_intents",
+        "summary": "v2/payments/reno/payment-intents",
         "tags": [
           "Payments"
         ],
@@ -8720,6 +8968,7 @@
     "/v2/payments/reno/remove-subscription": {
       "delete": {
         "operationId": "delete_v2_payments_reno_remove_subscription",
+        "summary": "v2/payments/reno/remove-subscription",
         "tags": [
           "Payments"
         ],
@@ -8738,6 +8987,7 @@
     "/v2/payments/reno/user-subscription": {
       "get": {
         "operationId": "get_v2_payments_reno_user_subscription",
+        "summary": "v2/payments/reno/user-subscription",
         "tags": [
           "Payments"
         ],
@@ -8756,6 +9006,7 @@
     "/v2/payments/reno/webhook": {
       "post": {
         "operationId": "post_v2_payments_reno_webhook",
+        "summary": "v2/payments/reno/webhook",
         "tags": [
           "Payments"
         ],
@@ -8779,6 +9030,7 @@
     "/v2/properties/{objectType}": {
       "get": {
         "operationId": "get_v2_properties_objectType_",
+        "summary": "v2/properties/{objectType}",
         "tags": [
           "Properties"
         ],
@@ -8802,6 +9054,7 @@
     "/v2/properties/{objectType}/{propertyName}": {
       "get": {
         "operationId": "get_v2_properties_objectType_propertyName_",
+        "summary": "v2/properties/{objectType}/{propertyName}",
         "tags": [
           "Properties"
         ],
@@ -8833,6 +9086,7 @@
     "/v2/referrals/": {
       "post": {
         "operationId": "post_v2_referrals_",
+        "summary": "v2/referrals/",
         "tags": [
           "Referrals"
         ],
@@ -8877,6 +9131,7 @@
     "/v2/users/": {
       "post": {
         "operationId": "post_v2_users_",
+        "summary": "v2/users/",
         "tags": [
           "Users"
         ],
@@ -8922,6 +9177,7 @@
       },
       "get": {
         "operationId": "get_v2_users_",
+        "summary": "v2/users/",
         "tags": [
           "Users"
         ],
@@ -8935,6 +9191,7 @@
     "/v2/users/owners": {
       "get": {
         "operationId": "get_v2_users_owners",
+        "summary": "v2/users/owners",
         "tags": [
           "Users"
         ],
@@ -8953,6 +9210,7 @@
     "/v2/users/{uid}": {
       "get": {
         "operationId": "get_v2_users_uid_",
+        "summary": "v2/users/{uid}",
         "tags": [
           "Users"
         ],
@@ -8979,6 +9237,7 @@
       },
       "patch": {
         "operationId": "patch_v2_users_uid_",
+        "summary": "v2/users/{uid}",
         "tags": [
           "Users"
         ],
@@ -9015,6 +9274,7 @@
       },
       "delete": {
         "operationId": "delete_v2_users_uid_",
+        "summary": "v2/users/{uid}",
         "tags": [
           "Users"
         ],
@@ -9043,6 +9303,7 @@
     "/v2/vision-ai/": {
       "post": {
         "operationId": "post_v2_vision_ai_",
+        "summary": "v2/vision-ai/",
         "tags": [
           "Vision Ai"
         ],
@@ -9103,6 +9364,7 @@
     "/v2/vision-ai/condition": {
       "post": {
         "operationId": "post_v2_vision_ai_condition",
+        "summary": "v2/vision-ai/condition",
         "tags": [
           "Vision Ai"
         ],
@@ -9147,6 +9409,7 @@
     "/v2/vision-ai/custom-object/{recordId}": {
       "patch": {
         "operationId": "patch_v2_vision_ai_custom_object_recordId_",
+        "summary": "v2/vision-ai/custom-object/{recordId}",
         "tags": [
           "Vision Ai"
         ],
@@ -9193,6 +9456,7 @@
     "/v2/vision-ai/images": {
       "post": {
         "operationId": "post_v2_vision_ai_images",
+        "summary": "v2/vision-ai/images",
         "tags": [
           "Vision Ai"
         ],
@@ -9229,6 +9493,7 @@
     "/v2/vision-ai/rejected-report-note/{recordId}": {
       "post": {
         "operationId": "post_v2_vision_ai_rejected_report_note_recordId_",
+        "summary": "v2/vision-ai/rejected-report-note/{recordId}",
         "tags": [
           "Vision Ai"
         ],
@@ -9275,6 +9540,7 @@
     "/v2/vision-ai/scraper": {
       "post": {
         "operationId": "post_v2_vision_ai_scraper",
+        "summary": "v2/vision-ai/scraper",
         "tags": [
           "Vision Ai"
         ],
@@ -9308,6 +9574,7 @@
     "/v2/vision-ai/scraper/csv": {
       "get": {
         "operationId": "get_v2_vision_ai_scraper_csv",
+        "summary": "v2/vision-ai/scraper/csv",
         "tags": [
           "Vision Ai"
         ],
@@ -9344,6 +9611,7 @@
     "/v2/vision-ai/scraper/generate-report": {
       "post": {
         "operationId": "post_v2_vision_ai_scraper_generate_report",
+        "summary": "v2/vision-ai/scraper/generate-report",
         "tags": [
           "Vision Ai"
         ],
