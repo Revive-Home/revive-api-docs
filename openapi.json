@@ -3,7 +3,7 @@
   "info": {
     "title": "Revive API",
     "description": "Backend API for the Revive platform — pre-sale renovation management, property analysis, deal tracking, and more.",
-    "version": "v2.147.0"
+    "version": "v2.148.0"
   },
   "servers": [
     {
@@ -2812,6 +2812,52 @@
                     ]
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/estimates/sort-custom-products": {
+      "post": {
+        "operationId": "post_v1_estimates_sort_custom_products",
+        "summary": "v1/estimates/sort-custom-products",
+        "tags": [
+          "Estimates"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "estimateId": {
+                    "type": "string",
+                    "enum": [
+                      "estimates",
+                      "change-orders"
+                    ]
+                  },
+                  "customProductIds": {
+                    "type": "array",
+                    "items": {}
+                  }
+                },
+                "required": [
+                  "estimateId",
+                  "customProductIds"
+                ]
               }
             }
           }
@@ -7236,6 +7282,54 @@
                 "required": [
                   "content"
                 ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/utility/check-home-images": {
+      "post": {
+        "operationId": "post_v1_utility_check_home_images",
+        "summary": "v1/utility/check-home-images",
+        "tags": [
+          "Utility"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/utility/deduplicate-images": {
+      "post": {
+        "operationId": "post_v1_utility_deduplicate_images",
+        "summary": "v1/utility/deduplicate-images",
+        "tags": [
+          "Utility"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
               }
             }
           }
