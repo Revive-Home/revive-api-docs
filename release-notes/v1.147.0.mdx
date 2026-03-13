@@ -1,0 +1,53 @@
+---
+title: "v1.147.0"
+description: "Revive platform production release"
+---
+
+## Highlights
+
+- Drag-and-drop reordering for custom products in estimate review, with visual..., optimistic updates with automatic rollback and toast notifications on reorder..., and server-side ordering persisted…
+- Local generation of OpenAPI specs via a new project command for development..., automated workflow to publish generated OpenAPI specs to documentation when..., and generated OpenAPI output is now…
+- Files can be soft-deleted: marked as deleted with timestamps, optional... and certain document removals automatically route to the soft-delete pathway...
+- Tec 7179/soft delete homeowner documents/jay chang
+- Find a workaround for the long running photo retrieval process to avoid the Heroku 30 second timeout
+- Fixed fixed estimate duplication so duplicated estimates now recalculate and...
+
+## Changes shipped to production
+
+### revive-dashboard
+
+No updates in this release.
+
+### revive-admin
+
+- Drag-and-drop reordering: Custom items in estimate and change-order drafts..., improved organization: Items are categorized and rendered by type (catalog,..., and fixed reorder reliability: Failed… ([#1716](https://github.com/Revive-Home/revive-admin/pull/1716))
+- Hide the drag-and-drop handle when there is only one custom item in the estimate sidebar, since there is nothing to reorder it with ([#1721](https://github.com/Revive-Home/revive-admin/pull/1721))
+- Drag-and-drop reordering for custom products in estimate review, with visual..., optimistic updates with automatic rollback and toast notifications on reorder..., and server-side ordering persisted… ([#1719](https://github.com/Revive-Home/revive-admin/pull/1719))
+
+### revive-mobile
+
+No updates in this release.
+
+### revive-api
+
+- POST /check-home-images: multi-source home image lookup (AnyProp, RestB,..., pOST /sort-custom-products: reorder custom products and manage related..., and fixed safer image-fetching flows and robust… ([#1878](https://github.com/Revive-Home/revive-api/pull/1878))
+- Local generation of OpenAPI specs via a new project command for development..., automated workflow to publish generated OpenAPI specs to documentation when..., and generated OpenAPI output is now… ([#1880](https://github.com/Revive-Home/revive-api/pull/1880))
+- Files can be soft-deleted: marked as deleted with timestamps, optional... and certain document removals automatically route to the soft-delete pathway... ([#1894](https://github.com/Revive-Home/revive-api/pull/1894))
+- Tec 7179/soft delete homeowner documents/jay chang ([#1895](https://github.com/Revive-Home/revive-api/pull/1895))
+- Find a workaround for the long running photo retrieval process to avoid the Heroku 30 second timeout ([#1892](https://github.com/Revive-Home/revive-api/pull/1892))
+- Fixed fixed estimate duplication so duplicated estimates now recalculate and... ([#1890](https://github.com/Revive-Home/revive-api/pull/1890))
+- Fixed enhanced error handling to properly validate required API configuration at... ([#1889](https://github.com/Revive-Home/revive-api/pull/1889))
+- Image deduplication: search results now detect and remove duplicate or... and added an image hashing library to support perceptual-duplicate detection and... ([#1887](https://github.com/Revive-Home/revive-api/pull/1887))
+- Added AnyProp integration for property image lookup by address, with robust..., improved home image sourcing now queries AnyProp first, then existing providers as..., and improved graceful fallback… ([#1885](https://github.com/Revive-Home/revive-api/pull/1885))
+- Reorder and sort custom products within estimates and change orders via a new..., validated POST route to submit custom product ordering., and fixed improved error handling around estimate updates… ([#1883](https://github.com/Revive-Home/revive-api/pull/1883))
+- Fixed return immediately when an empty list of deal IDs is provided to avoid... and fixed filter out empty, undefined, or null deal ID entries before use. ([#1884](https://github.com/Revive-Home/revive-api/pull/1884))
+- Added Zillow-backed image retrieval by property URL and by address, with a..., fixed improved error handling to return an empty image array on failures., added validation for address lookups require… ([#1882](https://github.com/Revive-Home/revive-api/pull/1882))
+- POST endpoint to retrieve home images by address., added validation for request now requires street address, city, state, and postal code., and added validation for behavior ([#1879](https://github.com/Revive-Home/revive-api/pull/1879))
+
+## Fixes
+
+- Hide the drag-and-drop handle when there is only one custom item in the estimate sidebar, since there is nothing to reorder it with ([#1721](https://github.com/Revive-Home/revive-admin/pull/1721))
+
+## Breaking changes
+
+No breaking changes.
