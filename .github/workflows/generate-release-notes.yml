@@ -21,6 +21,8 @@ on:
         required: false
         default: "released"
         type: string
+  repository_dispatch:
+    types: [generate-release-notes]
 
 permissions:
   contents: write
@@ -29,7 +31,19 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.release_version || github.event.client_payload.release_version }}
+      OVERWRITE: ${{ inputs.overwrite || github.event.client_payload.overwrite || 'false' }}
+      SINCE: ${{ inputs.since || github.event.client_payload.since || '' }}
+      LABEL: ${{ inputs.label || github.event.client_payload.label || 'released' }}
     steps:
+      - name: Validate version
+        run: |
+          if [ -z "$VERSION" ]; then
+            echo "::error::No release version provided. Pass it via workflow_dispatch input or repository_dispatch client_payload."
+            exit 1
+          fi
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -39,17 +53,17 @@ jobs:
       - name: Generate release notes files
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB }}
-          RELEASE_VERSION: ${{ inputs.release_version }}
-          RELEASE_OVERWRITE: ${{ inputs.overwrite }}
-          RELEASE_SINCE: ${{ inputs.since }}
-          RELEASE_LABEL: ${{ inputs.label }}
+          RELEASE_VERSION: ${{ env.VERSION }}
+          RELEASE_OVERWRITE: ${{ env.OVERWRITE }}
+          RELEASE_SINCE: ${{ env.SINCE }}
+          RELEASE_LABEL: ${{ env.LABEL }}
         run: node scripts/generate-release-notes.mjs
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "docs: add release notes ${{ inputs.release_version }}"
-          title: "Release notes: ${{ inputs.release_version }}"
-          body: "Generated from merged PRs labeled `${{ inputs.label }}` across Revive repos."
-          branch: "automation/release-notes-${{ inputs.release_version }}"
+          commit-message: "docs: add release notes ${{ env.VERSION }}"
+          title: "Release notes: ${{ env.VERSION }}"
+          body: "Generated from merged PRs labeled `${{ env.LABEL }}` across Revive repos."
+          branch: "automation/release-notes-${{ env.VERSION }}"
           delete-branch: true
