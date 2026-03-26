@@ -3,7 +3,7 @@
   "info": {
     "title": "Revive API",
     "description": "Backend API for the Revive platform — pre-sale renovation management, property analysis, deal tracking, and more.",
-    "version": "v2.148.1"
+    "version": "v2.149.0"
   },
   "servers": [
     {
@@ -2218,6 +2218,35 @@
         "parameters": [
           {
             "name": "contractId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/contracts/signing-links/{documentId}": {
+      "get": {
+        "operationId": "get_v1_contracts_signing_links_documentId_",
+        "summary": "v1/contracts/signing-links/{documentId}",
+        "tags": [
+          "Contracts"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "parameters": [
+          {
+            "name": "documentId",
             "in": "path",
             "required": true,
             "schema": {
@@ -4848,6 +4877,69 @@
             }
           }
         }
+      }
+    },
+    "/v1/predictions/": {
+      "post": {
+        "operationId": "post_v1_predictions_",
+        "summary": "v1/predictions/",
+        "tags": [
+          "Predictions"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imageInput": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/predictions/{id}": {
+      "get": {
+        "operationId": "get_v1_predictions_id_",
+        "summary": "v1/predictions/{id}",
+        "tags": [
+          "Predictions"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/v1/production/": {
