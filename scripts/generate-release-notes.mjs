@@ -158,7 +158,11 @@ function toReleaseNotesMdx(grouped) {
   lines.push('## Highlights');
   lines.push('');
   if (features.length > 0) {
-    for (const pr of features.slice(0, 6)) {
+    const seenTitles = new Set();
+    for (const pr of features) {
+      if (seenTitles.size >= 6) break;
+      if (seenTitles.has(pr.title)) continue;
+      seenTitles.add(pr.title);
       lines.push(`- ${pr.title}`);
     }
   } else if (fixes.length > 0) {
@@ -443,13 +447,13 @@ function extractCodeRabbitSummary(body) {
         parts.push(text);
         break;
       case 'Bug Fixes':
-        parts.push(`fixed ${text}`);
+        parts.push(/^fixed\b/i.test(text) ? text : `fixed ${text}`);
         break;
       case 'Improvements':
-        parts.push(`improved ${text}`);
+        parts.push(/^improved\b/i.test(text) ? text : `improved ${text}`);
         break;
       case 'Validation':
-        parts.push(`added validation for ${text}`);
+        parts.push(/^added validation\b/i.test(text) ? text : `added validation for ${text}`);
         break;
       case 'Performance':
         parts.push(`performance: ${text}`);
