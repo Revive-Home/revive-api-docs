@@ -97,7 +97,7 @@ const token = requiredEnv('GITHUB_TOKEN');
 const version = requiredEnv('RELEASE_VERSION');
 
 const label = process.env.RELEASE_LABEL || 'released';
-const since = process.env.RELEASE_SINCE; // optional; ISO date or YYYY-MM-DD
+const since = requiredEnv('RELEASE_SINCE'); // ISO date or YYYY-MM-DD
 const overwrite = (process.env.RELEASE_OVERWRITE || '').toLowerCase() === 'true';
 
 const repoQueryParts = REPOS.map((r) => `repo:${ORG}/${r}`).join(' ');
@@ -109,10 +109,8 @@ const qParts = [
   `label:${label}`,
 ];
 
-if (since) {
-  const sinceDate = since.length > 10 ? since.slice(0, 10) : since;
-  qParts.push(`merged:>=${sinceDate}`);
-}
+const sinceDate = since.length > 10 ? since.slice(0, 10) : since;
+qParts.push(`merged:>=${sinceDate}`);
 
 const query = qParts.join(' ');
 
