@@ -287,6 +287,7 @@ function normalizeSummaryText(text) {
     .replace(/\r\n/g, '\n')
     .replace(/^[-*]\s+/gm, '')
     .replace(/^\d+\.\s+/gm, '')
+    .replace(/<\/?[a-zA-Z][^>]*>/g, '') // strip HTML tags that break MDX
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
