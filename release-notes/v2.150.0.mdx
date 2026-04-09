@@ -1,10 +1,44 @@
 ---
 title: "v2.150.0"
+description: "Revive platform production release"
 description: "Revive platform production release — Sprint 6"
 ---
 
 ## Highlights
 
+- Redesigned pre-estimate proposal pages with a new sidebar navigation layout, auto-hiding header, and deal-type-aware section ordering for Renovate to Sell and Sell 360 flows.
+- New Sell 360 scenario comparison that presents conservative, target, and stretch financial projections side by side, with a downloadable PDF summary.
+- Fully responsive mobile experience for pre-estimate proposals, including a slide-out navigation drawer and optimized slide layouts for smaller screens.
+
+## Changes shipped to production
+
+### revive-dashboard
+
+- Redesigned pre-estimate proposal pages with a sidebar navigation layout, auto-hiding sticky header, and deal-type-aware section ordering. Sections now render dynamically based on whether the estimate is a Renovate to Sell or Sell 360 deal type. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+- Added a Sell 360 transaction summary section that displays three financial scenarios (conservative, target, stretch) with full cost breakdowns including initial payment, renovation budget, holding costs, program fees, and projected net proceeds. A comparison modal lets homeowners explore each scenario in detail. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+- Added a dedicated PDF page for Sell 360 scenario comparisons, allowing homeowners and agents to download a formatted summary of all three financial scenarios. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+- Added mobile-responsive pre-estimate experience with a collapsible slide-out navigation drawer, scroll-aware header behavior, and optimized slide layouts for all proposal sections. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+- Updated neighborhood comparables, renovation plan, case study, and value opportunity slides with refreshed layouts and improved content presentation across both deal types. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+
+### revive-admin
+
+No updates in this release.
+
+### revive-mobile
+
+No updates in this release.
+
+### revive-api
+
+No updates in this release.
+
+## Fixes
+
+No bug fixes in this release.
+
+## Breaking changes
+
+No breaking changes.
 - RMA statuses have been renamed for clarity: `drafting` → `preparing`, `sent` → `pending_signatures`, `review` → `executed`, `rejected` → `not_approved`, and `released` → `paid`. Two new activity log actions (`received` and `resumed`) are now recorded.
 - The estimate proposal endpoint returns a new `sell360TransactionSummary` object with conservative, target, and stretch financial scenarios. Proposal response fields have been renamed from numbered slides to semantic names (e.g. `slide1` → `coverSlide`).
 - Renovate-to-Stay RSA contracts now include a pricing table for internal scope items.
