@@ -1,0 +1,41 @@
+---
+title: "v2.150.0"
+description: "Revive platform production release"
+---
+
+## Highlights
+
+- Overhauled the RMA list with a tabbed interface, updated status workflow, and CSV export for streamlined payment management.
+- Sell 360 estimates now support mortgage/liens and agent commission fields, along with shareable pre-estimate links.
+- RMA statuses have been renamed to match production terminology: "Rejected" is now "Not Approved" and "Released" is now "Paid."
+
+## Changes shipped to production
+
+### revive-admin
+
+- **RMA tabbed list view** — The RMA page now organizes requests into tabs: Pending, On Hold, Ready for Check Run, Next Check Run, Completed, and All. Each tab shows a live count badge so you can see the distribution of requests at a glance. The page defaults to the current user's assigned RMAs and the Pending tab. ([#1737](https://github.com/Revive-Home/revive-admin/pull/1737))
+- **RMA summary header** — A new header row displays the executed cutoff date, the next check run date, and the total approved amount for the current check run. ([#1737](https://github.com/Revive-Home/revive-admin/pull/1737))
+- **RMA CSV export** — You can now export the currently filtered RMA list to a CSV file. The export includes name, status, deal, contractor, requestor, request date, amounts, owner's rep, and whether the RMA is final. ([#1737](https://github.com/Revive-Home/revive-admin/pull/1737))
+- **RMA status rename** — Statuses have been updated to reflect production terminology. "Rejected" is now "Not Approved," "Released" is now "Paid," and "Drafting/Review/Sent" have been replaced with "Received," "Preparing," and "Pending Signatures." A new "Received" action lets you acknowledge incoming requests before preparing them. ([#1741](https://github.com/Revive-Home/revive-admin/pull/1741))
+- **RMA workflow guardrails** — The "Hold" and "Paid" actions are now disabled for pre-execution statuses (Requested, Received, Preparing, Pending Signatures). Tooltips explain that the RMA must be executed first. An "On Hold" RMA can be resumed back to "Executed" status. ([#1740](https://github.com/Revive-Home/revive-admin/pull/1740))
+- **Sell 360 pre-estimate support** — Renovation plan forms for Sell 360 deals now include mortgage/liens and agent commission fields. Estimate share modals recognize Sell 360 as a "Renovate to Sell" variant, enabling value-preserve and value-add buttons on shared estimate links. ([#1742](https://github.com/Revive-Home/revive-admin/pull/1742))
+
+### revive-dashboard
+
+No updates in this release.
+
+### revive-mobile
+
+No updates in this release.
+
+### revive-api
+
+No updates in this release.
+
+## Fixes
+
+No bug fixes in this release.
+
+## Breaking changes
+
+No breaking changes.
