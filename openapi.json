@@ -3,7 +3,7 @@
   "info": {
     "title": "Revive API",
     "description": "Backend API for the Revive platform — pre-sale renovation management, property analysis, deal tracking, and more.",
-    "version": "v2.149.1"
+    "version": "v2.150.0"
   },
   "servers": [
     {
@@ -4385,6 +4385,35 @@
         }
       }
     },
+    "/v1/migrations/rma-statuses": {
+      "post": {
+        "operationId": "post_v1_migrations_rma_statuses",
+        "summary": "v1/migrations/rma-statuses",
+        "tags": [
+          "Migrations"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/notifications/send": {
       "post": {
         "operationId": "post_v1_notifications_send",
@@ -7008,11 +7037,12 @@
                     "type": "string",
                     "enum": [
                       "requested",
-                      "drafting",
-                      "review",
-                      "sent",
-                      "rejected",
-                      "released",
+                      "received",
+                      "preparing",
+                      "pending_signatures",
+                      "executed",
+                      "not_approved",
+                      "paid",
                       "hold"
                     ]
                   },
