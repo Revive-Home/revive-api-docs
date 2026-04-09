@@ -1,6 +1,7 @@
 ---
 title: "v2.150.0"
 description: "Revive platform production release"
+description: "Revive platform production release — Sprint 6"
 ---
 
 ## Highlights
@@ -38,3 +39,48 @@ No bug fixes in this release.
 ## Breaking changes
 
 No breaking changes.
+- RMA statuses have been renamed for clarity: `drafting` → `preparing`, `sent` → `pending_signatures`, `review` → `executed`, `rejected` → `not_approved`, and `released` → `paid`. Two new activity log actions (`received` and `resumed`) are now recorded.
+- The estimate proposal endpoint returns a new `sell360TransactionSummary` object with conservative, target, and stretch financial scenarios. Proposal response fields have been renamed from numbered slides to semantic names (e.g. `slide1` → `coverSlide`).
+- Renovate-to-Stay RSA contracts now include a pricing table for internal scope items.
+- Deal creation correctly handles unit and secondary address numbers, preventing duplicate deals for multi-unit properties.
+
+## Changes shipped to production
+
+### revive-api
+
+- Renamed RMA statuses across the platform for clearer workflow language and added activity logging for `received` and `resumed` status transitions ([#1930](https://github.com/Revive-Home/revive-api/pull/1930))
+- Added Sell 360 transaction summary calculations to the estimate proposal endpoint, including three financial scenarios and renamed response fields from numbered slides to semantic names ([#1932](https://github.com/Revive-Home/revive-api/pull/1932))
+- Added a pricing table to Renovate-to-Stay RSA contracts so internal scope items appear in the generated document ([#1927](https://github.com/Revive-Home/revive-api/pull/1927))
+- Fixed deal creation to properly include unit numbers in addresses and prevent false-positive duplicate detection for multi-unit properties ([#1924](https://github.com/Revive-Home/revive-api/pull/1924))
+- Stopped reading unused per-scope-item notes in the weekly update service ([#1928](https://github.com/Revive-Home/revive-api/pull/1928))
+
+## Breaking changes
+
+### RMA status values
+
+If you filter or update RMAs by status, you must update your code to use the new values:
+
+| Old status | New status |
+|---|---|
+| `drafting` | `preparing` |
+| `sent` | `pending_signatures` |
+| `review` | `executed` |
+| `rejected` | `not_approved` |
+| `released` | `paid` |
+
+The valid status values for the `PATCH /v1/rma/{rmaId}` and `GET /v1/rma` endpoints are now: `requested`, `received`, `preparing`, `pending_signatures`, `executed`, `not_approved`, `paid`, and `hold`.
+
+### Estimate proposal response shape
+
+The `GET /v1/estimates/{estimateId}/proposal` endpoint response fields have been renamed:
+
+| Old field | New field |
+|---|---|
+| `slide1` | `coverSlide` |
+| `slide2` | `neighborhoodComparables` |
+| `slide3` | `valueOpportunity` |
+| `slide4` | `comparisonChart` |
+| `slide9` | `caseStudies` |
+| `slide10` | `advisorNextSteps` |
+
+A new `sell360TransactionSummary` field is included in the response when the opportunity has valid `propertyAsIsValue` and `afterRenovatedValue` data. It contains `shared` cost fields and three scenario breakdowns (`conservative`, `target`, `stretch`) with projected proceeds.
