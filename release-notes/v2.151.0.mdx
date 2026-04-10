@@ -1,11 +1,11 @@
 ---
 title: "v2.151.0"
-description: "Revive Admin release — simplified RMA contract generation prerequisites"
+description: "Simplified RMA contract generation — no signed PC contract required"
 ---
 
 ## Highlights
 
-- Generating an RMA contract no longer requires a signed PC contract on the associated opportunity. You only need an owner's rep assigned.
+- Generating an RMA contract no longer requires a signed PC contract on the associated opportunity. You only need an owner's rep assigned and an Authorized Signer contact linked to the contractor in HubSpot.
 
 ## Changes shipped to production
 
@@ -19,7 +19,7 @@ No updates in this release.
 
 ### revive-api
 
-No updates in this release.
+- **RMA contract signer sourced from HubSpot** — The RMA contract generation endpoint now resolves the contractor signer from the contractor's Authorized Signer contact association in HubSpot instead of pulling it from a signed PC contract. This means you can generate RMA contracts earlier in the deal lifecycle without waiting for a PC contract to be completed. The contractor must have an Authorized Signer contact with a valid email address in HubSpot. ([#1942](https://github.com/Revive-Home/revive-api/pull/1942))
 
 ## Fixes
 
@@ -27,4 +27,4 @@ No bug fixes in this release.
 
 ## Breaking changes
 
-No breaking changes.
+- **RMA contract generation prerequisites changed** — The `POST /v1/rma/:rmaId/contract` endpoint no longer requires a completed PC contract. Instead, it requires the contractor to have an Authorized Signer contact association in HubSpot with a valid email address. If the Authorized Signer is missing or has no email, the endpoint returns a `400` error. Update any workflows that depend on a signed PC contract being present before generating RMA contracts.
