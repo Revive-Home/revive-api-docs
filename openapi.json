@@ -3,7 +3,7 @@
   "info": {
     "title": "Revive API",
     "description": "Backend API for the Revive platform — pre-sale renovation management, property analysis, deal tracking, and more.",
-    "version": "v2.150.1"
+    "version": "v2.150.2"
   },
   "servers": [
     {
