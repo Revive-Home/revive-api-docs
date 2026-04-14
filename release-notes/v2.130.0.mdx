@@ -1,17 +1,29 @@
 ---
 title: "v2.130.0"
-description: "Revive platform production release"
+description: "Revive Admin release — updated Sell 360 financial fields and simplified RMA contract generation"
 ---
 
 ## Highlights
 
+- The Sell 360 renovation plan form now uses **1st transaction commission** and **1st check amount** instead of the previous "Agent commission" field, giving you more precise control over transaction financials.
 - RMA contract generation no longer requires a signed Purchase Commitment (PC). You can now generate an RMA contract as soon as an owner's rep is assigned to the RMA.
-- Weekly Update Character Limit
-- Improved the Updates section now displays only when updates are available, eliminating... and improved refined the Updates header styling with updated typography and simplified...
-- Tec 6946/intake launch/volodymyr mykolaichyk
-- Fixed enhanced deal submission tracking to capture the user type responsible for...
-- Fixed fixed an issue where missing user name information could cause errors when...
-- **Updates** * Refined renovation plan estimate messaging for improved clarity * Added details about home value maintenance and preservation benefits
+
+## Updated Sell 360 financial fields
+
+The renovation plan form for Sell 360 deals has two field changes:
+
+| Previous field | New field | Description |
+|---|---|---|
+| Agent commission | **1st transaction commission** | The commission amount for the first transaction in the Sell 360 deal |
+| _(new)_ | **1st check amount** | The initial payment amount to the homeowner |
+
+When you enter an as-is price, the **1st check amount** field displays a recommended maximum of 80% of that value to help guide your input.
+
+Both fields are carried through to the estimate share modal, so the values you enter in the renovation plan form appear automatically when you share a pre-estimate link.
+
+<Note>
+If you previously saved an "Agent commission" value on a Sell 360 deal, it has been migrated to the **1st transaction commission** field.
+</Note>
 
 ## Changes shipped to production
 
@@ -47,6 +59,7 @@ description: "Revive platform production release"
 
 ### revive-admin
 
+- **Updated Sell 360 financial fields** — The renovation plan form for Sell 360 deals replaces the "Agent commission" field with "1st transaction commission" and adds a new "1st check amount" input. The 1st check amount displays a recommended maximum (80% of the as-is price). Both values are included when sharing pre-estimate links. ([#1747](https://github.com/Revive-Home/revive-admin/pull/1747))
 - **RMA contract generation without signed PC** — Generating an RMA contract no longer requires a signed Purchase Commitment (PC). The only prerequisite is that an owner's rep is assigned to the RMA. This removes the previous blocker where users had to wait for PC signing before creating RMA contracts. ([#1746](https://github.com/Revive-Home/revive-admin/pull/1746))
 - Downloadable Change Orders CSV with CSV-safe content., new styled UI primitives: dropdown menu, form field components, and..., fixed reset-to-draft now also appears for additional signed estimate… ([#1704](https://github.com/Revive-Home/revive-admin/pull/1704))
 - Fixed "Next" button in the weekly update step is now always enabled. and fixed uI Updates ([#1714](https://github.com/Revive-Home/revive-admin/pull/1714))
