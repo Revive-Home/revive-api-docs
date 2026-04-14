@@ -20,6 +20,12 @@
             ]
           },
           {
+            "group": "Guides",
+            "pages": [
+              "guides/intake-url-parameters"
+            ]
+          },
+          {
             "group": "Releases",
             "pages": [
               {
