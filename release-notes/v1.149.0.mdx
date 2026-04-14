@@ -1,0 +1,37 @@
+---
+title: "v1.149.0"
+description: "Sell360 proposal now shows mortgage debt payoff and agent commission in the transaction summary"
+---
+
+## Highlights
+
+- The Sell360 transaction summary and scenario comparison now display estimated mortgage/debt payoff and agent commission as separate line items, replacing the previous "Revive holdback" row
+- Property addresses in proposals are now cleaned up to remove extra spaces before commas
+
+## Changes shipped to production
+
+### revive-dashboard
+
+- **Sell360 transaction summary updated with debt and commission details** — The Initial Transaction section of the Sell360 proposal now shows "Est. mortgage / debt payoff" and "Est. agent commission" as individual line items instead of the single "Revive holdback" row. This gives homeowners a clearer breakdown of where their initial payment goes. The header 1st Check value now reflects the initial payment amount. ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- **Scenario comparison modal and PDF updated** — The Sell360 scenario comparison modal and its downloadable PDF now include the same debt and commission line items, with the Initial Transaction section labeled "1st equity extraction" for clarity. ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- **Address formatting cleanup** — Property addresses displayed on proposal pages no longer show extra spaces before commas. ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+
+### revive-admin
+
+No updates in this release.
+
+### revive-mobile
+
+No updates in this release.
+
+### revive-api
+
+No updates in this release.
+
+## Fixes
+
+- Fixed address display formatting where a space appeared before commas in property addresses on proposal pages ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+
+## Breaking changes
+
+No breaking changes.
