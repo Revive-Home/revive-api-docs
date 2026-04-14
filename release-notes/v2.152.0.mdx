@@ -1,0 +1,38 @@
+---
+title: "v2.152.0"
+description: "Updated Sell 360 renovation timeline and initial payment calculations"
+---
+
+## Highlights
+
+- Sell 360 renovation timeline is now calculated from the renovation budget instead of opportunity start/end dates, producing more predictable estimates.
+- The initial payment (1st check) amount is now read directly from the opportunity record rather than derived from a break-even formula.
+
+## Changes shipped to production
+
+### revive-api
+
+- **Sell 360 renovation timeline formula** — The renovation timeline used in Sell 360 financial scenarios is now based on the renovation budget: one month for the first $100,000, plus one additional month for each subsequent $100,000 increment. Previously, the timeline was calculated from the opportunity's start and end dates. This produces more consistent scenario projections across estimates. ([#1950](https://github.com/Revive-Home/revive-api/pull/1950))
+- **Initial payment sourced from opportunity** — The Sell 360 initial payment amount in the estimate proposal response now comes directly from the `firstCheckAmount` value stored on the opportunity, rather than being derived from a risk-adjusted break-even calculation. If no value is set, it defaults to zero. This gives you direct control over the 1st check amount displayed in Sell 360 scenarios. ([#1950](https://github.com/Revive-Home/revive-api/pull/1950))
+
+### revive-admin
+
+No updates in this release.
+
+### revive-mobile
+
+No updates in this release.
+
+## Fixes
+
+No bug fixes in this release.
+
+## Breaking changes
+
+### Removed `isFirstCheckNegative` field
+
+The `isFirstCheckNegative` boolean has been removed from the `sell360TransactionSummary` object in the `GET /v1/estimates/{estimateId}/proposal` response. If your code references this field, remove it. The `firstCheckNet` value is still returned and you can check whether it is negative directly.
+
+### Sell 360 scenario values may change
+
+Because the renovation timeline and initial payment calculations have been updated, the financial scenario values (conservative, target, stretch) returned by the estimate proposal endpoint may differ from previous responses for the same estimate. Holding costs and net proceeds are affected since they depend on the timeline and initial payment inputs.
