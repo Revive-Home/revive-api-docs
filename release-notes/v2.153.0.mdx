@@ -1,0 +1,38 @@
+---
+title: "v2.153.0"
+description: "Accurate Sell 360 cash offer comparison and updated RMA contract signer source"
+---
+
+## Highlights
+
+- The Sell 360 cash offer comparison now subtracts existing mortgage/liens from the cash offer amount, giving homeowners a more accurate side-by-side comparison.
+- RMA contract generation now resolves the contractor signer from the completed PC contract instead of HubSpot contact associations.
+
+## Changes shipped to production
+
+### revive-api
+
+- **Sell 360 cash offer comparison accounts for debt** — The `comparisonDiff` value in the Sell 360 transaction summary now subtracts the homeowner's existing debt (mortgage/liens) from the estimated cash offer amount before comparing it to the Sell 360 total net proceeds. Previously, the cash offer side of the comparison did not account for debt payoff, which overstated the cash offer relative to the Sell 360 option. This produces a more realistic comparison for homeowners carrying a mortgage. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
+- **RMA contractor signer sourced from PC contract** — The RMA contract generation endpoint now pulls the contractor signer information from the completed Professional Contractor (PC) contract on the opportunity rather than looking up the Authorized Signer contact association in HubSpot. This ensures the signer on the RMA matches the signer who executed the PC contract. A completed PC contract is now required to generate an RMA contract. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
+
+### revive-admin
+
+No updates in this release.
+
+### revive-mobile
+
+No updates in this release.
+
+## Fixes
+
+No bug fixes in this release.
+
+## Breaking changes
+
+### RMA contract generation requires a completed PC contract
+
+The `POST /v1/rma/:rmaId/contract` endpoint now requires a completed PC contract on the associated opportunity. If no completed PC contract exists, the endpoint returns a `400` error. This reverses the v2.151.0 change that removed the PC requirement. Update any workflows that generate RMA contracts to ensure a PC contract is completed first.
+
+### Sell 360 `comparisonDiff` values will change
+
+The `comparisonDiff` field in the `sell360TransactionSummary` response from `GET /v1/estimates/{estimateId}/proposal` now reflects a lower cash offer baseline (since debt is subtracted). If you display or use `comparisonDiff` in calculations, the values will be higher than before for homeowners with existing mortgage balances.
