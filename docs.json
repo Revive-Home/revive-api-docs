@@ -31,6 +31,7 @@
               {
                 "group": "2026 Release Notes",
                 "pages": [
+                  "release-notes/v2.153.0",
                   "release-notes/v2.152.0",
                   "release-notes/v2.151.0",
                   "release-notes/v2.150.0",
