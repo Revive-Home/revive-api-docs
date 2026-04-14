@@ -1,0 +1,41 @@
+---
+title: "v2.153.0"
+description: "RMA contract generation now requires a signed PC contract; renovation plan rehab budget fix"
+---
+
+## Highlights
+
+- Generating an RMA contract now requires a signed Purchase Commitment (PC) contract on the associated opportunity, in addition to an assigned owner's rep. This restores the PC requirement that was temporarily removed in [v2.151.0](/release-notes/v2.151.0).
+- The renovation plan form now correctly saves the **rehab used** amount when updating estimates.
+
+## RMA contract generation prerequisites
+
+To generate an RMA contract, you now need both of the following:
+
+| Prerequisite | How to verify |
+|---|---|
+| **Owner's rep assigned** | The RMA detail page shows an owner's rep in the header |
+| **Signed PC contract** | The opportunity has a completed Purchase Commitment contract |
+
+If either condition is not met, the **Generate RMA** button is disabled. A tooltip indicates which prerequisite is missing:
+
+- "Missing: owner's rep" — assign an owner's rep to the RMA
+- "Missing: signed PC contract" — ensure the Purchase Commitment contract on the opportunity is signed and completed
+
+<Note>
+This restores the signed PC requirement that was removed in v2.151.0. If you updated your workflows to generate RMA contracts without a signed PC, you need to ensure the PC is completed before generating the RMA contract.
+</Note>
+
+## Renovation plan form fix
+
+The renovation plan form now correctly includes the **rehab used** amount when saving updates. Previously, this value could be omitted from the save payload, resulting in stale or missing data on the estimate. This fix applies to all renovation plan forms where the budget section is visible.
+
+## Fixes
+
+No additional bug fixes in this release.
+
+## Breaking changes
+
+### Signed PC contract required for RMA generation
+
+The `POST /v1/rma/:rmaId/contract` endpoint once again requires a completed PC contract on the associated opportunity. This reverts the change introduced in [v2.151.0](/release-notes/v2.151.0). If you generate RMA contracts programmatically, ensure the opportunity's PC contract status is "completed" before calling this endpoint.
