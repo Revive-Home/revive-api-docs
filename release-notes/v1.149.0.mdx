@@ -1,0 +1,40 @@
+---
+title: "v1.149.0"
+description: "Revive platform production release"
+---
+
+## Highlights
+
+- Sell360 scenario comparison now shows estimated mortgage/debt payoff and agent commission as separate line items, replacing the previous holdback row for clearer financial breakdowns
+- Intake flow URL parameters now support address prefill with automatic background deal creation, so users with complete address and property details land directly on the next relevant step without waiting
+
+## Changes shipped to production
+
+### revive-dashboard
+
+- Updated Sell360 scenario comparison financial breakdown to display estimated mortgage/debt payoff and agent commission as individual rows instead of a single holdback amount ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- Renamed the initial transaction label from "Revive buys from you" to "1st equity extraction" for clearer terminology ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- Scenario comparison PDF updated with the new financial row layout and improved vertical spacing ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- Addresses in the scenario comparison PDF are now trimmed to remove extra spaces before commas ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- Fixed address prefill via URL parameters to correctly create a deal in the background when property details are provided, so users skip completed steps without delay ([#2363](https://github.com/Revive-Home/revive-dashboard/pull/2363))
+
+### revive-admin
+
+No updates in this release.
+
+### revive-mobile
+
+No updates in this release.
+
+### revive-api
+
+No updates in this release.
+
+## Fixes
+
+- Fixed a copy issue in the Sell360 scenario comparison labels ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- Fixed intake flow not advancing past prefilled steps when address and property details were provided via URL parameters ([#2363](https://github.com/Revive-Home/revive-dashboard/pull/2363))
+
+## Breaking changes
+
+No breaking changes.
