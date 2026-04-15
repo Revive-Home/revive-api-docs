@@ -1,0 +1,42 @@
+name: Enrich OpenAPI spec and update banner
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - openapi.json
+
+permissions:
+  contents: write
+
+jobs:
+  enrich-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Enrich OpenAPI spec
+        run: node scripts/enrich-openapi.mjs
+
+      - name: Update introduction banner
+        run: |
+          VERSION=$(node -e "const s = require('./openapi.json'); console.log(s.info.version)")
+          DATE=$(date -u +"%B %-d, %Y")
+
+          sed -i "s|**API spec version:** .*|**API spec version:** ${VERSION} — auto-synced from \`revive-api\` on every production release. Last updated ${DATE}.|" api-reference/introduction.mdx
+
+          echo "Updated to ${VERSION} (${DATE})"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add openapi.json api-reference/introduction.mdx
+          git diff --cached --quiet && echo "No changes" && exit 0
+          VERSION=$(node -e "const s = require('./openapi.json'); console.log(s.info.version)")
+          git commit -m "docs: enrich OpenAPI spec and update banner to ${VERSION}"
+          git push

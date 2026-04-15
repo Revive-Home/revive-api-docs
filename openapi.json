@@ -38,7 +38,7 @@
         ],
         "responses": {
           "200": {
-            "description": "API is healthy",
+            "description": "API is healthy and operational.",
             "content": {
               "application/json": {
                 "schema": {
@@ -54,17 +54,23 @@
                       "type": "number"
                     }
                   }
+                },
+                "example": {
+                  "uptime": 123456.789,
+                  "message": "OK",
+                  "timestamp": 1713100000000
                 }
               }
             }
           }
-        }
+        },
+        "description": "Returns the current health status of the API. No authentication required. Use this to verify API connectivity."
       }
     },
     "/v1/admins/email/{uid}": {
       "patch": {
         "operationId": "patch_v1_admins_email_uid_",
-        "summary": "v1/admins/email/{uid}",
+        "summary": "Update admin email",
         "tags": [
           "Admins"
         ],
@@ -80,7 +86,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID of the admin user."
           }
         ],
         "security": [
@@ -102,13 +109,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates the email address for an admin user identified by their Firebase UID."
       }
     },
     "/v1/admins/{uid}": {
       "patch": {
         "operationId": "patch_v1_admins_uid_",
-        "summary": "v1/admins/{uid}",
+        "summary": "Update admin profile",
         "tags": [
           "Admins"
         ],
@@ -124,7 +132,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID of the admin user."
           }
         ],
         "security": [
@@ -155,13 +164,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates profile fields (email, last name, phone, position) for an admin user."
       }
     },
     "/v1/agents/get-opportunities": {
       "post": {
         "operationId": "post_v1_agents_get_opportunities",
-        "summary": "v1/agents/get-opportunities",
+        "summary": "Get agent opportunities",
         "tags": [
           "Agents"
         ],
@@ -183,19 +193,24 @@
                 "type": "object",
                 "properties": {
                   "agentId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The unique identifier for the agent."
                   },
                   "after": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Cursor for pagination — pass the last opportunity ID from the previous page."
                   },
                   "dealType": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Filter by deal type (e.g., 'Presale', 'RTS', 'Special Services')."
                   },
                   "isLost": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "When true, only return lost/closed opportunities."
                   },
                   "startDate": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Unix timestamp — only return opportunities created on or after this date."
                   },
                   "separateByDealType": {
                     "type": "boolean"
@@ -204,13 +219,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Retrieves deal opportunities associated with a specific agent. Supports filtering by deal type, date range, and status."
       }
     },
     "/v1/agents/search": {
       "post": {
         "operationId": "post_v1_agents_search",
-        "summary": "v1/agents/search",
+        "summary": "Search agents",
         "tags": [
           "Agents"
         ],
@@ -241,7 +257,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Search for agents by name, email, or other criteria. Returns a paginated list of matching agent records."
       }
     },
     "/v1/agents/{agentId}": {
@@ -422,7 +439,7 @@
     "/v1/auth/login": {
       "post": {
         "operationId": "post_v1_auth_login",
-        "summary": "v1/auth/login",
+        "summary": "Log in",
         "tags": [
           "Auth"
         ],
@@ -448,7 +465,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Authenticates a user with Firebase credentials and returns session information. This is the primary entry point for all authenticated API access."
       }
     },
     "/v1/auth/register": {
@@ -1056,7 +1074,7 @@
     "/v1/contacts/": {
       "post": {
         "operationId": "post_v1_contacts_",
-        "summary": "v1/contacts/",
+        "summary": "Create contact",
         "tags": [
           "Contacts"
         ],
@@ -1109,7 +1127,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new contact record in the system. Contacts can be associated with deals and opportunities."
       }
     },
     "/v1/contacts/dashboard": {
@@ -1291,7 +1310,7 @@
     "/v1/contacts/search": {
       "post": {
         "operationId": "post_v1_contacts_search",
-        "summary": "v1/contacts/search",
+        "summary": "Search contacts",
         "tags": [
           "Contacts"
         ],
@@ -1332,7 +1351,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Search for contacts across the platform by name, email, phone, or other fields."
       }
     },
     "/v1/contacts/{contactId}": {
@@ -2364,7 +2384,7 @@
     "/v1/estimates/": {
       "post": {
         "operationId": "post_v1_estimates_",
-        "summary": "v1/estimates/",
+        "summary": "Create estimate",
         "tags": [
           "Estimates"
         ],
@@ -2402,7 +2422,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new renovation estimate for a property. The estimate includes line items from the product catalog, pricing, and scope details."
       }
     },
     "/v1/estimates/approve/{estimateId}": {
@@ -2942,7 +2963,7 @@
     "/v1/estimates/{estimateId}": {
       "get": {
         "operationId": "get_v1_estimates_estimateId_",
-        "summary": "v1/estimates/{estimateId}",
+        "summary": "Get estimate",
         "tags": [
           "Estimates"
         ],
@@ -2958,18 +2979,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The unique identifier for the estimate."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a single estimate by ID, including all line items, pricing, and status information."
       },
       "patch": {
         "operationId": "patch_v1_estimates_estimateId_",
-        "summary": "v1/estimates/{estimateId}",
+        "summary": "Update estimate",
         "tags": [
           "Estimates"
         ],
@@ -2985,7 +3008,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The unique identifier for the estimate."
           }
         ],
         "security": [
@@ -3002,7 +3026,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates an existing estimate. Can modify line items, pricing, status, and other estimate fields."
       },
       "delete": {
         "operationId": "delete_v1_estimates_estimateId_",
@@ -4911,7 +4936,7 @@
     "/v1/predictions/": {
       "post": {
         "operationId": "post_v1_predictions_",
-        "summary": "v1/predictions/",
+        "summary": "Create prediction job",
         "tags": [
           "Predictions"
         ],
@@ -4939,13 +4964,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Starts an async AI image generation job. Returns a job ID that can be polled for completion. Supports material predictions with reference images."
       }
     },
     "/v1/predictions/{id}": {
       "get": {
         "operationId": "get_v1_predictions_id_",
-        "summary": "v1/predictions/{id}",
+        "summary": "Get prediction status",
         "tags": [
           "Predictions"
         ],
@@ -4961,14 +4987,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The prediction job ID returned from the create endpoint."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Polls the status of an AI prediction job. Returns the generated images when the job is complete."
       }
     },
     "/v1/production/": {
@@ -6883,7 +6911,7 @@
     "/v1/rma/": {
       "post": {
         "operationId": "post_v1_rma_",
-        "summary": "v1/rma/",
+        "summary": "Create RMA",
         "tags": [
           "Rma"
         ],
@@ -6921,7 +6949,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new Renovation Management Agreement for a property. Triggers notification workflows and sets up the contract pipeline."
       },
       "get": {
         "operationId": "get_v1_rma_",
@@ -7002,7 +7031,7 @@
     "/v1/rma/{rmaId}": {
       "get": {
         "operationId": "get_v1_rma_rmaId_",
-        "summary": "v1/rma/{rmaId}",
+        "summary": "Get RMA",
         "tags": [
           "Rma"
         ],
@@ -7018,7 +7047,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The unique identifier for the RMA."
           }
         ],
         "security": [
@@ -7065,7 +7095,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Retrieves an RMA by ID, including contract status, activity logs, and associated notes."
       },
       "patch": {
         "operationId": "patch_v1_rma_rmaId_",
@@ -7261,7 +7292,7 @@
     "/v1/rma/{rmaId}/contract/send": {
       "post": {
         "operationId": "post_v1_rma_rmaId_contract_send",
-        "summary": "v1/rma/{rmaId}/contract/send",
+        "summary": "Send RMA contract for signing",
         "tags": [
           "Rma"
         ],
@@ -7277,7 +7308,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The unique identifier for the RMA."
           }
         ],
         "security": [
@@ -7294,7 +7326,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Sends the RMA contract to all recipients for e-signature via PandaDoc."
       }
     },
     "/v1/rma/{rmaId}/notes": {
@@ -7374,7 +7407,7 @@
     "/v1/support/": {
       "post": {
         "operationId": "post_v1_support_",
-        "summary": "v1/support/",
+        "summary": "Create support ticket",
         "tags": [
           "Support"
         ],
@@ -7407,13 +7440,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Submits a new support ticket with contact information and issue details."
       }
     },
     "/v1/utility/check-home-images": {
       "post": {
         "operationId": "post_v1_utility_check_home_images",
-        "summary": "v1/utility/check-home-images",
+        "summary": "Check home images",
         "tags": [
           "Utility"
         ],
@@ -7431,7 +7465,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Multi-source home image lookup by address. Queries AnyProp, Zillow, RestB, and other providers, then deduplicates results."
       }
     },
     "/v1/utility/deduplicate-images": {
@@ -8263,7 +8298,7 @@
     "/v2/analyze/comparables": {
       "post": {
         "operationId": "post_v2_analyze_comparables",
-        "summary": "v2/analyze/comparables",
+        "summary": "Get comparable properties",
         "tags": [
           "Analyze"
         ],
@@ -8292,13 +8327,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Retrieves comparable property data for valuation analysis."
       }
     },
     "/v2/analyze/condition": {
       "post": {
         "operationId": "post_v2_analyze_condition",
-        "summary": "v2/analyze/condition",
+        "summary": "Analyze property condition",
         "tags": [
           "Analyze"
         ],
@@ -8325,13 +8361,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Submits property photos for AI-powered condition analysis. Returns a structured assessment of property condition, identified features, and renovation recommendations."
       }
     },
     "/v2/analyze/create-report": {
       "post": {
         "operationId": "post_v2_analyze_create_report",
-        "summary": "v2/analyze/create-report",
+        "summary": "Create analysis report",
         "tags": [
           "Analyze"
         ],
@@ -8382,7 +8419,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Generates a full property analysis report combining condition assessment, comparables, and renovation recommendations."
       }
     },
     "/v2/analyze/feedback/{id}": {
@@ -8563,7 +8601,7 @@
     "/v2/calendars/": {
       "get": {
         "operationId": "get_v2_calendars_",
-        "summary": "v2/calendars/",
+        "summary": "List calendars",
         "tags": [
           "Calendars"
         ],
@@ -8576,11 +8614,12 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all configured calendars for scheduling meetings and onsite visits."
       },
       "post": {
         "operationId": "post_v2_calendars_",
-        "summary": "v2/calendars/",
+        "summary": "Create calendar",
         "tags": [
           "Calendars"
         ],
@@ -8630,7 +8669,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new calendar configuration for scheduling."
       }
     },
     "/v2/calendars/{calendarId}": {
@@ -8729,7 +8769,7 @@
     "/v2/deals/": {
       "post": {
         "operationId": "post_v2_deals_",
-        "summary": "v2/deals/",
+        "summary": "Create deal",
         "tags": [
           "Deals"
         ],
@@ -8761,13 +8801,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new deal in the pipeline. Deals are routed to the appropriate pipeline and stage based on property value and deal type."
       }
     },
     "/v2/opportunities/": {
       "get": {
         "operationId": "get_v2_opportunities_",
-        "summary": "v2/opportunities/",
+        "summary": "List opportunities",
         "tags": [
           "Opportunities"
         ],
@@ -8780,7 +8821,8 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns a list of all opportunities. Supports pagination and filtering."
       }
     },
     "/v2/opportunities/admin/{adminId}": {
@@ -8815,7 +8857,7 @@
     "/v2/opportunities/{opportunityId}": {
       "patch": {
         "operationId": "patch_v2_opportunities_opportunityId_",
-        "summary": "v2/opportunities/{opportunityId}",
+        "summary": "Update opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -8831,7 +8873,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The unique identifier for the opportunity."
           }
         ],
         "security": [
@@ -8848,11 +8891,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates fields on an existing opportunity."
       },
       "get": {
         "operationId": "get_v2_opportunities_opportunityId_",
-        "summary": "v2/opportunities/{opportunityId}",
+        "summary": "Get opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -8868,14 +8912,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The unique identifier for the opportunity."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a single opportunity by ID, including associated contacts, property data, and status."
       },
       "delete": {
         "operationId": "delete_v2_opportunities_opportunityId_",
@@ -8923,7 +8969,7 @@
     "/v2/opportunities/{opportunityId}/associate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_associate_contact",
-        "summary": "v2/opportunities/{opportunityId}/associate-contact",
+        "summary": "Associate contact with opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -8939,7 +8985,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The unique identifier for the opportunity."
           }
         ],
         "security": [
@@ -8956,7 +9003,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Links an existing contact to an opportunity."
       }
     },
     "/v2/opportunities/{opportunityId}/create-and-associate-contact": {
@@ -9106,7 +9154,7 @@
     "/v2/payments/reno/create-checkout-session": {
       "post": {
         "operationId": "post_v2_payments_reno_create_checkout_session",
-        "summary": "v2/payments/reno/create-checkout-session",
+        "summary": "Create checkout session",
         "tags": [
           "Payments"
         ],
@@ -9139,7 +9187,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a Stripe checkout session for renovation-related payments. Returns a session URL to redirect the user to Stripe's hosted checkout."
       }
     },
     "/v2/payments/reno/payment-intents": {
@@ -9347,7 +9396,7 @@
     "/v2/users/": {
       "post": {
         "operationId": "post_v2_users_",
-        "summary": "v2/users/",
+        "summary": "Create user",
         "tags": [
           "Users"
         ],
@@ -9389,7 +9438,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new platform user with the specified profile information."
       },
       "get": {
         "operationId": "get_v2_users_",
@@ -9426,7 +9476,7 @@
     "/v2/users/{uid}": {
       "get": {
         "operationId": "get_v2_users_uid_",
-        "summary": "v2/users/{uid}",
+        "summary": "Get user",
         "tags": [
           "Users"
         ],
@@ -9442,18 +9492,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID of the user."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a user profile by Firebase UID."
       },
       "patch": {
         "operationId": "patch_v2_users_uid_",
-        "summary": "v2/users/{uid}",
+        "summary": "Update user",
         "tags": [
           "Users"
         ],
@@ -9469,7 +9521,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID of the user."
           }
         ],
         "security": [
@@ -9486,11 +9539,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates profile fields for an existing user."
       },
       "delete": {
         "operationId": "delete_v2_users_uid_",
-        "summary": "v2/users/{uid}",
+        "summary": "Delete user",
         "tags": [
           "Users"
         ],
@@ -9506,14 +9560,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID of the user."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Soft-deletes a user by Firebase UID. The user record is marked as deleted but retained for audit purposes."
       }
     },
     "/v2/vision-ai/": {
@@ -9853,5 +9909,176 @@
         }
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "System",
+      "description": "Health checks and system status endpoints."
+    },
+    {
+      "name": "Auth",
+      "description": "Authentication and session management. All auth endpoints use Firebase for identity verification."
+    },
+    {
+      "name": "Admins",
+      "description": "Manage admin users — update profiles, emails, and permissions."
+    },
+    {
+      "name": "Agents",
+      "description": "Agent operations — search agents, retrieve opportunities, and manage agent-related data."
+    },
+    {
+      "name": "Contacts",
+      "description": "Create, search, and manage contacts associated with deals and opportunities."
+    },
+    {
+      "name": "Contractors",
+      "description": "Contractor management — profiles, assignments, dashboards, and contractor-related operations."
+    },
+    {
+      "name": "Estimates",
+      "description": "Create, update, duplicate, and manage renovation estimates and change orders."
+    },
+    {
+      "name": "Opportunities",
+      "description": "Deal opportunities — create, update, associate contacts, and manage onsite visits."
+    },
+    {
+      "name": "Deals",
+      "description": "Deal creation and pipeline management."
+    },
+    {
+      "name": "Property",
+      "description": "Property data — lookups, valuations, images, and property-related analytics."
+    },
+    {
+      "name": "Homes",
+      "description": "Home records — create, retrieve, and manage home details and associated data."
+    },
+    {
+      "name": "Vision Ai",
+      "description": "AI-powered property analysis — condition reports, photo analysis, neighborhood reports, and renovation recommendations."
+    },
+    {
+      "name": "Analyze",
+      "description": "Property analysis tools — comparables, condition assessment, photo analysis, and report generation."
+    },
+    {
+      "name": "Rma",
+      "description": "Renovation Management Agreements — create, manage, and track RMA contracts and related documents."
+    },
+    {
+      "name": "Contracts",
+      "description": "Document contracts — creation, signing sessions, status tracking, and PandaDoc integration."
+    },
+    {
+      "name": "Payments",
+      "description": "Payment processing — checkout sessions, subscriptions, payment intents, and Stripe webhook handling."
+    },
+    {
+      "name": "Users",
+      "description": "User management — create, retrieve, update, and delete platform users."
+    },
+    {
+      "name": "Calendars",
+      "description": "Calendar management — scheduling, availability, and calendar configuration for meetings and onsite visits."
+    },
+    {
+      "name": "Webhooks",
+      "description": "Inbound webhook handlers for HubSpot, PandaDoc, affiliate partners, and other third-party integrations."
+    },
+    {
+      "name": "Media",
+      "description": "File and media management — upload, retrieve, and manage photos and documents."
+    },
+    {
+      "name": "Referrals",
+      "description": "Referral tracking — create and manage referral records and attribution."
+    },
+    {
+      "name": "Ret Catalog",
+      "description": "Renovation product catalog — browse product types, options, and selections for estimates."
+    },
+    {
+      "name": "Marketing Center",
+      "description": "Marketing tools — flyers, campaigns, and marketing material management."
+    },
+    {
+      "name": "Notifications",
+      "description": "Push notifications and in-app messaging."
+    },
+    {
+      "name": "Onsite Visits",
+      "description": "Onsite visit scheduling, management, and tracking for property inspections."
+    },
+    {
+      "name": "Project Scopes",
+      "description": "Project scope management — line items, scope changes, and renovation project tracking."
+    },
+    {
+      "name": "Broadcast",
+      "description": "Broadcast messaging — send communications to groups of users."
+    },
+    {
+      "name": "WeeklyUpdates",
+      "description": "Weekly renovation progress updates — create, view, and manage update reports."
+    },
+    {
+      "name": "Utility",
+      "description": "Utility endpoints — home image lookups, image deduplication, and market health checks."
+    },
+    {
+      "name": "Predictions",
+      "description": "AI image generation — create and poll prediction jobs for material and design visualizations."
+    },
+    {
+      "name": "Reimagine",
+      "description": "AI-powered home reimagining — generate design visualizations and renovation previews."
+    },
+    {
+      "name": "AppConfigs"
+    },
+    {
+      "name": "Automated Valuation Models"
+    },
+    {
+      "name": "Brokerages"
+    },
+    {
+      "name": "Case Studies"
+    },
+    {
+      "name": "Esignatures"
+    },
+    {
+      "name": "Follow Up Boss"
+    },
+    {
+      "name": "Meetings"
+    },
+    {
+      "name": "Migrations"
+    },
+    {
+      "name": "Partners"
+    },
+    {
+      "name": "Production"
+    },
+    {
+      "name": "Punch List"
+    },
+    {
+      "name": "Realtors"
+    },
+    {
+      "name": "Reports"
+    },
+    {
+      "name": "Support"
+    },
+    {
+      "name": "Properties"
+    }
+  ]
 }

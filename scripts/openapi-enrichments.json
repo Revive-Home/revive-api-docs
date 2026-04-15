@@ -1,0 +1,288 @@
+{
+  "$comment": "Overlay file to enrich auto-generated OpenAPI spec with better descriptions, examples, and response details. Keyed by 'METHOD /path'. Only fields present here will be merged — everything else stays as-is from the generated spec.",
+  "tags": {
+    "System": {
+      "description": "Health checks and system status endpoints."
+    },
+    "Auth": {
+      "description": "Authentication and session management. All auth endpoints use Firebase for identity verification."
+    },
+    "Admins": {
+      "description": "Manage admin users — update profiles, emails, and permissions."
+    },
+    "Agents": {
+      "description": "Agent operations — search agents, retrieve opportunities, and manage agent-related data."
+    },
+    "Contacts": {
+      "description": "Create, search, and manage contacts associated with deals and opportunities."
+    },
+    "Contractors": {
+      "description": "Contractor management — profiles, assignments, dashboards, and contractor-related operations."
+    },
+    "Estimates": {
+      "description": "Create, update, duplicate, and manage renovation estimates and change orders."
+    },
+    "Opportunities": {
+      "description": "Deal opportunities — create, update, associate contacts, and manage onsite visits."
+    },
+    "Deals": {
+      "description": "Deal creation and pipeline management."
+    },
+    "Property": {
+      "description": "Property data — lookups, valuations, images, and property-related analytics."
+    },
+    "Homes": {
+      "description": "Home records — create, retrieve, and manage home details and associated data."
+    },
+    "Vision Ai": {
+      "description": "AI-powered property analysis — condition reports, photo analysis, neighborhood reports, and renovation recommendations."
+    },
+    "Analyze": {
+      "description": "Property analysis tools — comparables, condition assessment, photo analysis, and report generation."
+    },
+    "Rma": {
+      "description": "Renovation Management Agreements — create, manage, and track RMA contracts and related documents."
+    },
+    "Contracts": {
+      "description": "Document contracts — creation, signing sessions, status tracking, and PandaDoc integration."
+    },
+    "Payments": {
+      "description": "Payment processing — checkout sessions, subscriptions, payment intents, and Stripe webhook handling."
+    },
+    "Users": {
+      "description": "User management — create, retrieve, update, and delete platform users."
+    },
+    "Calendars": {
+      "description": "Calendar management — scheduling, availability, and calendar configuration for meetings and onsite visits."
+    },
+    "Webhooks": {
+      "description": "Inbound webhook handlers for HubSpot, PandaDoc, affiliate partners, and other third-party integrations."
+    },
+    "Media": {
+      "description": "File and media management — upload, retrieve, and manage photos and documents."
+    },
+    "Referrals": {
+      "description": "Referral tracking — create and manage referral records and attribution."
+    },
+    "Ret Catalog": {
+      "description": "Renovation product catalog — browse product types, options, and selections for estimates."
+    },
+    "Marketing Center": {
+      "description": "Marketing tools — flyers, campaigns, and marketing material management."
+    },
+    "Notifications": {
+      "description": "Push notifications and in-app messaging."
+    },
+    "Onsite Visits": {
+      "description": "Onsite visit scheduling, management, and tracking for property inspections."
+    },
+    "Project Scopes": {
+      "description": "Project scope management — line items, scope changes, and renovation project tracking."
+    },
+    "Broadcast": {
+      "description": "Broadcast messaging — send communications to groups of users."
+    },
+    "WeeklyUpdates": {
+      "description": "Weekly renovation progress updates — create, view, and manage update reports."
+    },
+    "Utility": {
+      "description": "Utility endpoints — home image lookups, image deduplication, and market health checks."
+    },
+    "Predictions": {
+      "description": "AI image generation — create and poll prediction jobs for material and design visualizations."
+    },
+    "Reimagine": {
+      "description": "AI-powered home reimagining — generate design visualizations and renovation previews."
+    }
+  },
+  "paths": {
+    "GET /health": {
+      "summary": "Health check",
+      "description": "Returns the current health status of the API. No authentication required. Use this to verify API connectivity.",
+      "responses": {
+        "200": {
+          "description": "API is healthy and operational.",
+          "example": {
+            "uptime": 123456.789,
+            "message": "OK",
+            "timestamp": 1713100000000
+          }
+        }
+      }
+    },
+    "POST /v1/auth/login": {
+      "summary": "Log in",
+      "description": "Authenticates a user with Firebase credentials and returns session information. This is the primary entry point for all authenticated API access."
+    },
+    "PATCH /v1/admins/email/{uid}": {
+      "summary": "Update admin email",
+      "description": "Updates the email address for an admin user identified by their Firebase UID.",
+      "parameters": {
+        "uid": "Firebase UID of the admin user."
+      }
+    },
+    "PATCH /v1/admins/{uid}": {
+      "summary": "Update admin profile",
+      "description": "Updates profile fields (email, last name, phone, position) for an admin user.",
+      "parameters": {
+        "uid": "Firebase UID of the admin user."
+      }
+    },
+    "POST /v1/agents/search": {
+      "summary": "Search agents",
+      "description": "Search for agents by name, email, or other criteria. Returns a paginated list of matching agent records."
+    },
+    "POST /v1/agents/get-opportunities": {
+      "summary": "Get agent opportunities",
+      "description": "Retrieves deal opportunities associated with a specific agent. Supports filtering by deal type, date range, and status.",
+      "parameters": {
+        "agentId": "The unique identifier for the agent.",
+        "after": "Cursor for pagination — pass the last opportunity ID from the previous page.",
+        "dealType": "Filter by deal type (e.g., 'Presale', 'RTS', 'Special Services').",
+        "isLost": "When true, only return lost/closed opportunities.",
+        "startDate": "Unix timestamp — only return opportunities created on or after this date."
+      }
+    },
+    "POST /v1/contacts/search": {
+      "summary": "Search contacts",
+      "description": "Search for contacts across the platform by name, email, phone, or other fields."
+    },
+    "POST /v1/contacts/": {
+      "summary": "Create contact",
+      "description": "Creates a new contact record in the system. Contacts can be associated with deals and opportunities."
+    },
+    "POST /v1/estimates/": {
+      "summary": "Create estimate",
+      "description": "Creates a new renovation estimate for a property. The estimate includes line items from the product catalog, pricing, and scope details."
+    },
+    "GET /v1/estimates/{estimateId}": {
+      "summary": "Get estimate",
+      "description": "Retrieves a single estimate by ID, including all line items, pricing, and status information.",
+      "parameters": {
+        "estimateId": "The unique identifier for the estimate."
+      }
+    },
+    "PATCH /v1/estimates/{estimateId}": {
+      "summary": "Update estimate",
+      "description": "Updates an existing estimate. Can modify line items, pricing, status, and other estimate fields.",
+      "parameters": {
+        "estimateId": "The unique identifier for the estimate."
+      }
+    },
+    "POST /v2/deals/": {
+      "summary": "Create deal",
+      "description": "Creates a new deal in the pipeline. Deals are routed to the appropriate pipeline and stage based on property value and deal type."
+    },
+    "GET /v2/opportunities/": {
+      "summary": "List opportunities",
+      "description": "Returns a list of all opportunities. Supports pagination and filtering."
+    },
+    "GET /v2/opportunities/{opportunityId}": {
+      "summary": "Get opportunity",
+      "description": "Retrieves a single opportunity by ID, including associated contacts, property data, and status.",
+      "parameters": {
+        "opportunityId": "The unique identifier for the opportunity."
+      }
+    },
+    "PATCH /v2/opportunities/{opportunityId}": {
+      "summary": "Update opportunity",
+      "description": "Updates fields on an existing opportunity.",
+      "parameters": {
+        "opportunityId": "The unique identifier for the opportunity."
+      }
+    },
+    "POST /v2/opportunities/{opportunityId}/associate-contact": {
+      "summary": "Associate contact with opportunity",
+      "description": "Links an existing contact to an opportunity.",
+      "parameters": {
+        "opportunityId": "The unique identifier for the opportunity."
+      }
+    },
+    "POST /v2/users/": {
+      "summary": "Create user",
+      "description": "Creates a new platform user with the specified profile information."
+    },
+    "GET /v2/users/{uid}": {
+      "summary": "Get user",
+      "description": "Retrieves a user profile by Firebase UID.",
+      "parameters": {
+        "uid": "Firebase UID of the user."
+      }
+    },
+    "PATCH /v2/users/{uid}": {
+      "summary": "Update user",
+      "description": "Updates profile fields for an existing user.",
+      "parameters": {
+        "uid": "Firebase UID of the user."
+      }
+    },
+    "DELETE /v2/users/{uid}": {
+      "summary": "Delete user",
+      "description": "Soft-deletes a user by Firebase UID. The user record is marked as deleted but retained for audit purposes.",
+      "parameters": {
+        "uid": "Firebase UID of the user."
+      }
+    },
+    "POST /v1/rma/": {
+      "summary": "Create RMA",
+      "description": "Creates a new Renovation Management Agreement for a property. Triggers notification workflows and sets up the contract pipeline."
+    },
+    "GET /v1/rma/{rmaId}": {
+      "summary": "Get RMA",
+      "description": "Retrieves an RMA by ID, including contract status, activity logs, and associated notes.",
+      "parameters": {
+        "rmaId": "The unique identifier for the RMA."
+      }
+    },
+    "POST /v1/rma/{rmaId}/contract/send": {
+      "summary": "Send RMA contract for signing",
+      "description": "Sends the RMA contract to all recipients for e-signature via PandaDoc.",
+      "parameters": {
+        "rmaId": "The unique identifier for the RMA."
+      }
+    },
+    "POST /v2/payments/reno/create-checkout-session": {
+      "summary": "Create checkout session",
+      "description": "Creates a Stripe checkout session for renovation-related payments. Returns a session URL to redirect the user to Stripe's hosted checkout."
+    },
+    "POST /v1/utility/check-home-images": {
+      "summary": "Check home images",
+      "description": "Multi-source home image lookup by address. Queries AnyProp, Zillow, RestB, and other providers, then deduplicates results."
+    },
+    "POST /v2/analyze/condition": {
+      "summary": "Analyze property condition",
+      "description": "Submits property photos for AI-powered condition analysis. Returns a structured assessment of property condition, identified features, and renovation recommendations."
+    },
+    "POST /v2/analyze/comparables": {
+      "summary": "Get comparable properties",
+      "description": "Retrieves comparable property data for valuation analysis."
+    },
+    "POST /v2/analyze/create-report": {
+      "summary": "Create analysis report",
+      "description": "Generates a full property analysis report combining condition assessment, comparables, and renovation recommendations."
+    },
+    "POST /v1/support/": {
+      "summary": "Create support ticket",
+      "description": "Submits a new support ticket with contact information and issue details."
+    },
+    "GET /v2/calendars/": {
+      "summary": "List calendars",
+      "description": "Returns all configured calendars for scheduling meetings and onsite visits."
+    },
+    "POST /v2/calendars/": {
+      "summary": "Create calendar",
+      "description": "Creates a new calendar configuration for scheduling."
+    },
+    "POST /v1/predictions/": {
+      "summary": "Create prediction job",
+      "description": "Starts an async AI image generation job. Returns a job ID that can be polled for completion. Supports material predictions with reference images."
+    },
+    "GET /v1/predictions/{id}": {
+      "summary": "Get prediction status",
+      "description": "Polls the status of an AI prediction job. Returns the generated images when the job is complete.",
+      "parameters": {
+        "id": "The prediction job ID returned from the create endpoint."
+      }
+    }
+  }
+}
