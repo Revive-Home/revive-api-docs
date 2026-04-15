@@ -1,0 +1,174 @@
+---
+title: 'Field dictionary'
+description: 'Common fields, data types, and enums used across the API'
+---
+
+## Common ID fields
+
+These ID fields appear across many endpoints and follow consistent patterns.
+
+| Field | Type | Format | Example | Description |
+|-------|------|--------|---------|-------------|
+| `uid` | string | Firebase UID | `"user_abc123"` | User identifier from Firebase Auth |
+| `dealId` | string | Internal ID | `"deal_xyz789"` | Deal/project identifier |
+| `opportunityId` | string | Internal ID | `"opp_abc123"` | Sales opportunity identifier |
+| `contactId` | string | Internal ID | `"cont_abc123"` | Contact record identifier |
+| `contractorId` | string | Internal ID | `"contr_abc123"` | Contractor record identifier |
+| `companyId` | string | Internal ID | `"comp_abc123"` | Brokerage/company identifier |
+| `reportId` | string | Internal ID | `"rpt_xyz789"` | Property or Vision AI report identifier |
+| `estimateId` | string | Internal ID | `"est_abc123"` | Renovation estimate identifier |
+| `rmaId` | string | Internal ID | `"rma_001"` | Renovation Management Agreement identifier |
+| `contractId` | string | Internal ID | `"contract_abc123"` | E-signature contract identifier |
+| `hubspotOwnerId` | string | HubSpot ID | `"owner_abc123"` | HubSpot CRM owner identifier |
+
+---
+
+## Timestamps
+
+All timestamps are ISO 8601 UTC unless noted otherwise.
+
+| Field | Format | Example |
+|-------|--------|---------|
+| `createdAt` | ISO 8601 | `"2026-04-15T18:00:00.000Z"` |
+| `updatedAt` | ISO 8601 | `"2026-04-15T18:00:00.000Z"` |
+| `sentAt` | ISO 8601 | `"2026-04-15T18:00:00.000Z"` |
+| `completedAt` | ISO 8601 | `"2026-04-15T18:00:00.000Z"` |
+| `signedAt` | ISO 8601 | `"2026-02-15T14:00:00.000Z"` |
+| `startTime` | Unix ms | `1713100000000` |
+
+<Warning>
+  Some older endpoints use Unix milliseconds (`startTime`, `startDate`) instead of ISO 8601. Check the endpoint reference for the specific format.
+</Warning>
+
+---
+
+## Status enums
+
+### Deal type (`dealType` / `dealtype`)
+
+| Value | Description |
+|-------|-------------|
+| `Presale` | Pre-sale renovation — improve before listing |
+| `RTS` | Renovate to Stay — homeowner keeps the property |
+| `Special Services` | Custom renovation services |
+
+### User role (`role`)
+
+| Value | Description |
+|-------|-------------|
+| `admin` | Full platform access, manage all deals and users |
+| `agent` | Real estate agent — view assigned deals and contacts |
+| `contractor` | Renovation contractor — view assigned projects |
+| `homeowner` | Property owner — view own reports and documents |
+
+### Referral type (`referralType`)
+
+| Value | Description |
+|-------|-------------|
+| `agent` | Referred by a real estate agent |
+| `partner` | Referred by a Revive partner |
+| `website` | Inbound from Revive website |
+| `direct` | Direct contact / outbound |
+
+### Report type (`reportType`)
+
+| Value | Description |
+|-------|-------------|
+| `standard` | Standard property analysis report |
+| `premium` | Enhanced report with additional comparables and detail |
+
+### Application source (`application` / `source`)
+
+| Value | Description |
+|-------|-------------|
+| `dashboard` | Created from the Revive Dashboard |
+| `admin` | Created from the Admin panel |
+| `intake` | Created from the intake/onboarding flow |
+| `mobile` | Created from the mobile app |
+
+### Estimate status
+
+| Value | Description |
+|-------|-------------|
+| `draft` | Estimate is being prepared |
+| `pending_signature` | Sent for homeowner signature |
+| `approved` | Homeowner approved the estimate |
+| `completed` | Work is done, estimate finalized |
+
+### RMA status
+
+| Value | Description |
+|-------|-------------|
+| `draft` | RMA created, not yet sent |
+| `signed` | All parties signed |
+| `in_progress` | Renovation underway, draws being released |
+| `completed` | All draws released, project finished |
+
+### Onsite visit status (`sessionStatus`)
+
+| Value | Description |
+|-------|-------------|
+| `scheduled` | Visit is booked |
+| `in_progress` | Visit currently happening |
+| `completed` | Visit finished, notes recorded |
+| `cancelled` | Visit was cancelled |
+
+---
+
+## Property & valuation fields
+
+These fields appear in property reports, Vision AI, and analysis endpoints.
+
+| Field | Type | Example | Description |
+|-------|------|---------|-------------|
+| `streetAddress` | string | `"123 Main St, Los Angeles, CA 90001"` | Full street address |
+| `state` | string | `"CA"` | Two-letter state code |
+| `city` | string | `"Los Angeles"` | City name |
+| `postalCode` | string | `"90001"` | ZIP code |
+| `bedrooms` | number | `3` | Number of bedrooms |
+| `bathrooms` | number | `2` | Number of bathrooms |
+| `sqft` | number | `1850` | Square footage |
+| `yearBuilt` | number | `1985` | Year the property was built |
+| `estimatedValue` | number | `725000` | Current estimated property value (USD) |
+| `estimatedAfterValue` | number | `875000` | Estimated value after renovation (USD) |
+| `renovationBudget` | number | `45000` | Total renovation cost estimate (USD) |
+| `roi` | number | `3.3` | Return on investment ratio |
+| `timeline` | number | `6` | Estimated renovation timeline in months |
+| `conditionScore` | number | `72` | AI-assessed property condition (0–100) |
+| `conditionGrade` | string | `"C+"` | Letter grade from condition score |
+
+---
+
+## Pagination fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `total` | number | Total number of matching records |
+| `data` | array | Array of result objects for the current page |
+| `after` | string | Cursor value for the next page (cursor pagination) |
+
+---
+
+## Response envelope
+
+Most endpoints return a consistent envelope:
+
+```json
+{
+  "status": "success",
+  "data": { ... },
+  "message": "Optional human-readable message."
+}
+```
+
+For errors:
+
+```json
+{
+  "status": "error",
+  "message": "What went wrong.",
+  "errors": [{ "field": "email", "message": "Email is required." }]
+}
+```
+
+See [Error handling](/guides/error-handling) for full details.

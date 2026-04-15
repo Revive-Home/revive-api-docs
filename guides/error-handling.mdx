@@ -1,0 +1,153 @@
+---
+title: 'Error handling'
+description: 'Standard error format, HTTP status codes, and troubleshooting'
+---
+
+## Error response format
+
+All errors follow a consistent JSON structure:
+
+```json
+{
+  "status": "error",
+  "message": "Human-readable description of what went wrong.",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required."
+    }
+  ]
+}
+```
+
+| Field | Type | Always present | Description |
+|-------|------|----------------|-------------|
+| `status` | string | Yes | Always `"error"` for failed requests |
+| `message` | string | Yes | Summary of the problem |
+| `errors` | array | No | Field-level validation errors (on `400` and `422` only) |
+| `code` | number | Sometimes | Mirrors the HTTP status code |
+
+---
+
+## HTTP status codes
+
+### Success codes
+
+| Code | Meaning | When you'll see it |
+|------|---------|-------------------|
+| **200** | OK | Standard success — GET, PATCH, most POST |
+| **201** | Created | POST endpoints that create a new resource (contacts, deals, estimates, etc.) |
+| **204** | No Content | DELETE endpoints — resource removed, empty body |
+
+### Client error codes
+
+| Code | Meaning | Common cause | Fix |
+|------|---------|-------------|-----|
+| **400** | Bad Request | Missing required field, wrong data type, malformed JSON | Check `errors` array for field-level details |
+| **401** | Unauthorized | Missing `Authorization` header, expired Firebase JWT | Refresh your Firebase token and retry |
+| **403** | Forbidden | Valid token but insufficient role/permissions | Verify the user's role has access to this resource |
+| **404** | Not Found | ID doesn't exist, typo in path | Double-check the resource ID and endpoint path |
+| **422** | Unprocessable Entity | Semantically invalid — e.g., closing an already-closed deal | Read `message` for business logic explanation |
+| **429** | Too Many Requests | Rate limit exceeded | Back off and retry — see [Pagination & rate limits](/guides/pagination-and-rate-limits#rate-limits) |
+
+### Server error codes
+
+| Code | Meaning | What to do |
+|------|---------|-----------|
+| **500** | Internal Server Error | Retry once, then report to the team |
+| **502** | Bad Gateway | Temporary infrastructure issue — retry with backoff |
+| **503** | Service Unavailable | API is deploying or under maintenance — retry shortly |
+
+---
+
+## Error examples by scenario
+
+### Missing required field (400)
+
+```bash
+curl -X POST https://revive-api-v2-production.herokuapp.com/v2/deals/ \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"dealname": "123 Main St"}'
+```
+
+```json
+{
+  "status": "error",
+  "message": "Validation failed.",
+  "errors": [
+    { "field": "dealtype", "message": "dealtype is required." }
+  ]
+}
+```
+
+### Expired token (401)
+
+```json
+{
+  "status": "error",
+  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+}
+```
+
+### Insufficient permissions (403)
+
+```json
+{
+  "status": "error",
+  "message": "Insufficient permissions. Role 'agent' cannot access admin endpoints."
+}
+```
+
+### Resource not found (404)
+
+```json
+{
+  "status": "error",
+  "message": "Resource not found.",
+  "code": 404
+}
+```
+
+### Business logic error (422)
+
+```json
+{
+  "status": "error",
+  "message": "Unprocessable entity.",
+  "errors": [
+    { "field": "dealId", "message": "Deal is already closed." }
+  ]
+}
+```
+
+---
+
+## Troubleshooting checklist
+
+<AccordionGroup>
+  <Accordion title="Getting 401 on every request?">
+    1. Confirm you're sending `Authorization: Bearer <token>` (not `Token` or `Basic`)
+    2. Firebase JWTs expire after 1 hour — refresh before each session
+    3. Verify the token was issued for the correct Firebase project
+  </Accordion>
+
+  <Accordion title="Getting 403 but the token is valid?">
+    1. Check the user's `role` — only `admin` can access `/v1/admins/*` endpoints
+    2. Some endpoints require the user to be associated with the brokerage/company
+    3. Contact the Revive team if you believe the role mapping is incorrect
+  </Accordion>
+
+  <Accordion title="Getting 400 but the payload looks correct?">
+    1. Verify `Content-Type: application/json` is set
+    2. Ensure the JSON is valid (no trailing commas, unquoted keys)
+    3. Check that field names match exactly (they're case-sensitive)
+    4. Look at the `errors` array for the specific field that failed
+  </Accordion>
+
+  <Accordion title="Getting 500 intermittently?">
+    1. Retry once after a 2-second delay
+    2. If it persists, check `/health` to see if the API is up
+    3. Report the issue with the request path, method, and timestamp
+  </Accordion>
+</AccordionGroup>

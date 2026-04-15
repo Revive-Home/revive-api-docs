@@ -1,0 +1,141 @@
+---
+title: 'Webhooks'
+description: 'Inbound webhook endpoints, payload formats, and integration patterns'
+---
+
+## Overview
+
+The Revive API exposes webhook endpoints that receive events from external services (HubSpot, PandaDoc, Stripe, Follow Up Boss) and from the Revive website. These endpoints are called by third-party platforms — you typically configure the webhook URL in the external service's settings.
+
+<Info>
+  Webhook endpoints do **not** require Firebase JWT authentication. They use platform-specific verification (e.g., HubSpot signatures, Stripe webhook secrets).
+</Info>
+
+---
+
+## HubSpot webhooks
+
+These endpoints receive workflow actions from HubSpot.
+
+| Endpoint | Trigger | What it does |
+|----------|---------|-------------|
+| `POST /v1/webhooks/hubspot/createCompany` | HubSpot workflow | Creates a brokerage/company in Revive from a HubSpot company record |
+| `POST /v1/webhooks/hubspot/updateCompany` | HubSpot workflow | Syncs company field changes back to Revive |
+| `POST /v1/webhooks/hubspot/updateContractor` | HubSpot workflow | Syncs contractor field changes back to Revive |
+| `POST /v1/webhooks/hubspot/updateRealtorEdgeUrl` | HubSpot workflow | Updates the agent's Edge report URL |
+| `POST /v1/webhooks/hubspot/invite-realtor` | HubSpot workflow | Sends an invitation to an agent |
+| `POST /v1/webhooks/hubspot/production` | HubSpot workflow | Triggers production-related workflow actions |
+| `POST /v1/webhooks/hubspot/revive-team` | HubSpot workflow | Internal team notification actions |
+| `POST /v1/webhooks/hubspot/report-reminder/{emailId}` | HubSpot workflow | Sends a report reminder email |
+
+### Typical HubSpot payload
+
+```json
+{
+  "objectId": 12345678,
+  "objectType": "COMPANY",
+  "properties": {
+    "name": "Keller Williams Realty",
+    "state": "CA",
+    "city": "Los Angeles"
+  },
+  "subscriptionType": "company.propertyChange",
+  "changeSource": "CRM"
+}
+```
+
+---
+
+## PandaDoc webhooks
+
+These endpoints handle document lifecycle events from PandaDoc (e-signatures, contracts, project scopes).
+
+| Endpoint | Trigger | What it does |
+|----------|---------|-------------|
+| `POST /v1/webhooks/pandadoc/linked-objects` | Document status change | Updates linked deal/contact records when a document is viewed, signed, or completed |
+| `POST /v1/webhooks/pandadoc/project-scope` | Scope document signed | Marks project scope items as approved and updates the deal stage |
+| `POST /v1/contracts/webhook/complete` | Contract fully executed | Finalizes the contract record, updates deal status to "Contract Signed" |
+
+### Typical PandaDoc payload
+
+```json
+{
+  "event": "document_state_changed",
+  "data": {
+    "id": "doc_abc123",
+    "name": "Renovation Agreement - 123 Main St",
+    "status": "document.completed",
+    "recipients": [
+      {
+        "email": "homeowner@example.com",
+        "first_name": "John",
+        "last_name": "Doe",
+        "completed": true
+      }
+    ],
+    "metadata": {
+      "dealId": "deal_xyz789",
+      "opportunityId": "opp_abc123"
+    }
+  }
+}
+```
+
+---
+
+## Stripe webhooks
+
+Payment lifecycle events from Stripe.
+
+| Endpoint | Trigger | What it does |
+|----------|---------|-------------|
+| `POST /v2/payments/reno/webhook` | Payment event | Processes payment intent status changes (succeeded, failed, refunded) |
+
+### Typical Stripe payload
+
+```json
+{
+  "id": "evt_abc123",
+  "type": "payment_intent.succeeded",
+  "data": {
+    "object": {
+      "id": "pi_abc123",
+      "amount": 4500000,
+      "currency": "usd",
+      "status": "succeeded",
+      "metadata": {
+        "dealId": "deal_xyz789",
+        "type": "renovation_payment"
+      }
+    }
+  }
+}
+```
+
+---
+
+## Follow Up Boss webhooks
+
+| Endpoint | Trigger | What it does |
+|----------|---------|-------------|
+| `POST /v1/follow-up-boss/webhook` | FUB event | Syncs lead/contact changes from Follow Up Boss into Revive |
+
+---
+
+## Partner & website webhooks
+
+| Endpoint | Trigger | What it does |
+|----------|---------|-------------|
+| `POST /v1/webhooks/affiliate-partners` | Partner platform | Ingests leads from affiliate partner integrations |
+| `POST /v1/webhooks/gvg` | GVG platform | Processes inbound GVG (Google Virtual Garage) events |
+| `POST /v1/webhooks/website-case-study` | Website publish | Creates a public case study from a completed deal |
+| `POST /v1/partners/realtycom` | Realty.com | Ingests inbound leads from Realty.com |
+
+---
+
+## Best practices
+
+1. **Respond quickly** — return `200` within 5 seconds. Do heavy processing asynchronously.
+2. **Handle duplicates** — webhook providers may retry on timeout. Use the event ID for idempotency.
+3. **Verify signatures** — HubSpot and Stripe both send signature headers. Always validate them in production.
+4. **Log everything** — log the full payload on receipt for debugging. The Follow Up Boss logs are available at `GET /v1/follow-up-boss/logs`.

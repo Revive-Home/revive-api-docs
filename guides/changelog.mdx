@@ -1,0 +1,89 @@
+---
+title: 'API changelog'
+description: 'Version history, breaking changes, and migration guides'
+---
+
+## Versioning strategy
+
+The Revive API uses **path-based versioning** (`/v1`, `/v2`). Both versions run in parallel — `v1` endpoints are not deprecated unless explicitly noted.
+
+| Version | Status | Description |
+|---------|--------|-------------|
+| `/v2` | **Active** | Newer endpoints with improved schemas (deals, users, opportunities, vision-ai, calendars, payments, referrals, analyze) |
+| `/v1` | **Active** | Original endpoints — still fully supported and receiving updates |
+
+### When does a new version get introduced?
+
+A new version path is created when:
+- Response schema changes in a breaking way (field removed or type changed)
+- Request body contract changes (required field added)
+- Behavior changes that could break existing consumers
+
+Non-breaking changes (new optional fields, new endpoints) are added to the existing version.
+
+---
+
+## Recent API releases
+
+The API version is auto-synced from `revive-api` on every production release. See the full release notes for details:
+
+<CardGroup cols={2}>
+  <Card title="v2.154.0" icon="rocket" href="/release-notes/v2.154.0" />
+  <Card title="v2.153.0" icon="rocket" href="/release-notes/v2.153.0" />
+  <Card title="v2.152.0" icon="rocket" href="/release-notes/v2.152.0" />
+  <Card title="v2.151.0" icon="rocket" href="/release-notes/v2.151.0" />
+</CardGroup>
+
+[View all release notes →](/release-notes/v2.154.0)
+
+---
+
+## v2 endpoints overview
+
+These endpoints were introduced or migrated to `/v2` for improved schemas:
+
+| Area | v2 endpoints | Key improvements |
+|------|-------------|-----------------|
+| **Deals** | `POST /v2/deals/`, `GET /v2/deals/{dealId}` | Simplified deal creation, consistent field naming |
+| **Users** | `POST /v2/users/`, `PATCH /v2/users/{uid}` | Role-based creation, HubSpot owner linking |
+| **Opportunities** | `GET /v2/opportunities/admin/{adminId}`, `PATCH /v2/opportunities/{opportunityId}` | Admin views, contact association endpoints |
+| **Vision AI** | `POST /v2/vision-ai/`, `POST /v2/vision-ai/condition` | Condition analysis, scraper, custom objects |
+| **Analyze** | `POST /v2/analyze/create-report`, `POST /v2/analyze/photos` | Photo analysis, comparables, renovation estimates |
+| **Calendars** | `POST /v2/calendars/`, CRUD operations | Full calendar management for meeting scheduling |
+| **Payments** | `POST /v2/payments/reno/payment-intents` | Stripe payment intent creation |
+| **Referrals** | `POST /v2/referrals/` | Simplified referral creation |
+| **Properties** | `GET /v2/properties/{objectType}` | HubSpot property definitions |
+
+---
+
+## Migration notes
+
+### Migrating from v1 to v2 Vision AI
+
+```diff
+- POST /v1/vision-ai/
++ POST /v2/vision-ai/
+
+# v2 adds these fields to the request body:
++ contactId     — link report to a contact
++ city          — for neighborhood context
++ postalCode    — for comparable search
++ reportType    — 'standard' or 'premium'
+```
+
+### Migrating from v1 to v2 Deals
+
+```diff
+- POST /v1/deals/     (did not exist)
++ POST /v2/deals/
+
+# v2 request body:
+{
+  "dealtype": "Presale",       // required
+  "dealname": "123 Main St"    // required
+}
+```
+
+<Info>
+  Both v1 and v2 endpoints remain fully functional. There is no deadline to migrate — v2 is recommended for new integrations.
+</Info>

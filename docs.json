@@ -22,7 +22,12 @@
           {
             "group": "Guides",
             "pages": [
-              "guides/intake-url-parameters"
+              "guides/intake-url-parameters",
+              "guides/pagination-and-rate-limits",
+              "guides/error-handling",
+              "guides/webhooks",
+              "guides/field-dictionary",
+              "guides/changelog"
             ]
           },
           {

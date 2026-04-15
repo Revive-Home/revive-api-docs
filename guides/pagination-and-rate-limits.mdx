@@ -1,0 +1,141 @@
+---
+title: 'Pagination & rate limits'
+description: 'How to page through results and stay within rate limits'
+---
+
+## Pagination patterns
+
+The Revive API uses three pagination patterns depending on the endpoint. Check the endpoint reference for which pattern applies.
+
+### Offset pagination (`limit` + `offset`)
+
+Used by most list endpoints (contacts, contractors, estimates, etc.).
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `limit` | number | `25` | Maximum items per page (max `100`) |
+| `offset` | number | `0` | Number of items to skip |
+
+<CodeGroup>
+```bash cURL
+curl -sS -H "Authorization: Bearer $TOKEN" \
+  "https://revive-api-v2-production.herokuapp.com/v1/contacts/?limit=25&offset=50"
+```
+
+```javascript JavaScript
+const res = await fetch(
+  'https://revive-api-v2-production.herokuapp.com/v1/contacts/?limit=25&offset=50',
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+const data = await res.json();
+```
+
+```python Python
+import requests
+
+resp = requests.get(
+    "https://revive-api-v2-production.herokuapp.com/v1/contacts/",
+    params={"limit": 25, "offset": 50},
+    headers={"Authorization": f"Bearer {token}"},
+)
+data = resp.json()
+```
+</CodeGroup>
+
+**Response shape:**
+
+```json
+{
+  "status": "success",
+  "data": [ ... ],
+  "total": 142
+}
+```
+
+Use `total` to know when you've fetched everything:
+
+```javascript
+let offset = 0;
+const limit = 100;
+let allItems = [];
+
+while (true) {
+  const { data, total } = await fetchPage(limit, offset);
+  allItems.push(...data);
+  offset += limit;
+  if (offset >= total) break;
+}
+```
+
+### Cursor pagination (`after`)
+
+Used by high-volume endpoints like `POST /v1/agents/get-opportunities`.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `after` | string | Pass the last item's ID from the previous page |
+
+```json
+{
+  "agentId": "12345678",
+  "after": "opp_last_id_from_previous_page"
+}
+```
+
+Keep fetching until the response returns fewer items than your page size or an empty array.
+
+### Size-based pagination (`size`)
+
+Used by a few endpoints like `POST /v1/estimates/`.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `size` | number | `10` | Number of items per page |
+
+---
+
+## Rate limits
+
+The API applies rate limiting per authenticated user.
+
+| Tier | Limit | Window |
+|------|-------|--------|
+| Standard | 100 requests | per minute |
+| Burst | 20 requests | per second |
+
+### Rate limit headers
+
+Every response includes rate limit headers:
+
+| Header | Description |
+|--------|-------------|
+| `X-RateLimit-Limit` | Maximum requests allowed in the window |
+| `X-RateLimit-Remaining` | Requests remaining in the current window |
+| `X-RateLimit-Reset` | Unix timestamp when the window resets |
+
+### Handling 429 Too Many Requests
+
+If you exceed the rate limit, you'll receive:
+
+```json
+{
+  "status": "error",
+  "message": "Rate limit exceeded. Try again in 42 seconds.",
+  "retryAfter": 42
+}
+```
+
+**Best practice:** implement exponential backoff:
+
+```javascript
+async function fetchWithRetry(url, options, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    const res = await fetch(url, options);
+    if (res.status !== 429) return res;
+
+    const retryAfter = res.headers.get('Retry-After') || Math.pow(2, i);
+    await new Promise((r) => setTimeout(r, retryAfter * 1000));
+  }
+  throw new Error('Rate limit exceeded after retries');
+}
+```
