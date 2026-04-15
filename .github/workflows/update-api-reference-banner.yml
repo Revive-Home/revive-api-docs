@@ -34,14 +34,14 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           DATE=$(date -u +"%B %-d, %Y")
-          sed -i "s|\*\*API spec version:\*\* .*|\*\*API spec version:\*\* ${VERSION} — auto-synced from \`revive-api\` on every production release. Last updated ${DATE}.|" api-reference/introduction.mdx
+          sed -i "s|\*\*API spec version:\*\* .*|\*\*API spec version:\*\* ${VERSION} — auto-synced from \`revive-api\` on every production release. Last updated ${DATE}.|" index.mdx api-reference/introduction.mdx
           echo "Updated to ${VERSION} (${DATE})"
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add openapi.json api-reference/introduction.mdx
+          git add openapi.json index.mdx api-reference/introduction.mdx
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "docs: enrich OpenAPI spec and update banner to ${{ steps.version.outputs.version }}"
           git push
