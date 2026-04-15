@@ -111,7 +111,8 @@
                 "type": "object",
                 "properties": {
                   "newEmail": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "newemail@revive.realty"
                   }
                 }
               },
@@ -168,16 +169,20 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "admin@revive.realty"
                   },
                   "lastname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Johnson"
                   },
                   "phone": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "+15551234567"
                   },
                   "position": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Senior PM"
                   }
                 }
               },
@@ -241,7 +246,8 @@
                 "properties": {
                   "agentId": {
                     "type": "string",
-                    "description": "HubSpot contact ID for the agent."
+                    "description": "HubSpot contact ID for the agent.",
+                    "example": "12345678"
                   },
                   "after": {
                     "type": "string",
@@ -249,15 +255,23 @@
                   },
                   "dealType": {
                     "type": "string",
-                    "description": "Filter: 'Presale', 'RTS' (Renovate to Stay), or 'Special Services'."
+                    "description": "Filter: 'Presale', 'RTS' (Renovate to Stay), or 'Special Services'.",
+                    "example": "Presale",
+                    "enum": [
+                      "Presale",
+                      "RTS",
+                      "Special Services"
+                    ]
                   },
                   "isLost": {
                     "type": "boolean",
-                    "description": "When true, returns only lost/closed opportunities. Defaults to false."
+                    "description": "When true, returns only lost/closed opportunities. Defaults to false.",
+                    "example": false
                   },
                   "startDate": {
                     "type": "number",
-                    "description": "Unix timestamp (ms) — only return opportunities created on or after this date."
+                    "description": "Unix timestamp (ms) — only return opportunities created on or after this date.",
+                    "example": 1704067200000
                   },
                   "separateByDealType": {
                     "type": "boolean",
@@ -319,11 +333,13 @@
                 "properties": {
                   "limit": {
                     "type": "number",
-                    "description": "Max results to return. Defaults to 25."
+                    "description": "Max results to return. Defaults to 25.",
+                    "example": 10
                   },
                   "search": {
                     "type": "string",
-                    "description": "Query string — matches agent name, email, or brokerage."
+                    "description": "Query string — matches agent name, email, or brokerage.",
+                    "example": "jane smith"
                   }
                 }
               },
@@ -909,13 +925,15 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Keller Williams Realty"
                   },
                   "phone": {
                     "type": "string"
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Los Angeles"
                   },
                   "zip": {
                     "type": "string"
@@ -1289,13 +1307,16 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "john@example.com"
                   },
                   "firstname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John"
                   },
                   "phone": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "+15551234567"
                   },
                   "affiliatePartners": {
                     "type": "string"
@@ -5777,7 +5798,13 @@
                 "properties": {
                   "application": {
                     "type": "string",
-                    "description": "Source: 'dashboard', 'admin', or 'intake'."
+                    "description": "Source: 'dashboard', 'admin', or 'intake'.",
+                    "example": "dashboard",
+                    "enum": [
+                      "dashboard",
+                      "admin",
+                      "intake"
+                    ]
                   },
                   "opportunityId": {
                     "type": "string",
@@ -5785,23 +5812,32 @@
                   },
                   "streetAddress": {
                     "type": "string",
-                    "description": "Full street address."
+                    "description": "Full street address.",
+                    "example": "123 Main St, Los Angeles, CA 90001"
                   },
                   "state": {
                     "type": "string",
-                    "description": "Two-letter state code."
+                    "description": "Two-letter state code.",
+                    "example": "CA"
                   },
                   "bedrooms": {
                     "type": "number",
-                    "description": "Number of bedrooms."
+                    "description": "Number of bedrooms.",
+                    "example": 3
                   },
                   "yearBuilt": {
                     "type": "number",
-                    "description": "Year built."
+                    "description": "Year built.",
+                    "example": 1985
                   },
                   "reportType": {
                     "type": "string",
-                    "description": "'standard' or 'premium'."
+                    "description": "'standard' or 'premium'.",
+                    "example": "standard",
+                    "enum": [
+                      "standard",
+                      "premium"
+                    ]
                   },
                   "rejectedReason": {
                     "type": "string",
@@ -5809,7 +5845,8 @@
                   },
                   "sellingTimeFrame": {
                     "type": "string",
-                    "description": "'immediately', '1-3 months', '3-6 months', '6+ months'."
+                    "description": "'immediately', '1-3 months', '3-6 months', '6+ months'.",
+                    "example": "3-6 months"
                   }
                 },
                 "required": [
@@ -6758,23 +6795,28 @@
                       "seller",
                       "both"
                     ],
-                    "description": "'agent', 'partner', 'website', or 'direct'."
+                    "description": "'agent', 'partner', 'website', or 'direct'.",
+                    "example": "agent"
                   },
                   "clientEmail": {
                     "type": "string",
-                    "description": "Referred client's email."
+                    "description": "Referred client's email.",
+                    "example": "homeowner@example.com"
                   },
                   "city": {
                     "type": "string",
-                    "description": "Client's city."
+                    "description": "Client's city.",
+                    "example": "Los Angeles"
                   },
                   "listingAddress": {
                     "type": "string",
-                    "description": "Property address."
+                    "description": "Property address.",
+                    "example": "123 Main St"
                   },
                   "zipCode": {
                     "type": "string",
-                    "description": "ZIP code."
+                    "description": "ZIP code.",
+                    "example": "90001"
                   },
                   "latitude": {
                     "type": "string",
@@ -6997,23 +7039,28 @@
                 "properties": {
                   "opportunityId": {
                     "type": "string",
-                    "description": "Associated opportunity."
+                    "description": "Associated opportunity.",
+                    "example": "opp_abc123"
                   },
                   "imageUrl": {
                     "type": "string",
-                    "description": "Source photo URL."
+                    "description": "Source photo URL.",
+                    "example": "https://storage.revive.realty/photos/kitchen_01.jpg"
                   },
                   "prompt": {
                     "type": "string",
-                    "description": "AI prompt describing desired transformation."
+                    "description": "AI prompt describing desired transformation.",
+                    "example": "Modern white kitchen with marble countertops"
                   },
                   "roomStyle": {
                     "type": "string",
-                    "description": "'modern', 'traditional', 'transitional', 'contemporary', 'farmhouse'."
+                    "description": "'modern', 'traditional', 'transitional', 'contemporary', 'farmhouse'.",
+                    "example": "modern"
                   },
                   "userId": {
                     "type": "string",
-                    "description": "Requesting user's ID."
+                    "description": "Requesting user's ID.",
+                    "example": "user_xyz"
                   },
                   "source": {
                     "type": "string",
@@ -7022,7 +7069,8 @@
                       "Dashboard",
                       "Mobile"
                     ],
-                    "description": "'dashboard' or 'admin'."
+                    "description": "'dashboard' or 'admin'.",
+                    "example": "dashboard"
                   }
                 },
                 "required": [
@@ -7221,12 +7269,17 @@
                 "properties": {
                   "onSchedule": {
                     "type": "boolean",
-                    "description": "Whether the project is on schedule."
+                    "description": "Whether the project is on schedule.",
+                    "example": true
                   },
                   "completed": {
                     "type": "array",
                     "items": {},
-                    "description": "Array of scope item IDs completed this week."
+                    "description": "Array of scope item IDs completed this week.",
+                    "example": [
+                      "scope_001",
+                      "scope_002"
+                    ]
                   }
                 },
                 "required": [
@@ -7752,15 +7805,18 @@
                 "properties": {
                   "contractor_id": {
                     "type": "string",
-                    "description": "Contractor assigned to the renovation."
+                    "description": "Contractor assigned to the renovation.",
+                    "example": "contr_abc123"
                   },
                   "deal_id": {
                     "type": "string",
-                    "description": "Deal ID for the project."
+                    "description": "Deal ID for the project.",
+                    "example": "deal_xyz789"
                   },
                   "note": {
                     "type": "string",
-                    "description": "Optional note."
+                    "description": "Optional note.",
+                    "example": "Initial RMA for kitchen and bathroom renovation"
                   }
                 },
                 "required": [
@@ -8231,7 +8287,8 @@
                 "properties": {
                   "note": {
                     "type": "string",
-                    "description": "Note content."
+                    "description": "Note content.",
+                    "example": "Contractor requested schedule extension — approved by PM."
                   }
                 },
                 "required": [
@@ -8305,19 +8362,23 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "description": "Optional related deal ID."
+                    "description": "Optional related deal ID.",
+                    "example": "deal_xyz789"
                   },
                   "content": {
                     "type": "string",
-                    "description": "Issue description."
+                    "description": "Issue description.",
+                    "example": "Unable to access estimate for deal #12345"
                   },
                   "firstName": {
                     "type": "string",
-                    "description": "Requester's first name."
+                    "description": "Requester's first name.",
+                    "example": "Jane"
                   },
                   "email": {
                     "type": "string",
-                    "description": "Requester's email."
+                    "description": "Requester's email.",
+                    "example": "jane@example.com"
                   }
                 },
                 "required": [
@@ -8435,7 +8496,12 @@
                 "properties": {
                   "zipCodes": {
                     "type": "array",
-                    "description": "Array of ZIP code strings."
+                    "description": "Array of ZIP code strings.",
+                    "example": [
+                      "90001",
+                      "90210",
+                      "90401"
+                    ]
                   }
                 },
                 "required": [
@@ -8515,7 +8581,12 @@
                   },
                   "application": {
                     "type": "string",
-                    "description": "Source: 'dashboard', 'admin', or 'intake'."
+                    "description": "Source: 'dashboard', 'admin', or 'intake'.",
+                    "enum": [
+                      "dashboard",
+                      "admin",
+                      "intake"
+                    ]
                   }
                 },
                 "required": [
@@ -9293,11 +9364,13 @@
                 "properties": {
                   "address": {
                     "type": "string",
-                    "description": "Full property address."
+                    "description": "Full property address.",
+                    "example": "123 Main St, Los Angeles, CA 90001"
                   },
                   "conditionScore": {
                     "type": "number",
-                    "description": "Condition score (1-10)."
+                    "description": "Condition score (1-10).",
+                    "example": 6.5
                   }
                 },
                 "required": [
@@ -9365,7 +9438,12 @@
                   "imageUrls": {
                     "type": "array",
                     "items": {},
-                    "description": "Array of image URLs to analyze."
+                    "description": "Array of image URLs to analyze.",
+                    "example": [
+                      "https://photos.example.com/kitchen_01.jpg",
+                      "https://photos.example.com/bathroom_01.jpg",
+                      "https://photos.example.com/exterior_01.jpg"
+                    ]
                   }
                 },
                 "required": [
@@ -9866,11 +9944,13 @@
                     "enum": [
                       "prepareToSell"
                     ],
-                    "description": "Deal type: 'Presale', 'RTS', or 'Special Services'."
+                    "description": "Deal type: 'Presale', 'RTS', or 'Special Services'.",
+                    "example": "Presale"
                   },
                   "dealname": {
                     "type": "string",
-                    "description": "Display name, typically the property address."
+                    "description": "Display name, typically the property address.",
+                    "example": "123 Main St, Los Angeles, CA"
                   }
                 },
                 "required": [
@@ -10337,7 +10417,8 @@
                       "year-plus",
                       "year-pro"
                     ],
-                    "description": "Payment type: 'subscription' or 'one-time'."
+                    "description": "Payment type: 'subscription' or 'one-time'.",
+                    "example": "subscription"
                   }
                 }
               },
@@ -10613,15 +10694,24 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "description": "Email (must be unique)."
+                    "description": "Email (must be unique).",
+                    "example": "newuser@revive.realty"
                   },
                   "role": {
                     "type": "string",
-                    "description": "'admin', 'agent', 'contractor', or 'homeowner'."
+                    "description": "'admin', 'agent', 'contractor', or 'homeowner'.",
+                    "example": "admin",
+                    "enum": [
+                      "admin",
+                      "agent",
+                      "contractor",
+                      "homeowner"
+                    ]
                   },
                   "position": {
                     "type": "string",
-                    "description": "Job title."
+                    "description": "Job title.",
+                    "example": "Project Manager"
                   },
                   "hubspotOwnerId": {
                     "type": "string",
@@ -10629,11 +10719,13 @@
                   },
                   "firstname": {
                     "type": "string",
-                    "description": "First name."
+                    "description": "First name.",
+                    "example": "Sarah"
                   },
                   "slackId": {
                     "type": "string",
-                    "description": "Slack member ID for notifications."
+                    "description": "Slack member ID for notifications.",
+                    "example": "U0123456789"
                   }
                 },
                 "required": [
@@ -10856,7 +10948,11 @@
                   },
                   "reportType": {
                     "type": "string",
-                    "description": "'standard' or 'premium'."
+                    "description": "'standard' or 'premium'.",
+                    "enum": [
+                      "standard",
+                      "premium"
+                    ]
                   }
                 },
                 "required": [

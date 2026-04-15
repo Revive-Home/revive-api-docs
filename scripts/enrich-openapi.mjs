@@ -123,7 +123,19 @@ if (Object.keys(allPaths).length > 0) {
       }
     }
 
-    // Merge request body example
+    // Merge per-property examples into request body schema
+    if (overlay.requestExample) {
+      const schema = operation.requestBody?.content?.['application/json']?.schema;
+      if (schema?.properties) {
+        for (const [propName, exValue] of Object.entries(overlay.requestExample)) {
+          if (schema.properties[propName] && schema.properties[propName].example === undefined) {
+            schema.properties[propName].example = exValue;
+          }
+        }
+      }
+    }
+
+    // Merge full request body example
     if (overlay.requestExample) {
       if (!operation.requestBody) {
         operation.requestBody = { required: true, content: { 'application/json': { schema: { type: 'object' } } } };
@@ -160,6 +172,26 @@ if (Object.keys(allPaths).length > 0) {
     }
 
     enrichedCount++;
+  }
+}
+
+// --- Inject enum values from enrichment parameter descriptions ---
+// Parses patterns like "'value1', 'value2', 'value3'" from descriptions
+for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
+  for (const [method, operation] of Object.entries(methods)) {
+    const schema = operation.requestBody?.content?.['application/json']?.schema;
+    if (!schema?.properties) continue;
+    for (const [propName, prop] of Object.entries(schema.properties)) {
+      if (prop.enum || !prop.description || prop.type !== 'string') continue;
+      const enumMatch = prop.description.match(/^'([^']+)'(?:,\s*'([^']+)')+\.?$/);
+      if (!enumMatch) {
+        // Try matching inline: "Filter: 'A', 'B', or 'C'."
+        const inlineMatch = prop.description.match(/'([^']+)'/g);
+        if (inlineMatch && inlineMatch.length >= 2 && inlineMatch.length <= 8) {
+          prop.enum = inlineMatch.map((m) => m.replace(/'/g, ''));
+        }
+      }
+    }
   }
 }
 
