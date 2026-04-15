@@ -1,0 +1,53 @@
+{
+  "GET /v1/app-config/feature-flags/{app}": {
+    "requestExample": { "app": "dashboard" }
+  },
+  "PUT /v1/app-config/feature-flags/{app}": {
+    "requestExample": { "enableNewEstimateFlow": true, "enableAIPhotoAnalysis": true, "enableRTSContracts": false, "maintenanceMode": false }
+  },
+  "POST /v1/auth/login": {
+    "requestExample": { "idToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..." }
+  },
+  "POST /v1/contacts/search": {
+    "requestExample": { "search": "john doe", "limit": 25 }
+  },
+  "POST /v1/contacts/invite": {
+    "requestExample": { "contactId": "cont_abc123", "type": "report", "reportId": "rpt_xyz789" }
+  },
+  "POST /v1/contacts/merge": {
+    "requestExample": { "primaryContactId": "cont_abc123", "duplicateContactId": "cont_def456" }
+  },
+  "POST /v1/contractors/": {
+    "requestExample": { "firstname": "Mike", "lastname": "Builder", "email": "mike@buildco.com", "phone": "+15559876543", "company": "BuildCo LLC" }
+  },
+  "PATCH /v1/contractors/": {
+    "requestExample": { "contractorId": "contr_abc123", "company": "BuildCo LLC - Updated", "phone": "+15559876543" }
+  },
+  "POST /v1/contractors/search": {
+    "requestExample": { "search": "BuildCo", "state": "CA" }
+  },
+  "POST /v1/contractors/associate/{companyId}": {
+    "requestExample": { "contractorId": "contr_abc123" }
+  },
+  "POST /v1/contractors/get-association": {
+    "requestExample": { "contractorId": "contr_abc123" }
+  },
+  "POST /v1/broadcast/create": {
+    "requestExample": { "title": "Q2 Market Update", "message": "Check out the latest renovation trends.", "channel": "email", "recipientType": "agents" }
+  },
+  "POST /v1/brokerages/associate/{companyId}": {
+    "requestExample": { "brokerageId": "brok_abc123" }
+  },
+  "POST /v1/brokerages/get-associate": {
+    "requestExample": { "companyId": "comp_abc123" }
+  },
+  "POST /v1/case-studies/search": {
+    "requestExample": { "search": "kitchen renovation", "state": "CA" }
+  },
+  "GET /v1/homes/{dealId}": {
+    "requestExample": { "associatedObjectId": "hubspot_obj_abc123" }
+  },
+  "DELETE /v1/homes/{dealId}/associate": {
+    "requestExample": { "associatedObjectId": "hubspot_obj_abc123" }
+  }
+}

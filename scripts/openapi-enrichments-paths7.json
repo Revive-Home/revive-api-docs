@@ -1,0 +1,161 @@
+{
+  "POST /v1/auth/register": {
+    "requestExample": { "email": "newuser@example.com", "password": "securePassword123" }
+  },
+  "POST /v1/avm/": {
+    "requestExample": { "streetAddress": "123 Main St", "city": "Los Angeles", "state": "CA", "postalCode": "90001" }
+  },
+  "POST /v1/broadcast/create": {
+    "requestExample": { "title": "Q2 Market Update", "message": "Check out the latest renovation trends in your area.", "channel": "email", "recipientType": "agents" }
+  },
+  "PATCH /v1/broadcast/{id}": {
+    "requestExample": { "title": "Updated Q2 Market Report", "status": "draft" }
+  },
+  "POST /v1/brokerages/associate/{companyId}": {
+    "requestExample": { "brokerageId": "brok_abc123" }
+  },
+  "POST /v1/brokerages/get-associate": {
+    "requestExample": { "companyId": "comp_abc123" }
+  },
+  "PATCH /v1/brokerages/{companyId}": {
+    "requestExample": { "name": "Keller Williams Realty - Updated", "state": "CA", "city": "San Francisco" }
+  },
+  "POST /v1/brokerages/search": {
+    "requestExample": { "search": "Keller Williams", "state": "CA" }
+  },
+  "POST /v1/case-studies/search": {
+    "requestExample": { "search": "kitchen renovation", "state": "CA" }
+  },
+  "POST /v1/contacts/edge-view": {
+    "requestExample": { "contactId": "cont_abc123", "opportunityId": "opp_xyz789" }
+  },
+  "POST /v1/contacts/invite": {
+    "requestExample": { "contactId": "cont_abc123", "type": "report", "reportId": "rpt_xyz789" }
+  },
+  "POST /v1/contacts/merge": {
+    "requestExample": { "primaryContactId": "cont_abc123", "duplicateContactId": "cont_def456" }
+  },
+  "POST /v1/contacts/remove-from-deal": {
+    "requestExample": { "contactId": "cont_abc123", "dealId": "deal_xyz789" }
+  },
+  "PATCH /v1/contractors/": {
+    "requestExample": { "contractorId": "contr_abc123", "company": "BuildCo LLC - Updated", "phone": "+15559876543" }
+  },
+  "POST /v1/contractors/associate/{companyId}": {
+    "requestExample": { "contractorId": "contr_abc123" }
+  },
+  "POST /v1/contractors/atlist": {
+    "requestExample": { "state": "CA", "city": "Los Angeles", "specialty": "kitchen" }
+  },
+  "POST /v1/contractors/get-association": {
+    "requestExample": { "contractorId": "contr_abc123" }
+  },
+  "POST /v1/contractors/import": {
+    "requestExample": { "contractors": [{ "firstname": "Mike", "lastname": "Builder", "email": "mike@buildco.com", "company": "BuildCo LLC" }] }
+  },
+  "POST /v1/contractors/{contractorId}/files": {
+    "requestExample": { "contractorId": "contr_abc123", "submitBy": { "userId": "user_xyz", "role": "admin" } }
+  },
+  "POST /v1/contracts/": {
+    "requestExample": { "opportunityId": "opp_abc123", "homeowners": [{ "email": "homeowner@example.com", "firstname": "John", "lastname": "Doe" }] }
+  },
+  "POST /v1/esignatures/{dealId}": {
+    "requestExample": { "primary": { "email": "homeowner@example.com", "firstname": "John", "lastname": "Doe" } }
+  },
+  "POST /v1/estimates/": {
+    "requestExample": { "sortedBy": "category", "sortedType": "asc", "size": 10 }
+  },
+  "PATCH /v1/estimates/create-document/{estimateId}": {
+    "requestExample": { "selectedHomeowners": [{ "email": "homeowner@example.com", "firstname": "John" }] }
+  },
+  "PATCH /v1/estimates/delete-contract/{estimateId}": {
+    "requestExample": { "type": "estimate" }
+  },
+  "POST /v1/estimates/generation": {
+    "requestExample": { "opportunityId": "opp_abc123" }
+  },
+  "POST /v1/estimates/migrate-products": {
+    "requestExample": { "dryRun": true, "changeOrderIds": ["co_001", "co_002"] }
+  },
+  "PATCH /v1/estimates/reset/{estimateId}": {
+    "requestExample": { "type": "estimate" }
+  },
+  "PATCH /v1/estimates/save/{estimateId}": {
+    "requestExample": { "selectedHomeowners": [{ "email": "homeowner@example.com", "firstname": "John" }] }
+  },
+  "POST /v1/estimates/search": {
+    "requestExample": { "dealId": "deal_xyz789", "status": "draft" }
+  },
+  "PATCH /v1/estimates/send-for-signature/{estimateId}": {
+    "requestExample": { "type": "estimate" }
+  },
+  "POST /v1/estimates/sort-custom-products": {
+    "requestExample": { "estimateId": "est_abc123", "customProductIds": ["cprod_001", "cprod_002", "cprod_003"] }
+  },
+  "POST /v1/estimates/sort-products": {
+    "requestExample": { "estimateId": "est_abc123", "productsIds": ["prod_001", "prod_002", "prod_003"] }
+  },
+  "POST /v1/follow-up-boss/activate": {
+    "requestExample": { "token": "fub_api_token_abc123" }
+  },
+  "POST /v1/homes/{dealId}/note": {
+    "requestExample": { "note": "Homeowner prefers morning appointments for onsite visits." }
+  },
+  "POST /v1/marketing-center/automation/agent": {
+    "requestExample": { "realtorId": "agent_abc123", "sendEmail": true }
+  },
+  "POST /v1/marketing-center/automation/opportunity": {
+    "requestExample": { "opportunityId": "opp_abc123" }
+  },
+  "POST /v1/marketing-center/automation/rebuild": {
+    "requestExample": { "type": "flyer", "sendEmail": false }
+  },
+  "POST /v1/marketing-center/create-image": {
+    "requestExample": { "id": "template_abc123" }
+  },
+  "POST /v1/marketing-center/rebuild-agent-templates": {
+    "requestExample": { "removeIds": ["tmpl_old001", "tmpl_old002"] }
+  },
+  "POST /v1/marketing-center/send-mms": {
+    "requestExample": { "templateId": "tmpl_abc123", "phone": "+15551234567" }
+  },
+  "POST /v1/marketing-center/submit-template/{id}": {
+    "requestExample": { "ogData": { "title": "Beautiful Kitchen Renovation", "description": "See the transformation", "imageUrl": "https://storage.revive.realty/photos/kitchen_after.jpg" } }
+  },
+  "DELETE /v1/media/": {
+    "requestExample": { "dealId": "deal_xyz789", "fileId": "file_abc123" }
+  },
+  "PATCH /v1/media/change-document-status": {
+    "requestExample": { "dealId": "deal_xyz789", "status": "approved" }
+  },
+  "POST /v1/media/check-required-folders": {
+    "requestExample": { "dealId": "deal_xyz789", "isSell360": false }
+  },
+  "POST /v1/media/create-folder": {
+    "requestExample": { "dealId": "deal_xyz789", "folderName": "Inspection Photos" }
+  },
+  "POST /v1/media/moving": {
+    "requestExample": { "dealId": "deal_xyz789", "nodeId": "file_abc123" }
+  },
+  "POST /v1/media/remove-folder": {
+    "requestExample": { "dealId": "deal_xyz789" }
+  },
+  "PATCH /v1/media/rename": {
+    "requestExample": { "dealId": "deal_xyz789", "newName": "Kitchen Photos - Final" }
+  },
+  "POST /v1/media/share-document": {
+    "requestExample": { "dealId": "deal_xyz789", "shareWith": "homeowner@example.com" }
+  },
+  "POST /v1/media/upload-media": {
+    "requestExample": { "dealId": "deal_xyz789", "files": ["kitchen_before.jpg", "kitchen_after.jpg"] }
+  },
+  "POST /v1/notifications/wu-reminder": {
+    "requestExample": { "contractorId": 12345 }
+  },
+  "POST /v1/onsite-visit/mobile-geolocation": {
+    "requestExample": { "type": "checkin", "coordinates": { "latitude": 34.0522, "longitude": -118.2437 } }
+  },
+  "PATCH /v1/onsite-visit/{onSiteVisitId}": {
+    "requestExample": { "attendees": [{ "email": "agent@realty.com", "role": "agent" }], "sessionStatus": "completed" }
+  }
+}

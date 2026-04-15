@@ -449,6 +449,9 @@
                 "required": [
                   "key"
                 ]
+              },
+              "example": {
+                "app": "dashboard"
               }
             }
           }
@@ -559,6 +562,12 @@
                 "required": [
                   "key"
                 ]
+              },
+              "example": {
+                "enableNewEstimateFlow": true,
+                "enableAIPhotoAnalysis": true,
+                "enableRTSContracts": false,
+                "maintenanceMode": false
               }
             }
           }
@@ -618,6 +627,9 @@
                     "type": "string"
                   }
                 }
+              },
+              "example": {
+                "idToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
               }
             }
           }
@@ -648,7 +660,8 @@
                     "type": "string"
                   },
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "newuser@example.com"
                   },
                   "phone": {
                     "type": "string"
@@ -665,6 +678,10 @@
                   "email",
                   "phone"
                 ]
+              },
+              "example": {
+                "email": "newuser@example.com",
+                "password": "securePassword123"
               }
             }
           }
@@ -700,7 +717,8 @@
                     "type": "string"
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Los Angeles"
                   },
                   "zipcode": {
                     "type": "string"
@@ -710,6 +728,12 @@
                   "city",
                   "zipcode"
                 ]
+              },
+              "example": {
+                "streetAddress": "123 Main St",
+                "city": "Los Angeles",
+                "state": "CA",
+                "postalCode": "90001"
               }
             }
           }
@@ -780,6 +804,12 @@
                   "link",
                   "CTA"
                 ]
+              },
+              "example": {
+                "title": "Q2 Market Update",
+                "message": "Check out the latest renovation trends.",
+                "channel": "email",
+                "recipientType": "agents"
               }
             }
           }
@@ -852,6 +882,10 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "title": "Updated Q2 Market Report",
+                "status": "draft"
               }
             }
           }
@@ -1014,6 +1048,9 @@
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "brokerageId": "brok_abc123"
               }
             }
           }
@@ -1074,6 +1111,9 @@
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "companyId": "comp_abc123"
               }
             }
           }
@@ -1124,9 +1164,14 @@
                     "type": "number"
                   },
                   "search": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Keller Williams"
                   }
                 }
+              },
+              "example": {
+                "search": "Keller Williams",
+                "state": "CA"
               }
             }
           }
@@ -1170,13 +1215,15 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Keller Williams Realty - Updated"
                   },
                   "phone": {
                     "type": "string"
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "San Francisco"
                   },
                   "zip": {
                     "type": "string"
@@ -1195,6 +1242,11 @@
                     ]
                   }
                 }
+              },
+              "example": {
+                "name": "Keller Williams Realty - Updated",
+                "state": "CA",
+                "city": "San Francisco"
               }
             }
           }
@@ -1260,6 +1312,10 @@
                 "required": [
                   "latitude"
                 ]
+              },
+              "example": {
+                "search": "kitchen renovation",
+                "state": "CA"
               }
             }
           }
@@ -1397,12 +1453,17 @@
                 "type": "object",
                 "properties": {
                   "contactId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "cont_abc123"
                   }
                 },
                 "required": [
                   "contactId"
                 ]
+              },
+              "example": {
+                "contactId": "cont_abc123",
+                "opportunityId": "opp_xyz789"
               }
             }
           }
@@ -1450,6 +1511,11 @@
                   "lastname",
                   "host"
                 ]
+              },
+              "example": {
+                "contactId": "cont_abc123",
+                "type": "report",
+                "reportId": "rpt_xyz789"
               }
             }
           }
@@ -1488,6 +1554,10 @@
                 "required": [
                   "primaryContact"
                 ]
+              },
+              "example": {
+                "primaryContactId": "cont_abc123",
+                "duplicateContactId": "cont_def456"
               }
             }
           }
@@ -1520,12 +1590,17 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   }
                 },
                 "required": [
                   "dealId"
                 ]
+              },
+              "example": {
+                "contactId": "cont_abc123",
+                "dealId": "deal_xyz789"
               }
             }
           }
@@ -1931,6 +2006,11 @@
                     "type": "string"
                   }
                 }
+              },
+              "example": {
+                "contractorId": "contr_abc123",
+                "company": "BuildCo LLC - Updated",
+                "phone": "+15559876543"
               }
             }
           }
@@ -2002,6 +2082,9 @@
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "contractorId": "contr_abc123"
               }
             }
           }
@@ -2032,6 +2115,11 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "state": "CA",
+                "city": "Los Angeles",
+                "specialty": "kitchen"
               }
             }
           }
@@ -2089,6 +2177,9 @@
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "contractorId": "contr_abc123"
               }
             }
           }
@@ -2119,6 +2210,16 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "contractors": [
+                  {
+                    "firstname": "Mike",
+                    "lastname": "Builder",
+                    "email": "mike@buildco.com",
+                    "company": "BuildCo LLC"
+                  }
+                ]
               }
             }
           }
@@ -2185,12 +2286,17 @@
                     "type": "number"
                   },
                   "search": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "BuildCo"
                   },
                   "pipeline": {
                     "type": "string"
                   }
                 }
+              },
+              "example": {
+                "search": "BuildCo",
+                "state": "CA"
               }
             }
           }
@@ -2317,15 +2423,27 @@
                       "workers_compensation",
                       "contractor_bond"
                     ],
-                    "description": "Unique contractor identifier."
+                    "description": "Unique contractor identifier.",
+                    "example": "contr_abc123"
                   },
                   "submitBy": {
-                    "type": "object"
+                    "type": "object",
+                    "example": {
+                      "userId": "user_xyz",
+                      "role": "admin"
+                    }
                   }
                 },
                 "required": [
                   "contractorId"
                 ]
+              },
+              "example": {
+                "contractorId": "contr_abc123",
+                "submitBy": {
+                  "userId": "user_xyz",
+                  "role": "admin"
+                }
               }
             }
           }
@@ -2450,17 +2568,35 @@
                 "type": "object",
                 "properties": {
                   "opportunityId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "opp_abc123"
                   },
                   "homeowners": {
                     "type": "array",
                     "items": {
                       "type": "object"
-                    }
+                    },
+                    "example": [
+                      {
+                        "email": "homeowner@example.com",
+                        "firstname": "John",
+                        "lastname": "Doe"
+                      }
+                    ]
                   }
                 },
                 "required": [
                   "opportunityId"
+                ]
+              },
+              "example": {
+                "opportunityId": "opp_abc123",
+                "homeowners": [
+                  {
+                    "email": "homeowner@example.com",
+                    "firstname": "John",
+                    "lastname": "Doe"
+                  }
                 ]
               }
             }
@@ -2716,12 +2852,24 @@
                 "type": "object",
                 "properties": {
                   "primary": {
-                    "type": "object"
+                    "type": "object",
+                    "example": {
+                      "email": "homeowner@example.com",
+                      "firstname": "John",
+                      "lastname": "Doe"
+                    }
                   }
                 },
                 "required": [
                   "primary"
                 ]
+              },
+              "example": {
+                "primary": {
+                  "email": "homeowner@example.com",
+                  "firstname": "John",
+                  "lastname": "Doe"
+                }
               }
             }
           }
@@ -2767,19 +2915,27 @@
                 "type": "object",
                 "properties": {
                   "sortedBy": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "category"
                   },
                   "sortedType": {
                     "type": "string",
                     "enum": [
                       "asc",
                       "desc"
-                    ]
+                    ],
+                    "example": "asc"
                   },
                   "size": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 10
                   }
                 }
+              },
+              "example": {
+                "sortedBy": "category",
+                "sortedType": "asc",
+                "size": 10
               }
             }
           }
@@ -2898,9 +3054,23 @@
                     "type": "array",
                     "items": {
                       "type": "object"
-                    }
+                    },
+                    "example": [
+                      {
+                        "email": "homeowner@example.com",
+                        "firstname": "John"
+                      }
+                    ]
                   }
                 }
+              },
+              "example": {
+                "selectedHomeowners": [
+                  {
+                    "email": "homeowner@example.com",
+                    "firstname": "John"
+                  }
+                ]
               }
             }
           }
@@ -2948,9 +3118,13 @@
                     "enum": [
                       "estimates",
                       "change-orders"
-                    ]
+                    ],
+                    "example": "estimate"
                   }
                 }
+              },
+              "example": {
+                "type": "estimate"
               }
             }
           }
@@ -3013,12 +3187,16 @@
                 "type": "object",
                 "properties": {
                   "opportunityId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "opp_abc123"
                   }
                 },
                 "required": [
                   "opportunityId"
                 ]
+              },
+              "example": {
+                "opportunityId": "opp_abc123"
               }
             }
           }
@@ -3051,13 +3229,25 @@
                 "type": "object",
                 "properties": {
                   "dryRun": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                   },
                   "changeOrderIds": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "example": [
+                      "co_001",
+                      "co_002"
+                    ]
                   }
                 }
+              },
+              "example": {
+                "dryRun": true,
+                "changeOrderIds": [
+                  "co_001",
+                  "co_002"
+                ]
               }
             }
           }
@@ -3105,12 +3295,16 @@
                     "enum": [
                       "estimates",
                       "change-orders"
-                    ]
+                    ],
+                    "example": "estimate"
                   }
                 },
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "type": "estimate"
               }
             }
           }
@@ -3157,9 +3351,23 @@
                     "type": "array",
                     "items": {
                       "type": "object"
-                    }
+                    },
+                    "example": [
+                      {
+                        "email": "homeowner@example.com",
+                        "firstname": "John"
+                      }
+                    ]
                   }
                 }
+              },
+              "example": {
+                "selectedHomeowners": [
+                  {
+                    "email": "homeowner@example.com",
+                    "firstname": "John"
+                  }
+                ]
               }
             }
           }
@@ -3190,6 +3398,10 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "status": "draft"
               }
             }
           }
@@ -3237,9 +3449,13 @@
                     "enum": [
                       "estimates",
                       "change-orders"
-                    ]
+                    ],
+                    "example": "estimate"
                   }
                 }
+              },
+              "example": {
+                "type": "estimate"
               }
             }
           }
@@ -3276,16 +3492,30 @@
                     "enum": [
                       "estimates",
                       "change-orders"
-                    ]
+                    ],
+                    "example": "est_abc123"
                   },
                   "customProductIds": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "example": [
+                      "cprod_001",
+                      "cprod_002",
+                      "cprod_003"
+                    ]
                   }
                 },
                 "required": [
                   "estimateId",
                   "customProductIds"
+                ]
+              },
+              "example": {
+                "estimateId": "est_abc123",
+                "customProductIds": [
+                  "cprod_001",
+                  "cprod_002",
+                  "cprod_003"
                 ]
               }
             }
@@ -3323,16 +3553,30 @@
                     "enum": [
                       "estimates",
                       "change-orders"
-                    ]
+                    ],
+                    "example": "est_abc123"
                   },
                   "productsIds": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "example": [
+                      "prod_001",
+                      "prod_002",
+                      "prod_003"
+                    ]
                   }
                 },
                 "required": [
                   "estimateId",
                   "productsIds"
+                ]
+              },
+              "example": {
+                "estimateId": "est_abc123",
+                "productsIds": [
+                  "prod_001",
+                  "prod_002",
+                  "prod_003"
                 ]
               }
             }
@@ -3566,12 +3810,16 @@
                 "type": "object",
                 "properties": {
                   "token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "fub_api_token_abc123"
                   }
                 },
                 "required": [
                   "token"
                 ]
+              },
+              "example": {
+                "token": "fub_api_token_abc123"
               }
             }
           }
@@ -3597,6 +3845,14 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "mappings": [
+                  {
+                    "reviveUserId": "user_abc123",
+                    "fubUserId": "fub_123"
+                  }
+                ]
               }
             }
           }
@@ -3724,11 +3980,16 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "associatedObjectId": {}
+                  "associatedObjectId": {
+                    "example": "hubspot_obj_abc123"
+                  }
                 },
                 "required": [
                   "associatedObjectId"
                 ]
+              },
+              "example": {
+                "associatedObjectId": "hubspot_obj_abc123"
               }
             }
           }
@@ -3849,11 +4110,16 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "associatedObjectId": {}
+                  "associatedObjectId": {
+                    "example": "hubspot_obj_abc123"
+                  }
                 },
                 "required": [
                   "associatedObjectId"
                 ]
+              },
+              "example": {
+                "associatedObjectId": "hubspot_obj_abc123"
               }
             }
           }
@@ -3897,12 +4163,16 @@
                 "type": "object",
                 "properties": {
                   "note": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Homeowner prefers morning appointments for onsite visits."
                   }
                 },
                 "required": [
                   "note"
                 ]
+              },
+              "example": {
+                "note": "Homeowner prefers morning appointments for onsite visits."
               }
             }
           }
@@ -3929,11 +4199,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "realtorId": {},
+                  "realtorId": {
+                    "example": "agent_abc123"
+                  },
                   "sendEmail": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                   }
                 }
+              },
+              "example": {
+                "realtorId": "agent_abc123",
+                "sendEmail": true
               }
             }
           }
@@ -3960,11 +4237,16 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "opportunityId": {}
+                  "opportunityId": {
+                    "example": "opp_abc123"
+                  }
                 },
                 "required": [
                   "opportunityId"
                 ]
+              },
+              "example": {
+                "opportunityId": "opp_abc123"
               }
             }
           }
@@ -4001,15 +4283,21 @@
                     "enum": [
                       "add",
                       "delete"
-                    ]
+                    ],
+                    "example": "flyer"
                   },
                   "sendEmail": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
                   }
                 },
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "type": "flyer",
+                "sendEmail": false
               }
             }
           }
@@ -4042,9 +4330,13 @@
                 "type": "object",
                 "properties": {
                   "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "template_abc123"
                   }
                 }
+              },
+              "example": {
+                "id": "template_abc123"
               }
             }
           }
@@ -4164,9 +4456,19 @@
                 "properties": {
                   "removeIds": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "example": [
+                      "tmpl_old001",
+                      "tmpl_old002"
+                    ]
                   }
                 }
+              },
+              "example": {
+                "removeIds": [
+                  "tmpl_old001",
+                  "tmpl_old002"
+                ]
               }
             }
           }
@@ -4199,15 +4501,21 @@
                 "type": "object",
                 "properties": {
                   "templateId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "tmpl_abc123"
                   },
                   "phone": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "+15551234567"
                   }
                 },
                 "required": [
                   "templateId"
                 ]
+              },
+              "example": {
+                "templateId": "tmpl_abc123",
+                "phone": "+15551234567"
               }
             }
           }
@@ -4251,8 +4559,20 @@
                 "type": "object",
                 "properties": {
                   "ogData": {
-                    "type": "object"
+                    "type": "object",
+                    "example": {
+                      "title": "Beautiful Kitchen Renovation",
+                      "description": "See the transformation",
+                      "imageUrl": "https://storage.revive.realty/photos/kitchen_after.jpg"
+                    }
                   }
+                }
+              },
+              "example": {
+                "ogData": {
+                  "title": "Beautiful Kitchen Renovation",
+                  "description": "See the transformation",
+                  "imageUrl": "https://storage.revive.realty/photos/kitchen_after.jpg"
                 }
               }
             }
@@ -4371,15 +4691,21 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   },
                   "fileId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "file_abc123"
                   }
                 },
                 "required": [
                   "dealId"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "fileId": "file_abc123"
               }
             }
           }
@@ -4412,19 +4738,25 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   },
                   "status": {
                     "type": "string",
                     "enum": [
                       "N/A",
                       "Requested"
-                    ]
+                    ],
+                    "example": "approved"
                   }
                 },
                 "required": [
                   "dealId"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "status": "approved"
               }
             }
           }
@@ -4457,12 +4789,18 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   },
                   "isSell360": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
                   }
                 }
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "isSell360": false
               }
             }
           }
@@ -4488,6 +4826,9 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "imageUrl": "https://storage.revive.realty/uploads/photo.webp"
               }
             }
           }
@@ -4520,16 +4861,22 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   },
                   "folderName": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Inspection Photos"
                   }
                 },
                 "required": [
                   "dealId",
                   "folderName"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "folderName": "Inspection Photos"
               }
             }
           }
@@ -4566,16 +4913,22 @@
                     "enum": [
                       "folder",
                       "file"
-                    ]
+                    ],
+                    "example": "deal_xyz789"
                   },
                   "nodeId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "file_abc123"
                   }
                 },
                 "required": [
                   "dealId",
                   "nodeId"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "nodeId": "file_abc123"
               }
             }
           }
@@ -4608,12 +4961,16 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   }
                 },
                 "required": [
                   "dealId"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789"
               }
             }
           }
@@ -4646,20 +5003,26 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   },
                   "newName": {
                     "type": "string",
                     "enum": [
                       "file",
                       "folder"
-                    ]
+                    ],
+                    "example": "Kitchen Photos - Final"
                   }
                 },
                 "required": [
                   "dealId",
                   "newName"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "newName": "Kitchen Photos - Final"
               }
             }
           }
@@ -4692,16 +5055,22 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   },
                   "shareWith": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "homeowner@example.com"
                   }
                 },
                 "required": [
                   "dealId",
                   "shareWith"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "shareWith": "homeowner@example.com"
               }
             }
           }
@@ -4732,6 +5101,11 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "documentType": "inspection_report",
+                "title": "Home Inspection Report"
               }
             }
           }
@@ -4778,15 +5152,27 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   },
                   "files": {
                     "type": "array",
                     "items": {
                       "type": "object"
-                    }
+                    },
+                    "example": [
+                      "kitchen_before.jpg",
+                      "kitchen_after.jpg"
+                    ]
                   }
                 }
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "files": [
+                  "kitchen_before.jpg",
+                  "kitchen_after.jpg"
+                ]
               }
             }
           }
@@ -4814,29 +5200,35 @@
                 "type": "object",
                 "properties": {
                   "calendar": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "la-team"
                   },
                   "lastname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Smith"
                   },
                   "timezone": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "America/Los_Angeles"
                   },
                   "startTime": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 1713100000000
                   },
                   "likelyAvailableUserIds": {
                     "type": "array"
                   },
                   "upleg": {},
                   "alreadyAssociated": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
                   },
                   "bookedBy": {
                     "type": "object"
                   },
                   "isPreestimateMeeting": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [
@@ -4845,6 +5237,14 @@
                   "timezone",
                   "startTime"
                 ]
+              },
+              "example": {
+                "calendar": "la-team",
+                "lastname": "Smith",
+                "timezone": "America/Los_Angeles",
+                "startTime": 1713100000000,
+                "alreadyAssociated": false,
+                "isPreestimateMeeting": true
               }
             }
           }
@@ -4930,6 +5330,9 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "dryRun": true
               }
             }
           }
@@ -4955,6 +5358,12 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "userId": "user_abc123",
+                "title": "Meeting Reminder",
+                "body": "Your onsite visit for 123 Main St is tomorrow at 10am.",
+                "channel": "push"
               }
             }
           }
@@ -5002,12 +5411,16 @@
                 "type": "object",
                 "properties": {
                   "contractorId": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 12345
                   }
                 },
                 "required": [
                   "contractorId"
                 ]
+              },
+              "example": {
+                "contractorId": 12345
               }
             }
           }
@@ -5064,16 +5477,28 @@
                     "enum": [
                       "check-in",
                       "check-out"
-                    ]
+                    ],
+                    "example": "checkin"
                   },
                   "coordinates": {
-                    "type": "object"
+                    "type": "object",
+                    "example": {
+                      "latitude": 34.0522,
+                      "longitude": -118.2437
+                    }
                   }
                 },
                 "required": [
                   "type",
                   "coordinates"
                 ]
+              },
+              "example": {
+                "type": "checkin",
+                "coordinates": {
+                  "latitude": 34.0522,
+                  "longitude": -118.2437
+                }
               }
             }
           }
@@ -5118,7 +5543,13 @@
                 "properties": {
                   "audioFile": {},
                   "attendees": {
-                    "type": "array"
+                    "type": "array",
+                    "example": [
+                      {
+                        "email": "agent@realty.com",
+                        "role": "agent"
+                      }
+                    ]
                   },
                   "sessionStatus": {
                     "type": "string",
@@ -5126,9 +5557,19 @@
                       "PENDING",
                       "COMPLETED",
                       "INCOMPLETE"
-                    ]
+                    ],
+                    "example": "completed"
                   }
                 }
+              },
+              "example": {
+                "attendees": [
+                  {
+                    "email": "agent@realty.com",
+                    "role": "agent"
+                  }
+                ],
+                "sessionStatus": "completed"
               }
             }
           }
@@ -5199,6 +5640,10 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "text": "Kitchen cabinets need replacement — see attached photos.",
+                "type": "inspection"
               }
             }
           }
@@ -5286,15 +5731,27 @@
                     "enum": [
                       "internal",
                       "public"
-                    ]
+                    ],
+                    "example": "inspection"
                   },
                   "createdBy": {
-                    "type": "object"
+                    "type": "object",
+                    "example": {
+                      "userId": "user_abc123",
+                      "role": "agent"
+                    }
                   }
                 },
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "type": "inspection",
+                "createdBy": {
+                  "userId": "user_abc123",
+                  "role": "agent"
+                }
               }
             }
           }
@@ -5336,6 +5793,10 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "imageUrl": "https://storage.revive.realty/visits/kitchen_damage.jpg",
+                "note": "Water damage visible under sink cabinet"
               }
             }
           }
@@ -5386,6 +5847,9 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "note": "Updated: Water damage confirmed — needs full replacement"
               }
             }
           }
@@ -5449,6 +5913,11 @@
             "application/json": {
               "schema": {
                 "type": "object"
+              },
+              "example": {
+                "leadEmail": "homeowner@example.com",
+                "leadPhone": "+15551234567",
+                "propertyAddress": "123 Main St, Los Angeles, CA"
               }
             }
           }
@@ -5493,9 +5962,13 @@
                 "type": "object",
                 "properties": {
                   "imageInput": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://storage.revive.realty/photos/kitchen_01.jpg"
                   }
                 }
+              },
+              "example": {
+                "imageInput": "https://storage.revive.realty/photos/kitchen_01.jpg"
               }
             }
           }
@@ -5574,15 +6047,31 @@
                 "type": "object",
                 "properties": {
                   "startDate": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-01-01"
                   },
                   "ownersRep": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "example": [
+                      {
+                        "userId": "user_abc123",
+                        "name": "Sarah Johnson"
+                      }
+                    ]
                   }
                 },
                 "required": [
                   "startDate"
+                ]
+              },
+              "example": {
+                "startDate": "2026-01-01",
+                "ownersRep": [
+                  {
+                    "userId": "user_abc123",
+                    "name": "Sarah Johnson"
+                  }
                 ]
               }
             }
@@ -5616,15 +6105,33 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   },
                   "items": {
                     "type": "array",
                     "items": {
                       "type": "object"
-                    }
+                    },
+                    "example": [
+                      {
+                        "title": "Kitchen Remodel",
+                        "description": "Full kitchen renovation",
+                        "category": "Kitchen"
+                      }
+                    ]
                   }
                 }
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "items": [
+                  {
+                    "title": "Kitchen Remodel",
+                    "description": "Full kitchen renovation",
+                    "category": "Kitchen"
+                  }
+                ]
               }
             }
           }
@@ -5655,12 +6162,16 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "deal_xyz789"
                   }
                 },
                 "required": [
                   "dealId"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789"
               }
             }
           }
@@ -5725,32 +6236,46 @@
                 "properties": {
                   "dealId": {
                     "type": "string",
-                    "description": "Deal ID."
+                    "description": "Deal ID.",
+                    "example": "deal_xyz789"
                   },
                   "id": {
                     "type": "string",
-                    "description": "Scope item ID."
+                    "description": "Scope item ID.",
+                    "example": "scope_001"
                   },
                   "description": {
                     "type": "string",
-                    "description": "Updated description."
+                    "description": "Updated description.",
+                    "example": "Full kitchen renovation including island"
                   },
                   "title": {
                     "type": "string",
-                    "description": "Updated title."
+                    "description": "Updated title.",
+                    "example": "Kitchen Remodel - Updated"
                   },
                   "isInPunchList": {
                     "type": "boolean",
-                    "description": "Whether to include in punch list."
+                    "description": "Whether to include in punch list.",
+                    "example": false
                   },
                   "verified": {
                     "type": "boolean",
-                    "description": "Whether the item is verified complete."
+                    "description": "Whether the item is verified complete.",
+                    "example": true
                   }
                 },
                 "required": [
                   "dealId"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "id": "scope_001",
+                "title": "Kitchen Remodel - Updated",
+                "description": "Full kitchen renovation including island",
+                "isInPunchList": false,
+                "verified": true
               }
             }
           }
@@ -5947,12 +6472,16 @@
                 "properties": {
                   "reportCustomObjectId": {
                     "type": "string",
-                    "description": "HubSpot custom object record ID."
+                    "description": "HubSpot custom object record ID.",
+                    "example": "hubspot_obj_abc123"
                   }
                 },
                 "required": [
                   "reportCustomObjectId"
                 ]
+              },
+              "example": {
+                "reportCustomObjectId": "hubspot_obj_abc123"
               }
             }
           }
@@ -5986,16 +6515,22 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Property record ID."
+                    "description": "Property record ID.",
+                    "example": "prop_abc123"
                   },
                   "reportId": {
                     "type": "string",
-                    "description": "Report ID to complete."
+                    "description": "Report ID to complete.",
+                    "example": "rpt_xyz789"
                   }
                 },
                 "required": [
                   "id"
                 ]
+              },
+              "example": {
+                "id": "prop_abc123",
+                "reportId": "rpt_xyz789"
               }
             }
           }
@@ -6029,31 +6564,38 @@
                 "properties": {
                   "reportId": {
                     "type": "string",
-                    "description": "Report ID."
+                    "description": "Report ID.",
+                    "example": "rpt_xyz789"
                   },
                   "streetAddress": {
                     "type": "string",
-                    "description": "Address."
+                    "description": "Address.",
+                    "example": "456 Oak Ave"
                   },
                   "state": {
                     "type": "string",
-                    "description": "State code."
+                    "description": "State code.",
+                    "example": "CA"
                   },
                   "closeDate": {
                     "type": "string",
-                    "description": "Sale date (YYYY-MM-DD)."
+                    "description": "Sale date (YYYY-MM-DD).",
+                    "example": "2026-03-01"
                   },
                   "grade": {
                     "type": "string",
-                    "description": "Condition rating."
+                    "description": "Condition rating.",
+                    "example": "B+"
                   },
                   "beds": {
                     "type": "number",
-                    "description": "Bedrooms."
+                    "description": "Bedrooms.",
+                    "example": 3
                   },
                   "year": {
                     "type": "number",
-                    "description": "Year built."
+                    "description": "Year built.",
+                    "example": 1990
                   },
                   "status": {
                     "type": "string",
@@ -6062,15 +6604,18 @@
                       "pending",
                       "sold"
                     ],
-                    "description": "'sold', 'pending', or 'active'."
+                    "description": "'sold', 'pending', or 'active'.",
+                    "example": "sold"
                   },
                   "id": {
                     "type": "string",
-                    "description": "External ID."
+                    "description": "External ID.",
+                    "example": "comp_001"
                   },
                   "imageUrl": {
                     "type": "string",
-                    "description": "Photo URL."
+                    "description": "Photo URL.",
+                    "example": "https://photos.example.com/comp_01.jpg"
                   }
                 },
                 "required": [
@@ -6081,6 +6626,18 @@
                   "beds",
                   "status"
                 ]
+              },
+              "example": {
+                "reportId": "rpt_xyz789",
+                "streetAddress": "456 Oak Ave",
+                "state": "CA",
+                "closeDate": "2026-03-01",
+                "grade": "B+",
+                "beds": 3,
+                "year": 1990,
+                "status": "sold",
+                "id": "comp_001",
+                "imageUrl": "https://photos.example.com/comp_01.jpg"
               }
             }
           }
@@ -6165,19 +6722,27 @@
                 "type": "object",
                 "properties": {
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Los Angeles"
                   },
                   "state": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "CA"
                   },
                   "country": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "US"
                   }
                 },
                 "required": [
                   "city",
                   "state"
                 ]
+              },
+              "example": {
+                "city": "Los Angeles",
+                "state": "CA",
+                "country": "US"
               }
             }
           }
@@ -6221,19 +6786,27 @@
                 "type": "object",
                 "properties": {
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Los Angeles"
                   },
                   "state": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "CA"
                   },
                   "country": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "US"
                   }
                 },
                 "required": [
                   "city",
                   "state"
                 ]
+              },
+              "example": {
+                "city": "Los Angeles",
+                "state": "CA",
+                "country": "US"
               }
             }
           }
@@ -6262,16 +6835,32 @@
                 "properties": {
                   "contact": {
                     "type": "object",
-                    "description": "Object with firstname, lastname, email, phone."
+                    "description": "Object with firstname, lastname, email, phone.",
+                    "example": {
+                      "firstname": "John",
+                      "lastname": "Doe",
+                      "email": "john@example.com",
+                      "phone": "+15551234567"
+                    }
                   },
                   "agentId": {
                     "type": "string",
-                    "description": "Referring agent's ID."
+                    "description": "Referring agent's ID.",
+                    "example": "agent_abc123"
                   }
                 },
                 "required": [
                   "contact"
                 ]
+              },
+              "example": {
+                "contact": {
+                  "firstname": "John",
+                  "lastname": "Doe",
+                  "email": "john@example.com",
+                  "phone": "+15551234567"
+                },
+                "agentId": "agent_abc123"
               }
             }
           }
@@ -6305,15 +6894,18 @@
                 "properties": {
                   "reportId": {
                     "type": "string",
-                    "description": "Report to find comparables for."
+                    "description": "Report to find comparables for.",
+                    "example": "rpt_xyz789"
                   },
                   "city": {
                     "type": "string",
-                    "description": "City to search."
+                    "description": "City to search.",
+                    "example": "Los Angeles"
                   },
                   "postalCode": {
                     "type": "string",
-                    "description": "ZIP code."
+                    "description": "ZIP code.",
+                    "example": "90001"
                   }
                 },
                 "required": [
@@ -6321,6 +6913,11 @@
                   "city",
                   "postalCode"
                 ]
+              },
+              "example": {
+                "reportId": "rpt_xyz789",
+                "city": "Los Angeles",
+                "postalCode": "90001"
               }
             }
           }
@@ -6369,16 +6966,22 @@
                       "email",
                       "sms"
                     ],
-                    "description": "'link' or 'invite'."
+                    "description": "'link' or 'invite'.",
+                    "example": "invite"
                   },
                   "inviteId": {
                     "type": "string",
-                    "description": "Contact ID to invite."
+                    "description": "Contact ID to invite.",
+                    "example": "cont_abc123"
                   }
                 },
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "type": "invite",
+                "inviteId": "cont_abc123"
               }
             }
           }
@@ -6412,12 +7015,16 @@
                 "properties": {
                   "reportId": {
                     "type": "string",
-                    "description": "V1 report ID to upgrade."
+                    "description": "V1 report ID to upgrade.",
+                    "example": "rpt_xyz789"
                   }
                 },
                 "required": [
                   "reportId"
                 ]
+              },
+              "example": {
+                "reportId": "rpt_xyz789"
               }
             }
           }
@@ -6492,10 +7099,24 @@
                 "type": "object",
                 "properties": {
                   "comparables": {
-                    "type": "array"
+                    "type": "array",
+                    "example": [
+                      {
+                        "id": "comp_001",
+                        "address": "456 Oak Ave"
+                      }
+                    ]
                   },
                   "distance": {}
                 }
+              },
+              "example": {
+                "comparables": [
+                  {
+                    "id": "comp_001",
+                    "address": "456 Oak Ave"
+                  }
+                ]
               }
             }
           }
@@ -6534,17 +7155,23 @@
                       "submitted",
                       "approved"
                     ],
-                    "description": "Deal ID."
+                    "description": "Deal ID.",
+                    "example": "deal_xyz789"
                   },
                   "submittedById": {
                     "type": "string",
-                    "description": "User ID who submitted the update."
+                    "description": "User ID who submitted the update.",
+                    "example": "user_abc123"
                   }
                 },
                 "required": [
                   "dealId",
                   "submittedById"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789",
+                "submittedById": "user_abc123"
               }
             }
           }
@@ -6578,12 +7205,16 @@
                 "properties": {
                   "dealId": {
                     "type": "string",
-                    "description": "Deal ID."
+                    "description": "Deal ID.",
+                    "example": "deal_xyz789"
                   }
                 },
                 "required": [
                   "dealId"
                 ]
+              },
+              "example": {
+                "dealId": "deal_xyz789"
               }
             }
           }
@@ -6705,19 +7336,24 @@
                       "Buyer",
                       "Seller",
                       "Buyer And Seller"
-                    ]
+                    ],
+                    "example": "agent"
                   },
                   "clientFirstName": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John"
                   },
                   "clientEmail": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "john@example.com"
                   },
                   "realtorId": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "agent_abc123"
                   },
                   "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "New referral from website"
                   }
                 },
                 "required": [
@@ -6726,6 +7362,13 @@
                   "realtorId",
                   "message"
                 ]
+              },
+              "example": {
+                "referralType": "agent",
+                "clientFirstName": "John",
+                "clientEmail": "john@example.com",
+                "realtorId": "agent_abc123",
+                "message": "New referral from website"
               }
             }
           }
@@ -6866,12 +7509,16 @@
                 "properties": {
                   "referralId": {
                     "type": "string",
-                    "description": "Referral ID."
+                    "description": "Referral ID.",
+                    "example": "ref_abc123"
                   }
                 },
                 "required": [
                   "referralId"
                 ]
+              },
+              "example": {
+                "referralId": "ref_abc123"
               }
             }
           }
@@ -6988,12 +7635,16 @@
                       "buyer",
                       "seller"
                     ],
-                    "description": "Referral type to delete (in body)."
+                    "description": "Referral type to delete (in body).",
+                    "example": "agent"
                   }
                 },
                 "required": [
                   "referralType"
                 ]
+              },
+              "example": {
+                "referralType": "agent"
               }
             }
           }
@@ -7159,11 +7810,21 @@
                 "properties": {
                   "reimagineIds": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "example": [
+                      "rimg_001",
+                      "rimg_002"
+                    ]
                   }
                 },
                 "required": [
                   "reimagineIds"
+                ]
+              },
+              "example": {
+                "reimagineIds": [
+                  "rimg_001",
+                  "rimg_002"
                 ]
               }
             }
@@ -7336,12 +7997,16 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "description": "Summary of work completed."
+                    "description": "Summary of work completed.",
+                    "example": "Completed kitchen cabinet installation and began countertop templating."
                   }
                 },
                 "required": [
                   "message"
                 ]
+              },
+              "example": {
+                "message": "Completed kitchen cabinet installation and began countertop templating."
               }
             }
           }
@@ -7414,15 +8079,27 @@
                 "type": "object",
                 "properties": {
                   "onSchedule": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                   },
                   "completed": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "example": [
+                      "scope_003",
+                      "scope_004"
+                    ]
                   }
                 },
                 "required": [
                   "completed"
+                ]
+              },
+              "example": {
+                "onSchedule": true,
+                "completed": [
+                  "scope_003",
+                  "scope_004"
                 ]
               }
             }
@@ -7486,12 +8163,16 @@
                 "properties": {
                   "year": {
                     "type": "string",
-                    "description": "Year to generate for (e.g., '2026')."
+                    "description": "Year to generate for (e.g., '2026').",
+                    "example": "2026"
                   }
                 },
                 "required": [
                   "year"
                 ]
+              },
+              "example": {
+                "year": "2026"
               }
             }
           }
@@ -7982,24 +8663,38 @@
                       "not_approved",
                       "paid",
                       "hold"
-                    ]
+                    ],
+                    "example": "signed"
                   },
                   "amount_requested": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 85000
                   },
                   "is_final": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
                   },
                   "draw": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 2
                   },
                   "released_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-04-01"
                   },
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Main Renovation RMA"
                   }
                 }
+              },
+              "example": {
+                "status": "signed",
+                "amount_requested": 85000,
+                "is_final": false,
+                "draw": 2,
+                "released_at": "2026-04-01",
+                "name": "Main Renovation RMA"
               }
             }
           }
@@ -8296,7 +8991,7 @@
                 ]
               },
               "example": {
-                "note": "Contractor requested schedule extension — approved by PM."
+                "note": "Contractor requested schedule extension for bathroom remodel — approved by PM."
               }
             }
           }
@@ -8565,19 +9260,26 @@
                 "properties": {
                   "streetAddress": {
                     "type": "string",
-                    "description": "Full street address."
+                    "description": "Full street address.",
+                    "example": "123 Main St, Los Angeles, CA 90001"
                   },
                   "state": {
                     "type": "string",
-                    "description": "State code."
+                    "description": "State code.",
+                    "example": "CA"
                   },
                   "imageUrls": {
                     "type": "array",
-                    "description": "Array of photo URLs."
+                    "description": "Array of photo URLs.",
+                    "example": [
+                      "https://photos.example.com/exterior.jpg",
+                      "https://photos.example.com/kitchen.jpg"
+                    ]
                   },
                   "rejected": {
                     "type": "boolean",
-                    "description": "Whether this is a re-submission after rejection."
+                    "description": "Whether this is a re-submission after rejection.",
+                    "example": false
                   },
                   "application": {
                     "type": "string",
@@ -8586,7 +9288,8 @@
                       "dashboard",
                       "admin",
                       "intake"
-                    ]
+                    ],
+                    "example": "dashboard"
                   }
                 },
                 "required": [
@@ -8594,6 +9297,16 @@
                   "state",
                   "application"
                 ]
+              },
+              "example": {
+                "streetAddress": "123 Main St, Los Angeles, CA 90001",
+                "state": "CA",
+                "imageUrls": [
+                  "https://photos.example.com/exterior.jpg",
+                  "https://photos.example.com/kitchen.jpg"
+                ],
+                "rejected": false,
+                "application": "dashboard"
               }
             }
           }
@@ -8627,17 +9340,25 @@
                 "properties": {
                   "reportId": {
                     "type": "string",
-                    "description": "Report ID."
+                    "description": "Report ID.",
+                    "example": "rpt_xyz789"
                   },
                   "savePhotos": {
                     "type": "boolean",
-                    "description": "Whether to save analyzed photos."
+                    "description": "Whether to save analyzed photos.",
+                    "example": true
                   },
                   "userId": {
                     "type": "string",
-                    "description": "Requesting user."
+                    "description": "Requesting user.",
+                    "example": "user_abc123"
                   }
                 }
+              },
+              "example": {
+                "reportId": "rpt_xyz789",
+                "savePhotos": true,
+                "userId": "user_abc123"
               }
             }
           }
@@ -8666,8 +9387,22 @@
                 "properties": {
                   "contact": {
                     "type": "object",
-                    "description": "Object with contact details."
+                    "description": "Object with contact details.",
+                    "example": {
+                      "firstname": "Jane",
+                      "lastname": "Smith",
+                      "email": "jane@example.com",
+                      "phone": "+15559876543"
+                    }
                   }
+                }
+              },
+              "example": {
+                "contact": {
+                  "firstname": "Jane",
+                  "lastname": "Smith",
+                  "email": "jane@example.com",
+                  "phone": "+15559876543"
                 }
               }
             }
@@ -8702,17 +9437,25 @@
                 "properties": {
                   "reportId": {
                     "type": "string",
-                    "description": "Report ID."
+                    "description": "Report ID.",
+                    "example": "rpt_xyz789"
                   },
                   "savePhotos": {
                     "type": "boolean",
-                    "description": "Whether to save."
+                    "description": "Whether to save.",
+                    "example": true
                   },
                   "userId": {
                     "type": "string",
-                    "description": "User ID."
+                    "description": "User ID.",
+                    "example": "user_abc123"
                   }
                 }
+              },
+              "example": {
+                "reportId": "rpt_xyz789",
+                "savePhotos": true,
+                "userId": "user_abc123"
               }
             }
           }
@@ -8746,12 +9489,16 @@
                 "properties": {
                   "reportId": {
                     "type": "string",
-                    "description": "Report ID."
+                    "description": "Report ID.",
+                    "example": "rpt_xyz789"
                   }
                 },
                 "required": [
                   "reportId"
                 ]
+              },
+              "example": {
+                "reportId": "rpt_xyz789"
               }
             }
           }
@@ -8785,13 +9532,19 @@
                 "properties": {
                   "after": {
                     "type": "number",
-                    "description": "Cursor for pagination."
+                    "description": "Cursor for pagination.",
+                    "example": 0
                   },
                   "search": {
                     "type": "string",
-                    "description": "Search query."
+                    "description": "Search query.",
+                    "example": "123 Main St"
                   }
                 }
+              },
+              "example": {
+                "after": 0,
+                "search": "123 Main St"
               }
             }
           }
@@ -8825,12 +9578,16 @@
                 "properties": {
                   "reportId": {
                     "type": "string",
-                    "description": "V1 report ID."
+                    "description": "V1 report ID.",
+                    "example": "rpt_xyz789"
                   }
                 },
                 "required": [
                   "reportId"
                 ]
+              },
+              "example": {
+                "reportId": "rpt_xyz789"
               }
             }
           }
@@ -8969,13 +9726,19 @@
                 "properties": {
                   "timeline": {
                     "type": "number",
-                    "description": "Renovation timeline in months."
+                    "description": "Renovation timeline in months.",
+                    "example": 6
                   },
                   "viewOnly": {
                     "type": "boolean",
-                    "description": "When true, returns results without saving."
+                    "description": "When true, returns results without saving.",
+                    "example": false
                   }
                 }
+              },
+              "example": {
+                "timeline": 6,
+                "viewOnly": false
               }
             }
           }
@@ -9315,19 +10078,23 @@
                 "properties": {
                   "dealId": {
                     "type": "number",
-                    "description": "Deal ID."
+                    "description": "Deal ID.",
+                    "example": 12345
                   },
                   "address": {
                     "type": "string",
-                    "description": "Property address."
+                    "description": "Property address.",
+                    "example": "123 Main St, Los Angeles, CA"
                   },
                   "state": {
                     "type": "string",
-                    "description": "State code."
+                    "description": "State code.",
+                    "example": "CA"
                   },
                   "profit": {
                     "type": "number",
-                    "description": "Net profit from renovation."
+                    "description": "Net profit from renovation.",
+                    "example": 75000
                   }
                 },
                 "required": [
@@ -9336,6 +10103,12 @@
                   "state",
                   "profit"
                 ]
+              },
+              "example": {
+                "dealId": 12345,
+                "address": "123 Main St, Los Angeles, CA",
+                "state": "CA",
+                "profit": 75000
               }
             }
           }
@@ -9490,27 +10263,40 @@
                   "photos": {
                     "type": "array",
                     "items": {},
-                    "description": "Array of photo URLs."
+                    "description": "Array of photo URLs.",
+                    "example": [
+                      "https://photos.example.com/exterior.jpg",
+                      "https://photos.example.com/kitchen.jpg",
+                      "https://photos.example.com/bathroom.jpg"
+                    ]
                   },
                   "address": {
                     "type": "string",
-                    "description": "Full address."
+                    "description": "Full address.",
+                    "example": "123 Main St, Los Angeles, CA 90001"
                   },
                   "state": {
                     "type": "string",
-                    "description": "State code."
+                    "description": "State code.",
+                    "example": "CA"
                   },
                   "bathroom": {
                     "type": "number",
-                    "description": "Number of bathrooms."
+                    "description": "Number of bathrooms.",
+                    "example": 2
                   },
                   "yearBuilt": {
                     "type": "number",
-                    "description": "Year built."
+                    "description": "Year built.",
+                    "example": 1985
                   },
                   "createdBy": {
                     "type": "object",
-                    "description": "Object with userId and role."
+                    "description": "Object with userId and role.",
+                    "example": {
+                      "userId": "user_abc123",
+                      "role": "admin"
+                    }
                   }
                 },
                 "required": [
@@ -9520,6 +10306,21 @@
                   "bathroom",
                   "yearBuilt"
                 ]
+              },
+              "example": {
+                "photos": [
+                  "https://photos.example.com/exterior.jpg",
+                  "https://photos.example.com/kitchen.jpg",
+                  "https://photos.example.com/bathroom.jpg"
+                ],
+                "address": "123 Main St, Los Angeles, CA 90001",
+                "state": "CA",
+                "bathroom": 2,
+                "yearBuilt": 1985,
+                "createdBy": {
+                  "userId": "user_abc123",
+                  "role": "admin"
+                }
               }
             }
           }
@@ -9568,13 +10369,17 @@
                       "good",
                       "bad"
                     ],
-                    "description": "Feedback text."
+                    "description": "Feedback text.",
+                    "example": "The analysis was very accurate for the kitchen but missed the bathroom condition issues."
                   },
                   "then": {}
                 },
                 "required": [
                   "then"
                 ]
+              },
+              "example": {
+                "experience": "The analysis was very accurate for the kitchen but missed the bathroom condition issues."
               }
             }
           }
@@ -9609,11 +10414,21 @@
                   "imageUrls": {
                     "type": "array",
                     "items": {},
-                    "description": "Array of image URLs."
+                    "description": "Array of image URLs.",
+                    "example": [
+                      "https://photos.example.com/kitchen.jpg",
+                      "https://photos.example.com/living_room.jpg"
+                    ]
                   }
                 },
                 "required": [
                   "imageUrls"
+                ]
+              },
+              "example": {
+                "imageUrls": [
+                  "https://photos.example.com/kitchen.jpg",
+                  "https://photos.example.com/living_room.jpg"
                 ]
               }
             }
@@ -9648,11 +10463,37 @@
                 "properties": {
                   "comparables": {
                     "type": "array",
-                    "description": "Updated comparable data."
+                    "description": "Updated comparable data.",
+                    "example": [
+                      {
+                        "address": "456 Oak Ave",
+                        "salePrice": 750000,
+                        "closeDate": "2026-02-15"
+                      },
+                      {
+                        "address": "789 Elm St",
+                        "salePrice": 820000,
+                        "closeDate": "2026-01-20"
+                      }
+                    ]
                   }
                 },
                 "required": [
                   "comparables"
+                ]
+              },
+              "example": {
+                "comparables": [
+                  {
+                    "address": "456 Oak Ave",
+                    "salePrice": 750000,
+                    "closeDate": "2026-02-15"
+                  },
+                  {
+                    "address": "789 Elm St",
+                    "salePrice": 820000,
+                    "closeDate": "2026-01-20"
+                  }
                 ]
               }
             }
@@ -9771,26 +10612,32 @@
                 "properties": {
                   "hubspotOwnerId": {
                     "type": "string",
-                    "description": "HubSpot owner ID."
+                    "description": "HubSpot owner ID.",
+                    "example": "owner_abc123"
                   },
                   "hs_static_app": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "meetings"
                   },
                   "name": {
                     "type": "string",
-                    "description": "Display name."
+                    "description": "Display name.",
+                    "example": "LA Team Calendar"
                   },
                   "group": {
                     "type": "string",
-                    "description": "Calendar group."
+                    "description": "Calendar group.",
+                    "example": "west-coast"
                   },
                   "url": {
                     "type": "string",
-                    "description": "Booking URL."
+                    "description": "Booking URL.",
+                    "example": "https://meetings.hubspot.com/la-team"
                   },
                   "clienttimeout": {
                     "type": "number",
-                    "description": "Timeout in ms for booking operations."
+                    "description": "Timeout in ms for booking operations.",
+                    "example": 30000
                   }
                 },
                 "required": [
@@ -9800,6 +10647,14 @@
                   "url",
                   "clienttimeout"
                 ]
+              },
+              "example": {
+                "hubspotOwnerId": "owner_abc123",
+                "hs_static_app": "meetings",
+                "name": "LA Team Calendar",
+                "group": "west-coast",
+                "url": "https://meetings.hubspot.com/la-team",
+                "clienttimeout": 30000
               }
             }
           }
@@ -10174,9 +11029,13 @@
                 "properties": {
                   "contactId": {
                     "type": "string",
-                    "description": "Associated contact ID (in request body)."
+                    "description": "Associated contact ID (in request body).",
+                    "example": "cont_abc123"
                   }
                 }
+              },
+              "example": {
+                "contactId": "cont_abc123"
               }
             }
           }
@@ -10462,9 +11321,13 @@
                       "year-plus",
                       "year-pro"
                     ],
-                    "description": "Payment type identifier."
+                    "description": "Payment type identifier.",
+                    "example": "one-time"
                   }
                 }
+              },
+              "example": {
+                "type": "one-time"
               }
             }
           }
@@ -10642,16 +11505,22 @@
                       "seller",
                       "both"
                     ],
-                    "description": "Referral type."
+                    "description": "Referral type.",
+                    "example": "agent"
                   },
                   "clientSituation": {
                     "type": "string",
-                    "description": "Description of client's situation and needs."
+                    "description": "Description of client's situation and needs.",
+                    "example": "Homeowner looking to sell within 3 months, needs kitchen and bathroom updates."
                   }
                 },
                 "required": [
                   "clientSituation"
                 ]
+              },
+              "example": {
+                "referralType": "agent",
+                "clientSituation": "Homeowner looking to sell within 3 months, needs kitchen and bathroom updates."
               }
             }
           }
@@ -10920,19 +11789,26 @@
                 "properties": {
                   "imageUrls": {
                     "type": "array",
-                    "description": "Array of photo URLs."
+                    "description": "Array of photo URLs.",
+                    "example": [
+                      "https://photos.example.com/exterior.jpg",
+                      "https://photos.example.com/kitchen.jpg"
+                    ]
                   },
                   "contactId": {
                     "type": "string",
-                    "description": "Associated contact."
+                    "description": "Associated contact.",
+                    "example": "cont_abc123"
                   },
                   "city": {
                     "type": "string",
-                    "description": "City."
+                    "description": "City.",
+                    "example": "Los Angeles"
                   },
                   "postalCode": {
                     "type": "string",
-                    "description": "ZIP code."
+                    "description": "ZIP code.",
+                    "example": "90001"
                   },
                   "rejectionReason": {
                     "type": "string",
@@ -10940,11 +11816,13 @@
                   },
                   "bedrooms": {
                     "type": "number",
-                    "description": "Number of bedrooms."
+                    "description": "Number of bedrooms.",
+                    "example": 3
                   },
                   "yearBuilt": {
                     "type": "number",
-                    "description": "Year built."
+                    "description": "Year built.",
+                    "example": 1985
                   },
                   "reportType": {
                     "type": "string",
@@ -10952,7 +11830,8 @@
                     "enum": [
                       "standard",
                       "premium"
-                    ]
+                    ],
+                    "example": "standard"
                   }
                 },
                 "required": [
@@ -10961,6 +11840,18 @@
                   "bedrooms",
                   "yearBuilt"
                 ]
+              },
+              "example": {
+                "imageUrls": [
+                  "https://photos.example.com/exterior.jpg",
+                  "https://photos.example.com/kitchen.jpg"
+                ],
+                "contactId": "cont_abc123",
+                "city": "Los Angeles",
+                "postalCode": "90001",
+                "bedrooms": 3,
+                "yearBuilt": 1985,
+                "reportType": "standard"
               }
             }
           }
@@ -10994,15 +11885,21 @@
                 "properties": {
                   "imageUrls": {
                     "type": "array",
-                    "description": "Array of photo URLs."
+                    "description": "Array of photo URLs.",
+                    "example": [
+                      "https://photos.example.com/kitchen.jpg",
+                      "https://photos.example.com/bathroom.jpg"
+                    ]
                   },
                   "city": {
                     "type": "string",
-                    "description": "City."
+                    "description": "City.",
+                    "example": "Los Angeles"
                   },
                   "postalCode": {
                     "type": "string",
-                    "description": "ZIP code."
+                    "description": "ZIP code.",
+                    "example": "90001"
                   }
                 },
                 "required": [
@@ -11010,6 +11907,14 @@
                   "city",
                   "postalCode"
                 ]
+              },
+              "example": {
+                "imageUrls": [
+                  "https://photos.example.com/kitchen.jpg",
+                  "https://photos.example.com/bathroom.jpg"
+                ],
+                "city": "Los Angeles",
+                "postalCode": "90001"
               }
             }
           }
@@ -11054,13 +11959,19 @@
                 "properties": {
                   "requested_call": {
                     "type": "string",
-                    "description": "Whether a call was requested."
+                    "description": "Whether a call was requested.",
+                    "example": "yes"
                   },
                   "request_contact_reason": {
                     "type": "string",
-                    "description": "Reason for contact request."
+                    "description": "Reason for contact request.",
+                    "example": "Interested in renovation estimate"
                   }
                 }
+              },
+              "example": {
+                "requested_call": "yes",
+                "request_contact_reason": "Interested in renovation estimate"
               }
             }
           }
@@ -11094,12 +12005,16 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Report ID to add images to."
+                    "description": "Report ID to add images to.",
+                    "example": "rpt_xyz789"
                   }
                 },
                 "required": [
                   "id"
                 ]
+              },
+              "example": {
+                "id": "rpt_xyz789"
               }
             }
           }
@@ -11144,12 +12059,16 @@
                 "properties": {
                   "note": {
                     "type": "string",
-                    "description": "Rejection note."
+                    "description": "Rejection note.",
+                    "example": "Report rejected due to insufficient photo quality — need higher resolution exterior photos."
                   }
                 },
                 "required": [
                   "note"
                 ]
+              },
+              "example": {
+                "note": "Report rejected due to insufficient photo quality — need higher resolution exterior photos."
               }
             }
           }
@@ -11183,8 +12102,18 @@
                 "properties": {
                   "csv": {
                     "type": "object",
-                    "description": "CSV data object for batch processing."
+                    "description": "CSV data object for batch processing.",
+                    "example": {
+                      "filename": "properties_batch.csv",
+                      "data": "address,city,state\n123 Main St,Los Angeles,CA"
+                    }
                   }
+                }
+              },
+              "example": {
+                "csv": {
+                  "filename": "properties_batch.csv",
+                  "data": "address,city,state\n123 Main St,Los Angeles,CA"
                 }
               }
             }
@@ -11219,12 +12148,16 @@
                 "properties": {
                   "type": {
                     "type": "string",
-                    "description": "Export type filter."
+                    "description": "Export type filter.",
+                    "example": "completed"
                   }
                 },
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "type": "completed"
               }
             }
           }

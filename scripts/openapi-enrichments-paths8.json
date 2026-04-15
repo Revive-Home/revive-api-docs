@@ -1,0 +1,185 @@
+{
+  "GET /v1/onsite-visit/{sessionId}/comments": {
+    "requestExample": { "type": "inspection", "createdBy": { "userId": "user_abc123", "role": "agent" } }
+  },
+  "POST /v1/predictions/": {
+    "requestExample": { "imageInput": "https://storage.revive.realty/photos/kitchen_01.jpg" }
+  },
+  "POST /v1/production/": {
+    "requestExample": { "startDate": "2026-01-01", "ownersRep": [{ "userId": "user_abc123", "name": "Sarah Johnson" }] }
+  },
+  "POST /v1/project-scopes/": {
+    "requestExample": { "dealId": "deal_xyz789", "items": [{ "title": "Kitchen Remodel", "description": "Full kitchen renovation", "category": "Kitchen" }] }
+  },
+  "DELETE /v1/project-scopes/": {
+    "requestExample": { "dealId": "deal_xyz789" }
+  },
+  "PATCH /v1/project-scopes/update": {
+    "requestExample": { "dealId": "deal_xyz789", "id": "scope_001", "title": "Kitchen Remodel - Updated", "description": "Full kitchen renovation including island", "isInPunchList": false, "verified": true }
+  },
+  "POST /v1/property/association": {
+    "requestExample": { "reportCustomObjectId": "hubspot_obj_abc123" }
+  },
+  "POST /v1/property/complete-report": {
+    "requestExample": { "id": "prop_abc123", "reportId": "rpt_xyz789" }
+  },
+  "POST /v1/property/create-comparable": {
+    "requestExample": { "reportId": "rpt_xyz789", "streetAddress": "456 Oak Ave", "state": "CA", "closeDate": "2026-03-01", "grade": "B+", "beds": 3, "year": 1990, "status": "sold", "id": "comp_001", "imageUrl": "https://photos.example.com/comp_01.jpg" }
+  },
+  "POST /v1/property/log/pdf/{reportId}": {
+    "requestExample": { "city": "Los Angeles", "state": "CA", "country": "US" }
+  },
+  "POST /v1/property/log/view/{reportId}": {
+    "requestExample": { "city": "Los Angeles", "state": "CA", "country": "US" }
+  },
+  "POST /v1/property/neighborhood-report-and-register-user": {
+    "requestExample": { "contact": { "firstname": "John", "lastname": "Doe", "email": "john@example.com", "phone": "+15551234567" }, "agentId": "agent_abc123" }
+  },
+  "POST /v1/property/search-comparable": {
+    "requestExample": { "reportId": "rpt_xyz789", "city": "Los Angeles", "postalCode": "90001" }
+  },
+  "POST /v1/property/share/{reportId}": {
+    "requestExample": { "type": "invite", "inviteId": "cont_abc123" }
+  },
+  "POST /v1/property/upgrade-to-v2": {
+    "requestExample": { "reportId": "rpt_xyz789" }
+  },
+  "POST /v1/property/{id}/recalculate": {
+    "requestExample": { "comparables": [{ "id": "comp_001", "address": "456 Oak Ave" }] }
+  },
+  "PATCH /v1/punch-list/update-punch-data": {
+    "requestExample": { "dealId": "deal_xyz789", "submittedById": "user_abc123" }
+  },
+  "POST /v1/punch-list/update-tasks": {
+    "requestExample": { "dealId": "deal_xyz789" }
+  },
+  "GET /v1/realtors/{contactId}": {
+    "requestExample": { "referralType": "agent", "clientFirstName": "John", "clientEmail": "john@example.com", "realtorId": "agent_abc123", "message": "New referral from website" }
+  },
+  "POST /v1/referrals/update-user-visit": {
+    "requestExample": { "referralId": "ref_abc123" }
+  },
+  "DELETE /v1/referrals/{dealId}": {
+    "requestExample": { "referralType": "agent" }
+  },
+  "PATCH /v1/reimagine/{id}": {
+    "requestExample": { "reimagineIds": ["rimg_001", "rimg_002"] }
+  },
+  "PATCH /v1/renovation-progress/what-was-done/{dealId}": {
+    "requestExample": { "message": "Completed kitchen cabinet installation and began countertop templating." }
+  },
+  "PATCH /v1/renovation-progress/{renovationProgressId}": {
+    "requestExample": { "onSchedule": true, "completed": ["scope_003", "scope_004"] }
+  },
+  "POST /v1/reports/": {
+    "requestExample": { "year": "2026" }
+  },
+  "GET /v1/rma/{rmaId}": {
+    "requestExample": { "status": "signed", "amount_requested": 85000, "is_final": false, "draw": 2, "released_at": "2026-04-01", "name": "Main Renovation RMA" }
+  },
+  "POST /v1/rma/{rmaId}/notes": {
+    "requestExample": { "note": "Contractor requested schedule extension for bathroom remodel — approved by PM." }
+  },
+  "POST /v1/vision-ai/": {
+    "requestExample": { "streetAddress": "123 Main St, Los Angeles, CA 90001", "state": "CA", "imageUrls": ["https://photos.example.com/exterior.jpg", "https://photos.example.com/kitchen.jpg"], "rejected": false, "application": "dashboard" }
+  },
+  "POST /v1/vision-ai/finish-neighborhood-report": {
+    "requestExample": { "reportId": "rpt_xyz789", "savePhotos": true, "userId": "user_abc123" }
+  },
+  "POST /v1/vision-ai/neighbor-report-and-register": {
+    "requestExample": { "contact": { "firstname": "Jane", "lastname": "Smith", "email": "jane@example.com", "phone": "+15559876543" } }
+  },
+  "POST /v1/vision-ai/neighbor-report-photos": {
+    "requestExample": { "reportId": "rpt_xyz789", "savePhotos": true, "userId": "user_abc123" }
+  },
+  "POST /v1/vision-ai/neighbor-report-with-photos-finish": {
+    "requestExample": { "reportId": "rpt_xyz789" }
+  },
+  "POST /v1/vision-ai/search": {
+    "requestExample": { "after": 0, "search": "123 Main St" }
+  },
+  "POST /v1/vision-ai/upgrade-to-v2": {
+    "requestExample": { "reportId": "rpt_xyz789" }
+  },
+  "POST /v1/vision-ai/{id}/recalculate": {
+    "requestExample": { "timeline": 6, "viewOnly": false }
+  },
+  "POST /v1/webhooks/website-case-study": {
+    "requestExample": { "dealId": 12345, "address": "123 Main St, Los Angeles, CA", "state": "CA", "profit": 75000 }
+  },
+  "POST /v2/analyze/create-report": {
+    "requestExample": { "photos": ["https://photos.example.com/exterior.jpg", "https://photos.example.com/kitchen.jpg", "https://photos.example.com/bathroom.jpg"], "address": "123 Main St, Los Angeles, CA 90001", "state": "CA", "bathroom": 2, "yearBuilt": 1985, "createdBy": { "userId": "user_abc123", "role": "admin" } }
+  },
+  "POST /v2/analyze/feedback/{id}": {
+    "requestExample": { "experience": "The analysis was very accurate for the kitchen but missed the bathroom condition issues." }
+  },
+  "POST /v2/analyze/photos": {
+    "requestExample": { "imageUrls": ["https://photos.example.com/kitchen.jpg", "https://photos.example.com/living_room.jpg"] }
+  },
+  "POST /v2/analyze/reanalyze": {
+    "requestExample": { "comparables": [{ "address": "456 Oak Ave", "salePrice": 750000, "closeDate": "2026-02-15" }, { "address": "789 Elm St", "salePrice": 820000, "closeDate": "2026-01-20" }] }
+  },
+  "POST /v2/calendars/": {
+    "requestExample": { "hubspotOwnerId": "owner_abc123", "hs_static_app": "meetings", "name": "LA Team Calendar", "group": "west-coast", "url": "https://meetings.hubspot.com/la-team", "clienttimeout": 30000 }
+  },
+  "DELETE /v2/opportunities/{opportunityId}": {
+    "requestExample": { "contactId": "cont_abc123" }
+  },
+  "POST /v2/payments/reno/payment-intents": {
+    "requestExample": { "type": "one-time" }
+  },
+  "POST /v2/referrals/": {
+    "requestExample": { "referralType": "agent", "clientSituation": "Homeowner looking to sell within 3 months, needs kitchen and bathroom updates." }
+  },
+  "POST /v2/vision-ai/": {
+    "requestExample": { "imageUrls": ["https://photos.example.com/exterior.jpg", "https://photos.example.com/kitchen.jpg"], "contactId": "cont_abc123", "city": "Los Angeles", "postalCode": "90001", "bedrooms": 3, "yearBuilt": 1985, "reportType": "standard" }
+  },
+  "POST /v2/vision-ai/condition": {
+    "requestExample": { "imageUrls": ["https://photos.example.com/kitchen.jpg", "https://photos.example.com/bathroom.jpg"], "city": "Los Angeles", "postalCode": "90001" }
+  },
+  "PATCH /v2/vision-ai/custom-object/{recordId}": {
+    "requestExample": { "requested_call": "yes", "request_contact_reason": "Interested in renovation estimate" }
+  },
+  "POST /v2/vision-ai/images": {
+    "requestExample": { "id": "rpt_xyz789" }
+  },
+  "POST /v2/vision-ai/rejected-report-note/{recordId}": {
+    "requestExample": { "note": "Report rejected due to insufficient photo quality — need higher resolution exterior photos." }
+  },
+  "POST /v2/vision-ai/scraper": {
+    "requestExample": { "csv": { "filename": "properties_batch.csv", "data": "address,city,state\n123 Main St,Los Angeles,CA" } }
+  },
+  "GET /v2/vision-ai/scraper/csv": {
+    "requestExample": { "type": "completed" }
+  },
+  "GET /v1/meetings/": {
+    "requestExample": { "calendar": "la-team", "lastname": "Smith", "timezone": "America/Los_Angeles", "startTime": 1713100000000, "alreadyAssociated": false, "isPreestimateMeeting": true }
+  },
+  "PATCH /v1/media/upload-document-as-data": {
+    "requestExample": { "dealId": "deal_xyz789", "documentType": "inspection_report", "title": "Home Inspection Report" }
+  },
+  "POST /v1/notifications/send": {
+    "requestExample": { "userId": "user_abc123", "title": "Meeting Reminder", "body": "Your onsite visit for 123 Main St is tomorrow at 10am.", "channel": "push" }
+  },
+  "POST /v1/media/convert-webp-to-png": {
+    "requestExample": { "imageUrl": "https://storage.revive.realty/uploads/photo.webp" }
+  },
+  "POST /v1/follow-up-boss/connect-users": {
+    "requestExample": { "mappings": [{ "reviveUserId": "user_abc123", "fubUserId": "fub_123" }] }
+  },
+  "POST /v1/migrations/rma-statuses": {
+    "requestExample": { "dryRun": true }
+  },
+  "POST /v1/onsite-visit/{sessionId}/comment": {
+    "requestExample": { "text": "Kitchen cabinets need replacement — see attached photos.", "type": "inspection" }
+  },
+  "POST /v1/onsite-visit/{sessionId}/image-notes": {
+    "requestExample": { "imageUrl": "https://storage.revive.realty/visits/kitchen_damage.jpg", "note": "Water damage visible under sink cabinet" }
+  },
+  "PATCH /v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}": {
+    "requestExample": { "note": "Updated: Water damage confirmed — needs full replacement" }
+  },
+  "POST /v1/partners/realtycom": {
+    "requestExample": { "leadEmail": "homeowner@example.com", "leadPhone": "+15551234567", "propertyAddress": "123 Main St, Los Angeles, CA" }
+  }
+}
