@@ -1,0 +1,185 @@
+{
+  "POST /v1/app-config/feature-flags/{app}": {
+    "summary": "Create feature flags",
+    "description": "Creates feature flag configuration for the specified application platform.",
+    "parameters": { "app": "Platform: 'dashboard', 'admin', or 'mobile'." }
+  },
+  "PATCH /v1/app-config/feature-flags/{app}": {
+    "summary": "Update feature flags",
+    "description": "Updates feature flag values for the specified platform. Only included flags are modified.",
+    "parameters": { "app": "Platform: 'dashboard', 'admin', or 'mobile'." }
+  },
+  "PUT /v1/app-config/feature-flags/{app}": {
+    "summary": "Replace feature flags",
+    "description": "Replaces the entire feature flag configuration for the specified platform.",
+    "parameters": { "app": "Platform: 'dashboard', 'admin', or 'mobile'." }
+  },
+  "POST /v1/auth/register": {
+    "summary": "Register new user",
+    "description": "Registers a new user account with Firebase credentials and creates the corresponding platform profile."
+  },
+  "POST /v1/avm/": {
+    "summary": "Run automated valuation",
+    "description": "Runs an automated valuation model (AVM) for a property address. Returns estimated value based on comparables, market trends, and property data."
+  },
+  "GET /v1/broadcast/": {
+    "summary": "List broadcasts",
+    "description": "Returns all broadcast messages with optional filtering by status and type."
+  },
+  "POST /v1/broadcast/create": {
+    "summary": "Create broadcast",
+    "description": "Creates a new broadcast message for sending to a targeted audience via email, SMS, or push notification."
+  },
+  "GET /v1/broadcast/read/{id}": {
+    "summary": "Get broadcast",
+    "description": "Retrieves a single broadcast message by ID including delivery status and recipient details.",
+    "parameters": { "id": "Unique broadcast identifier." }
+  },
+  "PATCH /v1/broadcast/{id}": {
+    "summary": "Update broadcast",
+    "description": "Updates a broadcast message. Only draft broadcasts can be modified.",
+    "parameters": { "id": "Unique broadcast identifier." }
+  },
+  "DELETE /v1/broadcast/{id}": {
+    "summary": "Delete broadcast",
+    "description": "Deletes a broadcast message.",
+    "parameters": { "id": "Unique broadcast identifier." }
+  },
+  "POST /v1/brokerages/associate/{companyId}": {
+    "summary": "Associate brokerage with company",
+    "description": "Links a brokerage to a HubSpot company record.",
+    "parameters": { "companyId": "HubSpot company ID." }
+  },
+  "POST /v1/brokerages/get-associate": {
+    "summary": "Get brokerage association",
+    "description": "Retrieves the brokerage-to-company association for a given brokerage or company."
+  },
+  "GET /v1/brokerages/public": {
+    "summary": "List public brokerages",
+    "description": "Returns publicly visible brokerage records for use in agent-facing UIs and directories."
+  },
+  "PATCH /v1/brokerages/{companyId}": {
+    "summary": "Update brokerage by company ID",
+    "description": "Updates brokerage fields using the associated HubSpot company ID.",
+    "parameters": { "companyId": "HubSpot company ID." }
+  },
+  "GET /v1/brokerages/{companyId}": {
+    "summary": "Get brokerage by company ID",
+    "description": "Retrieves a brokerage record by its associated HubSpot company ID.",
+    "parameters": { "companyId": "HubSpot company ID." }
+  },
+  "POST /v1/case-studies/search": {
+    "summary": "Search case studies",
+    "description": "Searches published case studies by address, deal type, or profit range."
+  },
+  "GET /v1/contacts/dashboard": {
+    "summary": "Get contacts dashboard",
+    "description": "Returns aggregated contact metrics and summary data for the admin dashboard."
+  },
+  "POST /v1/contacts/edge-view": {
+    "summary": "Create Edge view for contact",
+    "description": "Generates an Edge (agent-facing property report) view link for a contact."
+  },
+  "POST /v1/contacts/invite": {
+    "summary": "Invite contact",
+    "description": "Sends an invitation to a contact to view their property report or schedule an onsite visit."
+  },
+  "POST /v1/contacts/merge": {
+    "summary": "Merge contacts",
+    "description": "Merges two duplicate contact records into one, combining associated deals and history."
+  },
+  "POST /v1/contacts/remove-from-deal": {
+    "summary": "Remove contact from deal",
+    "description": "Removes the association between a contact and a deal."
+  },
+  "GET /v1/contacts/{contactId}/edge-view": {
+    "summary": "Get contact Edge view",
+    "description": "Retrieves the Edge (agent-facing report) view data for a contact.",
+    "parameters": { "contactId": "HubSpot contact ID." }
+  },
+  "GET /v1/contacts/{contactId}/homes": {
+    "summary": "Get contact's homes",
+    "description": "Returns all home records associated with a contact.",
+    "parameters": { "contactId": "HubSpot contact ID." }
+  },
+  "GET /v1/contacts/{contactId}/referrals": {
+    "summary": "Get contact's referrals",
+    "description": "Returns referral records associated with a contact.",
+    "parameters": { "contactId": "HubSpot contact ID." }
+  },
+  "PATCH /v1/contractors/": {
+    "summary": "Batch update contractors",
+    "description": "Updates multiple contractor records in a single request."
+  },
+  "POST /v1/contractors/associate/{companyId}": {
+    "summary": "Associate contractor with company",
+    "description": "Links a contractor to a HubSpot company record.",
+    "parameters": { "companyId": "HubSpot company ID." }
+  },
+  "POST /v1/contractors/atlist": {
+    "summary": "Get contractor at-list",
+    "description": "Returns contractors available for assignment based on location, specialty, and availability."
+  },
+  "POST /v1/contractors/get-association": {
+    "summary": "Get contractor association",
+    "description": "Retrieves the contractor-to-company association for a given contractor or company."
+  },
+  "POST /v1/contractors/import": {
+    "summary": "Import contractors",
+    "description": "Bulk imports contractor records from a CSV or structured data payload."
+  },
+  "GET /v1/contractors/opportunity/{opportunityId}": {
+    "summary": "Get contractor for opportunity",
+    "description": "Retrieves the contractor assigned to a specific opportunity.",
+    "parameters": { "opportunityId": "HubSpot deal ID." }
+  },
+  "POST /v1/contractors/{contractorId}/files": {
+    "summary": "Upload contractor file",
+    "description": "Uploads a document (license, insurance, W-9, etc.) to a contractor's profile.",
+    "parameters": { "contractorId": "Unique contractor identifier." }
+  },
+  "DELETE /v1/contractors/{contractorId}/files/{type}": {
+    "summary": "Delete contractor file",
+    "description": "Deletes a specific document type from a contractor's profile.",
+    "parameters": { "contractorId": "Unique contractor identifier.", "type": "File type: 'license', 'insurance', 'w9', etc." }
+  },
+  "PATCH /v1/contractors/{contractorId}/set-primary-contact": {
+    "summary": "Set contractor primary contact",
+    "description": "Sets the primary contact person for a contractor company.",
+    "parameters": { "contractorId": "Unique contractor identifier." }
+  },
+  "GET /v1/contracts/download/{contractId}": {
+    "summary": "Download contract PDF",
+    "description": "Downloads a contract document as a PDF file.",
+    "parameters": { "contractId": "Contract document ID." }
+  },
+  "GET /v1/contracts/edit-session/{contractId}": {
+    "summary": "Get contract edit session",
+    "description": "Creates or retrieves an edit session for a contract document.",
+    "parameters": { "contractId": "Contract document ID." }
+  },
+  "GET /v1/contracts/send-for-signature/{contractId}": {
+    "summary": "Send contract for signature",
+    "description": "Sends a contract to all recipients for e-signature via PandaDoc.",
+    "parameters": { "contractId": "Contract document ID." }
+  },
+  "GET /v1/contracts/session/{contractId}": {
+    "summary": "Get contract session",
+    "description": "Retrieves the current session (edit or signing) for a contract.",
+    "parameters": { "contractId": "Contract document ID." }
+  },
+  "GET /v1/contracts/signing-links/{documentId}": {
+    "summary": "Get signing links",
+    "description": "Returns direct signing URLs for each recipient of a contract document.",
+    "parameters": { "documentId": "PandaDoc document ID." }
+  },
+  "POST /v1/contracts/webhook/complete": {
+    "summary": "Contract completion webhook",
+    "description": "Handles PandaDoc webhook when a contract is fully signed. Updates deal status and triggers downstream workflows."
+  },
+  "POST /v1/esignatures/{dealId}": {
+    "summary": "Create e-signature document for deal",
+    "description": "Creates a new PandaDoc e-signature document for a deal and initiates the signing workflow.",
+    "parameters": { "dealId": "Deal ID." }
+  }
+}

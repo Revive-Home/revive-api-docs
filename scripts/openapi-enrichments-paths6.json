@@ -1,0 +1,141 @@
+{
+  "DELETE /v1/media/": {
+    "summary": "Batch delete media",
+    "description": "Deletes multiple media files in a single request."
+  },
+  "PATCH /v1/media/change-document-status": {
+    "summary": "Change document status",
+    "description": "Updates the status of a document (e.g., draft, approved, archived)."
+  },
+  "POST /v1/media/check-required-folders": {
+    "summary": "Check required folders",
+    "description": "Ensures required folder structure exists for a deal's media storage. Creates missing folders."
+  },
+  "POST /v1/media/convert-webp-to-png": {
+    "summary": "Convert WebP to PNG",
+    "description": "Converts a WebP image to PNG format for compatibility with systems that don't support WebP."
+  },
+  "POST /v1/media/create-folder": {
+    "summary": "Create media folder",
+    "description": "Creates a new folder in the media storage hierarchy for organizing files."
+  },
+  "POST /v1/media/moving": {
+    "summary": "Move media files",
+    "description": "Moves one or more media files to a different folder."
+  },
+  "POST /v1/media/remove-folder": {
+    "summary": "Remove media folder",
+    "description": "Deletes a media folder and optionally moves its contents to another folder."
+  },
+  "PATCH /v1/media/rename": {
+    "summary": "Rename media file",
+    "description": "Renames a media file or folder."
+  },
+  "POST /v1/media/share-document": {
+    "summary": "Share document",
+    "description": "Generates a shareable link for a document or sends it to specified recipients."
+  },
+  "PATCH /v1/media/upload-document-as-data": {
+    "summary": "Upload document as data",
+    "description": "Uploads a document with structured metadata attached for processing and indexing."
+  },
+  "POST /v1/media/upload-media": {
+    "summary": "Upload media file",
+    "description": "Uploads a photo, video, or document file. Supports image optimization and thumbnail generation.",
+    "responses": {
+      "200": {
+        "description": "File uploaded.",
+        "example": { "status": "success", "data": { "mediaId": "med_abc123", "url": "https://storage.revive.realty/uploads/med_abc123.jpg", "thumbnailUrl": "https://storage.revive.realty/uploads/med_abc123_thumb.jpg", "mimeType": "image/jpeg", "size": 245760 } }
+      }
+    }
+  },
+  "GET /v1/meetings/": {
+    "summary": "List meetings",
+    "description": "Returns all scheduled meetings with optional filtering by date, participant, or status."
+  },
+  "GET /v1/meetings/available-calendars": {
+    "summary": "Get available calendars",
+    "description": "Returns calendars that have available time slots for booking meetings."
+  },
+  "POST /v1/migrations/rma-statuses": {
+    "summary": "Migrate RMA statuses",
+    "description": "Internal migration — updates RMA records to use the latest status taxonomy. Admin only."
+  },
+  "POST /v1/notifications/send": {
+    "summary": "Send notification",
+    "description": "Sends a notification to one or more users via their preferred channel (push, SMS, email, or in-app)."
+  },
+  "GET /v1/notifications/upsert-novu-subscribers": {
+    "summary": "Sync Novu subscribers",
+    "description": "Syncs platform users to Novu notification service as subscribers for push and in-app notifications."
+  },
+  "POST /v1/notifications/wu-reminder": {
+    "summary": "Send weekly update reminder",
+    "description": "Sends a reminder notification to contractors who haven't submitted their weekly renovation progress update."
+  },
+  "GET /v1/onsite-visit/": {
+    "summary": "List onsite visits",
+    "description": "Returns all onsite visits with optional filtering by deal, date range, status, or assignee."
+  },
+  "POST /v1/onsite-visit/mobile-geolocation": {
+    "summary": "Log mobile geolocation",
+    "description": "Records the GPS location of a mobile user during an onsite visit for verification and tracking."
+  },
+  "PATCH /v1/onsite-visit/{onSiteVisitId}": {
+    "summary": "Update onsite visit",
+    "description": "Updates fields on an onsite visit — date, status, notes, or assigned team member.",
+    "parameters": { "onSiteVisitId": "Unique onsite visit identifier." }
+  },
+  "DELETE /v1/onsite-visit/{onSiteVisitId}": {
+    "summary": "Cancel onsite visit",
+    "description": "Cancels and deletes a scheduled onsite visit.",
+    "parameters": { "onSiteVisitId": "Unique onsite visit identifier." }
+  },
+  "POST /v1/onsite-visit/{sessionId}/comment": {
+    "summary": "Add visit comment",
+    "description": "Adds a comment to an onsite visit session. Comments are visible to all participants.",
+    "parameters": { "sessionId": "Onsite visit session identifier." }
+  },
+  "DELETE /v1/onsite-visit/{sessionId}/comment/{commentId}": {
+    "summary": "Delete visit comment",
+    "description": "Deletes a comment from an onsite visit session.",
+    "parameters": { "sessionId": "Onsite visit session identifier.", "commentId": "Comment identifier." }
+  },
+  "GET /v1/onsite-visit/{sessionId}/comments": {
+    "summary": "Get visit comments",
+    "description": "Returns all comments for an onsite visit session in chronological order.",
+    "parameters": { "sessionId": "Onsite visit session identifier." }
+  },
+  "POST /v1/onsite-visit/{sessionId}/image-notes": {
+    "summary": "Add image note to visit",
+    "description": "Adds an annotated photo note to an onsite visit — captures a photo with markup and text notes.",
+    "parameters": { "sessionId": "Onsite visit session identifier." }
+  },
+  "PATCH /v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}": {
+    "summary": "Update visit image note",
+    "description": "Updates the text or annotations on an existing image note.",
+    "parameters": { "sessionId": "Onsite visit session identifier.", "imageNoteId": "Image note identifier." }
+  },
+  "DELETE /v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}": {
+    "summary": "Delete visit image note",
+    "description": "Deletes an image note from an onsite visit session.",
+    "parameters": { "sessionId": "Onsite visit session identifier.", "imageNoteId": "Image note identifier." }
+  },
+  "POST /v1/partners/realtycom": {
+    "summary": "Realty.com partner webhook",
+    "description": "Handles incoming referral data from the Realty.com partner integration."
+  },
+  "POST /v1/project-scopes/": {
+    "summary": "Create project scope",
+    "description": "Creates a new project scope for a deal with initial line items."
+  },
+  "DELETE /v1/project-scopes/": {
+    "summary": "Delete project scope items",
+    "description": "Removes scope items from a project. Supports filtering by source type for selective removal."
+  },
+  "POST /v1/property/{id}/recalculate": {
+    "summary": "Recalculate property report",
+    "description": "Recalculates a property report with updated comparables, timeline, or renovation parameters.",
+    "parameters": { "id": "Property report identifier." }
+  }
+}

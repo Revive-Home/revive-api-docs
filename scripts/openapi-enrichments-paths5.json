@@ -1,0 +1,185 @@
+{
+  "GET /v1/estimates/approve/{estimateId}": {
+    "summary": "Approve estimate",
+    "description": "Marks an estimate as approved by the homeowner or agent, advancing it to the next workflow stage.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "POST /v1/estimates/complete/{estimateId}": {
+    "summary": "Complete estimate",
+    "description": "Marks an estimate as complete and triggers document generation and contract creation.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "PATCH /v1/estimates/create-document/{estimateId}": {
+    "summary": "Create estimate document",
+    "description": "Generates a PandaDoc document from an estimate for review and signing.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "PATCH /v1/estimates/delete-contract/{estimateId}": {
+    "summary": "Delete estimate contract",
+    "description": "Removes the PandaDoc contract associated with an estimate, allowing re-generation.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "POST /v1/estimates/duplicate": {
+    "summary": "Duplicate estimate",
+    "description": "Creates a copy of an existing estimate with all line items. The duplicate starts in draft status."
+  },
+  "POST /v1/estimates/generation": {
+    "summary": "Generate estimate from template",
+    "description": "Auto-generates an estimate using product catalog templates based on property condition and scope."
+  },
+  "POST /v1/estimates/migrate-products": {
+    "summary": "Migrate estimate products",
+    "description": "Internal migration — updates estimate line items to use the latest product catalog entries."
+  },
+  "PATCH /v1/estimates/reset/{estimateId}": {
+    "summary": "Reset estimate to draft",
+    "description": "Resets an estimate back to draft status. Cleans up associated project scope and unlinks documents.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "PATCH /v1/estimates/save/{estimateId}": {
+    "summary": "Save estimate",
+    "description": "Saves the current state of an estimate including line items, notes, and pricing without changing status.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "POST /v1/estimates/search": {
+    "summary": "Search estimates",
+    "description": "Searches estimates by deal, status, date range, or other criteria. Returns paginated results."
+  },
+  "PATCH /v1/estimates/send-for-signature/{estimateId}": {
+    "summary": "Send estimate for signature",
+    "description": "Sends the estimate document to the homeowner and agent for e-signature via PandaDoc.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "POST /v1/estimates/sort-custom-products": {
+    "summary": "Sort custom products in estimate",
+    "description": "Reorders custom (non-catalog) line items within an estimate."
+  },
+  "POST /v1/estimates/sort-products": {
+    "summary": "Sort products in estimate",
+    "description": "Reorders catalog line items within an estimate."
+  },
+  "DELETE /v1/estimates/{estimateId}": {
+    "summary": "Delete estimate",
+    "description": "Deletes an estimate. Only draft estimates can be deleted.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "GET /v1/estimates/{estimateId}/proposal": {
+    "summary": "Get estimate proposal",
+    "description": "Retrieves the formatted proposal view of an estimate for client presentation.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "DELETE /v1/estimates/{estimateId}/{uid}": {
+    "summary": "Remove user from estimate",
+    "description": "Removes a user's access to an estimate.",
+    "parameters": { "estimateId": "Unique estimate identifier.", "uid": "Firebase UID of the user to remove." }
+  },
+  "POST /v1/follow-up-boss/activate": {
+    "summary": "Activate Follow Up Boss integration",
+    "description": "Activates the Follow Up Boss CRM integration for the authenticated account."
+  },
+  "POST /v1/follow-up-boss/connect-users": {
+    "summary": "Connect Follow Up Boss users",
+    "description": "Maps Revive platform users to their Follow Up Boss counterparts for data sync."
+  },
+  "DELETE /v1/follow-up-boss/deactivate": {
+    "summary": "Deactivate Follow Up Boss integration",
+    "description": "Deactivates the Follow Up Boss CRM integration and stops data sync."
+  },
+  "GET /v1/follow-up-boss/get-user-pipelines": {
+    "summary": "Get Follow Up Boss pipelines",
+    "description": "Returns the pipeline configuration from the connected Follow Up Boss account."
+  },
+  "GET /v1/follow-up-boss/logs": {
+    "summary": "Get Follow Up Boss sync logs",
+    "description": "Returns recent sync activity logs for the Follow Up Boss integration."
+  },
+  "POST /v1/follow-up-boss/webhook": {
+    "summary": "Follow Up Boss webhook",
+    "description": "Handles incoming webhook events from Follow Up Boss for real-time data sync."
+  },
+  "GET /v1/homes/{dealId}": {
+    "summary": "Get home by deal",
+    "description": "Retrieves the home record associated with a deal.",
+    "parameters": { "dealId": "Deal ID." }
+  },
+  "PATCH /v1/homes/{dealId}": {
+    "summary": "Update home by deal",
+    "description": "Updates the home record associated with a deal.",
+    "parameters": { "dealId": "Deal ID." }
+  },
+  "PUT /v1/homes/{dealId}/associate": {
+    "summary": "Associate home with deal",
+    "description": "Links a home record to a deal.",
+    "parameters": { "dealId": "Deal ID." }
+  },
+  "DELETE /v1/homes/{dealId}/associate": {
+    "summary": "Disassociate home from deal",
+    "description": "Removes the link between a home record and a deal.",
+    "parameters": { "dealId": "Deal ID." }
+  },
+  "POST /v1/homes/{dealId}/note": {
+    "summary": "Add home note",
+    "description": "Adds a note to the home record associated with a deal.",
+    "parameters": { "dealId": "Deal ID." }
+  },
+  "POST /v1/marketing-center/automation/agent": {
+    "summary": "Run agent marketing automation",
+    "description": "Triggers automated marketing material generation for an agent's listings."
+  },
+  "POST /v1/marketing-center/automation/opportunity": {
+    "summary": "Run opportunity marketing automation",
+    "description": "Triggers automated marketing material generation for a specific opportunity."
+  },
+  "POST /v1/marketing-center/automation/rebuild": {
+    "summary": "Rebuild marketing automations",
+    "description": "Rebuilds all automated marketing materials, regenerating templates and assets."
+  },
+  "POST /v1/marketing-center/create-image": {
+    "summary": "Create marketing image",
+    "description": "Generates a custom marketing image (flyer, social post, etc.) from a template with property data."
+  },
+  "GET /v1/marketing-center/download-counter/{id}": {
+    "summary": "Get download count",
+    "description": "Returns the download count for a marketing asset.",
+    "parameters": { "id": "Marketing asset ID." }
+  },
+  "GET /v1/marketing-center/generate-wrapped": {
+    "summary": "Generate Wrapped report",
+    "description": "Generates a year-end Wrapped-style summary report for agent marketing."
+  },
+  "POST /v1/marketing-center/generate-wrapped/webhook": {
+    "summary": "Wrapped generation webhook",
+    "description": "Handles async callback when a Wrapped report generation completes."
+  },
+  "GET /v1/marketing-center/get-templates": {
+    "summary": "List marketing templates",
+    "description": "Returns all available marketing templates with preview images and configuration."
+  },
+  "POST /v1/marketing-center/rebuild-agent-templates": {
+    "summary": "Rebuild agent templates",
+    "description": "Regenerates all marketing templates for an agent with updated branding and property data."
+  },
+  "POST /v1/marketing-center/send-mms": {
+    "summary": "Send marketing MMS",
+    "description": "Sends a marketing MMS message with an image attachment to a recipient."
+  },
+  "POST /v1/marketing-center/submit-template/{id}": {
+    "summary": "Submit marketing template",
+    "description": "Submits a completed marketing template for review or publishing.",
+    "parameters": { "id": "Template ID." }
+  },
+  "GET /v1/marketing-center/template/{id}": {
+    "summary": "Get marketing template",
+    "description": "Retrieves a single marketing template by ID with configuration and preview.",
+    "parameters": { "id": "Template ID." }
+  },
+  "DELETE /v1/marketing-center/template/{id}": {
+    "summary": "Delete marketing template",
+    "description": "Deletes a marketing template.",
+    "parameters": { "id": "Template ID." }
+  },
+  "POST /v1/marketing-center/webhook/create-image": {
+    "summary": "Image creation webhook",
+    "description": "Handles async callback when a marketing image generation completes."
+  }
+}

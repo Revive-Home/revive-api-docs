@@ -441,7 +441,7 @@
       },
       "post": {
         "operationId": "post_v1_app_config_feature_flags_app_",
-        "summary": "v1/app-config/feature-flags/{app}",
+        "summary": "Create feature flags",
         "tags": [
           "AppConfigs"
         ],
@@ -457,7 +457,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Platform: 'dashboard', 'admin', or 'mobile'."
           }
         ],
         "requestBody": {
@@ -469,11 +470,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates feature flag configuration for the specified application platform."
       },
       "patch": {
         "operationId": "patch_v1_app_config_feature_flags_app_",
-        "summary": "v1/app-config/feature-flags/{app}",
+        "summary": "Update feature flags",
         "tags": [
           "AppConfigs"
         ],
@@ -489,7 +491,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Platform: 'dashboard', 'admin', or 'mobile'."
           }
         ],
         "requestBody": {
@@ -501,11 +504,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates feature flag values for the specified platform. Only included flags are modified."
       },
       "put": {
         "operationId": "put_v1_app_config_feature_flags_app_",
-        "summary": "v1/app-config/feature-flags/{app}",
+        "summary": "Replace feature flags",
         "tags": [
           "AppConfigs"
         ],
@@ -521,7 +525,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Platform: 'dashboard', 'admin', or 'mobile'."
           }
         ],
         "requestBody": {
@@ -541,7 +546,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Replaces the entire feature flag configuration for the specified platform."
       }
     },
     "/v1/auth/login": {
@@ -606,7 +612,7 @@
     "/v1/auth/register": {
       "post": {
         "operationId": "post_v1_auth_register",
-        "summary": "v1/auth/register",
+        "summary": "Register new user",
         "tags": [
           "Auth"
         ],
@@ -646,13 +652,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Registers a new user account with Firebase credentials and creates the corresponding platform profile."
       }
     },
     "/v1/avm/": {
       "post": {
         "operationId": "post_v1_avm_",
-        "summary": "v1/avm/",
+        "summary": "Run automated valuation",
         "tags": [
           "Automated Valuation Models"
         ],
@@ -690,13 +697,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Runs an automated valuation model (AVM) for a property address. Returns estimated value based on comparables, market trends, and property data."
       }
     },
     "/v1/broadcast/": {
       "get": {
         "operationId": "get_v1_broadcast_",
-        "summary": "v1/broadcast/",
+        "summary": "List broadcasts",
         "tags": [
           "Broadcast"
         ],
@@ -709,13 +717,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all broadcast messages with optional filtering by status and type."
       }
     },
     "/v1/broadcast/create": {
       "post": {
         "operationId": "post_v1_broadcast_create",
-        "summary": "v1/broadcast/create",
+        "summary": "Create broadcast",
         "tags": [
           "Broadcast"
         ],
@@ -758,13 +767,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new broadcast message for sending to a targeted audience via email, SMS, or push notification."
       }
     },
     "/v1/broadcast/read/{id}": {
       "get": {
         "operationId": "get_v1_broadcast_read_id_",
-        "summary": "v1/broadcast/read/{id}",
+        "summary": "Get broadcast",
         "tags": [
           "Broadcast"
         ],
@@ -780,20 +790,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique broadcast identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a single broadcast message by ID including delivery status and recipient details."
       }
     },
     "/v1/broadcast/{id}": {
       "patch": {
         "operationId": "patch_v1_broadcast_id_",
-        "summary": "v1/broadcast/{id}",
+        "summary": "Update broadcast",
         "tags": [
           "Broadcast"
         ],
@@ -809,7 +821,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique broadcast identifier."
           }
         ],
         "security": [
@@ -826,11 +839,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates a broadcast message. Only draft broadcasts can be modified."
       },
       "delete": {
         "operationId": "delete_v1_broadcast_id_",
-        "summary": "v1/broadcast/{id}",
+        "summary": "Delete broadcast",
         "tags": [
           "Broadcast"
         ],
@@ -846,14 +860,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique broadcast identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a broadcast message."
       }
     },
     "/v1/brokerages/": {
@@ -937,7 +953,7 @@
     "/v1/brokerages/associate/{companyId}": {
       "post": {
         "operationId": "post_v1_brokerages_associate_companyId_",
-        "summary": "v1/brokerages/associate/{companyId}",
+        "summary": "Associate brokerage with company",
         "tags": [
           "Brokerages"
         ],
@@ -953,7 +969,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot company ID."
           }
         ],
         "security": [
@@ -982,13 +999,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Links a brokerage to a HubSpot company record."
       }
     },
     "/v1/brokerages/get-associate": {
       "post": {
         "operationId": "post_v1_brokerages_get_associate",
-        "summary": "v1/brokerages/get-associate",
+        "summary": "Get brokerage association",
         "tags": [
           "Brokerages"
         ],
@@ -1041,13 +1059,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Retrieves the brokerage-to-company association for a given brokerage or company."
       }
     },
     "/v1/brokerages/public": {
       "get": {
         "operationId": "get_v1_brokerages_public",
-        "summary": "v1/brokerages/public",
+        "summary": "List public brokerages",
         "tags": [
           "Brokerages"
         ],
@@ -1055,7 +1074,8 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "description": "Returns publicly visible brokerage records for use in agent-facing UIs and directories."
       }
     },
     "/v1/brokerages/search": {
@@ -1099,7 +1119,7 @@
     "/v1/brokerages/{companyId}": {
       "patch": {
         "operationId": "patch_v1_brokerages_companyId_",
-        "summary": "v1/brokerages/{companyId}",
+        "summary": "Update brokerage by company ID",
         "tags": [
           "Brokerages"
         ],
@@ -1115,7 +1135,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot company ID."
           }
         ],
         "security": [
@@ -1159,11 +1180,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates brokerage fields using the associated HubSpot company ID."
       },
       "get": {
         "operationId": "get_v1_brokerages_companyId_",
-        "summary": "v1/brokerages/{companyId}",
+        "summary": "Get brokerage by company ID",
         "tags": [
           "Brokerages"
         ],
@@ -1179,20 +1201,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot company ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a brokerage record by its associated HubSpot company ID."
       }
     },
     "/v1/case-studies/search": {
       "post": {
         "operationId": "post_v1_case_studies_search",
-        "summary": "v1/case-studies/search",
+        "summary": "Search case studies",
         "tags": [
           "Case Studies"
         ],
@@ -1221,7 +1245,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Searches published case studies by address, deal type, or profit range."
       }
     },
     "/v1/contacts/": {
@@ -1309,7 +1334,7 @@
     "/v1/contacts/dashboard": {
       "get": {
         "operationId": "get_v1_contacts_dashboard",
-        "summary": "v1/contacts/dashboard",
+        "summary": "Get contacts dashboard",
         "tags": [
           "Contacts"
         ],
@@ -1322,13 +1347,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns aggregated contact metrics and summary data for the admin dashboard."
       }
     },
     "/v1/contacts/edge-view": {
       "post": {
         "operationId": "post_v1_contacts_edge_view",
-        "summary": "v1/contacts/edge-view",
+        "summary": "Create Edge view for contact",
         "tags": [
           "Contacts"
         ],
@@ -1359,13 +1385,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Generates an Edge (agent-facing property report) view link for a contact."
       }
     },
     "/v1/contacts/invite": {
       "post": {
         "operationId": "post_v1_contacts_invite",
-        "summary": "v1/contacts/invite",
+        "summary": "Invite contact",
         "tags": [
           "Contacts"
         ],
@@ -1405,13 +1432,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Sends an invitation to a contact to view their property report or schedule an onsite visit."
       }
     },
     "/v1/contacts/merge": {
       "post": {
         "operationId": "post_v1_contacts_merge",
-        "summary": "v1/contacts/merge",
+        "summary": "Merge contacts",
         "tags": [
           "Contacts"
         ],
@@ -1442,13 +1470,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Merges two duplicate contact records into one, combining associated deals and history."
       }
     },
     "/v1/contacts/remove-from-deal": {
       "post": {
         "operationId": "post_v1_contacts_remove_from_deal",
-        "summary": "v1/contacts/remove-from-deal",
+        "summary": "Remove contact from deal",
         "tags": [
           "Contacts"
         ],
@@ -1479,7 +1508,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Removes the association between a contact and a deal."
       }
     },
     "/v1/contacts/search": {
@@ -1671,7 +1701,7 @@
     "/v1/contacts/{contactId}/edge-view": {
       "get": {
         "operationId": "get_v1_contacts_contactId_edge_view",
-        "summary": "v1/contacts/{contactId}/edge-view",
+        "summary": "Get contact Edge view",
         "tags": [
           "Contacts"
         ],
@@ -1687,20 +1717,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot contact ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves the Edge (agent-facing report) view data for a contact."
       }
     },
     "/v1/contacts/{contactId}/homes": {
       "get": {
         "operationId": "get_v1_contacts_contactId_homes",
-        "summary": "v1/contacts/{contactId}/homes",
+        "summary": "Get contact's homes",
         "tags": [
           "Contacts"
         ],
@@ -1716,20 +1748,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot contact ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all home records associated with a contact."
       }
     },
     "/v1/contacts/{contactId}/referrals": {
       "get": {
         "operationId": "get_v1_contacts_contactId_referrals",
-        "summary": "v1/contacts/{contactId}/referrals",
+        "summary": "Get contact's referrals",
         "tags": [
           "Contacts"
         ],
@@ -1745,14 +1779,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot contact ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns referral records associated with a contact."
       }
     },
     "/v1/contractors/": {
@@ -1824,7 +1860,7 @@
       },
       "patch": {
         "operationId": "patch_v1_contractors_",
-        "summary": "v1/contractors/",
+        "summary": "Batch update contractors",
         "tags": [
           "Contractors"
         ],
@@ -1877,7 +1913,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates multiple contractor records in a single request."
       },
       "get": {
         "operationId": "get_v1_contractors_",
@@ -1901,7 +1938,7 @@
     "/v1/contractors/associate/{companyId}": {
       "post": {
         "operationId": "post_v1_contractors_associate_companyId_",
-        "summary": "v1/contractors/associate/{companyId}",
+        "summary": "Associate contractor with company",
         "tags": [
           "Contractors"
         ],
@@ -1917,7 +1954,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot company ID."
           }
         ],
         "security": [
@@ -1946,13 +1984,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Links a contractor to a HubSpot company record."
       }
     },
     "/v1/contractors/atlist": {
       "post": {
         "operationId": "post_v1_contractors_atlist",
-        "summary": "v1/contractors/atlist",
+        "summary": "Get contractor at-list",
         "tags": [
           "Contractors"
         ],
@@ -1975,13 +2014,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Returns contractors available for assignment based on location, specialty, and availability."
       }
     },
     "/v1/contractors/get-association": {
       "post": {
         "operationId": "post_v1_contractors_get_association",
-        "summary": "v1/contractors/get-association",
+        "summary": "Get contractor association",
         "tags": [
           "Contractors"
         ],
@@ -2031,13 +2071,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Retrieves the contractor-to-company association for a given contractor or company."
       }
     },
     "/v1/contractors/import": {
       "post": {
         "operationId": "post_v1_contractors_import",
-        "summary": "v1/contractors/import",
+        "summary": "Import contractors",
         "tags": [
           "Contractors"
         ],
@@ -2060,13 +2101,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Bulk imports contractor records from a CSV or structured data payload."
       }
     },
     "/v1/contractors/opportunity/{opportunityId}": {
       "get": {
         "operationId": "get_v1_contractors_opportunity_opportunityId_",
-        "summary": "v1/contractors/opportunity/{opportunityId}",
+        "summary": "Get contractor for opportunity",
         "tags": [
           "Contractors"
         ],
@@ -2082,14 +2124,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves the contractor assigned to a specific opportunity."
       }
     },
     "/v1/contractors/search": {
@@ -2206,7 +2250,7 @@
     "/v1/contractors/{contractorId}/files": {
       "post": {
         "operationId": "post_v1_contractors_contractorId_files",
-        "summary": "v1/contractors/{contractorId}/files",
+        "summary": "Upload contractor file",
         "tags": [
           "Contractors"
         ],
@@ -2222,7 +2266,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique contractor identifier."
           }
         ],
         "security": [
@@ -2250,7 +2295,8 @@
                       "factoring_agreement",
                       "workers_compensation",
                       "contractor_bond"
-                    ]
+                    ],
+                    "description": "Unique contractor identifier."
                   },
                   "submitBy": {
                     "type": "object"
@@ -2262,13 +2308,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Uploads a document (license, insurance, W-9, etc.) to a contractor's profile."
       }
     },
     "/v1/contractors/{contractorId}/files/{type}": {
       "delete": {
         "operationId": "delete_v1_contractors_contractorId_files_type_",
-        "summary": "v1/contractors/{contractorId}/files/{type}",
+        "summary": "Delete contractor file",
         "tags": [
           "Contractors"
         ],
@@ -2284,7 +2331,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique contractor identifier."
           },
           {
             "name": "type",
@@ -2292,20 +2340,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "File type: 'license', 'insurance', 'w9', etc."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a specific document type from a contractor's profile."
       }
     },
     "/v1/contractors/{contractorId}/set-primary-contact": {
       "patch": {
         "operationId": "patch_v1_contractors_contractorId_set_primary_contact",
-        "summary": "v1/contractors/{contractorId}/set-primary-contact",
+        "summary": "Set contractor primary contact",
         "tags": [
           "Contractors"
         ],
@@ -2321,7 +2371,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique contractor identifier."
           }
         ],
         "security": [
@@ -2338,7 +2389,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Sets the primary contact person for a contractor company."
       }
     },
     "/v1/contracts/": {
@@ -2399,7 +2451,7 @@
     "/v1/contracts/download/{contractId}": {
       "get": {
         "operationId": "get_v1_contracts_download_contractId_",
-        "summary": "v1/contracts/download/{contractId}",
+        "summary": "Download contract PDF",
         "tags": [
           "Contracts"
         ],
@@ -2415,20 +2467,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Contract document ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Downloads a contract document as a PDF file."
       }
     },
     "/v1/contracts/edit-session/{contractId}": {
       "get": {
         "operationId": "get_v1_contracts_edit_session_contractId_",
-        "summary": "v1/contracts/edit-session/{contractId}",
+        "summary": "Get contract edit session",
         "tags": [
           "Contracts"
         ],
@@ -2444,20 +2498,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Contract document ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Creates or retrieves an edit session for a contract document."
       }
     },
     "/v1/contracts/send-for-signature/{contractId}": {
       "get": {
         "operationId": "get_v1_contracts_send_for_signature_contractId_",
-        "summary": "v1/contracts/send-for-signature/{contractId}",
+        "summary": "Send contract for signature",
         "tags": [
           "Contracts"
         ],
@@ -2473,20 +2529,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Contract document ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Sends a contract to all recipients for e-signature via PandaDoc."
       }
     },
     "/v1/contracts/session/{contractId}": {
       "get": {
         "operationId": "get_v1_contracts_session_contractId_",
-        "summary": "v1/contracts/session/{contractId}",
+        "summary": "Get contract session",
         "tags": [
           "Contracts"
         ],
@@ -2502,20 +2560,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Contract document ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves the current session (edit or signing) for a contract."
       }
     },
     "/v1/contracts/signing-links/{documentId}": {
       "get": {
         "operationId": "get_v1_contracts_signing_links_documentId_",
-        "summary": "v1/contracts/signing-links/{documentId}",
+        "summary": "Get signing links",
         "tags": [
           "Contracts"
         ],
@@ -2531,20 +2591,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "PandaDoc document ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns direct signing URLs for each recipient of a contract document."
       }
     },
     "/v1/contracts/webhook/complete": {
       "post": {
         "operationId": "post_v1_contracts_webhook_complete",
-        "summary": "v1/contracts/webhook/complete",
+        "summary": "Contract completion webhook",
         "tags": [
           "Contracts"
         ],
@@ -2562,7 +2624,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles PandaDoc webhook when a contract is fully signed. Updates deal status and triggers downstream workflows."
       }
     },
     "/v1/contracts/{contractId}": {
@@ -2599,7 +2662,7 @@
     "/v1/esignatures/{dealId}": {
       "post": {
         "operationId": "post_v1_esignatures_dealId_",
-        "summary": "v1/esignatures/{dealId}",
+        "summary": "Create e-signature document for deal",
         "tags": [
           "Esignatures"
         ],
@@ -2615,7 +2678,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -2640,7 +2704,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new PandaDoc e-signature document for a deal and initiates the signing workflow."
       }
     },
     "/v1/estimates/": {
@@ -2704,7 +2769,7 @@
     "/v1/estimates/approve/{estimateId}": {
       "get": {
         "operationId": "get_v1_estimates_approve_estimateId_",
-        "summary": "v1/estimates/approve/{estimateId}",
+        "summary": "Approve estimate",
         "tags": [
           "Estimates"
         ],
@@ -2720,20 +2785,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Marks an estimate as approved by the homeowner or agent, advancing it to the next workflow stage."
       }
     },
     "/v1/estimates/complete/{estimateId}": {
       "post": {
         "operationId": "post_v1_estimates_complete_estimateId_",
-        "summary": "v1/estimates/complete/{estimateId}",
+        "summary": "Complete estimate",
         "tags": [
           "Estimates"
         ],
@@ -2749,7 +2816,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
@@ -2766,13 +2834,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Marks an estimate as complete and triggers document generation and contract creation."
       }
     },
     "/v1/estimates/create-document/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_create_document_estimateId_",
-        "summary": "v1/estimates/create-document/{estimateId}",
+        "summary": "Create estimate document",
         "tags": [
           "Estimates"
         ],
@@ -2788,7 +2857,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
@@ -2813,13 +2883,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Generates a PandaDoc document from an estimate for review and signing."
       }
     },
     "/v1/estimates/delete-contract/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_delete_contract_estimateId_",
-        "summary": "v1/estimates/delete-contract/{estimateId}",
+        "summary": "Delete estimate contract",
         "tags": [
           "Estimates"
         ],
@@ -2835,7 +2906,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
@@ -2861,13 +2933,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Removes the PandaDoc contract associated with an estimate, allowing re-generation."
       }
     },
     "/v1/estimates/duplicate": {
       "post": {
         "operationId": "post_v1_estimates_duplicate",
-        "summary": "v1/estimates/duplicate",
+        "summary": "Duplicate estimate",
         "tags": [
           "Estimates"
         ],
@@ -2890,13 +2963,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a copy of an existing estimate with all line items. The duplicate starts in draft status."
       }
     },
     "/v1/estimates/generation": {
       "post": {
         "operationId": "post_v1_estimates_generation",
-        "summary": "v1/estimates/generation",
+        "summary": "Generate estimate from template",
         "tags": [
           "Estimates"
         ],
@@ -2927,13 +3001,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Auto-generates an estimate using product catalog templates based on property condition and scope."
       }
     },
     "/v1/estimates/migrate-products": {
       "post": {
         "operationId": "post_v1_estimates_migrate_products",
-        "summary": "v1/estimates/migrate-products",
+        "summary": "Migrate estimate products",
         "tags": [
           "Estimates"
         ],
@@ -2965,13 +3040,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Internal migration — updates estimate line items to use the latest product catalog entries."
       }
     },
     "/v1/estimates/reset/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_reset_estimateId_",
-        "summary": "v1/estimates/reset/{estimateId}",
+        "summary": "Reset estimate to draft",
         "tags": [
           "Estimates"
         ],
@@ -2987,7 +3063,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
@@ -3016,13 +3093,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Resets an estimate back to draft status. Cleans up associated project scope and unlinks documents."
       }
     },
     "/v1/estimates/save/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_save_estimateId_",
-        "summary": "v1/estimates/save/{estimateId}",
+        "summary": "Save estimate",
         "tags": [
           "Estimates"
         ],
@@ -3038,7 +3116,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
@@ -3063,13 +3142,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Saves the current state of an estimate including line items, notes, and pricing without changing status."
       }
     },
     "/v1/estimates/search": {
       "post": {
         "operationId": "post_v1_estimates_search",
-        "summary": "v1/estimates/search",
+        "summary": "Search estimates",
         "tags": [
           "Estimates"
         ],
@@ -3092,13 +3172,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Searches estimates by deal, status, date range, or other criteria. Returns paginated results."
       }
     },
     "/v1/estimates/send-for-signature/{estimateId}": {
       "patch": {
         "operationId": "patch_v1_estimates_send_for_signature_estimateId_",
-        "summary": "v1/estimates/send-for-signature/{estimateId}",
+        "summary": "Send estimate for signature",
         "tags": [
           "Estimates"
         ],
@@ -3114,7 +3195,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
@@ -3140,13 +3222,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Sends the estimate document to the homeowner and agent for e-signature via PandaDoc."
       }
     },
     "/v1/estimates/sort-custom-products": {
       "post": {
         "operationId": "post_v1_estimates_sort_custom_products",
-        "summary": "v1/estimates/sort-custom-products",
+        "summary": "Sort custom products in estimate",
         "tags": [
           "Estimates"
         ],
@@ -3186,13 +3269,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Reorders custom (non-catalog) line items within an estimate."
       }
     },
     "/v1/estimates/sort-products": {
       "post": {
         "operationId": "post_v1_estimates_sort_products",
-        "summary": "v1/estimates/sort-products",
+        "summary": "Sort products in estimate",
         "tags": [
           "Estimates"
         ],
@@ -3232,7 +3316,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Reorders catalog line items within an estimate."
       }
     },
     "/v1/estimates/{estimateId}": {
@@ -3336,7 +3421,7 @@
       },
       "delete": {
         "operationId": "delete_v1_estimates_estimateId_",
-        "summary": "v1/estimates/{estimateId}",
+        "summary": "Delete estimate",
         "tags": [
           "Estimates"
         ],
@@ -3352,20 +3437,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes an estimate. Only draft estimates can be deleted."
       }
     },
     "/v1/estimates/{estimateId}/proposal": {
       "get": {
         "operationId": "get_v1_estimates_estimateId_proposal",
-        "summary": "v1/estimates/{estimateId}/proposal",
+        "summary": "Get estimate proposal",
         "tags": [
           "Estimates"
         ],
@@ -3381,20 +3468,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves the formatted proposal view of an estimate for client presentation."
       }
     },
     "/v1/estimates/{estimateId}/{uid}": {
       "delete": {
         "operationId": "delete_v1_estimates_estimateId_uid_",
-        "summary": "v1/estimates/{estimateId}/{uid}",
+        "summary": "Remove user from estimate",
         "tags": [
           "Estimates"
         ],
@@ -3410,7 +3499,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique estimate identifier."
           },
           {
             "name": "uid",
@@ -3418,20 +3508,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID of the user to remove."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Removes a user's access to an estimate."
       }
     },
     "/v1/follow-up-boss/activate": {
       "post": {
         "operationId": "post_v1_follow_up_boss_activate",
-        "summary": "v1/follow-up-boss/activate",
+        "summary": "Activate Follow Up Boss integration",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3462,13 +3554,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Activates the Follow Up Boss CRM integration for the authenticated account."
       }
     },
     "/v1/follow-up-boss/connect-users": {
       "post": {
         "operationId": "post_v1_follow_up_boss_connect_users",
-        "summary": "v1/follow-up-boss/connect-users",
+        "summary": "Connect Follow Up Boss users",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3486,13 +3579,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Maps Revive platform users to their Follow Up Boss counterparts for data sync."
       }
     },
     "/v1/follow-up-boss/deactivate": {
       "delete": {
         "operationId": "delete_v1_follow_up_boss_deactivate",
-        "summary": "v1/follow-up-boss/deactivate",
+        "summary": "Deactivate Follow Up Boss integration",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3505,13 +3599,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deactivates the Follow Up Boss CRM integration and stops data sync."
       }
     },
     "/v1/follow-up-boss/get-user-pipelines": {
       "get": {
         "operationId": "get_v1_follow_up_boss_get_user_pipelines",
-        "summary": "v1/follow-up-boss/get-user-pipelines",
+        "summary": "Get Follow Up Boss pipelines",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3524,13 +3619,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns the pipeline configuration from the connected Follow Up Boss account."
       }
     },
     "/v1/follow-up-boss/logs": {
       "get": {
         "operationId": "get_v1_follow_up_boss_logs",
-        "summary": "v1/follow-up-boss/logs",
+        "summary": "Get Follow Up Boss sync logs",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3543,13 +3639,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns recent sync activity logs for the Follow Up Boss integration."
       }
     },
     "/v1/follow-up-boss/webhook": {
       "post": {
         "operationId": "post_v1_follow_up_boss_webhook",
-        "summary": "v1/follow-up-boss/webhook",
+        "summary": "Follow Up Boss webhook",
         "tags": [
           "Follow Up Boss"
         ],
@@ -3567,13 +3664,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles incoming webhook events from Follow Up Boss for real-time data sync."
       }
     },
     "/v1/homes/{dealId}": {
       "get": {
         "operationId": "get_v1_homes_dealId_",
-        "summary": "v1/homes/{dealId}",
+        "summary": "Get home by deal",
         "tags": [
           "Homes"
         ],
@@ -3589,7 +3687,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -3612,11 +3711,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Retrieves the home record associated with a deal."
       },
       "patch": {
         "operationId": "patch_v1_homes_dealId_",
-        "summary": "v1/homes/{dealId}",
+        "summary": "Update home by deal",
         "tags": [
           "Homes"
         ],
@@ -3632,7 +3732,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -3649,13 +3750,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates the home record associated with a deal."
       }
     },
     "/v1/homes/{dealId}/associate": {
       "put": {
         "operationId": "put_v1_homes_dealId_associate",
-        "summary": "v1/homes/{dealId}/associate",
+        "summary": "Associate home with deal",
         "tags": [
           "Homes"
         ],
@@ -3671,7 +3773,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -3688,11 +3791,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Links a home record to a deal."
       },
       "delete": {
         "operationId": "delete_v1_homes_dealId_associate",
-        "summary": "v1/homes/{dealId}/associate",
+        "summary": "Disassociate home from deal",
         "tags": [
           "Homes"
         ],
@@ -3708,7 +3812,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -3731,13 +3836,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Removes the link between a home record and a deal."
       }
     },
     "/v1/homes/{dealId}/note": {
       "post": {
         "operationId": "post_v1_homes_dealId_note",
-        "summary": "v1/homes/{dealId}/note",
+        "summary": "Add home note",
         "tags": [
           "Homes"
         ],
@@ -3753,7 +3859,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -3778,13 +3885,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Adds a note to the home record associated with a deal."
       }
     },
     "/v1/marketing-center/automation/agent": {
       "post": {
         "operationId": "post_v1_marketing_center_automation_agent",
-        "summary": "v1/marketing-center/automation/agent",
+        "summary": "Run agent marketing automation",
         "tags": [
           "Marketing Center"
         ],
@@ -3808,13 +3916,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Triggers automated marketing material generation for an agent's listings."
       }
     },
     "/v1/marketing-center/automation/opportunity": {
       "post": {
         "operationId": "post_v1_marketing_center_automation_opportunity",
-        "summary": "v1/marketing-center/automation/opportunity",
+        "summary": "Run opportunity marketing automation",
         "tags": [
           "Marketing Center"
         ],
@@ -3838,13 +3947,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Triggers automated marketing material generation for a specific opportunity."
       }
     },
     "/v1/marketing-center/automation/rebuild": {
       "post": {
         "operationId": "post_v1_marketing_center_automation_rebuild",
-        "summary": "v1/marketing-center/automation/rebuild",
+        "summary": "Rebuild marketing automations",
         "tags": [
           "Marketing Center"
         ],
@@ -3882,13 +3992,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Rebuilds all automated marketing materials, regenerating templates and assets."
       }
     },
     "/v1/marketing-center/create-image": {
       "post": {
         "operationId": "post_v1_marketing_center_create_image",
-        "summary": "v1/marketing-center/create-image",
+        "summary": "Create marketing image",
         "tags": [
           "Marketing Center"
         ],
@@ -3916,13 +4027,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Generates a custom marketing image (flyer, social post, etc.) from a template with property data."
       }
     },
     "/v1/marketing-center/download-counter/{id}": {
       "get": {
         "operationId": "get_v1_marketing_center_download_counter_id_",
-        "summary": "v1/marketing-center/download-counter/{id}",
+        "summary": "Get download count",
         "tags": [
           "Marketing Center"
         ],
@@ -3938,15 +4050,17 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Marketing asset ID."
           }
-        ]
+        ],
+        "description": "Returns the download count for a marketing asset."
       }
     },
     "/v1/marketing-center/generate-wrapped": {
       "get": {
         "operationId": "get_v1_marketing_center_generate_wrapped",
-        "summary": "v1/marketing-center/generate-wrapped",
+        "summary": "Generate Wrapped report",
         "tags": [
           "Marketing Center"
         ],
@@ -3954,13 +4068,14 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "description": "Generates a year-end Wrapped-style summary report for agent marketing."
       }
     },
     "/v1/marketing-center/generate-wrapped/webhook": {
       "post": {
         "operationId": "post_v1_marketing_center_generate_wrapped_webhook",
-        "summary": "v1/marketing-center/generate-wrapped/webhook",
+        "summary": "Wrapped generation webhook",
         "tags": [
           "Marketing Center"
         ],
@@ -3978,13 +4093,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles async callback when a Wrapped report generation completes."
       }
     },
     "/v1/marketing-center/get-templates": {
       "get": {
         "operationId": "get_v1_marketing_center_get_templates",
-        "summary": "v1/marketing-center/get-templates",
+        "summary": "List marketing templates",
         "tags": [
           "Marketing Center"
         ],
@@ -3997,13 +4113,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all available marketing templates with preview images and configuration."
       }
     },
     "/v1/marketing-center/rebuild-agent-templates": {
       "post": {
         "operationId": "post_v1_marketing_center_rebuild_agent_templates",
-        "summary": "v1/marketing-center/rebuild-agent-templates",
+        "summary": "Rebuild agent templates",
         "tags": [
           "Marketing Center"
         ],
@@ -4032,13 +4149,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Regenerates all marketing templates for an agent with updated branding and property data."
       }
     },
     "/v1/marketing-center/send-mms": {
       "post": {
         "operationId": "post_v1_marketing_center_send_mms",
-        "summary": "v1/marketing-center/send-mms",
+        "summary": "Send marketing MMS",
         "tags": [
           "Marketing Center"
         ],
@@ -4072,13 +4190,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Sends a marketing MMS message with an image attachment to a recipient."
       }
     },
     "/v1/marketing-center/submit-template/{id}": {
       "post": {
         "operationId": "post_v1_marketing_center_submit_template_id_",
-        "summary": "v1/marketing-center/submit-template/{id}",
+        "summary": "Submit marketing template",
         "tags": [
           "Marketing Center"
         ],
@@ -4094,7 +4213,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Template ID."
           }
         ],
         "security": [
@@ -4116,13 +4236,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Submits a completed marketing template for review or publishing."
       }
     },
     "/v1/marketing-center/template/{id}": {
       "get": {
         "operationId": "get_v1_marketing_center_template_id_",
-        "summary": "v1/marketing-center/template/{id}",
+        "summary": "Get marketing template",
         "tags": [
           "Marketing Center"
         ],
@@ -4138,18 +4259,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Template ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a single marketing template by ID with configuration and preview."
       },
       "delete": {
         "operationId": "delete_v1_marketing_center_template_id_",
-        "summary": "v1/marketing-center/template/{id}",
+        "summary": "Delete marketing template",
         "tags": [
           "Marketing Center"
         ],
@@ -4165,20 +4288,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Template ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a marketing template."
       }
     },
     "/v1/marketing-center/webhook/create-image": {
       "post": {
         "operationId": "post_v1_marketing_center_webhook_create_image",
-        "summary": "v1/marketing-center/webhook/create-image",
+        "summary": "Image creation webhook",
         "tags": [
           "Marketing Center"
         ],
@@ -4196,13 +4321,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles async callback when a marketing image generation completes."
       }
     },
     "/v1/media/": {
       "delete": {
         "operationId": "delete_v1_media_",
-        "summary": "v1/media/",
+        "summary": "Batch delete media",
         "tags": [
           "Media"
         ],
@@ -4236,13 +4362,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Deletes multiple media files in a single request."
       }
     },
     "/v1/media/change-document-status": {
       "patch": {
         "operationId": "patch_v1_media_change_document_status",
-        "summary": "v1/media/change-document-status",
+        "summary": "Change document status",
         "tags": [
           "Media"
         ],
@@ -4280,13 +4407,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates the status of a document (e.g., draft, approved, archived)."
       }
     },
     "/v1/media/check-required-folders": {
       "post": {
         "operationId": "post_v1_media_check_required_folders",
-        "summary": "v1/media/check-required-folders",
+        "summary": "Check required folders",
         "tags": [
           "Media"
         ],
@@ -4317,13 +4445,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Ensures required folder structure exists for a deal's media storage. Creates missing folders."
       }
     },
     "/v1/media/convert-webp-to-png": {
       "post": {
         "operationId": "post_v1_media_convert_webp_to_png",
-        "summary": "v1/media/convert-webp-to-png",
+        "summary": "Convert WebP to PNG",
         "tags": [
           "Media"
         ],
@@ -4341,13 +4470,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Converts a WebP image to PNG format for compatibility with systems that don't support WebP."
       }
     },
     "/v1/media/create-folder": {
       "post": {
         "operationId": "post_v1_media_create_folder",
-        "summary": "v1/media/create-folder",
+        "summary": "Create media folder",
         "tags": [
           "Media"
         ],
@@ -4382,13 +4512,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new folder in the media storage hierarchy for organizing files."
       }
     },
     "/v1/media/moving": {
       "post": {
         "operationId": "post_v1_media_moving",
-        "summary": "v1/media/moving",
+        "summary": "Move media files",
         "tags": [
           "Media"
         ],
@@ -4427,13 +4558,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Moves one or more media files to a different folder."
       }
     },
     "/v1/media/remove-folder": {
       "post": {
         "operationId": "post_v1_media_remove_folder",
-        "summary": "v1/media/remove-folder",
+        "summary": "Remove media folder",
         "tags": [
           "Media"
         ],
@@ -4464,13 +4596,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Deletes a media folder and optionally moves its contents to another folder."
       }
     },
     "/v1/media/rename": {
       "patch": {
         "operationId": "patch_v1_media_rename",
-        "summary": "v1/media/rename",
+        "summary": "Rename media file",
         "tags": [
           "Media"
         ],
@@ -4509,13 +4642,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Renames a media file or folder."
       }
     },
     "/v1/media/share-document": {
       "post": {
         "operationId": "post_v1_media_share_document",
-        "summary": "v1/media/share-document",
+        "summary": "Share document",
         "tags": [
           "Media"
         ],
@@ -4550,13 +4684,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Generates a shareable link for a document or sends it to specified recipients."
       }
     },
     "/v1/media/upload-document-as-data": {
       "patch": {
         "operationId": "patch_v1_media_upload_document_as_data",
-        "summary": "v1/media/upload-document-as-data",
+        "summary": "Upload document as data",
         "tags": [
           "Media"
         ],
@@ -4579,19 +4714,34 @@
               }
             }
           }
-        }
+        },
+        "description": "Uploads a document with structured metadata attached for processing and indexing."
       }
     },
     "/v1/media/upload-media": {
       "post": {
         "operationId": "post_v1_media_upload_media",
-        "summary": "v1/media/upload-media",
+        "summary": "Upload media file",
         "tags": [
           "Media"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "File uploaded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "mediaId": "med_abc123",
+                    "url": "https://storage.revive.realty/uploads/med_abc123.jpg",
+                    "thumbnailUrl": "https://storage.revive.realty/uploads/med_abc123_thumb.jpg",
+                    "mimeType": "image/jpeg",
+                    "size": 245760
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4619,13 +4769,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Uploads a photo, video, or document file. Supports image optimization and thumbnail generation."
       }
     },
     "/v1/meetings/": {
       "get": {
         "operationId": "get_v1_meetings_",
-        "summary": "v1/meetings/",
+        "summary": "List meetings",
         "tags": [
           "Meetings"
         ],
@@ -4676,7 +4827,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Returns all scheduled meetings with optional filtering by date, participant, or status."
       },
       "post": {
         "operationId": "post_v1_meetings_",
@@ -4722,7 +4874,7 @@
     "/v1/meetings/available-calendars": {
       "get": {
         "operationId": "get_v1_meetings_available_calendars",
-        "summary": "v1/meetings/available-calendars",
+        "summary": "Get available calendars",
         "tags": [
           "Meetings"
         ],
@@ -4730,13 +4882,14 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "description": "Returns calendars that have available time slots for booking meetings."
       }
     },
     "/v1/migrations/rma-statuses": {
       "post": {
         "operationId": "post_v1_migrations_rma_statuses",
-        "summary": "v1/migrations/rma-statuses",
+        "summary": "Migrate RMA statuses",
         "tags": [
           "Migrations"
         ],
@@ -4759,13 +4912,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Internal migration — updates RMA records to use the latest status taxonomy. Admin only."
       }
     },
     "/v1/notifications/send": {
       "post": {
         "operationId": "post_v1_notifications_send",
-        "summary": "v1/notifications/send",
+        "summary": "Send notification",
         "tags": [
           "Notifications"
         ],
@@ -4783,13 +4937,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Sends a notification to one or more users via their preferred channel (push, SMS, email, or in-app)."
       }
     },
     "/v1/notifications/upsert-novu-subscribers": {
       "get": {
         "operationId": "get_v1_notifications_upsert_novu_subscribers",
-        "summary": "v1/notifications/upsert-novu-subscribers",
+        "summary": "Sync Novu subscribers",
         "tags": [
           "Notifications"
         ],
@@ -4802,13 +4957,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Syncs platform users to Novu notification service as subscribers for push and in-app notifications."
       }
     },
     "/v1/notifications/wu-reminder": {
       "post": {
         "operationId": "post_v1_notifications_wu_reminder",
-        "summary": "v1/notifications/wu-reminder",
+        "summary": "Send weekly update reminder",
         "tags": [
           "Notifications"
         ],
@@ -4834,13 +4990,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Sends a reminder notification to contractors who haven't submitted their weekly renovation progress update."
       }
     },
     "/v1/onsite-visit/": {
       "get": {
         "operationId": "get_v1_onsite_visit_",
-        "summary": "v1/onsite-visit/",
+        "summary": "List onsite visits",
         "tags": [
           "Onsite Visits"
         ],
@@ -4853,13 +5010,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all onsite visits with optional filtering by deal, date range, status, or assignee."
       }
     },
     "/v1/onsite-visit/mobile-geolocation": {
       "post": {
         "operationId": "post_v1_onsite_visit_mobile_geolocation",
-        "summary": "v1/onsite-visit/mobile-geolocation",
+        "summary": "Log mobile geolocation",
         "tags": [
           "Onsite Visits"
         ],
@@ -4898,13 +5056,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Records the GPS location of a mobile user during an onsite visit for verification and tracking."
       }
     },
     "/v1/onsite-visit/{onSiteVisitId}": {
       "patch": {
         "operationId": "patch_v1_onsite_visit_onSiteVisitId_",
-        "summary": "v1/onsite-visit/{onSiteVisitId}",
+        "summary": "Update onsite visit",
         "tags": [
           "Onsite Visits"
         ],
@@ -4920,7 +5079,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique onsite visit identifier."
           }
         ],
         "security": [
@@ -4951,11 +5111,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates fields on an onsite visit — date, status, notes, or assigned team member."
       },
       "delete": {
         "operationId": "delete_v1_onsite_visit_onSiteVisitId_",
-        "summary": "v1/onsite-visit/{onSiteVisitId}",
+        "summary": "Cancel onsite visit",
         "tags": [
           "Onsite Visits"
         ],
@@ -4971,20 +5132,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique onsite visit identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Cancels and deletes a scheduled onsite visit."
       }
     },
     "/v1/onsite-visit/{sessionId}/comment": {
       "post": {
         "operationId": "post_v1_onsite_visit_sessionId_comment",
-        "summary": "v1/onsite-visit/{sessionId}/comment",
+        "summary": "Add visit comment",
         "tags": [
           "Onsite Visits"
         ],
@@ -5000,7 +5163,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Onsite visit session identifier."
           }
         ],
         "security": [
@@ -5017,13 +5181,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Adds a comment to an onsite visit session. Comments are visible to all participants."
       }
     },
     "/v1/onsite-visit/{sessionId}/comment/{commentId}": {
       "delete": {
         "operationId": "delete_v1_onsite_visit_sessionId_comment_commentId_",
-        "summary": "v1/onsite-visit/{sessionId}/comment/{commentId}",
+        "summary": "Delete visit comment",
         "tags": [
           "Onsite Visits"
         ],
@@ -5039,7 +5204,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Onsite visit session identifier."
           },
           {
             "name": "commentId",
@@ -5047,20 +5213,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Comment identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a comment from an onsite visit session."
       }
     },
     "/v1/onsite-visit/{sessionId}/comments": {
       "get": {
         "operationId": "get_v1_onsite_visit_sessionId_comments",
-        "summary": "v1/onsite-visit/{sessionId}/comments",
+        "summary": "Get visit comments",
         "tags": [
           "Onsite Visits"
         ],
@@ -5076,7 +5244,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Onsite visit session identifier."
           }
         ],
         "security": [
@@ -5108,13 +5277,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Returns all comments for an onsite visit session in chronological order."
       }
     },
     "/v1/onsite-visit/{sessionId}/image-notes": {
       "post": {
         "operationId": "post_v1_onsite_visit_sessionId_image_notes",
-        "summary": "v1/onsite-visit/{sessionId}/image-notes",
+        "summary": "Add image note to visit",
         "tags": [
           "Onsite Visits"
         ],
@@ -5130,7 +5300,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Onsite visit session identifier."
           }
         ],
         "security": [
@@ -5147,13 +5318,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Adds an annotated photo note to an onsite visit — captures a photo with markup and text notes."
       }
     },
     "/v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}": {
       "patch": {
         "operationId": "patch_v1_onsite_visit_sessionId_image_notes_imageNoteId_",
-        "summary": "v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}",
+        "summary": "Update visit image note",
         "tags": [
           "Onsite Visits"
         ],
@@ -5169,7 +5341,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Onsite visit session identifier."
           },
           {
             "name": "imageNoteId",
@@ -5177,7 +5350,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Image note identifier."
           }
         ],
         "security": [
@@ -5194,11 +5368,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates the text or annotations on an existing image note."
       },
       "delete": {
         "operationId": "delete_v1_onsite_visit_sessionId_image_notes_imageNoteId_",
-        "summary": "v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}",
+        "summary": "Delete visit image note",
         "tags": [
           "Onsite Visits"
         ],
@@ -5214,7 +5389,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Onsite visit session identifier."
           },
           {
             "name": "imageNoteId",
@@ -5222,20 +5398,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Image note identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes an image note from an onsite visit session."
       }
     },
     "/v1/partners/realtycom": {
       "post": {
         "operationId": "post_v1_partners_realtycom",
-        "summary": "v1/partners/realtycom",
+        "summary": "Realty.com partner webhook",
         "tags": [
           "Partners"
         ],
@@ -5253,7 +5431,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles incoming referral data from the Realty.com partner integration."
       }
     },
     "/v1/predictions/": {
@@ -5394,7 +5573,7 @@
     "/v1/project-scopes/": {
       "post": {
         "operationId": "post_v1_project_scopes_",
-        "summary": "v1/project-scopes/",
+        "summary": "Create project scope",
         "tags": [
           "Project Scopes"
         ],
@@ -5428,11 +5607,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new project scope for a deal with initial line items."
       },
       "delete": {
         "operationId": "delete_v1_project_scopes_",
-        "summary": "v1/project-scopes/",
+        "summary": "Delete project scope items",
         "tags": [
           "Project Scopes"
         ],
@@ -5463,7 +5643,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Removes scope items from a project. Supports filtering by source type for selective removal."
       }
     },
     "/v1/project-scopes/fill-from-pandadoc/{dealId}": {
@@ -6241,7 +6422,7 @@
     "/v1/property/{id}/recalculate": {
       "post": {
         "operationId": "post_v1_property_id_recalculate",
-        "summary": "v1/property/{id}/recalculate",
+        "summary": "Recalculate property report",
         "tags": [
           "Property"
         ],
@@ -6257,7 +6438,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Property report identifier."
           }
         ],
         "security": [
@@ -6280,7 +6462,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Recalculates a property report with updated comparables, timeline, or renovation parameters."
       }
     },
     "/v1/punch-list/update-punch-data": {
