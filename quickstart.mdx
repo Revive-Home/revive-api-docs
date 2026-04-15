@@ -1,80 +1,126 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "New engineer? Get productive at Revive in 30 minutes"
 ---
 
-## Get started in three steps
+## Welcome to Revive engineering
 
-Get your documentation site running locally and make your first customization.
+This page gets you from zero to a working local environment and your first API call. If you're already set up, jump to the [API Reference](/api-reference/introduction) or [Release Notes](/release-notes/v2.154.0).
 
-### Step 1: Set up your local environment
+---
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+## Step 1: Get access
 
-### Step 2: Deploy your changes
+Before writing code, make sure you have:
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+<Steps>
+<Step title="GitHub org access">
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+Request access to [Revive-Home](https://github.com/Revive-Home) from your team lead. You'll need access to at least `revive-api` and the repo you're working on.
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+</Step>
 
-### Step 3: Go live
+<Step title="Firebase project access">
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+Ask your team lead to add you to the Firebase project. You'll need this for authentication (both as a developer and for API tokens).
 
-## Next steps
+</Step>
 
-Now that you have your docs running, explore these key features:
+<Step title="Environment variables">
+
+Get the `.env` template from your team lead. Each repo has a `.env.example` — copy it and fill in the values.
+
+</Step>
+
+<Step title="Slack channels">
+
+Join `#engineering`, `#deployments`, and `#api-alerts` in Slack for release notifications and incident updates.
+
+</Step>
+</Steps>
+
+---
+
+## Step 2: Run the API locally
+
+```bash
+git clone git@github.com:Revive-Home/revive-api.git
+cd revive-api
+npm install
+cp .env.example .env       # fill in keys from your team lead
+npm run dev                 # starts on http://localhost:3001
+```
+
+Verify it's running:
+
+```bash
+curl http://localhost:3001/health
+# {"status":"ok","version":"2.152.0"}
+```
+
+---
+
+## Step 3: Make your first authenticated call
+
+1. Get a Firebase JWT token (from the dashboard or Firebase Admin SDK)
+2. Call an authenticated endpoint:
+
+<CodeGroup>
+```bash cURL
+curl -sS -H "Authorization: Bearer $TOKEN" \
+  http://localhost:3001/v2/users/
+```
+
+```javascript JavaScript
+const res = await fetch('http://localhost:3001/v2/users/', {
+  headers: { Authorization: `Bearer ${token}` }
+});
+const { data } = await res.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+resp = requests.get(
+    'http://localhost:3001/v2/users/',
+    headers={'Authorization': f'Bearer {token}'},
+)
+print(resp.json())
+```
+</CodeGroup>
+
+You should see a list of users. If you get a `401`, check that your token is fresh (Firebase JWTs expire after 1 hour).
+
+---
+
+## Step 4: Pick your repo
+
+Depending on what you're working on, clone and run the relevant frontend:
+
+| What you're building | Repo | Command | Port |
+|---------------------|------|---------|------|
+| Homeowner/agent web app | `revive-dashboard` | `npm run dev` | 3000 |
+| Internal admin tools | `revive-admin` | `npm run dev` | 3002 |
+| Mobile app | `revive-mobile` | `npm run ios` / `npm run android` | — |
+
+See the [Local development](/development) guide for full setup details and environment variables.
+
+---
+
+## What to read next
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="API Reference" icon="terminal" href="/api-reference/introduction">
+    276 endpoints with examples, request/response schemas, and error codes.
+  </Card>
+  <Card title="Architecture" icon="sitemap" href="/architecture">
+    How the repos, services, and integrations connect.
+  </Card>
+  <Card title="Release Notes" icon="rocket" href="/release-notes/v2.154.0">
+    What shipped recently — features, fixes, and improvements.
+  </Card>
+  <Card title="Error Handling" icon="triangle-exclamation" href="/guides/error-handling">
+    Status codes, error format, and troubleshooting.
+  </Card>
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>

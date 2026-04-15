@@ -1,0 +1,132 @@
+---
+title: 'Architecture'
+description: 'How Revive services, repos, and integrations connect'
+---
+
+## System overview
+
+Revive is a multi-service platform connecting homeowners, real estate agents, and contractors through renovation-driven real estate transactions. The tech stack spans a Node.js API, React web apps, a React Native mobile app, and integrations with HubSpot, PandaDoc, Stripe, Firebase, and AI services.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Clients                               │
+│  revive-dashboard (3000)  revive-admin (3002)  revive-mobile │
+└──────────────┬────────────────┬────────────────┬────────────┘
+               │                │                │
+               ▼                ▼                ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     revive-api (3001)                         │
+│  /v1/* and /v2/* endpoints — Express.js + Firebase Auth       │
+├─────────────────────────────────────────────────────────────┤
+│  Auth        │ Firebase JWT verification                      │
+│  CRM         │ HubSpot (contacts, deals, companies)           │
+│  Documents   │ PandaDoc (contracts, e-signatures)             │
+│  Payments    │ Stripe (renovation payment intents)            │
+│  AI          │ Vision AI, Reimagine, Condition Analysis        │
+│  Valuation   │ House Canary, AVM providers                    │
+│  Notifications│ Novu, Slack, Email                            │
+└──────────────┴──────────────────────────────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────────────────────────────┐
+│  PostgreSQL  │  Firebase Firestore  │  Cloud Storage          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Repositories
+
+| Repo | Purpose | Stack | Deploys to |
+|------|---------|-------|-----------|
+| [revive-api](https://github.com/Revive-Home/revive-api) | Backend API | Node.js, Express, PostgreSQL | Heroku (production + staging) |
+| [revive-dashboard](https://github.com/Revive-Home/revive-dashboard) | Homeowner & agent web app | React, Next.js | Vercel |
+| [revive-admin](https://github.com/Revive-Home/revive-admin) | Internal admin tools | React, Next.js | Vercel |
+| [revive-mobile](https://github.com/Revive-Home/revive-mobile) | Mobile app | React Native | App Store / Google Play |
+| [revive-api-docs](https://github.com/Revive-Home/revive-api-docs) | This documentation site | Mintlify (MDX) | Mintlify hosting |
+
+---
+
+## How services connect
+
+### Authentication flow
+
+1. User signs in via Firebase Auth (dashboard, admin, or mobile)
+2. Client receives a Firebase JWT
+3. Every API request includes `Authorization: Bearer <jwt>`
+4. `revive-api` verifies the JWT via Firebase Admin SDK
+5. User role (`admin`, `agent`, `contractor`, `homeowner`) determines access
+
+### Deal lifecycle
+
+```
+Agent creates opportunity
+  → Property report generated (Vision AI + AVM)
+    → Estimate created (Ret Catalog products)
+      → Contract sent for e-signature (PandaDoc)
+        → RMA created (Renovation Management Agreement)
+          → Contractor assigned, draws released
+            → Renovation tracked (progress, punch list, media)
+              → Case study published (website webhook)
+```
+
+### Data flow between integrations
+
+| Integration | Direction | What syncs |
+|-------------|-----------|-----------|
+| **HubSpot** | Bidirectional | Contacts, companies, deals, deal stages, agent Edge URLs |
+| **PandaDoc** | API → PandaDoc → Webhook | Contract creation, signing, completion status |
+| **Stripe** | API → Stripe → Webhook | Payment intents, subscription management |
+| **Firebase** | Bidirectional | Auth tokens, Firestore documents, Cloud Storage files |
+| **Follow Up Boss** | Bidirectional | Contact/lead sync, pipeline stages |
+| **House Canary** | API → HC | Market health data, property valuations |
+
+---
+
+## Environments
+
+| Environment | API URL | Dashboard URL | Purpose |
+|-------------|---------|--------------|---------|
+| **Production** | `https://revive-api-v2-production.herokuapp.com` | `https://app.revive.realestate` | Live traffic |
+| **Staging** | `https://revive-api-v2-staging.herokuapp.com` | `https://staging.revive.realestate` | Pre-release testing |
+| **Local** | `http://localhost:3001` | `http://localhost:3000` | Development |
+
+---
+
+## API versioning
+
+The API uses path-based versioning. Both `/v1` and `/v2` run in parallel.
+
+- **`/v1`** — original endpoints, still fully supported
+- **`/v2`** — newer endpoints with improved schemas (deals, users, opportunities, vision-ai, analyze, calendars, payments, referrals)
+
+See the [API changelog](/guides/changelog) for details on what moved to v2 and migration guides.
+
+---
+
+## Deployment pipeline
+
+```
+Developer pushes to main
+  → GitHub Actions run tests
+    → Heroku auto-deploys revive-api
+      → Bot pushes updated openapi.json to revive-api-docs
+        → GitHub Action enriches spec + updates banner
+          → Mintlify auto-deploys docs
+```
+
+Release notes are auto-generated from merged PRs using the `generate-release-notes.mjs` script. See [Release Notes](/release-notes/v2.154.0) for the latest.
+
+---
+
+## Key directories in revive-api
+
+| Directory | Purpose |
+|-----------|---------|
+| `src/routes/` | Express route handlers (maps to API endpoints) |
+| `src/services/` | Business logic layer |
+| `src/models/` | Database models (Sequelize/PostgreSQL) |
+| `src/middleware/` | Auth, rate limiting, error handling |
+| `src/integrations/` | Third-party API clients (HubSpot, PandaDoc, Stripe, etc.) |
+| `src/utils/` | Shared utilities |
+| `migrations/` | Database migration files |

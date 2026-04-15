@@ -1,97 +1,144 @@
 ---
-title: 'Development'
-description: 'Preview changes locally to update your docs'
+title: 'Local development'
+description: 'How to set up and run Revive services locally'
 ---
 
-<Info>
-  **Prerequisites**:
+## Prerequisites
 
-  - Node.js version 19 or higher
-  - A docs repository with a `docs.json` file
-</Info>
+Before you begin, make sure you have:
 
-Follow these steps to install and run Mintlify on your operating system.
+- **Node.js** v18+ and **npm** v9+
+- **Git** with access to the [Revive-Home](https://github.com/Revive-Home) GitHub org
+- **Firebase CLI** — `npm i -g firebase-tools`
+- A `.env` file (ask the team lead for the template)
 
-<Steps>
-<Step title="Install the Mintlify CLI">
+---
+
+## Repository setup
+
+Clone the repo you're working on:
 
 ```bash
+git clone git@github.com:Revive-Home/revive-api.git
+git clone git@github.com:Revive-Home/revive-dashboard.git
+git clone git@github.com:Revive-Home/revive-admin.git
+git clone git@github.com:Revive-Home/revive-mobile.git
+```
+
+### revive-api (backend)
+
+```bash
+cd revive-api
+npm install
+cp .env.example .env    # fill in Firebase, HubSpot, Stripe keys
+npm run dev              # starts on http://localhost:3001
+```
+
+The API runs on port **3001** by default. Health check: `curl http://localhost:3001/health`
+
+### revive-dashboard (web app)
+
+```bash
+cd revive-dashboard
+npm install
+cp .env.example .env.local
+npm run dev              # starts on http://localhost:3000
+```
+
+### revive-admin (internal tools)
+
+```bash
+cd revive-admin
+npm install
+cp .env.example .env.local
+npm run dev              # starts on http://localhost:3002
+```
+
+### revive-mobile (React Native)
+
+```bash
+cd revive-mobile
+npm install
+npx pod-install          # iOS only
+npm run ios              # or npm run android
+```
+
+---
+
+## Environment variables
+
+Each repo uses a `.env` or `.env.local` file. Key variables shared across repos:
+
+| Variable | Used by | Description |
+|----------|---------|-------------|
+| `FIREBASE_PROJECT_ID` | All | Firebase project for auth and Firestore |
+| `FIREBASE_API_KEY` | Dashboard, Admin, Mobile | Client-side Firebase config |
+| `FIREBASE_SERVICE_ACCOUNT` | API | Server-side Firebase admin SDK |
+| `HUBSPOT_API_KEY` | API | HubSpot CRM integration |
+| `PANDADOC_API_KEY` | API | PandaDoc e-signature integration |
+| `STRIPE_SECRET_KEY` | API | Stripe payment processing |
+| `DATABASE_URL` | API | PostgreSQL connection string |
+
+<Warning>
+  Never commit `.env` files. They are gitignored in all repos. Ask your team lead for the current values.
+</Warning>
+
+---
+
+## Running the full stack
+
+For end-to-end development, you'll typically run:
+
+| Service | Command | Port |
+|---------|---------|------|
+| `revive-api` | `npm run dev` | 3001 |
+| `revive-dashboard` | `npm run dev` | 3000 |
+| `revive-admin` | `npm run dev` | 3002 |
+
+The dashboard and admin connect to the API at `http://localhost:3001` by default (configured in `.env.local`).
+
+---
+
+## Common tasks
+
+### Run tests
+
+```bash
+npm test                 # unit tests
+npm run test:e2e         # end-to-end tests (API only)
+```
+
+### Database migrations
+
+```bash
+npm run migrate          # run pending migrations
+npm run migrate:undo     # rollback last migration
+```
+
+### Generate release notes
+
+```bash
+# From revive-api-docs repo
+RELEASE_VERSION=v2.155.0 RELEASE_SINCE=2026-04-01 node scripts/generate-release-notes.mjs
+```
+
+### Preview these docs locally
+
+```bash
+cd revive-api-docs
 npm i -g mint
+mint dev                 # http://localhost:3000
 ```
 
-</Step>
+---
 
-<Step title="Preview locally">
+## Branch conventions
 
-Navigate to your docs directory where your `docs.json` file is located, and run the following command:
+| Branch | Purpose |
+|--------|---------|
+| `main` | Production — auto-deploys |
+| `staging` | Staging environment |
+| `feature/*` | Feature branches — PR into `main` |
+| `fix/*` | Bug fix branches — PR into `main` |
 
-```bash
-mint dev
-```
-
-A local preview of your documentation will be available at `http://localhost:3000`.
-
-</Step>
-</Steps>
-
-## Custom ports
-
-By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. For example, to run Mintlify on port 3333, use this command:
-
-```bash
-mint dev --port 3333
-```
-
-If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
-
-```md
-Port 3000 is already in use. Trying 3001 instead.
-```
-
-## Mintlify versions
-
-Please note that each CLI release is associated with a specific version of Mintlify. If your local preview does not align with the production version, please update the CLI:
-
-```bash
-mint update
-```
-
-## Validating links
-
-The CLI can assist with validating links in your documentation. To identify any broken links, use the following command:
-
-```bash
-mint broken-links
-```
-
-## Deployment
-
-If the deployment is successful, you should see the following:
-
-<Frame>
-  <img src="/images/checks-passed.png" alt="Screenshot of a deployment confirmation message that says All checks have passed." style={{ borderRadius: '0.5rem' }} />
-</Frame>
-
-## Code formatting
-
-We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
-
-## Troubleshooting
-
-<AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
-
-    This may be due to an outdated version of node. Try the following:
-
-    1. Remove the currently-installed version of the CLI: `npm remove -g mint`
-    2. Upgrade to Node v19 or higher.
-    3. Reinstall the CLI: `npm i -g mint`
-  </Accordion>
-
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    Solution: Go to the root of your device and delete the `~/.mintlify` folder. Then run `mint dev` again.
-  </Accordion>
-</AccordionGroup>
-
-Curious about what changed in the latest CLI version? Check out the [CLI changelog](https://www.npmjs.com/package/mintlify?activeTab=versions).
+All PRs require at least one review. Merging to `main` triggers a production deployment.
