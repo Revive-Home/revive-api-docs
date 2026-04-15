@@ -195,6 +195,75 @@ for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
   }
 }
 
+// --- Inject standard error responses and upgrade POST creates to 201 ---
+const errorResponses = {
+  '400': {
+    description: 'Bad request — invalid or missing parameters.',
+    content: { 'application/json': { example: { status: 'error', message: 'Validation failed.', errors: [{ field: 'email', message: 'Email is required.' }] } } }
+  },
+  '401': {
+    description: 'Unauthorized — missing or invalid Bearer token.',
+    content: { 'application/json': { example: { status: 'error', message: 'Authentication required. Provide a valid Firebase JWT in the Authorization header.' } } }
+  },
+  '403': {
+    description: 'Forbidden — you do not have permission to access this resource.',
+    content: { 'application/json': { example: { status: 'error', message: 'Insufficient permissions.' } } }
+  },
+  '404': {
+    description: 'Not found — the requested resource does not exist.',
+    content: { 'application/json': { example: { status: 'error', message: 'Resource not found.' } } }
+  },
+  '422': {
+    description: 'Unprocessable entity — request was understood but contains semantic errors.',
+    content: { 'application/json': { example: { status: 'error', message: 'Unprocessable entity.', errors: [{ field: 'dealId', message: 'Deal is already closed.' }] } } }
+  },
+  '500': {
+    description: 'Internal server error.',
+    content: { 'application/json': { example: { status: 'error', message: 'An unexpected error occurred. Please try again later.' } } }
+  }
+};
+
+// Keywords in path/summary that indicate a create operation (should be 201)
+const createPatterns = [/\/create/, /\/register/, /\/import/];
+
+for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
+  for (const [method, operation] of Object.entries(methods)) {
+    if (!operation.responses) operation.responses = {};
+
+    // Upgrade POST endpoints that create resources from 200 → 201
+    const isCreate = method === 'post' && (
+      createPatterns.some((p) => p.test(pathStr)) ||
+      (operation.summary || '').toLowerCase().includes('create') ||
+      // POST to a collection root (e.g. POST /v1/contacts/) that isn't search/webhook
+      (pathStr.endsWith('/') && !pathStr.includes('search') && !pathStr.includes('webhook'))
+    );
+
+    if (isCreate && operation.responses['200'] && !operation.responses['201']) {
+      operation.responses['201'] = { ...operation.responses['200'] };
+      operation.responses['201'].description = (operation.responses['200'].description || 'Created.').replace(/^(.)/,  (_, c) => c.toUpperCase());
+      delete operation.responses['200'];
+    }
+
+    // Upgrade DELETE endpoints — add 204 if not present
+    if (method === 'delete' && !operation.responses['204']) {
+      operation.responses['204'] = { description: 'No content — resource deleted successfully.' };
+    }
+
+    // Add standard error responses if missing
+    const needsAuth = pathStr !== '/health';
+    for (const [code, resp] of Object.entries(errorResponses)) {
+      if (operation.responses[code]) continue;
+      // Skip 401/403 for unauthenticated endpoints
+      if ((code === '401' || code === '403') && !needsAuth) continue;
+      // Skip 404 for list/search/webhook endpoints
+      if (code === '404' && (pathStr.endsWith('/') || pathStr.includes('search') || pathStr.includes('webhook'))) continue;
+      // Skip 422 for GET/DELETE (they don't send bodies)
+      if (code === '422' && (method === 'get' || method === 'delete')) continue;
+      operation.responses[code] = { ...resp };
+    }
+  }
+}
+
 // --- Prepend endpoint path to every description for visibility ---
 for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
   for (const [method, operation] of Object.entries(methods)) {
