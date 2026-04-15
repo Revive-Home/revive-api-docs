@@ -64,7 +64,7 @@
             }
           }
         },
-        "description": "Returns the current health status of the API. No authentication required. Use this to verify API connectivity."
+        "description": "`GET /health`\n\nReturns the current health status of the API. No authentication required. Use this to verify API connectivity."
       }
     },
     "/v1/admins/email/{uid}": {
@@ -121,7 +121,7 @@
             }
           }
         },
-        "description": "Updates the email address for an admin user identified by their Firebase UID."
+        "description": "`PATCH /v1/admins/email/{uid}`\n\nUpdates the email address for an admin user identified by their Firebase UID."
       }
     },
     "/v1/admins/{uid}": {
@@ -190,7 +190,7 @@
             }
           }
         },
-        "description": "Updates profile fields for an admin user. All fields are optional — only included fields are updated."
+        "description": "`PATCH /v1/admins/{uid}`\n\nUpdates profile fields for an admin user. All fields are optional — only included fields are updated."
       }
     },
     "/v1/agents/get-opportunities": {
@@ -274,7 +274,7 @@
             }
           }
         },
-        "description": "Retrieves deal opportunities for a specific agent. Supports pagination, filtering by deal type, date range, and status."
+        "description": "`POST /v1/agents/get-opportunities`\n\nRetrieves deal opportunities for a specific agent. Supports pagination, filtering by deal type, date range, and status."
       }
     },
     "/v1/agents/search": {
@@ -334,7 +334,7 @@
             }
           }
         },
-        "description": "Search for agents by name, email, or other criteria. Returns a paginated list."
+        "description": "`POST /v1/agents/search`\n\nSearch for agents by name, email, or other criteria. Returns a paginated list."
       }
     },
     "/v1/agents/{agentId}": {
@@ -381,7 +381,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a single agent record by their unique agent ID."
+        "description": "`GET /v1/agents/{agentId}`\n\nRetrieves a single agent record by their unique agent ID."
       }
     },
     "/v1/app-config/feature-flags/{app}": {
@@ -437,7 +437,7 @@
             }
           }
         },
-        "description": "Returns all active feature flags for the specified application platform."
+        "description": "`GET /v1/app-config/feature-flags/{app}`\n\nReturns all active feature flags for the specified application platform."
       },
       "post": {
         "operationId": "post_v1_app_config_feature_flags_app_",
@@ -471,7 +471,7 @@
             }
           }
         },
-        "description": "Creates feature flag configuration for the specified application platform."
+        "description": "`POST /v1/app-config/feature-flags/{app}`\n\nCreates feature flag configuration for the specified application platform."
       },
       "patch": {
         "operationId": "patch_v1_app_config_feature_flags_app_",
@@ -505,7 +505,7 @@
             }
           }
         },
-        "description": "Updates feature flag values for the specified platform. Only included flags are modified."
+        "description": "`PATCH /v1/app-config/feature-flags/{app}`\n\nUpdates feature flag values for the specified platform. Only included flags are modified."
       },
       "put": {
         "operationId": "put_v1_app_config_feature_flags_app_",
@@ -547,7 +547,7 @@
             }
           }
         },
-        "description": "Replaces the entire feature flag configuration for the specified platform."
+        "description": "`PUT /v1/app-config/feature-flags/{app}`\n\nReplaces the entire feature flag configuration for the specified platform."
       }
     },
     "/v1/auth/login": {
@@ -606,7 +606,7 @@
             }
           }
         },
-        "description": "Authenticates a user with Firebase credentials and returns session information including user role and profile."
+        "description": "`POST /v1/auth/login`\n\nAuthenticates a user with Firebase credentials and returns session information including user role and profile."
       }
     },
     "/v1/auth/register": {
@@ -653,7 +653,7 @@
             }
           }
         },
-        "description": "Registers a new user account with Firebase credentials and creates the corresponding platform profile."
+        "description": "`POST /v1/auth/register`\n\nRegisters a new user account with Firebase credentials and creates the corresponding platform profile."
       }
     },
     "/v1/avm/": {
@@ -698,7 +698,7 @@
             }
           }
         },
-        "description": "Runs an automated valuation model (AVM) for a property address. Returns estimated value based on comparables, market trends, and property data."
+        "description": "`POST /v1/avm/`\n\nRuns an automated valuation model (AVM) for a property address. Returns estimated value based on comparables, market trends, and property data."
       }
     },
     "/v1/broadcast/": {
@@ -718,7 +718,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all broadcast messages with optional filtering by status and type."
+        "description": "`GET /v1/broadcast/`\n\nReturns all broadcast messages with optional filtering by status and type."
       }
     },
     "/v1/broadcast/create": {
@@ -768,7 +768,7 @@
             }
           }
         },
-        "description": "Creates a new broadcast message for sending to a targeted audience via email, SMS, or push notification."
+        "description": "`POST /v1/broadcast/create`\n\nCreates a new broadcast message for sending to a targeted audience via email, SMS, or push notification."
       }
     },
     "/v1/broadcast/read/{id}": {
@@ -799,7 +799,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a single broadcast message by ID including delivery status and recipient details."
+        "description": "`GET /v1/broadcast/read/{id}`\n\nRetrieves a single broadcast message by ID including delivery status and recipient details."
       }
     },
     "/v1/broadcast/{id}": {
@@ -840,7 +840,7 @@
             }
           }
         },
-        "description": "Updates a broadcast message. Only draft broadcasts can be modified."
+        "description": "`PATCH /v1/broadcast/{id}`\n\nUpdates a broadcast message. Only draft broadcasts can be modified."
       },
       "delete": {
         "operationId": "delete_v1_broadcast_id_",
@@ -869,7 +869,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a broadcast message."
+        "description": "`DELETE /v1/broadcast/{id}`\n\nDeletes a broadcast message."
       }
     },
     "/v1/brokerages/": {
@@ -947,7 +947,7 @@
             }
           }
         },
-        "description": "Creates a new real estate brokerage record."
+        "description": "`POST /v1/brokerages/`\n\nCreates a new real estate brokerage record."
       }
     },
     "/v1/brokerages/associate/{companyId}": {
@@ -1000,7 +1000,7 @@
             }
           }
         },
-        "description": "Links a brokerage to a HubSpot company record."
+        "description": "`POST /v1/brokerages/associate/{companyId}`\n\nLinks a brokerage to a HubSpot company record."
       }
     },
     "/v1/brokerages/get-associate": {
@@ -1060,7 +1060,7 @@
             }
           }
         },
-        "description": "Retrieves the brokerage-to-company association for a given brokerage or company."
+        "description": "`POST /v1/brokerages/get-associate`\n\nRetrieves the brokerage-to-company association for a given brokerage or company."
       }
     },
     "/v1/brokerages/public": {
@@ -1075,7 +1075,7 @@
             "description": "Success"
           }
         },
-        "description": "Returns publicly visible brokerage records for use in agent-facing UIs and directories."
+        "description": "`GET /v1/brokerages/public`\n\nReturns publicly visible brokerage records for use in agent-facing UIs and directories."
       }
     },
     "/v1/brokerages/search": {
@@ -1113,7 +1113,7 @@
             }
           }
         },
-        "description": "Searches brokerages by name, location, or other criteria."
+        "description": "`POST /v1/brokerages/search`\n\nSearches brokerages by name, location, or other criteria."
       }
     },
     "/v1/brokerages/{companyId}": {
@@ -1181,7 +1181,7 @@
             }
           }
         },
-        "description": "Updates brokerage fields using the associated HubSpot company ID."
+        "description": "`PATCH /v1/brokerages/{companyId}`\n\nUpdates brokerage fields using the associated HubSpot company ID."
       },
       "get": {
         "operationId": "get_v1_brokerages_companyId_",
@@ -1210,7 +1210,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a brokerage record by its associated HubSpot company ID."
+        "description": "`GET /v1/brokerages/{companyId}`\n\nRetrieves a brokerage record by its associated HubSpot company ID."
       }
     },
     "/v1/case-studies/search": {
@@ -1246,7 +1246,7 @@
             }
           }
         },
-        "description": "Searches published case studies by address, deal type, or profit range."
+        "description": "`POST /v1/case-studies/search`\n\nSearches published case studies by address, deal type, or profit range."
       }
     },
     "/v1/contacts/": {
@@ -1328,7 +1328,7 @@
             }
           }
         },
-        "description": "Creates a new contact record. Contacts can be associated with deals and opportunities. Syncs to HubSpot."
+        "description": "`POST /v1/contacts/`\n\nCreates a new contact record. Contacts can be associated with deals and opportunities. Syncs to HubSpot."
       }
     },
     "/v1/contacts/dashboard": {
@@ -1348,7 +1348,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns aggregated contact metrics and summary data for the admin dashboard."
+        "description": "`GET /v1/contacts/dashboard`\n\nReturns aggregated contact metrics and summary data for the admin dashboard."
       }
     },
     "/v1/contacts/edge-view": {
@@ -1386,7 +1386,7 @@
             }
           }
         },
-        "description": "Generates an Edge (agent-facing property report) view link for a contact."
+        "description": "`POST /v1/contacts/edge-view`\n\nGenerates an Edge (agent-facing property report) view link for a contact."
       }
     },
     "/v1/contacts/invite": {
@@ -1433,7 +1433,7 @@
             }
           }
         },
-        "description": "Sends an invitation to a contact to view their property report or schedule an onsite visit."
+        "description": "`POST /v1/contacts/invite`\n\nSends an invitation to a contact to view their property report or schedule an onsite visit."
       }
     },
     "/v1/contacts/merge": {
@@ -1471,7 +1471,7 @@
             }
           }
         },
-        "description": "Merges two duplicate contact records into one, combining associated deals and history."
+        "description": "`POST /v1/contacts/merge`\n\nMerges two duplicate contact records into one, combining associated deals and history."
       }
     },
     "/v1/contacts/remove-from-deal": {
@@ -1509,7 +1509,7 @@
             }
           }
         },
-        "description": "Removes the association between a contact and a deal."
+        "description": "`POST /v1/contacts/remove-from-deal`\n\nRemoves the association between a contact and a deal."
       }
     },
     "/v1/contacts/search": {
@@ -1579,7 +1579,7 @@
             }
           }
         },
-        "description": "Search for contacts by name, email, phone, or other fields. Returns paginated results."
+        "description": "`POST /v1/contacts/search`\n\nSearch for contacts by name, email, phone, or other fields. Returns paginated results."
       }
     },
     "/v1/contacts/{contactId}": {
@@ -1627,7 +1627,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a contact by ID, including associated deals and opportunities."
+        "description": "`GET /v1/contacts/{contactId}`\n\nRetrieves a contact by ID, including associated deals and opportunities."
       },
       "patch": {
         "operationId": "patch_v1_contacts_contactId_",
@@ -1666,7 +1666,7 @@
             }
           }
         },
-        "description": "Updates fields on an existing contact. Only included fields are modified."
+        "description": "`PATCH /v1/contacts/{contactId}`\n\nUpdates fields on an existing contact. Only included fields are modified."
       },
       "delete": {
         "operationId": "delete_v1_contacts_contactId_",
@@ -1695,7 +1695,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a contact record."
+        "description": "`DELETE /v1/contacts/{contactId}`\n\nDeletes a contact record."
       }
     },
     "/v1/contacts/{contactId}/edge-view": {
@@ -1726,7 +1726,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves the Edge (agent-facing report) view data for a contact."
+        "description": "`GET /v1/contacts/{contactId}/edge-view`\n\nRetrieves the Edge (agent-facing report) view data for a contact."
       }
     },
     "/v1/contacts/{contactId}/homes": {
@@ -1757,7 +1757,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all home records associated with a contact."
+        "description": "`GET /v1/contacts/{contactId}/homes`\n\nReturns all home records associated with a contact."
       }
     },
     "/v1/contacts/{contactId}/referrals": {
@@ -1788,7 +1788,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns referral records associated with a contact."
+        "description": "`GET /v1/contacts/{contactId}/referrals`\n\nReturns referral records associated with a contact."
       }
     },
     "/v1/contractors/": {
@@ -1856,7 +1856,7 @@
             }
           }
         },
-        "description": "Creates a new contractor profile. Contractors are assigned to renovation projects and can submit weekly updates."
+        "description": "`POST /v1/contractors/`\n\nCreates a new contractor profile. Contractors are assigned to renovation projects and can submit weekly updates."
       },
       "patch": {
         "operationId": "patch_v1_contractors_",
@@ -1914,7 +1914,7 @@
             }
           }
         },
-        "description": "Updates multiple contractor records in a single request."
+        "description": "`PATCH /v1/contractors/`\n\nUpdates multiple contractor records in a single request."
       },
       "get": {
         "operationId": "get_v1_contractors_",
@@ -1932,7 +1932,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all registered contractors with optional filtering."
+        "description": "`GET /v1/contractors/`\n\nReturns all registered contractors with optional filtering."
       }
     },
     "/v1/contractors/associate/{companyId}": {
@@ -1985,7 +1985,7 @@
             }
           }
         },
-        "description": "Links a contractor to a HubSpot company record."
+        "description": "`POST /v1/contractors/associate/{companyId}`\n\nLinks a contractor to a HubSpot company record."
       }
     },
     "/v1/contractors/atlist": {
@@ -2015,7 +2015,7 @@
             }
           }
         },
-        "description": "Returns contractors available for assignment based on location, specialty, and availability."
+        "description": "`POST /v1/contractors/atlist`\n\nReturns contractors available for assignment based on location, specialty, and availability."
       }
     },
     "/v1/contractors/get-association": {
@@ -2072,7 +2072,7 @@
             }
           }
         },
-        "description": "Retrieves the contractor-to-company association for a given contractor or company."
+        "description": "`POST /v1/contractors/get-association`\n\nRetrieves the contractor-to-company association for a given contractor or company."
       }
     },
     "/v1/contractors/import": {
@@ -2102,7 +2102,7 @@
             }
           }
         },
-        "description": "Bulk imports contractor records from a CSV or structured data payload."
+        "description": "`POST /v1/contractors/import`\n\nBulk imports contractor records from a CSV or structured data payload."
       }
     },
     "/v1/contractors/opportunity/{opportunityId}": {
@@ -2133,7 +2133,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves the contractor assigned to a specific opportunity."
+        "description": "`GET /v1/contractors/opportunity/{opportunityId}`\n\nRetrieves the contractor assigned to a specific opportunity."
       }
     },
     "/v1/contractors/search": {
@@ -2174,7 +2174,7 @@
             }
           }
         },
-        "description": "Searches contractors by name, company, specialty, or location."
+        "description": "`POST /v1/contractors/search`\n\nSearches contractors by name, company, specialty, or location."
       }
     },
     "/v1/contractors/{contractorId}": {
@@ -2205,7 +2205,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a contractor profile by ID, including assigned projects and status."
+        "description": "`GET /v1/contractors/{contractorId}`\n\nRetrieves a contractor profile by ID, including assigned projects and status."
       },
       "patch": {
         "operationId": "patch_v1_contractors_contractorId_",
@@ -2244,7 +2244,7 @@
             }
           }
         },
-        "description": "Updates fields on a contractor profile."
+        "description": "`PATCH /v1/contractors/{contractorId}`\n\nUpdates fields on a contractor profile."
       }
     },
     "/v1/contractors/{contractorId}/files": {
@@ -2309,7 +2309,7 @@
             }
           }
         },
-        "description": "Uploads a document (license, insurance, W-9, etc.) to a contractor's profile."
+        "description": "`POST /v1/contractors/{contractorId}/files`\n\nUploads a document (license, insurance, W-9, etc.) to a contractor's profile."
       }
     },
     "/v1/contractors/{contractorId}/files/{type}": {
@@ -2349,7 +2349,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a specific document type from a contractor's profile."
+        "description": "`DELETE /v1/contractors/{contractorId}/files/{type}`\n\nDeletes a specific document type from a contractor's profile."
       }
     },
     "/v1/contractors/{contractorId}/set-primary-contact": {
@@ -2390,7 +2390,7 @@
             }
           }
         },
-        "description": "Sets the primary contact person for a contractor company."
+        "description": "`PATCH /v1/contractors/{contractorId}/set-primary-contact`\n\nSets the primary contact person for a contractor company."
       }
     },
     "/v1/contracts/": {
@@ -2445,7 +2445,7 @@
             }
           }
         },
-        "description": "Creates a new contract document via PandaDoc. Returns the contract ID and edit session."
+        "description": "`POST /v1/contracts/`\n\nCreates a new contract document via PandaDoc. Returns the contract ID and edit session."
       }
     },
     "/v1/contracts/download/{contractId}": {
@@ -2476,7 +2476,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Downloads a contract document as a PDF file."
+        "description": "`GET /v1/contracts/download/{contractId}`\n\nDownloads a contract document as a PDF file."
       }
     },
     "/v1/contracts/edit-session/{contractId}": {
@@ -2507,7 +2507,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Creates or retrieves an edit session for a contract document."
+        "description": "`GET /v1/contracts/edit-session/{contractId}`\n\nCreates or retrieves an edit session for a contract document."
       }
     },
     "/v1/contracts/send-for-signature/{contractId}": {
@@ -2538,7 +2538,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Sends a contract to all recipients for e-signature via PandaDoc."
+        "description": "`GET /v1/contracts/send-for-signature/{contractId}`\n\nSends a contract to all recipients for e-signature via PandaDoc."
       }
     },
     "/v1/contracts/session/{contractId}": {
@@ -2569,7 +2569,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves the current session (edit or signing) for a contract."
+        "description": "`GET /v1/contracts/session/{contractId}`\n\nRetrieves the current session (edit or signing) for a contract."
       }
     },
     "/v1/contracts/signing-links/{documentId}": {
@@ -2600,7 +2600,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns direct signing URLs for each recipient of a contract document."
+        "description": "`GET /v1/contracts/signing-links/{documentId}`\n\nReturns direct signing URLs for each recipient of a contract document."
       }
     },
     "/v1/contracts/webhook/complete": {
@@ -2625,7 +2625,7 @@
             }
           }
         },
-        "description": "Handles PandaDoc webhook when a contract is fully signed. Updates deal status and triggers downstream workflows."
+        "description": "`POST /v1/contracts/webhook/complete`\n\nHandles PandaDoc webhook when a contract is fully signed. Updates deal status and triggers downstream workflows."
       }
     },
     "/v1/contracts/{contractId}": {
@@ -2656,7 +2656,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a contract document. Only draft contracts can be deleted."
+        "description": "`DELETE /v1/contracts/{contractId}`\n\nDeletes a contract document. Only draft contracts can be deleted."
       }
     },
     "/v1/esignatures/{dealId}": {
@@ -2705,7 +2705,7 @@
             }
           }
         },
-        "description": "Creates a new PandaDoc e-signature document for a deal and initiates the signing workflow."
+        "description": "`POST /v1/esignatures/{dealId}`\n\nCreates a new PandaDoc e-signature document for a deal and initiates the signing workflow."
       }
     },
     "/v1/estimates/": {
@@ -2763,7 +2763,7 @@
             }
           }
         },
-        "description": "Creates a new renovation estimate for a property with line items from the product catalog."
+        "description": "`POST /v1/estimates/`\n\nCreates a new renovation estimate for a property with line items from the product catalog."
       }
     },
     "/v1/estimates/approve/{estimateId}": {
@@ -2794,7 +2794,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Marks an estimate as approved by the homeowner or agent, advancing it to the next workflow stage."
+        "description": "`GET /v1/estimates/approve/{estimateId}`\n\nMarks an estimate as approved by the homeowner or agent, advancing it to the next workflow stage."
       }
     },
     "/v1/estimates/complete/{estimateId}": {
@@ -2835,7 +2835,7 @@
             }
           }
         },
-        "description": "Marks an estimate as complete and triggers document generation and contract creation."
+        "description": "`POST /v1/estimates/complete/{estimateId}`\n\nMarks an estimate as complete and triggers document generation and contract creation."
       }
     },
     "/v1/estimates/create-document/{estimateId}": {
@@ -2884,7 +2884,7 @@
             }
           }
         },
-        "description": "Generates a PandaDoc document from an estimate for review and signing."
+        "description": "`PATCH /v1/estimates/create-document/{estimateId}`\n\nGenerates a PandaDoc document from an estimate for review and signing."
       }
     },
     "/v1/estimates/delete-contract/{estimateId}": {
@@ -2934,7 +2934,7 @@
             }
           }
         },
-        "description": "Removes the PandaDoc contract associated with an estimate, allowing re-generation."
+        "description": "`PATCH /v1/estimates/delete-contract/{estimateId}`\n\nRemoves the PandaDoc contract associated with an estimate, allowing re-generation."
       }
     },
     "/v1/estimates/duplicate": {
@@ -2964,7 +2964,7 @@
             }
           }
         },
-        "description": "Creates a copy of an existing estimate with all line items. The duplicate starts in draft status."
+        "description": "`POST /v1/estimates/duplicate`\n\nCreates a copy of an existing estimate with all line items. The duplicate starts in draft status."
       }
     },
     "/v1/estimates/generation": {
@@ -3002,7 +3002,7 @@
             }
           }
         },
-        "description": "Auto-generates an estimate using product catalog templates based on property condition and scope."
+        "description": "`POST /v1/estimates/generation`\n\nAuto-generates an estimate using product catalog templates based on property condition and scope."
       }
     },
     "/v1/estimates/migrate-products": {
@@ -3041,7 +3041,7 @@
             }
           }
         },
-        "description": "Internal migration — updates estimate line items to use the latest product catalog entries."
+        "description": "`POST /v1/estimates/migrate-products`\n\nInternal migration — updates estimate line items to use the latest product catalog entries."
       }
     },
     "/v1/estimates/reset/{estimateId}": {
@@ -3094,7 +3094,7 @@
             }
           }
         },
-        "description": "Resets an estimate back to draft status. Cleans up associated project scope and unlinks documents."
+        "description": "`PATCH /v1/estimates/reset/{estimateId}`\n\nResets an estimate back to draft status. Cleans up associated project scope and unlinks documents."
       }
     },
     "/v1/estimates/save/{estimateId}": {
@@ -3143,7 +3143,7 @@
             }
           }
         },
-        "description": "Saves the current state of an estimate including line items, notes, and pricing without changing status."
+        "description": "`PATCH /v1/estimates/save/{estimateId}`\n\nSaves the current state of an estimate including line items, notes, and pricing without changing status."
       }
     },
     "/v1/estimates/search": {
@@ -3173,7 +3173,7 @@
             }
           }
         },
-        "description": "Searches estimates by deal, status, date range, or other criteria. Returns paginated results."
+        "description": "`POST /v1/estimates/search`\n\nSearches estimates by deal, status, date range, or other criteria. Returns paginated results."
       }
     },
     "/v1/estimates/send-for-signature/{estimateId}": {
@@ -3223,7 +3223,7 @@
             }
           }
         },
-        "description": "Sends the estimate document to the homeowner and agent for e-signature via PandaDoc."
+        "description": "`PATCH /v1/estimates/send-for-signature/{estimateId}`\n\nSends the estimate document to the homeowner and agent for e-signature via PandaDoc."
       }
     },
     "/v1/estimates/sort-custom-products": {
@@ -3270,7 +3270,7 @@
             }
           }
         },
-        "description": "Reorders custom (non-catalog) line items within an estimate."
+        "description": "`POST /v1/estimates/sort-custom-products`\n\nReorders custom (non-catalog) line items within an estimate."
       }
     },
     "/v1/estimates/sort-products": {
@@ -3317,7 +3317,7 @@
             }
           }
         },
-        "description": "Reorders catalog line items within an estimate."
+        "description": "`POST /v1/estimates/sort-products`\n\nReorders catalog line items within an estimate."
       }
     },
     "/v1/estimates/{estimateId}": {
@@ -3378,7 +3378,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves an estimate by ID including all line items, pricing, status, and change order history."
+        "description": "`GET /v1/estimates/{estimateId}`\n\nRetrieves an estimate by ID including all line items, pricing, status, and change order history."
       },
       "patch": {
         "operationId": "patch_v1_estimates_estimateId_",
@@ -3417,7 +3417,7 @@
             }
           }
         },
-        "description": "Updates an estimate — modify line items, pricing, status, or other fields."
+        "description": "`PATCH /v1/estimates/{estimateId}`\n\nUpdates an estimate — modify line items, pricing, status, or other fields."
       },
       "delete": {
         "operationId": "delete_v1_estimates_estimateId_",
@@ -3446,7 +3446,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes an estimate. Only draft estimates can be deleted."
+        "description": "`DELETE /v1/estimates/{estimateId}`\n\nDeletes an estimate. Only draft estimates can be deleted."
       }
     },
     "/v1/estimates/{estimateId}/proposal": {
@@ -3477,7 +3477,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves the formatted proposal view of an estimate for client presentation."
+        "description": "`GET /v1/estimates/{estimateId}/proposal`\n\nRetrieves the formatted proposal view of an estimate for client presentation."
       }
     },
     "/v1/estimates/{estimateId}/{uid}": {
@@ -3517,7 +3517,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Removes a user's access to an estimate."
+        "description": "`DELETE /v1/estimates/{estimateId}/{uid}`\n\nRemoves a user's access to an estimate."
       }
     },
     "/v1/follow-up-boss/activate": {
@@ -3555,7 +3555,7 @@
             }
           }
         },
-        "description": "Activates the Follow Up Boss CRM integration for the authenticated account."
+        "description": "`POST /v1/follow-up-boss/activate`\n\nActivates the Follow Up Boss CRM integration for the authenticated account."
       }
     },
     "/v1/follow-up-boss/connect-users": {
@@ -3580,7 +3580,7 @@
             }
           }
         },
-        "description": "Maps Revive platform users to their Follow Up Boss counterparts for data sync."
+        "description": "`POST /v1/follow-up-boss/connect-users`\n\nMaps Revive platform users to their Follow Up Boss counterparts for data sync."
       }
     },
     "/v1/follow-up-boss/deactivate": {
@@ -3600,7 +3600,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deactivates the Follow Up Boss CRM integration and stops data sync."
+        "description": "`DELETE /v1/follow-up-boss/deactivate`\n\nDeactivates the Follow Up Boss CRM integration and stops data sync."
       }
     },
     "/v1/follow-up-boss/get-user-pipelines": {
@@ -3620,7 +3620,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns the pipeline configuration from the connected Follow Up Boss account."
+        "description": "`GET /v1/follow-up-boss/get-user-pipelines`\n\nReturns the pipeline configuration from the connected Follow Up Boss account."
       }
     },
     "/v1/follow-up-boss/logs": {
@@ -3640,7 +3640,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns recent sync activity logs for the Follow Up Boss integration."
+        "description": "`GET /v1/follow-up-boss/logs`\n\nReturns recent sync activity logs for the Follow Up Boss integration."
       }
     },
     "/v1/follow-up-boss/webhook": {
@@ -3665,7 +3665,7 @@
             }
           }
         },
-        "description": "Handles incoming webhook events from Follow Up Boss for real-time data sync."
+        "description": "`POST /v1/follow-up-boss/webhook`\n\nHandles incoming webhook events from Follow Up Boss for real-time data sync."
       }
     },
     "/v1/homes/{dealId}": {
@@ -3712,7 +3712,7 @@
             }
           }
         },
-        "description": "Retrieves the home record associated with a deal."
+        "description": "`GET /v1/homes/{dealId}`\n\nRetrieves the home record associated with a deal."
       },
       "patch": {
         "operationId": "patch_v1_homes_dealId_",
@@ -3751,7 +3751,7 @@
             }
           }
         },
-        "description": "Updates the home record associated with a deal."
+        "description": "`PATCH /v1/homes/{dealId}`\n\nUpdates the home record associated with a deal."
       }
     },
     "/v1/homes/{dealId}/associate": {
@@ -3792,7 +3792,7 @@
             }
           }
         },
-        "description": "Links a home record to a deal."
+        "description": "`PUT /v1/homes/{dealId}/associate`\n\nLinks a home record to a deal."
       },
       "delete": {
         "operationId": "delete_v1_homes_dealId_associate",
@@ -3837,7 +3837,7 @@
             }
           }
         },
-        "description": "Removes the link between a home record and a deal."
+        "description": "`DELETE /v1/homes/{dealId}/associate`\n\nRemoves the link between a home record and a deal."
       }
     },
     "/v1/homes/{dealId}/note": {
@@ -3886,7 +3886,7 @@
             }
           }
         },
-        "description": "Adds a note to the home record associated with a deal."
+        "description": "`POST /v1/homes/{dealId}/note`\n\nAdds a note to the home record associated with a deal."
       }
     },
     "/v1/marketing-center/automation/agent": {
@@ -3917,7 +3917,7 @@
             }
           }
         },
-        "description": "Triggers automated marketing material generation for an agent's listings."
+        "description": "`POST /v1/marketing-center/automation/agent`\n\nTriggers automated marketing material generation for an agent's listings."
       }
     },
     "/v1/marketing-center/automation/opportunity": {
@@ -3948,7 +3948,7 @@
             }
           }
         },
-        "description": "Triggers automated marketing material generation for a specific opportunity."
+        "description": "`POST /v1/marketing-center/automation/opportunity`\n\nTriggers automated marketing material generation for a specific opportunity."
       }
     },
     "/v1/marketing-center/automation/rebuild": {
@@ -3993,7 +3993,7 @@
             }
           }
         },
-        "description": "Rebuilds all automated marketing materials, regenerating templates and assets."
+        "description": "`POST /v1/marketing-center/automation/rebuild`\n\nRebuilds all automated marketing materials, regenerating templates and assets."
       }
     },
     "/v1/marketing-center/create-image": {
@@ -4028,7 +4028,7 @@
             }
           }
         },
-        "description": "Generates a custom marketing image (flyer, social post, etc.) from a template with property data."
+        "description": "`POST /v1/marketing-center/create-image`\n\nGenerates a custom marketing image (flyer, social post, etc.) from a template with property data."
       }
     },
     "/v1/marketing-center/download-counter/{id}": {
@@ -4054,7 +4054,7 @@
             "description": "Marketing asset ID."
           }
         ],
-        "description": "Returns the download count for a marketing asset."
+        "description": "`GET /v1/marketing-center/download-counter/{id}`\n\nReturns the download count for a marketing asset."
       }
     },
     "/v1/marketing-center/generate-wrapped": {
@@ -4069,7 +4069,7 @@
             "description": "Success"
           }
         },
-        "description": "Generates a year-end Wrapped-style summary report for agent marketing."
+        "description": "`GET /v1/marketing-center/generate-wrapped`\n\nGenerates a year-end Wrapped-style summary report for agent marketing."
       }
     },
     "/v1/marketing-center/generate-wrapped/webhook": {
@@ -4094,7 +4094,7 @@
             }
           }
         },
-        "description": "Handles async callback when a Wrapped report generation completes."
+        "description": "`POST /v1/marketing-center/generate-wrapped/webhook`\n\nHandles async callback when a Wrapped report generation completes."
       }
     },
     "/v1/marketing-center/get-templates": {
@@ -4114,7 +4114,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all available marketing templates with preview images and configuration."
+        "description": "`GET /v1/marketing-center/get-templates`\n\nReturns all available marketing templates with preview images and configuration."
       }
     },
     "/v1/marketing-center/rebuild-agent-templates": {
@@ -4150,7 +4150,7 @@
             }
           }
         },
-        "description": "Regenerates all marketing templates for an agent with updated branding and property data."
+        "description": "`POST /v1/marketing-center/rebuild-agent-templates`\n\nRegenerates all marketing templates for an agent with updated branding and property data."
       }
     },
     "/v1/marketing-center/send-mms": {
@@ -4191,7 +4191,7 @@
             }
           }
         },
-        "description": "Sends a marketing MMS message with an image attachment to a recipient."
+        "description": "`POST /v1/marketing-center/send-mms`\n\nSends a marketing MMS message with an image attachment to a recipient."
       }
     },
     "/v1/marketing-center/submit-template/{id}": {
@@ -4237,7 +4237,7 @@
             }
           }
         },
-        "description": "Submits a completed marketing template for review or publishing."
+        "description": "`POST /v1/marketing-center/submit-template/{id}`\n\nSubmits a completed marketing template for review or publishing."
       }
     },
     "/v1/marketing-center/template/{id}": {
@@ -4268,7 +4268,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a single marketing template by ID with configuration and preview."
+        "description": "`GET /v1/marketing-center/template/{id}`\n\nRetrieves a single marketing template by ID with configuration and preview."
       },
       "delete": {
         "operationId": "delete_v1_marketing_center_template_id_",
@@ -4297,7 +4297,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a marketing template."
+        "description": "`DELETE /v1/marketing-center/template/{id}`\n\nDeletes a marketing template."
       }
     },
     "/v1/marketing-center/webhook/create-image": {
@@ -4322,7 +4322,7 @@
             }
           }
         },
-        "description": "Handles async callback when a marketing image generation completes."
+        "description": "`POST /v1/marketing-center/webhook/create-image`\n\nHandles async callback when a marketing image generation completes."
       }
     },
     "/v1/media/": {
@@ -4363,7 +4363,7 @@
             }
           }
         },
-        "description": "Deletes multiple media files in a single request."
+        "description": "`DELETE /v1/media/`\n\nDeletes multiple media files in a single request."
       }
     },
     "/v1/media/change-document-status": {
@@ -4408,7 +4408,7 @@
             }
           }
         },
-        "description": "Updates the status of a document (e.g., draft, approved, archived)."
+        "description": "`PATCH /v1/media/change-document-status`\n\nUpdates the status of a document (e.g., draft, approved, archived)."
       }
     },
     "/v1/media/check-required-folders": {
@@ -4446,7 +4446,7 @@
             }
           }
         },
-        "description": "Ensures required folder structure exists for a deal's media storage. Creates missing folders."
+        "description": "`POST /v1/media/check-required-folders`\n\nEnsures required folder structure exists for a deal's media storage. Creates missing folders."
       }
     },
     "/v1/media/convert-webp-to-png": {
@@ -4471,7 +4471,7 @@
             }
           }
         },
-        "description": "Converts a WebP image to PNG format for compatibility with systems that don't support WebP."
+        "description": "`POST /v1/media/convert-webp-to-png`\n\nConverts a WebP image to PNG format for compatibility with systems that don't support WebP."
       }
     },
     "/v1/media/create-folder": {
@@ -4513,7 +4513,7 @@
             }
           }
         },
-        "description": "Creates a new folder in the media storage hierarchy for organizing files."
+        "description": "`POST /v1/media/create-folder`\n\nCreates a new folder in the media storage hierarchy for organizing files."
       }
     },
     "/v1/media/moving": {
@@ -4559,7 +4559,7 @@
             }
           }
         },
-        "description": "Moves one or more media files to a different folder."
+        "description": "`POST /v1/media/moving`\n\nMoves one or more media files to a different folder."
       }
     },
     "/v1/media/remove-folder": {
@@ -4597,7 +4597,7 @@
             }
           }
         },
-        "description": "Deletes a media folder and optionally moves its contents to another folder."
+        "description": "`POST /v1/media/remove-folder`\n\nDeletes a media folder and optionally moves its contents to another folder."
       }
     },
     "/v1/media/rename": {
@@ -4643,7 +4643,7 @@
             }
           }
         },
-        "description": "Renames a media file or folder."
+        "description": "`PATCH /v1/media/rename`\n\nRenames a media file or folder."
       }
     },
     "/v1/media/share-document": {
@@ -4685,7 +4685,7 @@
             }
           }
         },
-        "description": "Generates a shareable link for a document or sends it to specified recipients."
+        "description": "`POST /v1/media/share-document`\n\nGenerates a shareable link for a document or sends it to specified recipients."
       }
     },
     "/v1/media/upload-document-as-data": {
@@ -4715,7 +4715,7 @@
             }
           }
         },
-        "description": "Uploads a document with structured metadata attached for processing and indexing."
+        "description": "`PATCH /v1/media/upload-document-as-data`\n\nUploads a document with structured metadata attached for processing and indexing."
       }
     },
     "/v1/media/upload-media": {
@@ -4770,7 +4770,7 @@
             }
           }
         },
-        "description": "Uploads a photo, video, or document file. Supports image optimization and thumbnail generation."
+        "description": "`POST /v1/media/upload-media`\n\nUploads a photo, video, or document file. Supports image optimization and thumbnail generation."
       }
     },
     "/v1/meetings/": {
@@ -4828,7 +4828,7 @@
             }
           }
         },
-        "description": "Returns all scheduled meetings with optional filtering by date, participant, or status."
+        "description": "`GET /v1/meetings/`\n\nReturns all scheduled meetings with optional filtering by date, participant, or status."
       },
       "post": {
         "operationId": "post_v1_meetings_",
@@ -4868,7 +4868,7 @@
             }
           }
         },
-        "description": "Books a meeting between participants. Creates calendar entries and sends notifications."
+        "description": "`POST /v1/meetings/`\n\nBooks a meeting between participants. Creates calendar entries and sends notifications."
       }
     },
     "/v1/meetings/available-calendars": {
@@ -4883,7 +4883,7 @@
             "description": "Success"
           }
         },
-        "description": "Returns calendars that have available time slots for booking meetings."
+        "description": "`GET /v1/meetings/available-calendars`\n\nReturns calendars that have available time slots for booking meetings."
       }
     },
     "/v1/migrations/rma-statuses": {
@@ -4913,7 +4913,7 @@
             }
           }
         },
-        "description": "Internal migration — updates RMA records to use the latest status taxonomy. Admin only."
+        "description": "`POST /v1/migrations/rma-statuses`\n\nInternal migration — updates RMA records to use the latest status taxonomy. Admin only."
       }
     },
     "/v1/notifications/send": {
@@ -4938,7 +4938,7 @@
             }
           }
         },
-        "description": "Sends a notification to one or more users via their preferred channel (push, SMS, email, or in-app)."
+        "description": "`POST /v1/notifications/send`\n\nSends a notification to one or more users via their preferred channel (push, SMS, email, or in-app)."
       }
     },
     "/v1/notifications/upsert-novu-subscribers": {
@@ -4958,7 +4958,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Syncs platform users to Novu notification service as subscribers for push and in-app notifications."
+        "description": "`GET /v1/notifications/upsert-novu-subscribers`\n\nSyncs platform users to Novu notification service as subscribers for push and in-app notifications."
       }
     },
     "/v1/notifications/wu-reminder": {
@@ -4991,7 +4991,7 @@
             }
           }
         },
-        "description": "Sends a reminder notification to contractors who haven't submitted their weekly renovation progress update."
+        "description": "`POST /v1/notifications/wu-reminder`\n\nSends a reminder notification to contractors who haven't submitted their weekly renovation progress update."
       }
     },
     "/v1/onsite-visit/": {
@@ -5011,7 +5011,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all onsite visits with optional filtering by deal, date range, status, or assignee."
+        "description": "`GET /v1/onsite-visit/`\n\nReturns all onsite visits with optional filtering by deal, date range, status, or assignee."
       }
     },
     "/v1/onsite-visit/mobile-geolocation": {
@@ -5057,7 +5057,7 @@
             }
           }
         },
-        "description": "Records the GPS location of a mobile user during an onsite visit for verification and tracking."
+        "description": "`POST /v1/onsite-visit/mobile-geolocation`\n\nRecords the GPS location of a mobile user during an onsite visit for verification and tracking."
       }
     },
     "/v1/onsite-visit/{onSiteVisitId}": {
@@ -5112,7 +5112,7 @@
             }
           }
         },
-        "description": "Updates fields on an onsite visit — date, status, notes, or assigned team member."
+        "description": "`PATCH /v1/onsite-visit/{onSiteVisitId}`\n\nUpdates fields on an onsite visit — date, status, notes, or assigned team member."
       },
       "delete": {
         "operationId": "delete_v1_onsite_visit_onSiteVisitId_",
@@ -5141,7 +5141,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Cancels and deletes a scheduled onsite visit."
+        "description": "`DELETE /v1/onsite-visit/{onSiteVisitId}`\n\nCancels and deletes a scheduled onsite visit."
       }
     },
     "/v1/onsite-visit/{sessionId}/comment": {
@@ -5182,7 +5182,7 @@
             }
           }
         },
-        "description": "Adds a comment to an onsite visit session. Comments are visible to all participants."
+        "description": "`POST /v1/onsite-visit/{sessionId}/comment`\n\nAdds a comment to an onsite visit session. Comments are visible to all participants."
       }
     },
     "/v1/onsite-visit/{sessionId}/comment/{commentId}": {
@@ -5222,7 +5222,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a comment from an onsite visit session."
+        "description": "`DELETE /v1/onsite-visit/{sessionId}/comment/{commentId}`\n\nDeletes a comment from an onsite visit session."
       }
     },
     "/v1/onsite-visit/{sessionId}/comments": {
@@ -5278,7 +5278,7 @@
             }
           }
         },
-        "description": "Returns all comments for an onsite visit session in chronological order."
+        "description": "`GET /v1/onsite-visit/{sessionId}/comments`\n\nReturns all comments for an onsite visit session in chronological order."
       }
     },
     "/v1/onsite-visit/{sessionId}/image-notes": {
@@ -5319,7 +5319,7 @@
             }
           }
         },
-        "description": "Adds an annotated photo note to an onsite visit — captures a photo with markup and text notes."
+        "description": "`POST /v1/onsite-visit/{sessionId}/image-notes`\n\nAdds an annotated photo note to an onsite visit — captures a photo with markup and text notes."
       }
     },
     "/v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}": {
@@ -5369,7 +5369,7 @@
             }
           }
         },
-        "description": "Updates the text or annotations on an existing image note."
+        "description": "`PATCH /v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}`\n\nUpdates the text or annotations on an existing image note."
       },
       "delete": {
         "operationId": "delete_v1_onsite_visit_sessionId_image_notes_imageNoteId_",
@@ -5407,7 +5407,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes an image note from an onsite visit session."
+        "description": "`DELETE /v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}`\n\nDeletes an image note from an onsite visit session."
       }
     },
     "/v1/partners/realtycom": {
@@ -5432,7 +5432,7 @@
             }
           }
         },
-        "description": "Handles incoming referral data from the Realty.com partner integration."
+        "description": "`POST /v1/partners/realtycom`\n\nHandles incoming referral data from the Realty.com partner integration."
       }
     },
     "/v1/predictions/": {
@@ -5479,7 +5479,7 @@
             }
           }
         },
-        "description": "Starts an async AI image generation job. Returns a job ID to poll for completion."
+        "description": "`POST /v1/predictions/`\n\nStarts an async AI image generation job. Returns a job ID to poll for completion."
       }
     },
     "/v1/predictions/{id}": {
@@ -5525,7 +5525,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Polls an AI prediction job. Returns generated images when complete. Poll every few seconds."
+        "description": "`GET /v1/predictions/{id}`\n\nPolls an AI prediction job. Returns generated images when complete. Poll every few seconds."
       }
     },
     "/v1/production/": {
@@ -5567,7 +5567,7 @@
             }
           }
         },
-        "description": "Returns production deployment status and version information."
+        "description": "`POST /v1/production/`\n\nReturns production deployment status and version information."
       }
     },
     "/v1/project-scopes/": {
@@ -5608,7 +5608,7 @@
             }
           }
         },
-        "description": "Creates a new project scope for a deal with initial line items."
+        "description": "`POST /v1/project-scopes/`\n\nCreates a new project scope for a deal with initial line items."
       },
       "delete": {
         "operationId": "delete_v1_project_scopes_",
@@ -5644,7 +5644,7 @@
             }
           }
         },
-        "description": "Removes scope items from a project. Supports filtering by source type for selective removal."
+        "description": "`DELETE /v1/project-scopes/`\n\nRemoves scope items from a project. Supports filtering by source type for selective removal."
       }
     },
     "/v1/project-scopes/fill-from-pandadoc/{dealId}": {
@@ -5675,7 +5675,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Populates project scope by extracting line items from the signed PandaDoc document."
+        "description": "`GET /v1/project-scopes/fill-from-pandadoc/{dealId}`\n\nPopulates project scope by extracting line items from the signed PandaDoc document."
       }
     },
     "/v1/project-scopes/update": {
@@ -5734,7 +5734,7 @@
             }
           }
         },
-        "description": "Updates a single project scope item."
+        "description": "`PATCH /v1/project-scopes/update`\n\nUpdates a single project scope item."
       }
     },
     "/v1/property/": {
@@ -5831,7 +5831,7 @@
             }
           }
         },
-        "description": "Creates a new property record and initiates analysis. Main entry point for the property assessment flow."
+        "description": "`POST /v1/property/`\n\nCreates a new property record and initiates analysis. Main entry point for the property assessment flow."
       }
     },
     "/v1/property/admin/migrate-latest-leads-to-reports-meta": {
@@ -5856,7 +5856,7 @@
             }
           }
         },
-        "description": "Internal migration — updates leads with latest report metadata. Admin only."
+        "description": "`POST /v1/property/admin/migrate-latest-leads-to-reports-meta`\n\nInternal migration — updates leads with latest report metadata. Admin only."
       }
     },
     "/v1/property/admin/migrate-leads": {
@@ -5881,7 +5881,7 @@
             }
           }
         },
-        "description": "Internal migration — converts legacy property lead records. Admin only."
+        "description": "`POST /v1/property/admin/migrate-leads`\n\nInternal migration — converts legacy property lead records. Admin only."
       }
     },
     "/v1/property/association": {
@@ -5920,7 +5920,7 @@
             }
           }
         },
-        "description": "Creates an association between a report and a HubSpot custom object."
+        "description": "`POST /v1/property/association`\n\nCreates an association between a report and a HubSpot custom object."
       }
     },
     "/v1/property/complete-report": {
@@ -5963,7 +5963,7 @@
             }
           }
         },
-        "description": "Marks a report as complete and triggers final processing including PDF generation."
+        "description": "`POST /v1/property/complete-report`\n\nMarks a report as complete and triggers final processing including PDF generation."
       }
     },
     "/v1/property/create-comparable": {
@@ -6048,7 +6048,7 @@
             }
           }
         },
-        "description": "Manually adds a comparable to a report."
+        "description": "`POST /v1/property/create-comparable`\n\nManually adds a comparable to a report."
       }
     },
     "/v1/property/log/comparable/{reportId}": {
@@ -6089,7 +6089,7 @@
             }
           }
         },
-        "description": "Logs an analytics event when comparables are viewed."
+        "description": "`POST /v1/property/log/comparable/{reportId}`\n\nLogs an analytics event when comparables are viewed."
       }
     },
     "/v1/property/log/pdf/{reportId}": {
@@ -6145,7 +6145,7 @@
             }
           }
         },
-        "description": "Logs an analytics event when a report PDF is downloaded."
+        "description": "`POST /v1/property/log/pdf/{reportId}`\n\nLogs an analytics event when a report PDF is downloaded."
       }
     },
     "/v1/property/log/view/{reportId}": {
@@ -6201,7 +6201,7 @@
             }
           }
         },
-        "description": "Logs an analytics event when a report is viewed."
+        "description": "`POST /v1/property/log/view/{reportId}`\n\nLogs an analytics event when a report is viewed."
       }
     },
     "/v1/property/neighborhood-report-and-register-user": {
@@ -6239,7 +6239,7 @@
             }
           }
         },
-        "description": "Creates a neighborhood report and registers the requesting user."
+        "description": "`POST /v1/property/neighborhood-report-and-register-user`\n\nCreates a neighborhood report and registers the requesting user."
       }
     },
     "/v1/property/search-comparable": {
@@ -6288,7 +6288,7 @@
             }
           }
         },
-        "description": "Searches for comparable properties near a given address."
+        "description": "`POST /v1/property/search-comparable`\n\nSearches for comparable properties near a given address."
       }
     },
     "/v1/property/share/{reportId}": {
@@ -6346,7 +6346,7 @@
             }
           }
         },
-        "description": "Generates a shareable link or sends an invite for a property report."
+        "description": "`POST /v1/property/share/{reportId}`\n\nGenerates a shareable link or sends an invite for a property report."
       }
     },
     "/v1/property/upgrade-to-v2": {
@@ -6385,7 +6385,7 @@
             }
           }
         },
-        "description": "Upgrades a legacy V1 report to V2 format with enhanced analysis."
+        "description": "`POST /v1/property/upgrade-to-v2`\n\nUpgrades a legacy V1 report to V2 format with enhanced analysis."
       }
     },
     "/v1/property/{id}": {
@@ -6416,7 +6416,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a property report with valuation data, condition assessment, comparables, and renovation recommendations."
+        "description": "`GET /v1/property/{id}`\n\nRetrieves a property report with valuation data, condition assessment, comparables, and renovation recommendations."
       }
     },
     "/v1/property/{id}/recalculate": {
@@ -6463,7 +6463,7 @@
             }
           }
         },
-        "description": "Recalculates a property report with updated comparables, timeline, or renovation parameters."
+        "description": "`POST /v1/property/{id}/recalculate`\n\nRecalculates a property report with updated comparables, timeline, or renovation parameters."
       }
     },
     "/v1/punch-list/update-punch-data": {
@@ -6512,7 +6512,7 @@
             }
           }
         },
-        "description": "Updates punch list items and status."
+        "description": "`PATCH /v1/punch-list/update-punch-data`\n\nUpdates punch list items and status."
       }
     },
     "/v1/punch-list/update-tasks": {
@@ -6551,7 +6551,7 @@
             }
           }
         },
-        "description": "Batch updates task statuses on the punch list."
+        "description": "`POST /v1/punch-list/update-tasks`\n\nBatch updates task statuses on the punch list."
       }
     },
     "/v1/punch-list/{dealId}": {
@@ -6604,7 +6604,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves the punch list — all outstanding items before project completion."
+        "description": "`GET /v1/punch-list/{dealId}`\n\nRetrieves the punch list — all outstanding items before project completion."
       }
     },
     "/v1/realtors/": {
@@ -6629,7 +6629,7 @@
             }
           }
         },
-        "description": "Creates a new realtor contact profile."
+        "description": "`POST /v1/realtors/`\n\nCreates a new realtor contact profile."
       }
     },
     "/v1/realtors/{contactId}": {
@@ -6693,7 +6693,7 @@
             }
           }
         },
-        "description": "Retrieves a realtor's profile by contact ID."
+        "description": "`GET /v1/realtors/{contactId}`\n\nRetrieves a realtor's profile by contact ID."
       }
     },
     "/v1/referrals/": {
@@ -6713,7 +6713,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all referral records with optional filtering."
+        "description": "`GET /v1/referrals/`\n\nReturns all referral records with optional filtering."
       },
       "post": {
         "operationId": "post_v1_referrals_",
@@ -6795,7 +6795,7 @@
             }
           }
         },
-        "description": "Creates a new referral record for lead attribution."
+        "description": "`POST /v1/referrals/`\n\nCreates a new referral record for lead attribution."
       }
     },
     "/v1/referrals/update-user-visit": {
@@ -6834,7 +6834,7 @@
             }
           }
         },
-        "description": "Logs a visit event for referral tracking."
+        "description": "`POST /v1/referrals/update-user-visit`\n\nLogs a visit event for referral tracking."
       }
     },
     "/v1/referrals/{dealId}": {
@@ -6865,7 +6865,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves referral info for a deal."
+        "description": "`GET /v1/referrals/{dealId}`\n\nRetrieves referral info for a deal."
       },
       "patch": {
         "operationId": "patch_v1_referrals_dealId_",
@@ -6904,7 +6904,7 @@
             }
           }
         },
-        "description": "Updates referral info for a deal."
+        "description": "`PATCH /v1/referrals/{dealId}`\n\nUpdates referral info for a deal."
       },
       "delete": {
         "operationId": "delete_v1_referrals_dealId_",
@@ -6956,7 +6956,7 @@
             }
           }
         },
-        "description": "Deletes a referral record."
+        "description": "`DELETE /v1/referrals/{dealId}`\n\nDeletes a referral record."
       }
     },
     "/v1/reimagine/create-image": {
@@ -7041,7 +7041,7 @@
             }
           }
         },
-        "description": "Generates an AI-reimagined version of a property photo with a specified room style."
+        "description": "`POST /v1/reimagine/create-image`\n\nGenerates an AI-reimagined version of a property photo with a specified room style."
       }
     },
     "/v1/reimagine/report-association": {
@@ -7071,7 +7071,7 @@
             }
           }
         },
-        "description": "Links a reimagined image to a property report."
+        "description": "`POST /v1/reimagine/report-association`\n\nLinks a reimagined image to a property report."
       }
     },
     "/v1/reimagine/{id}": {
@@ -7121,7 +7121,7 @@
             }
           }
         },
-        "description": "Updates metadata on a reimagine record."
+        "description": "`PATCH /v1/reimagine/{id}`\n\nUpdates metadata on a reimagine record."
       },
       "get": {
         "operationId": "get_v1_reimagine_id_",
@@ -7150,7 +7150,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a reimagined image result."
+        "description": "`GET /v1/reimagine/{id}`\n\nRetrieves a reimagined image result."
       },
       "delete": {
         "operationId": "delete_v1_reimagine_id_",
@@ -7179,7 +7179,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a reimagined image."
+        "description": "`DELETE /v1/reimagine/{id}`\n\nDeletes a reimagined image."
       }
     },
     "/v1/renovation-progress/": {
@@ -7243,7 +7243,7 @@
             }
           }
         },
-        "description": "Creates a weekly renovation progress update for a project."
+        "description": "`POST /v1/renovation-progress/`\n\nCreates a weekly renovation progress update for a project."
       }
     },
     "/v1/renovation-progress/what-was-done/{dealId}": {
@@ -7293,7 +7293,7 @@
             }
           }
         },
-        "description": "Updates the free-text summary of work completed."
+        "description": "`PATCH /v1/renovation-progress/what-was-done/{dealId}`\n\nUpdates the free-text summary of work completed."
       }
     },
     "/v1/renovation-progress/{renovationProgressId}": {
@@ -7324,7 +7324,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a single weekly update."
+        "description": "`GET /v1/renovation-progress/{renovationProgressId}`\n\nRetrieves a single weekly update."
       },
       "patch": {
         "operationId": "patch_v1_renovation_progress_renovationProgressId_",
@@ -7375,7 +7375,7 @@
             }
           }
         },
-        "description": "Modifies a weekly update — schedule status, completed items, or notes."
+        "description": "`PATCH /v1/renovation-progress/{renovationProgressId}`\n\nModifies a weekly update — schedule status, completed items, or notes."
       },
       "delete": {
         "operationId": "delete_v1_renovation_progress_renovationProgressId_",
@@ -7404,7 +7404,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a weekly update."
+        "description": "`DELETE /v1/renovation-progress/{renovationProgressId}`\n\nDeletes a weekly update."
       }
     },
     "/v1/reports/": {
@@ -7443,7 +7443,7 @@
             }
           }
         },
-        "description": "Generates an annual or periodic analytics report."
+        "description": "`POST /v1/reports/`\n\nGenerates an annual or periodic analytics report."
       }
     },
     "/v1/ret-catalog/": {
@@ -7484,7 +7484,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all products in the renovation catalog with pricing."
+        "description": "`GET /v1/ret-catalog/`\n\nReturns all products in the renovation catalog with pricing."
       },
       "post": {
         "operationId": "post_v1_ret_catalog_",
@@ -7512,7 +7512,7 @@
             }
           }
         },
-        "description": "Adds a new product to the renovation catalog."
+        "description": "`POST /v1/ret-catalog/`\n\nAdds a new product to the renovation catalog."
       }
     },
     "/v1/ret-catalog/all-product-types": {
@@ -7549,7 +7549,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all product type categories."
+        "description": "`GET /v1/ret-catalog/all-product-types`\n\nReturns all product type categories."
       }
     },
     "/v1/ret-catalog/{productId}": {
@@ -7580,7 +7580,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a product by ID."
+        "description": "`GET /v1/ret-catalog/{productId}`\n\nRetrieves a product by ID."
       },
       "patch": {
         "operationId": "patch_v1_ret_catalog_productId_",
@@ -7619,7 +7619,7 @@
             }
           }
         },
-        "description": "Updates a catalog product."
+        "description": "`PATCH /v1/ret-catalog/{productId}`\n\nUpdates a catalog product."
       },
       "delete": {
         "operationId": "delete_v1_ret_catalog_productId_",
@@ -7648,7 +7648,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Removes a product from the catalog."
+        "description": "`DELETE /v1/ret-catalog/{productId}`\n\nRemoves a product from the catalog."
       }
     },
     "/v1/ret-catalog/{productTypeId}/options": {
@@ -7674,7 +7674,7 @@
             "description": "Product type ID."
           }
         ],
-        "description": "Returns options for a product type (e.g., countertop materials for kitchen)."
+        "description": "`GET /v1/ret-catalog/{productTypeId}/options`\n\nReturns options for a product type (e.g., countertop materials for kitchen)."
       }
     },
     "/v1/ret-catalog/{productTypeId}/options/{optionId}/selections": {
@@ -7709,7 +7709,7 @@
             "description": "Option ID."
           }
         ],
-        "description": "Returns selections for an option (e.g., granite colors)."
+        "description": "`GET /v1/ret-catalog/{productTypeId}/options/{optionId}/selections`\n\nReturns selections for an option (e.g., granite colors)."
       }
     },
     "/v1/rma/": {
@@ -7776,7 +7776,7 @@
             }
           }
         },
-        "description": "Creates a new Renovation Management Agreement. Triggers notifications and sets up the contract pipeline."
+        "description": "`POST /v1/rma/`\n\nCreates a new Renovation Management Agreement. Triggers notifications and sets up the contract pipeline."
       },
       "get": {
         "operationId": "get_v1_rma_",
@@ -7794,7 +7794,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all RMAs with optional filtering by status, deal, or contractor."
+        "description": "`GET /v1/rma/`\n\nReturns all RMAs with optional filtering by status, deal, or contractor."
       }
     },
     "/v1/rma/contracts": {
@@ -7814,7 +7814,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all RMA contract documents across projects."
+        "description": "`GET /v1/rma/contracts`\n\nReturns all RMA contract documents across projects."
       }
     },
     "/v1/rma/contracts/{contractId}/session": {
@@ -7855,7 +7855,7 @@
             }
           }
         },
-        "description": "Creates an edit or signing session for an RMA contract."
+        "description": "`POST /v1/rma/contracts/{contractId}/session`\n\nCreates an edit or signing session for an RMA contract."
       }
     },
     "/v1/rma/{rmaId}": {
@@ -7948,7 +7948,7 @@
             }
           }
         },
-        "description": "Retrieves an RMA by ID including contract status, activity logs, draw history, and notes."
+        "description": "`GET /v1/rma/{rmaId}`\n\nRetrieves an RMA by ID including contract status, activity logs, draw history, and notes."
       },
       "patch": {
         "operationId": "patch_v1_rma_rmaId_",
@@ -7987,7 +7987,7 @@
             }
           }
         },
-        "description": "Updates RMA fields — status, amount, draw information, or metadata."
+        "description": "`PATCH /v1/rma/{rmaId}`\n\nUpdates RMA fields — status, amount, draw information, or metadata."
       }
     },
     "/v1/rma/{rmaId}/activity-logs": {
@@ -8018,7 +8018,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns the audit log for an RMA including status changes, contract events, and draws."
+        "description": "`GET /v1/rma/{rmaId}/activity-logs`\n\nReturns the audit log for an RMA including status changes, contract events, and draws."
       }
     },
     "/v1/rma/{rmaId}/contract": {
@@ -8059,7 +8059,7 @@
             }
           }
         },
-        "description": "Creates a new contract document for the RMA via PandaDoc."
+        "description": "`POST /v1/rma/{rmaId}/contract`\n\nCreates a new contract document for the RMA via PandaDoc."
       },
       "delete": {
         "operationId": "delete_v1_rma_rmaId_contract",
@@ -8088,7 +8088,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes the RMA contract. Only drafts can be deleted."
+        "description": "`DELETE /v1/rma/{rmaId}/contract`\n\nDeletes the RMA contract. Only drafts can be deleted."
       }
     },
     "/v1/rma/{rmaId}/contract/download": {
@@ -8119,7 +8119,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Downloads the RMA contract as a PDF."
+        "description": "`GET /v1/rma/{rmaId}/contract/download`\n\nDownloads the RMA contract as a PDF."
       }
     },
     "/v1/rma/{rmaId}/contract/edit-session": {
@@ -8150,7 +8150,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Creates or retrieves an edit session for the RMA contract."
+        "description": "`GET /v1/rma/{rmaId}/contract/edit-session`\n\nCreates or retrieves an edit session for the RMA contract."
       }
     },
     "/v1/rma/{rmaId}/contract/send": {
@@ -8191,7 +8191,7 @@
             }
           }
         },
-        "description": "Sends the RMA contract to all recipients for e-signature."
+        "description": "`POST /v1/rma/{rmaId}/contract/send`\n\nSends the RMA contract to all recipients for e-signature."
       }
     },
     "/v1/rma/{rmaId}/notes": {
@@ -8244,7 +8244,7 @@
             }
           }
         },
-        "description": "Adds a note to the RMA's activity feed."
+        "description": "`POST /v1/rma/{rmaId}/notes`\n\nAdds a note to the RMA's activity feed."
       },
       "get": {
         "operationId": "get_v1_rma_rmaId_notes",
@@ -8273,7 +8273,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves all notes for an RMA in chronological order."
+        "description": "`GET /v1/rma/{rmaId}/notes`\n\nRetrieves all notes for an RMA in chronological order."
       }
     },
     "/v1/support/": {
@@ -8333,7 +8333,7 @@
             }
           }
         },
-        "description": "Submits a new support ticket with contact info and issue details."
+        "description": "`POST /v1/support/`\n\nSubmits a new support ticket with contact info and issue details."
       }
     },
     "/v1/utility/check-home-images": {
@@ -8381,7 +8381,7 @@
             }
           }
         },
-        "description": "Multi-source home image lookup by address. Queries AnyProp, Zillow, RestB, deduplicates results."
+        "description": "`POST /v1/utility/check-home-images`\n\nMulti-source home image lookup by address. Queries AnyProp, Zillow, RestB, deduplicates results."
       }
     },
     "/v1/utility/deduplicate-images": {
@@ -8406,7 +8406,7 @@
             }
           }
         },
-        "description": "Detects and removes duplicate images using perceptual hashing. Returns only unique images."
+        "description": "`POST /v1/utility/deduplicate-images`\n\nDetects and removes duplicate images using perceptual hashing. Returns only unique images."
       }
     },
     "/v1/utility/house-canary/market-health": {
@@ -8452,7 +8452,7 @@
             }
           }
         },
-        "description": "Retrieves market health indicators for given ZIP codes using House Canary."
+        "description": "`POST /v1/utility/house-canary/market-health`\n\nRetrieves market health indicators for given ZIP codes using House Canary."
       }
     },
     "/v1/vision-ai/": {
@@ -8472,7 +8472,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all Vision AI property analysis reports."
+        "description": "`GET /v1/vision-ai/`\n\nReturns all Vision AI property analysis reports."
       },
       "post": {
         "operationId": "post_v1_vision_ai_",
@@ -8527,7 +8527,7 @@
             }
           }
         },
-        "description": "Creates a new AI property analysis report from photos."
+        "description": "`POST /v1/vision-ai/`\n\nCreates a new AI property analysis report from photos."
       }
     },
     "/v1/vision-ai/finish-neighborhood-report": {
@@ -8571,7 +8571,7 @@
             }
           }
         },
-        "description": "Completes a neighborhood report and optionally saves photos."
+        "description": "`POST /v1/vision-ai/finish-neighborhood-report`\n\nCompletes a neighborhood report and optionally saves photos."
       }
     },
     "/v1/vision-ai/neighbor-report-and-register": {
@@ -8602,7 +8602,7 @@
             }
           }
         },
-        "description": "Creates a neighborhood report and registers the user."
+        "description": "`POST /v1/vision-ai/neighbor-report-and-register`\n\nCreates a neighborhood report and registers the user."
       }
     },
     "/v1/vision-ai/neighbor-report-photos": {
@@ -8646,7 +8646,7 @@
             }
           }
         },
-        "description": "Processes and analyzes photos for a neighborhood report."
+        "description": "`POST /v1/vision-ai/neighbor-report-photos`\n\nProcesses and analyzes photos for a neighborhood report."
       }
     },
     "/v1/vision-ai/neighbor-report-with-photos-finish": {
@@ -8685,7 +8685,7 @@
             }
           }
         },
-        "description": "Completes a neighborhood report that includes photo analysis."
+        "description": "`POST /v1/vision-ai/neighbor-report-with-photos-finish`\n\nCompletes a neighborhood report that includes photo analysis."
       }
     },
     "/v1/vision-ai/search": {
@@ -8725,7 +8725,7 @@
             }
           }
         },
-        "description": "Searches Vision AI reports by address or other criteria."
+        "description": "`POST /v1/vision-ai/search`\n\nSearches Vision AI reports by address or other criteria."
       }
     },
     "/v1/vision-ai/upgrade-to-v2": {
@@ -8764,7 +8764,7 @@
             }
           }
         },
-        "description": "Upgrades a V1 Vision AI report to V2 format."
+        "description": "`POST /v1/vision-ai/upgrade-to-v2`\n\nUpgrades a V1 Vision AI report to V2 format."
       }
     },
     "/v1/vision-ai/{id}": {
@@ -8790,7 +8790,7 @@
             "description": "Report ID."
           }
         ],
-        "description": "Retrieves a Vision AI report by ID."
+        "description": "`GET /v1/vision-ai/{id}`\n\nRetrieves a Vision AI report by ID."
       },
       "patch": {
         "operationId": "patch_v1_vision_ai_id_",
@@ -8829,7 +8829,7 @@
             }
           }
         },
-        "description": "Updates fields on a Vision AI report."
+        "description": "`PATCH /v1/vision-ai/{id}`\n\nUpdates fields on a Vision AI report."
       },
       "delete": {
         "operationId": "delete_v1_vision_ai_id_",
@@ -8858,7 +8858,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a Vision AI report."
+        "description": "`DELETE /v1/vision-ai/{id}`\n\nDeletes a Vision AI report."
       }
     },
     "/v1/vision-ai/{id}/recalculate": {
@@ -8909,7 +8909,7 @@
             }
           }
         },
-        "description": "Recalculates a report with updated timeline or parameters."
+        "description": "`POST /v1/vision-ai/{id}/recalculate`\n\nRecalculates a report with updated timeline or parameters."
       }
     },
     "/v1/webhooks/affiliate-partners": {
@@ -8934,7 +8934,7 @@
             }
           }
         },
-        "description": "Handles incoming referral data from affiliate partners. Called by partner systems."
+        "description": "`POST /v1/webhooks/affiliate-partners`\n\nHandles incoming referral data from affiliate partners. Called by partner systems."
       }
     },
     "/v1/webhooks/gvg": {
@@ -8959,7 +8959,7 @@
             }
           }
         },
-        "description": "Handles incoming data from GVG for property valuation updates."
+        "description": "`POST /v1/webhooks/gvg`\n\nHandles incoming data from GVG for property valuation updates."
       }
     },
     "/v1/webhooks/hubspot/createCompany": {
@@ -8984,7 +8984,7 @@
             }
           }
         },
-        "description": "Handles HubSpot workflow action to create a company record."
+        "description": "`POST /v1/webhooks/hubspot/createCompany`\n\nHandles HubSpot workflow action to create a company record."
       }
     },
     "/v1/webhooks/hubspot/invite-realtor": {
@@ -9009,7 +9009,7 @@
             }
           }
         },
-        "description": "Handles HubSpot workflow to invite a realtor to the platform."
+        "description": "`POST /v1/webhooks/hubspot/invite-realtor`\n\nHandles HubSpot workflow to invite a realtor to the platform."
       }
     },
     "/v1/webhooks/hubspot/production": {
@@ -9034,7 +9034,7 @@
             }
           }
         },
-        "description": "Handles production events from HubSpot workflows."
+        "description": "`POST /v1/webhooks/hubspot/production`\n\nHandles production events from HubSpot workflows."
       }
     },
     "/v1/webhooks/hubspot/report-reminder/{emailId}": {
@@ -9070,7 +9070,7 @@
             }
           }
         },
-        "description": "Sends report reminder emails."
+        "description": "`POST /v1/webhooks/hubspot/report-reminder/{emailId}`\n\nSends report reminder emails."
       }
     },
     "/v1/webhooks/hubspot/revive-team": {
@@ -9095,7 +9095,7 @@
             }
           }
         },
-        "description": "Handles HubSpot actions for internal team notifications."
+        "description": "`POST /v1/webhooks/hubspot/revive-team`\n\nHandles HubSpot actions for internal team notifications."
       }
     },
     "/v1/webhooks/hubspot/updateCompany": {
@@ -9120,7 +9120,7 @@
             }
           }
         },
-        "description": "Handles HubSpot workflow to update company records."
+        "description": "`POST /v1/webhooks/hubspot/updateCompany`\n\nHandles HubSpot workflow to update company records."
       }
     },
     "/v1/webhooks/hubspot/updateContractor": {
@@ -9145,7 +9145,7 @@
             }
           }
         },
-        "description": "Handles HubSpot workflow to sync contractor data."
+        "description": "`POST /v1/webhooks/hubspot/updateContractor`\n\nHandles HubSpot workflow to sync contractor data."
       }
     },
     "/v1/webhooks/hubspot/updateRealtorEdgeUrl": {
@@ -9170,7 +9170,7 @@
             }
           }
         },
-        "description": "Handles HubSpot workflow to update a realtor's Edge URL."
+        "description": "`POST /v1/webhooks/hubspot/updateRealtorEdgeUrl`\n\nHandles HubSpot workflow to update a realtor's Edge URL."
       }
     },
     "/v1/webhooks/pandadoc/linked-objects": {
@@ -9195,7 +9195,7 @@
             }
           }
         },
-        "description": "Handles PandaDoc events for document-object associations."
+        "description": "`POST /v1/webhooks/pandadoc/linked-objects`\n\nHandles PandaDoc events for document-object associations."
       }
     },
     "/v1/webhooks/pandadoc/project-scope": {
@@ -9220,7 +9220,7 @@
             }
           }
         },
-        "description": "Handles PandaDoc events to sync project scope items from signed documents."
+        "description": "`POST /v1/webhooks/pandadoc/project-scope`\n\nHandles PandaDoc events to sync project scope items from signed documents."
       }
     },
     "/v1/webhooks/website-case-study": {
@@ -9269,7 +9269,7 @@
             }
           }
         },
-        "description": "Receives case study data from the marketing website."
+        "description": "`POST /v1/webhooks/website-case-study`\n\nReceives case study data from the marketing website."
       }
     },
     "/v2/analyze/comparables": {
@@ -9311,7 +9311,7 @@
             }
           }
         },
-        "description": "Retrieves comparable sales data based on address and condition score."
+        "description": "`POST /v2/analyze/comparables`\n\nRetrieves comparable sales data based on address and condition score."
       }
     },
     "/v2/analyze/condition": {
@@ -9382,7 +9382,7 @@
             }
           }
         },
-        "description": "Submits property photos for AI condition analysis. Returns condition score, features, and renovation recommendations."
+        "description": "`POST /v2/analyze/condition`\n\nSubmits property photos for AI condition analysis. Returns condition score, features, and renovation recommendations."
       }
     },
     "/v2/analyze/create-report": {
@@ -9446,7 +9446,7 @@
             }
           }
         },
-        "description": "Generates a full property analysis report with condition assessment, comparables, market data, and renovation recommendations."
+        "description": "`POST /v2/analyze/create-report`\n\nGenerates a full property analysis report with condition assessment, comparables, market data, and renovation recommendations."
       }
     },
     "/v2/analyze/feedback/{id}": {
@@ -9501,7 +9501,7 @@
             }
           }
         },
-        "description": "Submits feedback on an analysis report."
+        "description": "`POST /v2/analyze/feedback/{id}`\n\nSubmits feedback on an analysis report."
       }
     },
     "/v2/analyze/photos": {
@@ -9541,7 +9541,7 @@
             }
           }
         },
-        "description": "Analyzes photos to identify rooms, features, and condition issues without a full report."
+        "description": "`POST /v2/analyze/photos`\n\nAnalyzes photos to identify rooms, features, and condition issues without a full report."
       }
     },
     "/v2/analyze/reanalyze": {
@@ -9580,7 +9580,7 @@
             }
           }
         },
-        "description": "Re-runs analysis with updated comparable properties."
+        "description": "`POST /v2/analyze/reanalyze`\n\nRe-runs analysis with updated comparable properties."
       }
     },
     "/v2/analyze/renovation/{id}": {
@@ -9606,7 +9606,7 @@
             "description": "Report ID."
           }
         ],
-        "description": "Retrieves renovation-specific analysis with recommendations and ROI projections."
+        "description": "`GET /v2/analyze/renovation/{id}`\n\nRetrieves renovation-specific analysis with recommendations and ROI projections."
       }
     },
     "/v2/analyze/v2/comparables": {
@@ -9631,7 +9631,7 @@
             }
           }
         },
-        "description": "Enhanced comparable lookup using V2 analysis engine with improved matching."
+        "description": "`POST /v2/analyze/v2/comparables`\n\nEnhanced comparable lookup using V2 analysis engine with improved matching."
       }
     },
     "/v2/calendars/": {
@@ -9666,7 +9666,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all configured calendars for scheduling."
+        "description": "`GET /v2/calendars/`\n\nReturns all configured calendars for scheduling."
       },
       "post": {
         "operationId": "post_v2_calendars_",
@@ -9726,7 +9726,7 @@
             }
           }
         },
-        "description": "Creates a new calendar configuration."
+        "description": "`POST /v2/calendars/`\n\nCreates a new calendar configuration."
       }
     },
     "/v2/calendars/{calendarId}": {
@@ -9757,7 +9757,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a calendar by ID."
+        "description": "`GET /v2/calendars/{calendarId}`\n\nRetrieves a calendar by ID."
       },
       "patch": {
         "operationId": "patch_v2_calendars_calendarId_",
@@ -9796,7 +9796,7 @@
             }
           }
         },
-        "description": "Updates calendar configuration."
+        "description": "`PATCH /v2/calendars/{calendarId}`\n\nUpdates calendar configuration."
       },
       "delete": {
         "operationId": "delete_v2_calendars_calendarId_",
@@ -9825,7 +9825,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Deletes a calendar."
+        "description": "`DELETE /v2/calendars/{calendarId}`\n\nDeletes a calendar."
       }
     },
     "/v2/deals/": {
@@ -9884,7 +9884,7 @@
             }
           }
         },
-        "description": "Creates a new deal in the HubSpot pipeline. Deals are routed to the appropriate pipeline and stage based on deal type."
+        "description": "`POST /v2/deals/`\n\nCreates a new deal in the HubSpot pipeline. Deals are routed to the appropriate pipeline and stage based on deal type."
       }
     },
     "/v2/opportunities/": {
@@ -9926,7 +9926,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns a paginated list of all opportunities. Supports filtering by status, deal type, and assignee."
+        "description": "`GET /v2/opportunities/`\n\nReturns a paginated list of all opportunities. Supports filtering by status, deal type, and assignee."
       }
     },
     "/v2/opportunities/admin/{adminId}": {
@@ -9957,7 +9957,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns opportunities assigned to a specific admin user."
+        "description": "`GET /v2/opportunities/admin/{adminId}`\n\nReturns opportunities assigned to a specific admin user."
       }
     },
     "/v2/opportunities/{opportunityId}": {
@@ -9998,7 +9998,7 @@
             }
           }
         },
-        "description": "Updates fields on an opportunity — stage, amount, notes, or custom properties."
+        "description": "`PATCH /v2/opportunities/{opportunityId}`\n\nUpdates fields on an opportunity — stage, amount, notes, or custom properties."
       },
       "get": {
         "operationId": "get_v2_opportunities_opportunityId_",
@@ -10056,7 +10056,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a single opportunity with contacts, property data, estimates, and status history."
+        "description": "`GET /v2/opportunities/{opportunityId}`\n\nRetrieves a single opportunity with contacts, property data, estimates, and status history."
       },
       "delete": {
         "operationId": "delete_v2_opportunities_opportunityId_",
@@ -10101,7 +10101,7 @@
             }
           }
         },
-        "description": "Deletes an opportunity. Requires the associated contact ID for cleanup."
+        "description": "`DELETE /v2/opportunities/{opportunityId}`\n\nDeletes an opportunity. Requires the associated contact ID for cleanup."
       }
     },
     "/v2/opportunities/{opportunityId}/associate-contact": {
@@ -10142,7 +10142,7 @@
             }
           }
         },
-        "description": "Links an existing contact to an opportunity."
+        "description": "`POST /v2/opportunities/{opportunityId}/associate-contact`\n\nLinks an existing contact to an opportunity."
       }
     },
     "/v2/opportunities/{opportunityId}/create-and-associate-contact": {
@@ -10183,7 +10183,7 @@
             }
           }
         },
-        "description": "Creates a new contact and associates it with the opportunity in one call."
+        "description": "`POST /v2/opportunities/{opportunityId}/create-and-associate-contact`\n\nCreates a new contact and associates it with the opportunity in one call."
       }
     },
     "/v2/opportunities/{opportunityId}/disassociate-contact": {
@@ -10224,7 +10224,7 @@
             }
           }
         },
-        "description": "Removes the link between a contact and an opportunity."
+        "description": "`POST /v2/opportunities/{opportunityId}/disassociate-contact`\n\nRemoves the link between a contact and an opportunity."
       }
     },
     "/v2/opportunities/{opportunityId}/onsite-visit": {
@@ -10255,7 +10255,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves the onsite visit for this opportunity."
+        "description": "`GET /v2/opportunities/{opportunityId}/onsite-visit`\n\nRetrieves the onsite visit for this opportunity."
       },
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_onsite_visit",
@@ -10294,7 +10294,7 @@
             }
           }
         },
-        "description": "Schedules a new onsite visit for this opportunity's property."
+        "description": "`POST /v2/opportunities/{opportunityId}/onsite-visit`\n\nSchedules a new onsite visit for this opportunity's property."
       }
     },
     "/v2/payments/reno/create-checkout-session": {
@@ -10347,7 +10347,7 @@
             }
           }
         },
-        "description": "Creates a Stripe checkout session. Returns a URL to redirect the user to Stripe's hosted checkout."
+        "description": "`POST /v2/payments/reno/create-checkout-session`\n\nCreates a Stripe checkout session. Returns a URL to redirect the user to Stripe's hosted checkout."
       }
     },
     "/v2/payments/reno/payment-intents": {
@@ -10388,7 +10388,7 @@
             }
           }
         },
-        "description": "Creates a Stripe payment intent for a one-time renovation payment."
+        "description": "`POST /v2/payments/reno/payment-intents`\n\nCreates a Stripe payment intent for a one-time renovation payment."
       }
     },
     "/v2/payments/reno/remove-subscription": {
@@ -10408,7 +10408,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Cancels an active Stripe subscription for the authenticated user."
+        "description": "`DELETE /v2/payments/reno/remove-subscription`\n\nCancels an active Stripe subscription for the authenticated user."
       }
     },
     "/v2/payments/reno/user-subscription": {
@@ -10441,7 +10441,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves the current subscription status for the authenticated user."
+        "description": "`GET /v2/payments/reno/user-subscription`\n\nRetrieves the current subscription status for the authenticated user."
       }
     },
     "/v2/payments/reno/webhook": {
@@ -10466,7 +10466,7 @@
             }
           }
         },
-        "description": "Handles incoming Stripe webhook events. Called by Stripe, not by your application."
+        "description": "`POST /v2/payments/reno/webhook`\n\nHandles incoming Stripe webhook events. Called by Stripe, not by your application."
       }
     },
     "/v2/properties/{objectType}": {
@@ -10492,7 +10492,7 @@
             "description": "HubSpot object: 'contacts', 'deals', 'companies', or custom objects."
           }
         ],
-        "description": "Retrieves all custom property definitions for a HubSpot object type."
+        "description": "`GET /v2/properties/{objectType}`\n\nRetrieves all custom property definitions for a HubSpot object type."
       }
     },
     "/v2/properties/{objectType}/{propertyName}": {
@@ -10527,7 +10527,7 @@
             "description": "Internal property name."
           }
         ],
-        "description": "Retrieves a single property definition by name."
+        "description": "`GET /v2/properties/{objectType}/{propertyName}`\n\nRetrieves a single property definition by name."
       }
     },
     "/v2/referrals/": {
@@ -10575,7 +10575,7 @@
             }
           }
         },
-        "description": "Creates a referral with additional client situation data."
+        "description": "`POST /v2/referrals/`\n\nCreates a referral with additional client situation data."
       }
     },
     "/v2/users/": {
@@ -10651,7 +10651,7 @@
             }
           }
         },
-        "description": "Creates a new platform user with role-based access."
+        "description": "`POST /v2/users/`\n\nCreates a new platform user with role-based access."
       },
       "get": {
         "operationId": "get_v2_users_",
@@ -10664,7 +10664,7 @@
             "description": "Success"
           }
         },
-        "description": "Returns all platform users with optional filtering by role."
+        "description": "`GET /v2/users/`\n\nReturns all platform users with optional filtering by role."
       }
     },
     "/v2/users/owners": {
@@ -10684,7 +10684,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns users designated as HubSpot owners — used for deal assignment."
+        "description": "`GET /v2/users/owners`\n\nReturns users designated as HubSpot owners — used for deal assignment."
       }
     },
     "/v2/users/{uid}": {
@@ -10731,7 +10731,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a user profile by Firebase UID including role, permissions, and activity."
+        "description": "`GET /v2/users/{uid}`\n\nRetrieves a user profile by Firebase UID including role, permissions, and activity."
       },
       "patch": {
         "operationId": "patch_v2_users_uid_",
@@ -10770,7 +10770,7 @@
             }
           }
         },
-        "description": "Updates profile fields for a user. Only included fields are modified."
+        "description": "`PATCH /v2/users/{uid}`\n\nUpdates profile fields for a user. Only included fields are modified."
       },
       "delete": {
         "operationId": "delete_v2_users_uid_",
@@ -10799,7 +10799,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Soft-deletes a user — marks as deleted but retains for audit."
+        "description": "`DELETE /v2/users/{uid}`\n\nSoft-deletes a user — marks as deleted but retains for audit."
       }
     },
     "/v2/vision-ai/": {
@@ -10869,7 +10869,7 @@
             }
           }
         },
-        "description": "Creates a V2 property analysis report with enhanced AI capabilities."
+        "description": "`POST /v2/vision-ai/`\n\nCreates a V2 property analysis report with enhanced AI capabilities."
       }
     },
     "/v2/vision-ai/condition": {
@@ -10918,7 +10918,7 @@
             }
           }
         },
-        "description": "Enhanced AI condition analysis with improved accuracy."
+        "description": "`POST /v2/vision-ai/condition`\n\nEnhanced AI condition analysis with improved accuracy."
       }
     },
     "/v2/vision-ai/custom-object/{recordId}": {
@@ -10969,7 +10969,7 @@
             }
           }
         },
-        "description": "Updates a HubSpot custom object record for a Vision AI report."
+        "description": "`PATCH /v2/vision-ai/custom-object/{recordId}`\n\nUpdates a HubSpot custom object record for a Vision AI report."
       }
     },
     "/v2/vision-ai/images": {
@@ -11008,7 +11008,7 @@
             }
           }
         },
-        "description": "Processes and uploads images for a V2 Vision AI report."
+        "description": "`POST /v2/vision-ai/images`\n\nProcesses and uploads images for a V2 Vision AI report."
       }
     },
     "/v2/vision-ai/rejected-report-note/{recordId}": {
@@ -11058,7 +11058,7 @@
             }
           }
         },
-        "description": "Adds a note explaining why a report was rejected."
+        "description": "`POST /v2/vision-ai/rejected-report-note/{recordId}`\n\nAdds a note explaining why a report was rejected."
       }
     },
     "/v2/vision-ai/scraper": {
@@ -11094,7 +11094,7 @@
             }
           }
         },
-        "description": "Runs the property data scraper for Vision AI reports."
+        "description": "`POST /v2/vision-ai/scraper`\n\nRuns the property data scraper for Vision AI reports."
       }
     },
     "/v2/vision-ai/scraper/csv": {
@@ -11133,7 +11133,7 @@
             }
           }
         },
-        "description": "Exports scraper results as a CSV file."
+        "description": "`GET /v2/vision-ai/scraper/csv`\n\nExports scraper results as a CSV file."
       }
     },
     "/v2/vision-ai/scraper/generate-report": {
@@ -11163,7 +11163,7 @@
             }
           }
         },
-        "description": "Generates a full report from scraped property data."
+        "description": "`POST /v2/vision-ai/scraper/generate-report`\n\nGenerates a full report from scraped property data."
       }
     }
   },

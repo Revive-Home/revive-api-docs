@@ -163,5 +163,16 @@ if (Object.keys(allPaths).length > 0) {
   }
 }
 
+// --- Prepend endpoint path to every description for visibility ---
+for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
+  for (const [method, operation] of Object.entries(methods)) {
+    const badge = `\`${method.toUpperCase()} ${pathStr}\``;
+    const desc = operation.description || '';
+    if (!desc.startsWith('`')) {
+      operation.description = desc ? `${badge}\n\n${desc}` : badge;
+    }
+  }
+}
+
 fs.writeFileSync(specPath, JSON.stringify(spec, null, 2) + '\n');
 console.log(`\nEnriched ${enrichedCount} endpoint(s) and ${Object.keys(enrichments.tags || {}).length} tag(s) in openapi.json`);
