@@ -3,78 +3,78 @@ title: "Intake URL parameters"
 description: "Pre-populate the intake flow with address, property, and flow-selection data using URL query parameters."
 ---
 
-You can link users directly into the Revive intake flow with data already filled in by appending query parameters to the intake URL. Any step whose required fields are fully covered by the parameters is automatically skipped, so users land on the first step that still needs input.
+You can link users directly into the Revive intake flow with data already filled in by appending query parameters to the intake URL.
 
-Parameter names are **case-insensitive** — `address`, `Address`, and `ADDRESS` all work.
+<Warning>Parameter names are **case-sensitive** and use **camelCase** (for example `zipCode`, not `zipcode`). Using incorrect casing causes the parameter to be ignored.</Warning>
 
 ## Supported parameters
 
 ### Address fields
 
-When all four address parameters are provided, the **Address Input** step is skipped.
+When all four address parameters are provided, the **Address Input** step is marked as prefilled.
 
 | Parameter | Type   | Description                          | Example              |
 | --------- | ------ | ------------------------------------ | -------------------- |
 | `address` | string | Street address                       | `123 Main St`        |
 | `city`    | string | City name                            | `San Jose`           |
 | `state`   | string | Two-letter state code                | `CA`                 |
-| `zipcode` | string | ZIP code                             | `95123`              |
+| `zipCode` | string | ZIP code                             | `95123`              |
 
 ### Property details
 
-When all five property parameters are provided, the **Property Details** step is skipped and a deal is automatically created in the background.
+When all five property parameters are provided, the **Property Details** step is marked as prefilled.
 
 | Parameter   | Type   | Description                          | Example              |
 | ----------- | ------ | ------------------------------------ | -------------------- |
 | `bedrooms`  | number | Number of bedrooms                   | `3`                  |
 | `bathrooms` | number | Number of bathrooms (decimals OK)    | `2.5`                |
 | `sqft`      | number | Square footage                       | `1800`               |
-| `yearbuilt` | number | Year the home was built              | `1995`               |
-| `hometype`  | string | Property type                        | `Single Family`      |
+| `yearBuilt` | number | Year the home was built              | `1995`               |
+| `homeType`  | string | Property type                        | `Single Family`      |
 
 ### User type
 
 | Parameter   | Type   | Description                                | Accepted values              |
 | ----------- | ------ | ------------------------------------------ | ---------------------------- |
 | `user-type` | string | Sets the user role and skips role selection | `agent`, `ho`, `agent&ho`    |
-| `ownertype` | string | Alternative role parameter                 | `homeowner`, `agent`, `agent-owner` |
+| `ownerType` | string | Alternative role parameter                 | `homeowner`, `agent`, `agent-owner` |
 
-<Note>`user-type` takes priority when both `user-type` and `ownertype` are present.</Note>
+<Note>`user-type` takes priority when both `user-type` and `ownerType` are present.</Note>
 
 ### Flow selection
 
 | Parameter          | Type   | Description                        |
 | ------------------ | ------ | ---------------------------------- |
-| `whathelp`         | string | What the user needs help with      |
-| `agentwhathelp`    | string | Agent-specific help selection      |
-| `sellsituation`    | string | Current selling situation          |
-| `selectedprogram`  | string | Pre-selected Revive program        |
-| `listedonmarket`   | string | Whether the property is listed (`true` or `false`) |
-| `clientdescription`| string | Agent's description of the client  |
+| `whatHelp`         | string | What the user needs help with      |
+| `agentWhatHelp`    | string | Agent-specific help selection      |
+| `sellSituation`    | string | Current selling situation          |
+| `selectedProgram`  | string | Pre-selected Revive program        |
+| `listedOnMarket`   | string | Whether the property is listed (`true` or `false`) |
+| `clientDescription`| string | Agent's description of the client  |
 
 ### Renovation path
 
 | Parameter           | Type   | Description                                          |
 | ------------------- | ------ | ---------------------------------------------------- |
-| `renovatestart`     | string | When the renovation should start                     |
-| `renovatebudget`    | string | Budget range for renovation                          |
-| `renovateareas`     | string | Comma-separated list of areas to renovate            |
-| `renovateareasother`| string | Free-text description for other renovation areas     |
-| `deferreditems`     | string | Comma-separated list of deferred maintenance items   |
-| `deferreditemsother`| string | Free-text description for other deferred items       |
+| `renovateStart`     | string | When the renovation should start                     |
+| `renovateBudget`    | string | Budget range for renovation                          |
+| `renovateAreas`     | string | Comma-separated list of areas to renovate            |
+| `renovateAreasOther`| string | Free-text description for other renovation areas     |
+| `deferredItems`     | string | Comma-separated list of deferred maintenance items   |
+| `deferredItemsOther`| string | Free-text description for other deferred items       |
 
 ### Research path
 
 | Parameter          | Type   | Description                  |
 | ------------------ | ------ | ---------------------------- |
-| `researchgoal`     | string | Goal of the research         |
-| `researchtimeline` | string | Timeline for the research    |
+| `researchGoal`     | string | Goal of the research         |
+| `researchTimeline` | string | Timeline for the research    |
 
 ### Other
 
 | Parameter   | Type   | Description                                 |
 | ----------- | ------ | ------------------------------------------- |
-| `promocode` | string | Promotional or referral code                |
+| `promoCode` | string | Promotional or referral code                |
 | `code`      | string | Alternative parameter name for promo code   |
 | `step`      | number | Starting step number (1-indexed)            |
 
@@ -83,30 +83,29 @@ When all five property parameters are provided, the **Property Details** step is
 Skip the address step by providing all four address fields:
 
 ```text
-https://dashboard.revive.realestate/getting-started?address=123+Main+St&city=San+Jose&state=CA&zipcode=95123
+https://dashboard.revive.realestate/getting-started?address=123+Main+St&city=San+Jose&state=CA&zipCode=95123
 ```
 
-Skip both address and property details (triggers background deal creation):
+Skip both address and property details:
 
 ```text
-https://dashboard.revive.realestate/getting-started?address=123+Main+St&city=San+Jose&state=CA&zipcode=95123&bedrooms=3&bathrooms=2&sqft=1800&yearbuilt=1995&hometype=Single+Family
+https://dashboard.revive.realestate/getting-started?address=123+Main+St&city=San+Jose&state=CA&zipCode=95123&bedrooms=3&bathrooms=2&sqft=1800&yearBuilt=1995&homeType=Single+Family
 ```
 
 Pre-select the user type and help category:
 
 ```text
-https://dashboard.revive.realestate/getting-started?user-type=agent&whathelp=sell
+https://dashboard.revive.realestate/getting-started?user-type=agent&whatHelp=sell
 ```
 
 Apply a promo code:
 
 ```text
-https://dashboard.revive.realestate/getting-started?address=123+Main+St&city=San+Jose&state=CA&zipcode=95123&promocode=SAVE10
+https://dashboard.revive.realestate/getting-started?address=123+Main+St&city=San+Jose&state=CA&zipCode=95123&promoCode=SAVE10
 ```
 
 ## Behavior
 
-- Steps are skipped only when **all required fields** for that step are present. Providing `address` alone does not skip the address step — `city`, `state`, and `zipcode` are also required.
-- When the property details step is skipped, a deal is created automatically in the background so the user doesn't wait.
+- Steps are skipped only when **all required fields** for that step are present. Providing `address` alone does not skip the address step — `city`, `state`, and `zipCode` are also required.
 - If the user is already authenticated, the sign-up and phone verification steps are also skipped automatically.
 - Parameters that don't match any recognized key are ignored.

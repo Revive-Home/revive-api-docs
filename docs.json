@@ -31,13 +31,17 @@
               {
                 "group": "2026 Release Notes",
                 "pages": [
+                  "release-notes/v2.154.0",
+                  "release-notes/v2.153.0",
                   "release-notes/v2.152.0",
                   "release-notes/v2.151.0",
                   "release-notes/v2.150.0",
                   "release-notes/v2.149.0",
+                  "release-notes/v1.149.0",
                   "release-notes/v1.148.0",
                   "release-notes/v1.147.0",
                   "release-notes/v1.146.0",
+                  "release-notes/v2.131.0",
                   "release-notes/v2.130.0"
                 ]
               }

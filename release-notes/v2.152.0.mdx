@@ -1,6 +1,7 @@
 ---
 title: "v2.152.0"
 description: "Sell 360 calculation updates — tiered program fee, revised holding costs, and new deal fields"
+description: "Updated Sell 360 renovation timeline and initial payment calculations"
 ---
 
 ## Highlights
@@ -8,6 +9,8 @@ description: "Sell 360 calculation updates — tiered program fee, revised holdi
 - Sell 360 financial calculations have been updated with a tiered program fee rate, revised holding cost and tax formulas, and a simplified comparison baseline.
 - The `agentCommissionSold` field has been renamed to `firstTransactionCommission` across all endpoints, and a new `firstCheckAmount` field is now available on opportunities and deals.
 - RMA contract generation now requires a completed PC contract and sources the contractor signer from that contract.
+- Sell 360 renovation timeline is now calculated from the renovation budget instead of opportunity start/end dates, producing more predictable estimates.
+- The initial payment (1st check) amount is now read directly from the opportunity record rather than derived from a break-even formula.
 
 ## Changes shipped to production
 
@@ -20,6 +23,8 @@ description: "Sell 360 calculation updates — tiered program fee, revised holdi
 - **New comparison baseline** — The Sell 360 comparison diff (the difference between Sell 360 proceeds and a traditional sale) now uses `asIsPrice × 90%` as the baseline instead of calculating a full as-is net with sales costs. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
 - **`debt` and `agentCommission` exposed in proposal response** — The `sell360TransactionSummary.shared` object now includes `debt` and `agentCommission` fields so clients can display these deductions in the transaction breakdown. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
 - **RMA contractor signer sourced from PC contract** — RMA contract generation now pulls the contractor signer from the completed Professional Contractor (PC) contract on the opportunity instead of looking up an Authorized Signer contact in HubSpot. A completed PC contract is required. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+- **Sell 360 renovation timeline formula** — The renovation timeline used in Sell 360 financial scenarios is now based on the renovation budget: one month for the first $100,000, plus one additional month for each subsequent $100,000 increment. Previously, the timeline was calculated from the opportunity's start and end dates. This produces more consistent scenario projections across estimates. ([#1950](https://github.com/Revive-Home/revive-api/pull/1950))
+- **Initial payment sourced from opportunity** — The Sell 360 initial payment amount in the estimate proposal response now comes directly from the `firstCheckAmount` value stored on the opportunity, rather than being derived from a risk-adjusted break-even calculation. If no value is set, it defaults to zero. This gives you direct control over the 1st check amount displayed in Sell 360 scenarios. ([#1950](https://github.com/Revive-Home/revive-api/pull/1950))
 
 ### revive-admin
 
@@ -57,3 +62,10 @@ This reverses the v2.151.0 change that removed the PC contract requirement. The 
 ### Sell 360 calculation changes
 
 If you consume the `sell360TransactionSummary` from the estimate proposal endpoint, be aware that all calculated values (initial payment, holding costs, program fees, scenario projections) may differ from previous versions due to the formula changes described above. The `shared` object now also includes two new fields: `debt` and `agentCommission`.
+### Removed `isFirstCheckNegative` field
+
+The `isFirstCheckNegative` boolean has been removed from the `sell360TransactionSummary` object in the `GET /v1/estimates/{estimateId}/proposal` response. If your code references this field, remove it. The `firstCheckNet` value is still returned and you can check whether it is negative directly.
+
+### Sell 360 scenario values may change
+
+Because the renovation timeline and initial payment calculations have been updated, the financial scenario values (conservative, target, stretch) returned by the estimate proposal endpoint may differ from previous responses for the same estimate. Holding costs and net proceeds are affected since they depend on the timeline and initial payment inputs.
