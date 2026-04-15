@@ -1,0 +1,119 @@
+{
+  "POST /v1/follow-up-boss/activate": {
+    "responses": { "200": { "description": "Integration activated.", "example": { "status": "success", "message": "Follow Up Boss integration activated." } } }
+  },
+  "POST /v1/follow-up-boss/connect-users": {
+    "responses": { "200": { "description": "Users connected.", "example": { "status": "success", "data": { "connected": 5, "skipped": 1 } } } }
+  },
+  "DELETE /v1/follow-up-boss/deactivate": {
+    "responses": { "200": { "description": "Integration deactivated.", "example": { "status": "success", "message": "Follow Up Boss integration deactivated." } } }
+  },
+  "GET /v1/follow-up-boss/get-user-pipelines": {
+    "responses": { "200": { "description": "Pipeline configuration.", "example": { "status": "success", "data": [{ "id": "pipe_001", "name": "Presale Pipeline", "stages": ["New Lead", "Contacted", "Meeting Scheduled", "Proposal Sent", "Won"] }, { "id": "pipe_002", "name": "RTS Pipeline", "stages": ["New Lead", "Qualified", "Contract Signed", "In Progress", "Completed"] }] } } }
+  },
+  "GET /v1/follow-up-boss/logs": {
+    "responses": { "200": { "description": "Sync logs.", "example": { "status": "success", "data": [{ "id": "log_001", "action": "contact_synced", "direction": "outbound", "contactEmail": "john@example.com", "timestamp": "2026-04-15T17:30:00.000Z", "status": "success" }, { "id": "log_002", "action": "deal_synced", "direction": "inbound", "dealId": "deal_xyz789", "timestamp": "2026-04-15T17:25:00.000Z", "status": "success" }] } } }
+  },
+  "POST /v1/follow-up-boss/webhook": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "message": "FUB webhook processed." } } }
+  },
+  "GET /v1/homes/{dealId}": {
+    "responses": { "200": { "description": "Home record.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "address": "123 Main St, Los Angeles, CA 90001", "bedrooms": 3, "bathrooms": 2, "sqft": 1850, "yearBuilt": 1985, "estimatedValue": 725000, "lotSize": 7500, "propertyType": "Single Family", "photos": ["https://storage.revive.realty/homes/exterior.jpg", "https://storage.revive.realty/homes/kitchen.jpg"], "notes": [{ "text": "Homeowner prefers morning appointments.", "createdAt": "2026-03-10T10:00:00.000Z" }] } } } }
+  },
+  "PATCH /v1/homes/{dealId}": {
+    "responses": { "200": { "description": "Home updated.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "address": "123 Main St, Los Angeles, CA 90001", "bedrooms": 3, "bathrooms": 2, "sqft": 1850 } } } }
+  },
+  "PUT /v1/homes/{dealId}/associate": {
+    "responses": { "200": { "description": "Home associated.", "example": { "status": "success", "message": "Home linked to deal deal_xyz789." } } }
+  },
+  "DELETE /v1/homes/{dealId}/associate": {
+    "responses": { "200": { "description": "Home disassociated.", "example": { "status": "success", "message": "Home unlinked from deal deal_xyz789." } } }
+  },
+  "POST /v1/homes/{dealId}/note": {
+    "responses": { "200": { "description": "Note added.", "example": { "status": "success", "data": { "noteId": "note_001", "text": "Homeowner prefers morning appointments for onsite visits.", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/marketing-center/automation/agent": {
+    "responses": { "200": { "description": "Automation triggered.", "example": { "status": "success", "data": { "agentId": "agent_abc123", "templatesGenerated": 8, "emailSent": true } } } }
+  },
+  "POST /v1/marketing-center/automation/opportunity": {
+    "responses": { "200": { "description": "Automation triggered.", "example": { "status": "success", "data": { "opportunityId": "opp_abc123", "templatesGenerated": 4 } } } }
+  },
+  "POST /v1/marketing-center/automation/rebuild": {
+    "responses": { "200": { "description": "Rebuild started.", "example": { "status": "success", "message": "Marketing automation rebuild initiated.", "data": { "type": "flyer", "queued": 42 } } } }
+  },
+  "POST /v1/marketing-center/create-image": {
+    "responses": { "200": { "description": "Image creation started.", "example": { "status": "success", "data": { "jobId": "job_abc123", "templateId": "tmpl_abc123", "status": "processing" } } } }
+  },
+  "GET /v1/marketing-center/download-counter/{id}": {
+    "responses": { "200": { "description": "Download count.", "example": { "status": "success", "data": { "assetId": "asset_001", "downloads": 142, "lastDownloadAt": "2026-04-14T12:30:00.000Z" } } } }
+  },
+  "GET /v1/marketing-center/generate-wrapped": {
+    "responses": { "200": { "description": "Wrapped report.", "example": { "status": "success", "data": { "reportUrl": "https://storage.revive.realty/wrapped/2025_agent_abc123.pdf", "year": 2025, "stats": { "dealsCompleted": 28, "totalRevenue": 1250000, "avgRenovationROI": 3.2 } } } } }
+  },
+  "POST /v1/marketing-center/generate-wrapped/webhook": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "message": "Wrapped report generation complete." } } }
+  },
+  "GET /v1/marketing-center/get-templates": {
+    "responses": { "200": { "description": "Marketing templates.", "example": { "status": "success", "data": [{ "id": "tmpl_001", "name": "Before/After Flyer", "type": "flyer", "previewUrl": "https://storage.revive.realty/templates/preview_001.jpg", "category": "listing" }, { "id": "tmpl_002", "name": "Social Post - Just Listed", "type": "social", "previewUrl": "https://storage.revive.realty/templates/preview_002.jpg", "category": "social" }] } } }
+  },
+  "POST /v1/marketing-center/rebuild-agent-templates": {
+    "responses": { "200": { "description": "Templates rebuilt.", "example": { "status": "success", "data": { "rebuilt": 12, "removed": 2 } } } }
+  },
+  "POST /v1/marketing-center/send-mms": {
+    "responses": { "200": { "description": "MMS sent.", "example": { "status": "success", "data": { "messageId": "msg_abc123", "phone": "+15551234567", "status": "delivered" } } } }
+  },
+  "POST /v1/marketing-center/submit-template/{id}": {
+    "responses": { "200": { "description": "Template submitted.", "example": { "status": "success", "data": { "templateId": "tmpl_001", "status": "submitted_for_review" } } } }
+  },
+  "GET /v1/marketing-center/template/{id}": {
+    "responses": { "200": { "description": "Template details.", "example": { "status": "success", "data": { "id": "tmpl_001", "name": "Before/After Flyer", "type": "flyer", "previewUrl": "https://storage.revive.realty/templates/preview_001.jpg", "config": { "layout": "side-by-side", "colorScheme": "brand", "includeQR": true }, "createdAt": "2026-01-15T10:00:00.000Z" } } } }
+  },
+  "DELETE /v1/marketing-center/template/{id}": {
+    "responses": { "200": { "description": "Template deleted.", "example": { "status": "success", "message": "Template tmpl_001 deleted." } } }
+  },
+  "POST /v1/marketing-center/webhook/create-image": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "data": { "jobId": "job_abc123", "imageUrl": "https://storage.revive.realty/marketing/flyer_abc123.jpg", "status": "completed" } } } }
+  },
+  "DELETE /v1/media/": {
+    "responses": { "200": { "description": "Media deleted.", "example": { "status": "success", "message": "File file_abc123 deleted from deal deal_xyz789." } } }
+  },
+  "PATCH /v1/media/change-document-status": {
+    "responses": { "200": { "description": "Status changed.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "documentStatus": "approved" } } } }
+  },
+  "POST /v1/media/check-required-folders": {
+    "responses": { "200": { "description": "Folders checked.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "foldersCreated": ["Before Photos", "After Photos", "Documents"], "alreadyExisted": ["Inspection"] } } } }
+  },
+  "POST /v1/media/convert-webp-to-png": {
+    "responses": { "200": { "description": "Image converted.", "example": { "status": "success", "data": { "originalUrl": "https://storage.revive.realty/uploads/photo.webp", "convertedUrl": "https://storage.revive.realty/uploads/photo.png" } } } }
+  },
+  "POST /v1/media/create-folder": {
+    "responses": { "200": { "description": "Folder created.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "folderName": "Inspection Photos", "folderId": "folder_abc123" } } } }
+  },
+  "POST /v1/media/moving": {
+    "responses": { "200": { "description": "Files moved.", "example": { "status": "success", "message": "File moved successfully." } } }
+  },
+  "POST /v1/media/remove-folder": {
+    "responses": { "200": { "description": "Folder removed.", "example": { "status": "success", "message": "Folder removed from deal deal_xyz789." } } }
+  },
+  "PATCH /v1/media/rename": {
+    "responses": { "200": { "description": "File renamed.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "newName": "Kitchen Photos - Final" } } } }
+  },
+  "POST /v1/media/share-document": {
+    "responses": { "200": { "description": "Document shared.", "example": { "status": "success", "data": { "shareUrl": "https://storage.revive.realty/share/abc123", "sharedWith": "homeowner@example.com", "expiresAt": "2026-05-15T18:00:00.000Z" } } } }
+  },
+  "PATCH /v1/media/upload-document-as-data": {
+    "responses": { "200": { "description": "Document uploaded.", "example": { "status": "success", "data": { "documentId": "doc_abc123", "title": "Home Inspection Report", "type": "inspection_report", "url": "https://storage.revive.realty/docs/inspection_abc.pdf" } } } }
+  },
+  "POST /v1/media/upload-media": {
+    "responses": { "200": { "description": "Media uploaded.", "example": { "status": "success", "data": { "mediaId": "med_abc123", "url": "https://storage.revive.realty/uploads/med_abc123.jpg", "thumbnailUrl": "https://storage.revive.realty/uploads/med_abc123_thumb.jpg", "mimeType": "image/jpeg", "size": 245760 } } } }
+  },
+  "GET /v1/meetings/": {
+    "responses": { "200": { "description": "Available meeting slots.", "example": { "status": "success", "data": { "calendar": "la-team", "timezone": "America/Los_Angeles", "availableSlots": [{ "startTime": "2026-04-16T10:00:00-07:00", "endTime": "2026-04-16T10:30:00-07:00" }, { "startTime": "2026-04-16T14:00:00-07:00", "endTime": "2026-04-16T14:30:00-07:00" }] } } } }
+  },
+  "GET /v1/meetings/available-calendars": {
+    "responses": { "200": { "description": "Available calendars.", "example": { "status": "success", "data": [{ "id": "cal_001", "name": "LA Team Calendar", "group": "west-coast", "availableSlots": 24 }, { "id": "cal_002", "name": "SF Team Calendar", "group": "west-coast", "availableSlots": 18 }] } } }
+  },
+  "POST /v1/migrations/rma-statuses": {
+    "responses": { "200": { "description": "Migration results.", "example": { "status": "success", "data": { "migrated": 156, "skipped": 3, "errors": 0 } } } }
+  }
+}

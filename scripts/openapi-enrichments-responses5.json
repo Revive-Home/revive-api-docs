@@ -1,0 +1,74 @@
+{
+  "PATCH /v1/punch-list/update-punch-data": {
+    "responses": { "200": { "description": "Punch list updated.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "submittedById": "user_abc123", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/punch-list/update-tasks": {
+    "responses": { "200": { "description": "Tasks updated.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "tasksUpdated": 8, "tasksRemaining": 3 } } } }
+  },
+  "POST /v1/realtors/": {
+    "responses": { "200": { "description": "Realtor created.", "example": { "status": "success", "data": { "realtorId": "agent_new123", "firstname": "Jane", "lastname": "Smith", "email": "jane@realty.com", "brokerage": "Keller Williams", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/realtors/{contactId}": {
+    "responses": { "200": { "description": "Realtor details.", "example": { "status": "success", "data": { "contactId": "agent_abc123", "firstname": "Jane", "lastname": "Smith", "email": "jane@realty.com", "phone": "+15551234567", "brokerage": "Keller Williams", "activeDeals": 5, "completedDeals": 42, "referrals": [{ "referralId": "ref_001", "clientEmail": "john@example.com", "status": "active" }] } } } }
+  },
+  "GET /v1/referrals/": {
+    "responses": { "200": { "description": "Referral list.", "example": { "status": "success", "data": [{ "referralId": "ref_001", "referralType": "agent", "clientEmail": "john@example.com", "clientFirstName": "John", "clientLastName": "Doe", "address": "123 Main St, Los Angeles, CA", "status": "active", "createdAt": "2026-03-01T10:00:00.000Z" }], "total": 1 } } }
+  },
+  "POST /v1/referrals/update-user-visit": {
+    "responses": { "200": { "description": "Visit recorded.", "example": { "status": "success", "message": "User visit recorded for referral ref_abc123." } } }
+  },
+  "GET /v1/referrals/{dealId}": {
+    "responses": { "200": { "description": "Referral details.", "example": { "status": "success", "data": { "referralId": "ref_001", "dealId": "deal_xyz789", "referralType": "agent", "clientEmail": "john@example.com", "clientFirstName": "John", "clientLastName": "Doe", "address": "123 Main St, Los Angeles, CA", "agentId": "agent_abc123", "status": "active", "createdAt": "2026-03-01T10:00:00.000Z" } } } }
+  },
+  "PATCH /v1/referrals/{dealId}": {
+    "responses": { "200": { "description": "Referral updated.", "example": { "status": "success", "data": { "referralId": "ref_001", "status": "converted", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/referrals/{dealId}": {
+    "responses": { "200": { "description": "Referral deleted.", "example": { "status": "success", "message": "Referral deleted from deal deal_xyz789." } } }
+  },
+  "POST /v1/reimagine/report-association": {
+    "responses": { "200": { "description": "Association created.", "example": { "status": "success", "message": "Reimagine report linked to property report." } } }
+  },
+  "PATCH /v1/reimagine/{id}": {
+    "responses": { "200": { "description": "Reimagine updated.", "example": { "status": "success", "data": { "id": "rimg_001", "status": "completed", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/reimagine/{id}": {
+    "responses": { "200": { "description": "Reimagine details.", "example": { "status": "success", "data": { "id": "rimg_001", "opportunityId": "opp_abc123", "originalImageUrl": "https://storage.revive.realty/photos/kitchen_before.jpg", "reimaginedImageUrl": "https://storage.revive.realty/photos/kitchen_reimagined.jpg", "prompt": "Modern white kitchen with marble countertops", "roomStyle": "modern", "status": "completed", "createdAt": "2026-04-10T14:00:00.000Z" } } } }
+  },
+  "DELETE /v1/reimagine/{id}": {
+    "responses": { "200": { "description": "Reimagine deleted.", "example": { "status": "success", "message": "Reimagine rimg_001 deleted." } } }
+  },
+  "PATCH /v1/renovation-progress/what-was-done/{dealId}": {
+    "responses": { "200": { "description": "Update recorded.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "message": "Completed kitchen cabinet installation and began countertop templating.", "recordedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/renovation-progress/{renovationProgressId}": {
+    "responses": { "200": { "description": "Renovation progress.", "example": { "status": "success", "data": { "renovationProgressId": "rp_001", "dealId": "deal_xyz789", "onSchedule": true, "percentComplete": 65, "completed": ["scope_001", "scope_002", "scope_003"], "remaining": ["scope_004", "scope_005"], "lastUpdate": "Completed kitchen cabinet installation.", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "PATCH /v1/renovation-progress/{renovationProgressId}": {
+    "responses": { "200": { "description": "Progress updated.", "example": { "status": "success", "data": { "renovationProgressId": "rp_001", "onSchedule": true, "completed": ["scope_003", "scope_004"], "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/renovation-progress/{renovationProgressId}": {
+    "responses": { "200": { "description": "Progress record deleted.", "example": { "status": "success", "message": "Renovation progress rp_001 deleted." } } }
+  },
+  "POST /v1/reports/": {
+    "responses": { "200": { "description": "Report generated.", "example": { "status": "success", "data": { "reportId": "annual_2026", "year": "2026", "totalDeals": 342, "totalRevenue": 4250000, "generatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/ret-catalog/": {
+    "responses": { "200": { "description": "Catalog product created.", "example": { "status": "success", "data": { "productId": "prod_new123", "name": "Kitchen Cabinet Refinishing", "category": "Kitchen", "basePrice": 8500, "unit": "per kitchen", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/ret-catalog/{productId}": {
+    "responses": { "200": { "description": "Catalog product.", "example": { "status": "success", "data": { "productId": "prod_001", "name": "Kitchen Cabinet Refinishing", "category": "Kitchen", "basePrice": 8500, "unit": "per kitchen", "description": "Complete refinishing of existing cabinets.", "options": [{ "optionId": "opt_001", "name": "Color", "selections": ["White", "Gray", "Natural"] }, { "optionId": "opt_002", "name": "Hardware", "selections": ["Brushed Nickel", "Matte Black", "Chrome"] }] } } } }
+  },
+  "PATCH /v1/ret-catalog/{productId}": {
+    "responses": { "200": { "description": "Product updated.", "example": { "status": "success", "data": { "productId": "prod_001", "name": "Kitchen Cabinet Refinishing", "basePrice": 9000, "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/ret-catalog/{productId}": {
+    "responses": { "200": { "description": "Product deleted.", "example": { "status": "success", "message": "Product prod_001 deleted." } } }
+  },
+  "GET /v1/ret-catalog/{productTypeId}/options": {
+    "responses": { "200": { "description": "Product options.", "example": { "status": "success", "data": [{ "optionId": "opt_001", "name": "Color", "type": "select", "required": true, "selections": ["White", "Gray", "Natural", "Espresso"] }, { "optionId": "opt_002", "name": "Hardware", "type": "select", "required": false, "selections": ["Brushed Nickel", "Matte Black", "Chrome"] }] } } }
+  },
+  "GET /v1/ret-catalog/{productTypeId}/options/{optionId}/selections": {
+    "responses": { "200": { "description": "Option selections.", "example": { "status": "success", "data": { "optionId": "opt_001", "name": "Color", "selections": [{ "value": "White", "priceModifier": 0 }, { "value": "Gray", "priceModifier": 200 }, { "value": "Natural", "priceModifier": -100 }, { "value": "Espresso", "priceModifier": 350 }] } } } }
+  }
+}

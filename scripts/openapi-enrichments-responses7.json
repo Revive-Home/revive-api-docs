@@ -1,0 +1,152 @@
+{
+  "POST /v1/webhooks/affiliate-partners": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "message": "Affiliate partner webhook processed." } } }
+  },
+  "POST /v1/webhooks/gvg": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "message": "GVG webhook processed." } } }
+  },
+  "POST /v1/webhooks/hubspot/createCompany": {
+    "responses": { "200": { "description": "Company created in HubSpot.", "example": { "status": "success", "data": { "companyId": "comp_new123", "name": "Acme Realty" } } } }
+  },
+  "POST /v1/webhooks/hubspot/invite-realtor": {
+    "responses": { "200": { "description": "Realtor invited.", "example": { "status": "success", "message": "Invitation sent to realtor." } } }
+  },
+  "POST /v1/webhooks/hubspot/production": {
+    "responses": { "200": { "description": "Production webhook processed.", "example": { "status": "success", "message": "HubSpot production webhook processed." } } }
+  },
+  "POST /v1/webhooks/hubspot/report-reminder/{emailId}": {
+    "responses": { "200": { "description": "Reminder sent.", "example": { "status": "success", "message": "Report reminder email sent." } } }
+  },
+  "POST /v1/webhooks/hubspot/revive-team": {
+    "responses": { "200": { "description": "Team webhook processed.", "example": { "status": "success", "message": "Revive team webhook processed." } } }
+  },
+  "POST /v1/webhooks/hubspot/updateCompany": {
+    "responses": { "200": { "description": "Company updated.", "example": { "status": "success", "message": "HubSpot company updated." } } }
+  },
+  "POST /v1/webhooks/hubspot/updateContractor": {
+    "responses": { "200": { "description": "Contractor updated.", "example": { "status": "success", "message": "HubSpot contractor updated." } } }
+  },
+  "POST /v1/webhooks/hubspot/updateRealtorEdgeUrl": {
+    "responses": { "200": { "description": "Edge URL updated.", "example": { "status": "success", "message": "Realtor Edge URL updated in HubSpot." } } }
+  },
+  "POST /v1/webhooks/pandadoc/linked-objects": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "message": "PandaDoc linked objects webhook processed." } } }
+  },
+  "POST /v1/webhooks/pandadoc/project-scope": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "message": "PandaDoc project scope webhook processed." } } }
+  },
+  "POST /v1/webhooks/website-case-study": {
+    "responses": { "200": { "description": "Case study published.", "example": { "status": "success", "data": { "caseStudyId": "cs_new123", "address": "123 Main St, Los Angeles, CA", "profit": 75000, "publishedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v2/analyze/comparables": {
+    "responses": { "200": { "description": "Comparable analysis.", "example": { "status": "success", "data": { "comparables": [{ "address": "456 Oak Ave", "salePrice": 710000, "closeDate": "2026-03-01", "bedrooms": 3, "bathrooms": 2, "sqft": 1750, "yearBuilt": 1990, "distance": 0.4, "similarity": 0.92 }, { "address": "789 Elm St", "salePrice": 820000, "closeDate": "2026-01-20", "bedrooms": 4, "bathrooms": 3, "sqft": 2100, "yearBuilt": 1995, "distance": 0.6, "similarity": 0.85 }], "adjustedValue": 745000 } } } }
+  },
+  "POST /v2/analyze/create-report": {
+    "responses": { "200": { "description": "Analysis report created.", "example": { "status": "success", "data": { "reportId": "analyze_new123", "address": "123 Main St, Los Angeles, CA 90001", "conditionScore": 72, "conditionGrade": "C+", "rooms": [{ "name": "Kitchen", "score": 65, "recommendations": ["Replace countertops", "Refinish cabinets"] }, { "name": "Bathroom", "score": 58, "recommendations": ["Replace tile", "Update vanity"] }], "estimatedRenovationCost": 45000, "estimatedValueIncrease": 150000, "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v2/analyze/feedback/{id}": {
+    "responses": { "200": { "description": "Feedback recorded.", "example": { "status": "success", "message": "Feedback recorded for analysis analyze_001." } } }
+  },
+  "POST /v2/analyze/photos": {
+    "responses": { "200": { "description": "Photos analyzed.", "example": { "status": "success", "data": { "photos": [{ "url": "https://photos.example.com/kitchen.jpg", "room": "Kitchen", "conditionScore": 65, "features": ["dated_cabinets", "worn_countertops", "old_appliances"] }, { "url": "https://photos.example.com/living_room.jpg", "room": "Living Room", "conditionScore": 78, "features": ["good_flooring", "needs_paint"] }] } } } }
+  },
+  "POST /v2/analyze/reanalyze": {
+    "responses": { "200": { "description": "Reanalysis results.", "example": { "status": "success", "data": { "estimatedValue": 730000, "estimatedAfterValue": 885000, "adjustedROI": 3.4, "comparablesUsed": 5 } } } }
+  },
+  "GET /v2/analyze/renovation/{id}": {
+    "responses": { "200": { "description": "Renovation analysis.", "example": { "status": "success", "data": { "id": "reno_001", "address": "123 Main St, Los Angeles, CA", "estimatedValue": 725000, "estimatedAfterValue": 875000, "renovationBudget": 45000, "roi": 3.3, "timeline": 6, "items": [{ "category": "Kitchen", "scope": "Full remodel", "cost": 18000, "valueAdd": 55000 }, { "category": "Bathroom", "scope": "Master bath update", "cost": 12000, "valueAdd": 38000 }, { "category": "Exterior", "scope": "Paint and landscape", "cost": 15000, "valueAdd": 42000 }] } } } }
+  },
+  "POST /v2/analyze/v2/comparables": {
+    "responses": { "200": { "description": "V2 comparable analysis.", "example": { "status": "success", "data": { "comparables": [{ "address": "456 Oak Ave", "salePrice": 710000, "similarity": 0.92 }], "adjustedValue": 745000, "confidence": 0.88 } } } }
+  },
+  "POST /v2/calendars/": {
+    "responses": { "200": { "description": "Calendar created.", "example": { "status": "success", "data": { "calendarId": "cal_new123", "name": "LA Team Calendar", "group": "west-coast", "url": "https://meetings.hubspot.com/la-team", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v2/calendars/{calendarId}": {
+    "responses": { "200": { "description": "Calendar details.", "example": { "status": "success", "data": { "calendarId": "cal_001", "name": "LA Team Calendar", "group": "west-coast", "hubspotOwnerId": "owner_abc123", "url": "https://meetings.hubspot.com/la-team", "availableSlots": 24, "createdAt": "2026-01-01T10:00:00.000Z" } } } }
+  },
+  "PATCH /v2/calendars/{calendarId}": {
+    "responses": { "200": { "description": "Calendar updated.", "example": { "status": "success", "data": { "calendarId": "cal_001", "name": "LA Team Calendar - Updated", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v2/calendars/{calendarId}": {
+    "responses": { "200": { "description": "Calendar deleted.", "example": { "status": "success", "message": "Calendar cal_001 deleted." } } }
+  },
+  "GET /v2/opportunities/admin/{adminId}": {
+    "responses": { "200": { "description": "Admin's opportunities.", "example": { "status": "success", "data": [{ "opportunityId": "opp_001", "address": "123 Main St, Los Angeles, CA", "dealType": "Presale", "stage": "Estimate Sent", "agentName": "Jane Smith", "estimatedValue": 725000, "renovationBudget": 45000, "createdAt": "2026-03-01T10:00:00.000Z" }], "total": 1 } } }
+  },
+  "PATCH /v2/opportunities/{opportunityId}": {
+    "responses": { "200": { "description": "Opportunity updated.", "example": { "status": "success", "data": { "opportunityId": "opp_001", "stage": "Contract Signed", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v2/opportunities/{opportunityId}": {
+    "responses": { "200": { "description": "Opportunity deleted.", "example": { "status": "success", "message": "Opportunity opp_001 deleted." } } }
+  },
+  "POST /v2/opportunities/{opportunityId}/associate-contact": {
+    "responses": { "200": { "description": "Contact associated.", "example": { "status": "success", "message": "Contact cont_abc123 associated with opportunity opp_001." } } }
+  },
+  "POST /v2/opportunities/{opportunityId}/create-and-associate-contact": {
+    "responses": { "200": { "description": "Contact created and associated.", "example": { "status": "success", "data": { "contactId": "cont_new789", "opportunityId": "opp_001", "email": "newhomeowner@example.com" } } } }
+  },
+  "POST /v2/opportunities/{opportunityId}/disassociate-contact": {
+    "responses": { "200": { "description": "Contact disassociated.", "example": { "status": "success", "message": "Contact removed from opportunity opp_001." } } }
+  },
+  "GET /v2/opportunities/{opportunityId}/onsite-visit": {
+    "responses": { "200": { "description": "Onsite visit for opportunity.", "example": { "status": "success", "data": { "visitId": "visit_001", "opportunityId": "opp_001", "scheduledAt": "2026-04-16T10:00:00.000Z", "status": "scheduled", "assignedTo": "Sarah Johnson" } } } }
+  },
+  "POST /v2/opportunities/{opportunityId}/onsite-visit": {
+    "responses": { "200": { "description": "Onsite visit created.", "example": { "status": "success", "data": { "visitId": "visit_new123", "opportunityId": "opp_001", "scheduledAt": "2026-04-16T10:00:00.000Z", "status": "scheduled" } } } }
+  },
+  "POST /v2/payments/reno/payment-intents": {
+    "responses": { "200": { "description": "Payment intent created.", "example": { "status": "success", "data": { "paymentIntentId": "pi_abc123", "type": "one-time", "amount": 45000, "currency": "usd", "status": "requires_payment_method", "clientSecret": "pi_abc123_secret_xyz" } } } }
+  },
+  "DELETE /v2/payments/reno/remove-subscription": {
+    "responses": { "200": { "description": "Subscription removed.", "example": { "status": "success", "message": "Subscription cancelled." } } }
+  },
+  "POST /v2/payments/reno/webhook": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "message": "Stripe webhook processed." } } }
+  },
+  "GET /v2/properties/{objectType}": {
+    "responses": { "200": { "description": "HubSpot property definitions.", "example": { "status": "success", "data": [{ "name": "deal_type", "label": "Deal Type", "type": "enumeration", "options": [{ "value": "Presale", "label": "Presale" }, { "value": "RTS", "label": "Renovate to Stay" }] }, { "name": "renovation_budget", "label": "Renovation Budget", "type": "number" }] } } }
+  },
+  "GET /v2/properties/{objectType}/{propertyName}": {
+    "responses": { "200": { "description": "Property definition.", "example": { "status": "success", "data": { "name": "deal_type", "label": "Deal Type", "type": "enumeration", "description": "Type of Revive deal", "options": [{ "value": "Presale", "label": "Presale" }, { "value": "RTS", "label": "Renovate to Stay" }, { "value": "Special Services", "label": "Special Services" }] } } } }
+  },
+  "POST /v2/referrals/": {
+    "responses": { "200": { "description": "Referral created.", "example": { "status": "success", "data": { "referralId": "ref_new123", "referralType": "agent", "clientSituation": "Homeowner looking to sell within 3 months.", "status": "pending", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v2/users/": {
+    "responses": { "200": { "description": "User list.", "example": { "status": "success", "data": [{ "uid": "user_001", "email": "admin@revive.realty", "firstname": "Sarah", "lastname": "Johnson", "role": "admin", "position": "Project Manager", "active": true }, { "uid": "user_002", "email": "agent@realty.com", "firstname": "Jane", "lastname": "Smith", "role": "agent", "active": true }], "total": 2 } } }
+  },
+  "GET /v2/users/owners": {
+    "responses": { "200": { "description": "HubSpot owners.", "example": { "status": "success", "data": [{ "hubspotOwnerId": "owner_001", "email": "sarah@revive.realty", "firstname": "Sarah", "lastname": "Johnson" }, { "hubspotOwnerId": "owner_002", "email": "mike@revive.realty", "firstname": "Mike", "lastname": "Davis" }] } } }
+  },
+  "PATCH /v2/users/{uid}": {
+    "responses": { "200": { "description": "User updated.", "example": { "status": "success", "data": { "uid": "user_001", "email": "admin@revive.realty", "firstname": "Sarah", "lastname": "Johnson", "position": "Senior PM", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v2/users/{uid}": {
+    "responses": { "200": { "description": "User deleted.", "example": { "status": "success", "message": "User user_001 deleted." } } }
+  },
+  "POST /v2/vision-ai/": {
+    "responses": { "200": { "description": "Vision AI report created.", "example": { "status": "success", "data": { "id": "vai_new123", "address": "123 Main St, Los Angeles, CA", "status": "processing", "imageCount": 5, "reportType": "standard", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v2/vision-ai/condition": {
+    "responses": { "200": { "description": "Condition analysis.", "example": { "status": "success", "data": { "conditionScore": 72, "conditionGrade": "C+", "rooms": [{ "name": "Kitchen", "score": 65, "features": ["dated_cabinets", "worn_countertops"] }, { "name": "Bathroom", "score": 58, "features": ["cracked_tile", "outdated_vanity"] }] } } } }
+  },
+  "PATCH /v2/vision-ai/custom-object/{recordId}": {
+    "responses": { "200": { "description": "Custom object updated.", "example": { "status": "success", "data": { "recordId": "rec_abc123", "requested_call": "yes", "request_contact_reason": "Interested in renovation estimate" } } } }
+  },
+  "POST /v2/vision-ai/images": {
+    "responses": { "200": { "description": "Images retrieved.", "example": { "status": "success", "data": { "id": "rpt_xyz789", "images": [{ "url": "https://storage.revive.realty/photos/exterior.jpg", "room": "Exterior", "type": "original" }, { "url": "https://storage.revive.realty/photos/kitchen.jpg", "room": "Kitchen", "type": "original" }] } } } }
+  },
+  "POST /v2/vision-ai/rejected-report-note/{recordId}": {
+    "responses": { "200": { "description": "Note added.", "example": { "status": "success", "message": "Rejection note recorded for report rec_abc123." } } }
+  },
+  "POST /v2/vision-ai/scraper": {
+    "responses": { "200": { "description": "Scraper job started.", "example": { "status": "success", "data": { "jobId": "scrape_001", "propertiesQueued": 150, "status": "processing" } } } }
+  },
+  "GET /v2/vision-ai/scraper/csv": {
+    "responses": { "200": { "description": "CSV export.", "example": { "status": "success", "data": { "type": "completed", "downloadUrl": "https://storage.revive.realty/exports/scraper_completed_20260415.csv", "rowCount": 342 } } } }
+  },
+  "POST /v2/vision-ai/scraper/generate-report": {
+    "responses": { "200": { "description": "Report generation started.", "example": { "status": "success", "data": { "jobId": "gen_001", "reportsQueued": 50, "status": "processing" } } } }
+  }
+}

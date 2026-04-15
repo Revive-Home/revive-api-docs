@@ -1,0 +1,104 @@
+{
+  "POST /v1/notifications/send": {
+    "responses": { "200": { "description": "Notification sent.", "example": { "status": "success", "data": { "notificationId": "notif_abc123", "channel": "push", "deliveredAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/notifications/upsert-novu-subscribers": {
+    "responses": { "200": { "description": "Subscribers synced.", "example": { "status": "success", "data": { "synced": 342, "created": 5, "updated": 337 } } } }
+  },
+  "POST /v1/notifications/wu-reminder": {
+    "responses": { "200": { "description": "Reminder sent.", "example": { "status": "success", "message": "Weekly update reminder sent to contractor 12345." } } }
+  },
+  "GET /v1/onsite-visit/": {
+    "responses": { "200": { "description": "Onsite visit list.", "example": { "status": "success", "data": [{ "id": "visit_001", "dealId": "deal_xyz789", "address": "123 Main St, Los Angeles, CA", "scheduledAt": "2026-04-16T10:00:00.000Z", "status": "scheduled", "assignedTo": { "name": "Sarah Johnson", "role": "agent" }, "sessionStatus": "pending" }] } } }
+  },
+  "POST /v1/onsite-visit/mobile-geolocation": {
+    "responses": { "200": { "description": "Location recorded.", "example": { "status": "success", "data": { "type": "checkin", "latitude": 34.0522, "longitude": -118.2437, "recordedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "PATCH /v1/onsite-visit/{onSiteVisitId}": {
+    "responses": { "200": { "description": "Visit updated.", "example": { "status": "success", "data": { "id": "visit_001", "sessionStatus": "completed", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/onsite-visit/{onSiteVisitId}": {
+    "responses": { "200": { "description": "Visit cancelled.", "example": { "status": "success", "message": "Onsite visit visit_001 cancelled." } } }
+  },
+  "POST /v1/onsite-visit/{sessionId}/comment": {
+    "responses": { "200": { "description": "Comment added.", "example": { "status": "success", "data": { "commentId": "cmt_001", "text": "Kitchen cabinets need replacement — see attached photos.", "type": "inspection", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/onsite-visit/{sessionId}/comment/{commentId}": {
+    "responses": { "200": { "description": "Comment deleted.", "example": { "status": "success", "message": "Comment cmt_001 deleted." } } }
+  },
+  "GET /v1/onsite-visit/{sessionId}/comments": {
+    "responses": { "200": { "description": "Visit comments.", "example": { "status": "success", "data": [{ "commentId": "cmt_001", "text": "Kitchen cabinets need replacement.", "type": "inspection", "createdBy": { "userId": "user_abc123", "name": "Sarah Johnson", "role": "agent" }, "createdAt": "2026-04-15T10:30:00.000Z" }, { "commentId": "cmt_002", "text": "Confirmed — adding to scope.", "type": "followup", "createdBy": { "userId": "user_def456", "name": "Mike Builder", "role": "contractor" }, "createdAt": "2026-04-15T11:00:00.000Z" }] } } }
+  },
+  "POST /v1/onsite-visit/{sessionId}/image-notes": {
+    "responses": { "200": { "description": "Image note added.", "example": { "status": "success", "data": { "imageNoteId": "imgnote_001", "imageUrl": "https://storage.revive.realty/visits/kitchen_damage.jpg", "note": "Water damage visible under sink cabinet", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "PATCH /v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}": {
+    "responses": { "200": { "description": "Image note updated.", "example": { "status": "success", "data": { "imageNoteId": "imgnote_001", "note": "Updated: Water damage confirmed — needs full replacement" } } } }
+  },
+  "DELETE /v1/onsite-visit/{sessionId}/image-notes/{imageNoteId}": {
+    "responses": { "200": { "description": "Image note deleted.", "example": { "status": "success", "message": "Image note imgnote_001 deleted." } } }
+  },
+  "POST /v1/partners/realtycom": {
+    "responses": { "200": { "description": "Referral processed.", "example": { "status": "success", "data": { "referralId": "ref_realty_001", "leadEmail": "homeowner@example.com", "source": "realty.com", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/production/": {
+    "responses": { "200": { "description": "Production schedule created.", "example": { "status": "success", "data": { "productionId": "prod_001", "startDate": "2026-01-01", "ownersRep": [{ "userId": "user_abc123", "name": "Sarah Johnson" }], "status": "active" } } } }
+  },
+  "POST /v1/project-scopes/": {
+    "responses": { "200": { "description": "Project scope created.", "example": { "status": "success", "data": { "scopeId": "scope_001", "dealId": "deal_xyz789", "items": [{ "id": "item_001", "title": "Kitchen Remodel", "description": "Full kitchen renovation", "category": "Kitchen", "verified": false }], "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/project-scopes/": {
+    "responses": { "200": { "description": "Scope items removed.", "example": { "status": "success", "message": "Project scope items removed from deal deal_xyz789." } } }
+  },
+  "GET /v1/project-scopes/fill-from-pandadoc/{dealId}": {
+    "responses": { "200": { "description": "Scope filled from PandaDoc.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "itemsImported": 12, "source": "pandadoc" } } } }
+  },
+  "PATCH /v1/project-scopes/update": {
+    "responses": { "200": { "description": "Scope item updated.", "example": { "status": "success", "data": { "id": "scope_001", "title": "Kitchen Remodel - Updated", "description": "Full kitchen renovation including island", "verified": true, "isInPunchList": false } } } }
+  },
+  "POST /v1/property/": {
+    "responses": { "200": { "description": "Property report created.", "example": { "status": "success", "data": { "reportId": "rpt_new123", "streetAddress": "123 Main St, Los Angeles, CA 90001", "estimatedValue": 725000, "estimatedAfterValue": 875000, "renovationBudget": 45000, "roi": 3.3, "timeline": 6, "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/property/admin/migrate-latest-leads-to-reports-meta": {
+    "responses": { "200": { "description": "Migration results.", "example": { "status": "success", "data": { "migrated": 89, "skipped": 4 } } } }
+  },
+  "POST /v1/property/admin/migrate-leads": {
+    "responses": { "200": { "description": "Migration results.", "example": { "status": "success", "data": { "migrated": 156, "skipped": 12 } } } }
+  },
+  "POST /v1/property/association": {
+    "responses": { "200": { "description": "Association created.", "example": { "status": "success", "message": "Property report linked to HubSpot custom object." } } }
+  },
+  "POST /v1/property/complete-report": {
+    "responses": { "200": { "description": "Report completed.", "example": { "status": "success", "data": { "reportId": "rpt_xyz789", "status": "completed", "completedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/property/create-comparable": {
+    "responses": { "200": { "description": "Comparable added.", "example": { "status": "success", "data": { "comparableId": "comp_001", "reportId": "rpt_xyz789", "address": "456 Oak Ave", "salePrice": 710000, "closeDate": "2026-03-01", "bedrooms": 3, "yearBuilt": 1990, "grade": "B+", "distance": 0.4 } } } }
+  },
+  "POST /v1/property/log/comparable/{reportId}": {
+    "responses": { "200": { "description": "Log recorded.", "example": { "status": "success", "message": "Comparable view logged." } } }
+  },
+  "POST /v1/property/log/pdf/{reportId}": {
+    "responses": { "200": { "description": "Log recorded.", "example": { "status": "success", "message": "PDF download logged." } } }
+  },
+  "POST /v1/property/log/view/{reportId}": {
+    "responses": { "200": { "description": "Log recorded.", "example": { "status": "success", "message": "Report view logged." } } }
+  },
+  "POST /v1/property/neighborhood-report-and-register-user": {
+    "responses": { "200": { "description": "Report and user created.", "example": { "status": "success", "data": { "reportId": "rpt_new456", "contactId": "cont_new789", "address": "123 Main St, Los Angeles, CA", "reportUrl": "https://edge.revive.realty/report/rpt_new456" } } } }
+  },
+  "POST /v1/property/search-comparable": {
+    "responses": { "200": { "description": "Comparable search results.", "example": { "status": "success", "data": [{ "address": "456 Oak Ave", "salePrice": 710000, "closeDate": "2026-03-01", "bedrooms": 3, "bathrooms": 2, "sqft": 1750, "yearBuilt": 1990, "distance": 0.4 }, { "address": "789 Elm St", "salePrice": 820000, "closeDate": "2026-01-20", "bedrooms": 4, "bathrooms": 3, "sqft": 2100, "yearBuilt": 1995, "distance": 0.6 }] } } }
+  },
+  "POST /v1/property/share/{reportId}": {
+    "responses": { "200": { "description": "Report shared.", "example": { "status": "success", "data": { "shareUrl": "https://edge.revive.realty/report/rpt_xyz789", "sharedWith": "cont_abc123", "type": "invite" } } } }
+  },
+  "POST /v1/property/upgrade-to-v2": {
+    "responses": { "200": { "description": "Report upgraded.", "example": { "status": "success", "data": { "reportId": "rpt_xyz789", "version": "v2", "upgradedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/property/{id}": {
+    "responses": { "200": { "description": "Property report.", "example": { "status": "success", "data": { "reportId": "rpt_xyz789", "streetAddress": "123 Main St, Los Angeles, CA 90001", "state": "CA", "bedrooms": 3, "bathrooms": 2, "sqft": 1850, "yearBuilt": 1985, "estimatedValue": 725000, "estimatedAfterValue": 875000, "renovationBudget": 45000, "roi": 3.3, "timeline": 6, "conditionScore": 72, "comparables": [{ "address": "456 Oak Ave", "salePrice": 710000, "distance": 0.4 }], "renovationItems": [{ "category": "Kitchen", "cost": 18000 }, { "category": "Bathroom", "cost": 12000 }, { "category": "Exterior", "cost": 15000 }], "createdAt": "2026-03-01T10:00:00.000Z" } } } }
+  },
+  "POST /v1/property/{id}/recalculate": {
+    "responses": { "200": { "description": "Report recalculated.", "example": { "status": "success", "data": { "reportId": "rpt_xyz789", "estimatedValue": 730000, "estimatedAfterValue": 885000, "renovationBudget": 47000, "roi": 3.3, "recalculatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  }
+}

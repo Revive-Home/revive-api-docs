@@ -38,7 +38,7 @@
         ],
         "responses": {
           "200": {
-            "description": "API is healthy and operational.",
+            "description": "API is healthy.",
             "content": {
               "application/json": {
                 "schema": {
@@ -56,9 +56,9 @@
                   }
                 },
                 "example": {
-                  "uptime": 123456.789,
-                  "message": "OK",
-                  "timestamp": 1713100000000
+                  "status": "ok",
+                  "version": "2.152.0",
+                  "uptime": 86400
                 }
               }
             }
@@ -409,15 +409,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Feature flag configuration.",
+            "description": "Feature flag configuration for the platform.",
             "content": {
               "application/json": {
                 "example": {
                   "status": "success",
-                  "flags": {
+                  "data": {
                     "enableNewEstimateFlow": true,
                     "enableAIPhotoAnalysis": true,
-                    "enableRTSContracts": false
+                    "enableRTSContracts": false,
+                    "maintenanceMode": false
                   }
                 }
               }
@@ -466,7 +467,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Feature flags created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Feature flags created for dashboard."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -500,7 +509,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Feature flags updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Feature flags updated."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -534,7 +551,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Feature flags replaced.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Feature flags replaced for dashboard."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -584,17 +609,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Authentication successful.",
+            "description": "Authenticated session.",
             "content": {
               "application/json": {
                 "example": {
                   "status": "success",
-                  "user": {
-                    "uid": "abc123def456",
-                    "email": "user@example.com",
-                    "role": "admin",
-                    "firstname": "Jane",
-                    "lastname": "Smith"
+                  "data": {
+                    "uid": "user_abc123",
+                    "email": "agent@revive.realty",
+                    "role": "agent",
+                    "firstname": "Sarah",
+                    "lastname": "Johnson",
+                    "token": "eyJhbGciOiJSUzI1NiIs...",
+                    "companyId": "comp_abc123"
                   }
                 }
               }
@@ -646,7 +673,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "User registered.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "uid": "user_new123",
+                    "email": "newuser@example.com",
+                    "role": "agent",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -698,7 +738,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Automated valuation result.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimatedValue": 725000,
+                    "confidenceScore": 0.87,
+                    "lowEstimate": 685000,
+                    "highEstimate": 765000,
+                    "comparablesUsed": 6,
+                    "valuationDate": "2026-04-15"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -750,7 +805,32 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "List of broadcasts.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "bcast_001",
+                      "title": "Q2 Market Update",
+                      "channel": "email",
+                      "status": "sent",
+                      "recipientCount": 245,
+                      "sentAt": "2026-04-10T14:00:00.000Z"
+                    },
+                    {
+                      "id": "bcast_002",
+                      "title": "New Feature Announcement",
+                      "channel": "push",
+                      "status": "draft",
+                      "recipientCount": 0,
+                      "sentAt": null
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -770,7 +850,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Broadcast created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "bcast_003",
+                    "title": "Q2 Market Update",
+                    "channel": "email",
+                    "status": "draft",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -826,7 +920,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Broadcast details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "bcast_001",
+                    "title": "Q2 Market Update",
+                    "message": "Check out the latest renovation trends in your area.",
+                    "channel": "email",
+                    "status": "sent",
+                    "recipientCount": 245,
+                    "deliveredCount": 238,
+                    "openedCount": 142,
+                    "sentAt": "2026-04-10T14:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -857,7 +969,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Broadcast updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "bcast_002",
+                    "title": "Updated Q2 Market Report",
+                    "status": "draft"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -900,7 +1024,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Broadcast deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Broadcast bcast_002 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1011,7 +1143,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Brokerage associated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Brokerage linked to company comp_abc123."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1067,7 +1207,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Brokerage association.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "brokerageId": "brok_abc123",
+                    "companyId": "comp_abc123",
+                    "name": "Keller Williams Realty",
+                    "state": "CA"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1130,7 +1283,30 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Public brokerage list.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "companyId": "comp_abc123",
+                      "name": "Keller Williams Realty",
+                      "state": "CA",
+                      "city": "Los Angeles",
+                      "agentCount": 42
+                    },
+                    {
+                      "companyId": "comp_def456",
+                      "name": "Compass Real Estate",
+                      "state": "CA",
+                      "city": "San Francisco",
+                      "agentCount": 28
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "description": "`GET /v1/brokerages/public`\n\nReturns publicly visible brokerage records for use in agent-facing UIs and directories."
@@ -1145,7 +1321,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Search results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "companyId": "comp_abc123",
+                      "name": "Keller Williams Realty",
+                      "state": "CA",
+                      "city": "Los Angeles"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1188,7 +1380,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Brokerage updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "companyId": "comp_abc123",
+                    "name": "Keller Williams Realty - Updated",
+                    "state": "CA",
+                    "city": "San Francisco"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1261,7 +1466,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Brokerage details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "companyId": "comp_abc123",
+                    "name": "Keller Williams Realty",
+                    "state": "CA",
+                    "city": "Los Angeles",
+                    "phone": "+15551234567",
+                    "agentCount": 42,
+                    "activeDealCount": 15
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1292,7 +1513,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Case study results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "cs_001",
+                      "address": "123 Main St, Los Angeles, CA",
+                      "dealType": "Presale",
+                      "renovationCost": 45000,
+                      "listPriceIncrease": 120000,
+                      "profit": 75000,
+                      "completedAt": "2026-01-15"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -1338,12 +1578,12 @@
                 "example": {
                   "status": "success",
                   "data": {
-                    "contactId": "cont_abc123",
+                    "contactId": "cont_new123",
+                    "email": "homeowner@example.com",
                     "firstname": "John",
                     "lastname": "Doe",
-                    "email": "john@example.com",
-                    "type": "homeowner",
-                    "createdAt": "2026-04-14T12:00:00Z"
+                    "phone": "+15551234567",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
                   }
                 }
               }
@@ -1417,7 +1657,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact dashboard metrics.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "totalContacts": 1284,
+                    "newThisMonth": 47,
+                    "activeDeals": 23,
+                    "pendingInvites": 8,
+                    "byType": {
+                      "homeowner": 856,
+                      "agent": 312,
+                      "contractor": 116
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1437,7 +1695,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Edge view link generated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "url": "https://edge.revive.realty/view/abc123",
+                    "expiresAt": "2026-05-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1480,7 +1749,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Invitation sent.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Invitation sent to homeowner@example.com."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1532,7 +1809,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contacts merged.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "mergedContactId": "cont_abc123",
+                    "removedContactId": "cont_def456",
+                    "dealsTransferred": 2
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1574,7 +1863,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact removed from deal.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contact cont_abc123 removed from deal deal_xyz789."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1617,7 +1914,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Matching contacts.",
+            "description": "Contact search results.",
             "content": {
               "application/json": {
                 "example": {
@@ -1625,14 +1922,14 @@
                   "data": [
                     {
                       "contactId": "cont_abc123",
+                      "email": "john@example.com",
                       "firstname": "John",
                       "lastname": "Doe",
-                      "email": "john@example.com",
+                      "phone": "+15551234567",
                       "type": "homeowner"
                     }
                   ],
-                  "total": 1,
-                  "hasMore": false
+                  "total": 1
                 }
               }
             }
@@ -1733,7 +2030,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contactId": "cont_abc123",
+                    "email": "john.updated@example.com",
+                    "firstname": "John",
+                    "lastname": "Doe",
+                    "phone": "+15559876543"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1772,7 +2083,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contact cont_abc123 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1803,7 +2122,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Edge view data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contactId": "cont_abc123",
+                    "reportUrl": "https://edge.revive.realty/view/abc123",
+                    "opportunities": [
+                      {
+                        "id": "opp_001",
+                        "address": "123 Main St",
+                        "status": "active"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1834,7 +2171,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact's homes.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "dealId": "deal_xyz789",
+                      "address": "123 Main St, Los Angeles, CA 90001",
+                      "status": "in_renovation",
+                      "estimatedValue": 725000
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1865,7 +2217,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact's referrals.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "referralId": "ref_001",
+                      "referralType": "agent",
+                      "clientEmail": "jane@example.com",
+                      "status": "pending",
+                      "createdAt": "2026-03-01T10:00:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1902,11 +2270,13 @@
                 "example": {
                   "status": "success",
                   "data": {
-                    "contractorId": "contr_abc123",
+                    "contractorId": "contr_new123",
                     "firstname": "Mike",
                     "lastname": "Builder",
                     "email": "mike@buildco.com",
-                    "company": "BuildCo LLC"
+                    "company": "BuildCo LLC",
+                    "phone": "+15559876543",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
                   }
                 }
               }
@@ -1962,7 +2332,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractors updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contractor contr_abc123 updated."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2025,7 +2403,33 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractor list.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "contractorId": "contr_abc123",
+                      "firstname": "Mike",
+                      "lastname": "Builder",
+                      "email": "mike@buildco.com",
+                      "company": "BuildCo LLC",
+                      "phone": "+15559876543",
+                      "state": "CA",
+                      "specialties": [
+                        "kitchen",
+                        "bathroom",
+                        "flooring"
+                      ],
+                      "rating": 4.8,
+                      "activeProjects": 3
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2045,7 +2449,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractor associated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contractor linked to company comp_abc123."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2101,7 +2513,38 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Available contractors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "contractorId": "contr_abc123",
+                      "company": "BuildCo LLC",
+                      "specialties": [
+                        "kitchen",
+                        "bathroom"
+                      ],
+                      "rating": 4.8,
+                      "availability": "available",
+                      "distance": 12.5
+                    },
+                    {
+                      "contractorId": "contr_def456",
+                      "company": "RenovatePro",
+                      "specialties": [
+                        "kitchen",
+                        "flooring"
+                      ],
+                      "rating": 4.5,
+                      "availability": "available",
+                      "distance": 18.3
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2136,7 +2579,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractor association.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractorId": "contr_abc123",
+                    "companyId": "comp_abc123",
+                    "company": "BuildCo LLC"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2196,7 +2651,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Import results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "imported": 15,
+                    "skipped": 2,
+                    "errors": [
+                      {
+                        "row": 8,
+                        "reason": "Duplicate email: mike@buildco.com"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2236,7 +2708,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Assigned contractor.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractorId": "contr_abc123",
+                    "company": "BuildCo LLC",
+                    "contact": "Mike Builder",
+                    "phone": "+15559876543",
+                    "assignedAt": "2026-03-15T10:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2267,7 +2753,27 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractor search results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "contractorId": "contr_abc123",
+                      "company": "BuildCo LLC",
+                      "state": "CA",
+                      "city": "Los Angeles",
+                      "specialties": [
+                        "kitchen",
+                        "bathroom"
+                      ]
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2313,7 +2819,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractor details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractorId": "contr_abc123",
+                    "firstname": "Mike",
+                    "lastname": "Builder",
+                    "email": "mike@buildco.com",
+                    "company": "BuildCo LLC",
+                    "phone": "+15559876543",
+                    "state": "CA",
+                    "city": "Los Angeles",
+                    "specialties": [
+                      "kitchen",
+                      "bathroom",
+                      "flooring"
+                    ],
+                    "rating": 4.8,
+                    "activeProjects": 3,
+                    "completedProjects": 47,
+                    "files": {
+                      "license": "https://storage.revive.realty/files/license_abc.pdf",
+                      "insurance": "https://storage.revive.realty/files/insurance_abc.pdf",
+                      "w9": null
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2342,7 +2878,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractor updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractorId": "contr_abc123",
+                    "company": "BuildCo LLC - Updated",
+                    "phone": "+15559876543"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2383,7 +2931,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "File uploaded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "fileType": "license",
+                    "url": "https://storage.revive.realty/files/license_abc.pdf",
+                    "uploadedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2460,7 +3020,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "File deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "File type 'license' deleted from contractor contr_abc123."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2500,7 +3068,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Primary contact set.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Primary contact updated for contractor contr_abc123."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2547,8 +3123,17 @@
                 "example": {
                   "status": "success",
                   "data": {
-                    "contractId": "doc_abc123",
-                    "editUrl": "https://app.pandadoc.com/editor/doc_abc123"
+                    "contractId": "contract_new123",
+                    "opportunityId": "opp_abc123",
+                    "status": "draft",
+                    "homeowners": [
+                      {
+                        "email": "homeowner@example.com",
+                        "firstname": "John",
+                        "lastname": "Doe"
+                      }
+                    ],
+                    "createdAt": "2026-04-15T18:00:00.000Z"
                   }
                 }
               }
@@ -2614,7 +3199,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "PDF file binary."
           }
         },
         "parameters": [
@@ -2645,7 +3230,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Edit session URL.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "sessionUrl": "https://app.pandadoc.com/editor/abc123",
+                    "expiresAt": "2026-04-15T19:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2676,7 +3272,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract sent.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contract contract_abc123 sent for signature.",
+                  "data": {
+                    "recipientCount": 2,
+                    "sentAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2707,7 +3315,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract session.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractId": "contract_abc123",
+                    "sessionType": "signing",
+                    "status": "waiting_for_signatures",
+                    "signers": [
+                      {
+                        "email": "homeowner@example.com",
+                        "signed": false
+                      },
+                      {
+                        "email": "agent@realty.com",
+                        "signed": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2738,7 +3368,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Signing URLs.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "recipientEmail": "homeowner@example.com",
+                      "signingUrl": "https://app.pandadoc.com/s/abc123",
+                      "expiresAt": "2026-04-22T18:00:00.000Z"
+                    },
+                    {
+                      "recipientEmail": "agent@realty.com",
+                      "signingUrl": "https://app.pandadoc.com/s/def456",
+                      "expiresAt": "2026-04-22T18:00:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2769,7 +3418,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contract completion processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -2794,7 +3451,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contract contract_abc123 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2825,7 +3490,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "E-signature document created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "documentId": "doc_abc123",
+                    "dealId": "deal_xyz789",
+                    "status": "draft",
+                    "signingUrl": "https://app.pandadoc.com/s/abc123",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2886,17 +3565,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Estimate created.",
+            "description": "Estimates list.",
             "content": {
               "application/json": {
                 "example": {
                   "status": "success",
-                  "data": {
-                    "estimateId": "est_abc123",
-                    "dealId": "deal_xyz789",
-                    "status": "draft",
-                    "subtotal": 0
-                  }
+                  "data": [
+                    {
+                      "estimateId": "est_001",
+                      "dealId": "deal_xyz789",
+                      "status": "draft",
+                      "total": 45000,
+                      "itemCount": 12,
+                      "createdAt": "2026-04-01T10:00:00.000Z"
+                    }
+                  ],
+                  "total": 1
                 }
               }
             }
@@ -2952,7 +3636,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate approved.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_001",
+                    "status": "approved",
+                    "approvedAt": "2026-04-15T18:00:00.000Z",
+                    "approvedBy": "homeowner@example.com"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2983,7 +3680,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate completed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_001",
+                    "status": "completed",
+                    "documentId": "doc_abc123",
+                    "total": 45000
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3024,7 +3734,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Document generated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_001",
+                    "documentId": "doc_abc123",
+                    "documentUrl": "https://app.pandadoc.com/editor/abc123"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3087,7 +3809,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract removed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contract removed from estimate est_001."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3141,7 +3871,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate duplicated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_002",
+                    "sourceEstimateId": "est_001",
+                    "status": "draft",
+                    "total": 45000,
+                    "itemCount": 12
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3171,7 +3915,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate generated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_003",
+                    "opportunityId": "opp_abc123",
+                    "status": "draft",
+                    "total": 52000,
+                    "itemCount": 15,
+                    "generatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3213,7 +3972,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Migration results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "migrated": 24,
+                    "skipped": 3,
+                    "dryRun": true
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3264,7 +4035,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate reset.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_001",
+                    "status": "draft"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3321,7 +4103,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate saved.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_001",
+                    "total": 47500,
+                    "itemCount": 13,
+                    "savedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3384,7 +4179,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate search results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "estimateId": "est_001",
+                      "dealId": "deal_xyz789",
+                      "status": "draft",
+                      "total": 45000,
+                      "createdAt": "2026-04-01T10:00:00.000Z"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3418,7 +4230,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate sent for signing.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_001",
+                    "status": "pending_signature",
+                    "sentAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3472,7 +4296,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Products reordered.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Custom products reordered."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3533,7 +4365,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Products reordered.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Products reordered."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3653,7 +4493,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_001",
+                    "status": "draft",
+                    "total": 48000,
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3692,7 +4545,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Estimate est_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3723,7 +4584,53 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate proposal view.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_001",
+                    "dealId": "deal_xyz789",
+                    "address": "123 Main St, Los Angeles, CA",
+                    "total": 45000,
+                    "categories": [
+                      {
+                        "name": "Kitchen",
+                        "items": [
+                          {
+                            "title": "Cabinet Refinishing",
+                            "price": 8500
+                          },
+                          {
+                            "title": "Countertop Replacement",
+                            "price": 6200
+                          }
+                        ],
+                        "subtotal": 14700
+                      },
+                      {
+                        "name": "Bathroom",
+                        "items": [
+                          {
+                            "title": "Tile Replacement",
+                            "price": 4800
+                          }
+                        ],
+                        "subtotal": 4800
+                      }
+                    ],
+                    "homeowners": [
+                      {
+                        "firstname": "John",
+                        "lastname": "Doe",
+                        "email": "homeowner@example.com"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3754,7 +4661,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "User removed from estimate.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "User removed from estimate est_001."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -3794,7 +4709,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Integration activated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Follow Up Boss integration activated."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3836,7 +4759,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Users connected.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "connected": 5,
+                    "skipped": 1
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -3869,7 +4803,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Integration deactivated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Follow Up Boss integration deactivated."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3889,7 +4831,38 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Pipeline configuration.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "pipe_001",
+                      "name": "Presale Pipeline",
+                      "stages": [
+                        "New Lead",
+                        "Contacted",
+                        "Meeting Scheduled",
+                        "Proposal Sent",
+                        "Won"
+                      ]
+                    },
+                    {
+                      "id": "pipe_002",
+                      "name": "RTS Pipeline",
+                      "stages": [
+                        "New Lead",
+                        "Qualified",
+                        "Contract Signed",
+                        "In Progress",
+                        "Completed"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3909,7 +4882,32 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Sync logs.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "log_001",
+                      "action": "contact_synced",
+                      "direction": "outbound",
+                      "contactEmail": "john@example.com",
+                      "timestamp": "2026-04-15T17:30:00.000Z",
+                      "status": "success"
+                    },
+                    {
+                      "id": "log_002",
+                      "action": "deal_synced",
+                      "direction": "inbound",
+                      "dealId": "deal_xyz789",
+                      "timestamp": "2026-04-15T17:25:00.000Z",
+                      "status": "success"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3929,7 +4927,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "FUB webhook processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -3954,7 +4960,35 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Home record.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "address": "123 Main St, Los Angeles, CA 90001",
+                    "bedrooms": 3,
+                    "bathrooms": 2,
+                    "sqft": 1850,
+                    "yearBuilt": 1985,
+                    "estimatedValue": 725000,
+                    "lotSize": 7500,
+                    "propertyType": "Single Family",
+                    "photos": [
+                      "https://storage.revive.realty/homes/exterior.jpg",
+                      "https://storage.revive.realty/homes/kitchen.jpg"
+                    ],
+                    "notes": [
+                      {
+                        "text": "Homeowner prefers morning appointments.",
+                        "createdAt": "2026-03-10T10:00:00.000Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4004,7 +5038,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Home updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "address": "123 Main St, Los Angeles, CA 90001",
+                    "bedrooms": 3,
+                    "bathrooms": 2,
+                    "sqft": 1850
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4045,7 +5093,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Home associated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Home linked to deal deal_xyz789."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4084,7 +5140,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Home disassociated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Home unlinked from deal deal_xyz789."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4136,7 +5200,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Note added.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "noteId": "note_001",
+                    "text": "Homeowner prefers morning appointments for onsite visits.",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4189,7 +5265,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Automation triggered.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "agentId": "agent_abc123",
+                    "templatesGenerated": 8,
+                    "emailSent": true
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4227,7 +5315,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Automation triggered.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "opportunityId": "opp_abc123",
+                    "templatesGenerated": 4
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4263,7 +5362,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Rebuild started.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Marketing automation rebuild initiated.",
+                  "data": {
+                    "type": "flyer",
+                    "queued": 42
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4314,7 +5425,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Image creation started.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "jobId": "job_abc123",
+                    "templateId": "tmpl_abc123",
+                    "status": "processing"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4353,7 +5476,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Download count.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "assetId": "asset_001",
+                    "downloads": 142,
+                    "lastDownloadAt": "2026-04-14T12:30:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4379,7 +5514,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Wrapped report.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportUrl": "https://storage.revive.realty/wrapped/2025_agent_abc123.pdf",
+                    "year": 2025,
+                    "stats": {
+                      "dealsCompleted": 28,
+                      "totalRevenue": 1250000,
+                      "avgRenovationROI": 3.2
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "description": "`GET /v1/marketing-center/generate-wrapped`\n\nGenerates a year-end Wrapped-style summary report for agent marketing."
@@ -4394,7 +5545,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Wrapped report generation complete."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4419,7 +5578,30 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Marketing templates.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "tmpl_001",
+                      "name": "Before/After Flyer",
+                      "type": "flyer",
+                      "previewUrl": "https://storage.revive.realty/templates/preview_001.jpg",
+                      "category": "listing"
+                    },
+                    {
+                      "id": "tmpl_002",
+                      "name": "Social Post - Just Listed",
+                      "type": "social",
+                      "previewUrl": "https://storage.revive.realty/templates/preview_002.jpg",
+                      "category": "social"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4439,7 +5621,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Templates rebuilt.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "rebuilt": 12,
+                    "removed": 2
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4485,7 +5678,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "MMS sent.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "messageId": "msg_abc123",
+                    "phone": "+15551234567",
+                    "status": "delivered"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4532,7 +5737,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Template submitted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "templateId": "tmpl_001",
+                    "status": "submitted_for_review"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4590,7 +5806,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Template details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "tmpl_001",
+                    "name": "Before/After Flyer",
+                    "type": "flyer",
+                    "previewUrl": "https://storage.revive.realty/templates/preview_001.jpg",
+                    "config": {
+                      "layout": "side-by-side",
+                      "colorScheme": "brand",
+                      "includeQR": true
+                    },
+                    "createdAt": "2026-01-15T10:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4619,7 +5854,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Template deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Template tmpl_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4650,7 +5893,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "jobId": "job_abc123",
+                    "imageUrl": "https://storage.revive.realty/marketing/flyer_abc123.jpg",
+                    "status": "completed"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4675,7 +5930,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Media deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "File file_abc123 deleted from deal deal_xyz789."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4722,7 +5985,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Status changed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "documentStatus": "approved"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4773,7 +6047,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Folders checked.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "foldersCreated": [
+                      "Before Photos",
+                      "After Photos",
+                      "Documents"
+                    ],
+                    "alreadyExisted": [
+                      "Inspection"
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4817,7 +6109,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Image converted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "originalUrl": "https://storage.revive.realty/uploads/photo.webp",
+                    "convertedUrl": "https://storage.revive.realty/uploads/photo.png"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4845,7 +6148,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Folder created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "folderName": "Inspection Photos",
+                    "folderId": "folder_abc123"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4893,7 +6208,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Files moved.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "File moved successfully."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4945,7 +6268,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Folder removed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Folder removed from deal deal_xyz789."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4987,7 +6318,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "File renamed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "newName": "Kitchen Photos - Final"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5039,7 +6381,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Document shared.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "shareUrl": "https://storage.revive.realty/share/abc123",
+                    "sharedWith": "homeowner@example.com",
+                    "expiresAt": "2026-05-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5087,7 +6441,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Document uploaded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "documentId": "doc_abc123",
+                    "title": "Home Inspection Report",
+                    "type": "inspection_report",
+                    "url": "https://storage.revive.realty/docs/inspection_abc.pdf"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5122,7 +6489,7 @@
         ],
         "responses": {
           "200": {
-            "description": "File uploaded.",
+            "description": "Media uploaded.",
             "content": {
               "application/json": {
                 "example": {
@@ -5189,7 +6556,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Available meeting slots.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "calendar": "la-team",
+                    "timezone": "America/Los_Angeles",
+                    "availableSlots": [
+                      {
+                        "startTime": "2026-04-16T10:00:00-07:00",
+                        "endTime": "2026-04-16T10:30:00-07:00"
+                      },
+                      {
+                        "startTime": "2026-04-16T14:00:00-07:00",
+                        "endTime": "2026-04-16T14:30:00-07:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -5301,7 +6689,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Available calendars.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "cal_001",
+                      "name": "LA Team Calendar",
+                      "group": "west-coast",
+                      "availableSlots": 24
+                    },
+                    {
+                      "id": "cal_002",
+                      "name": "SF Team Calendar",
+                      "group": "west-coast",
+                      "availableSlots": 18
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "description": "`GET /v1/meetings/available-calendars`\n\nReturns calendars that have available time slots for booking meetings."
@@ -5316,7 +6725,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Migration results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "migrated": 156,
+                    "skipped": 3,
+                    "errors": 0
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5349,7 +6770,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Notification sent.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "notificationId": "notif_abc123",
+                    "channel": "push",
+                    "deliveredAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -5380,7 +6813,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Subscribers synced.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "synced": 342,
+                    "created": 5,
+                    "updated": 337
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5400,7 +6845,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Reminder sent.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Weekly update reminder sent to contractor 12345."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -5437,7 +6890,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Onsite visit list.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "visit_001",
+                      "dealId": "deal_xyz789",
+                      "address": "123 Main St, Los Angeles, CA",
+                      "scheduledAt": "2026-04-16T10:00:00.000Z",
+                      "status": "scheduled",
+                      "assignedTo": {
+                        "name": "Sarah Johnson",
+                        "role": "agent"
+                      },
+                      "sessionStatus": "pending"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5457,7 +6931,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Location recorded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "type": "checkin",
+                    "latitude": 34.0522,
+                    "longitude": -118.2437,
+                    "recordedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5515,7 +7002,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Visit updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "visit_001",
+                    "sessionStatus": "completed",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5584,7 +7083,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Visit cancelled.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Onsite visit visit_001 cancelled."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5615,7 +7122,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Comment added.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "commentId": "cmt_001",
+                    "text": "Kitchen cabinets need replacement — see attached photos.",
+                    "type": "inspection",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5660,7 +7180,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Comment deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Comment cmt_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5700,7 +7228,38 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Visit comments.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "commentId": "cmt_001",
+                      "text": "Kitchen cabinets need replacement.",
+                      "type": "inspection",
+                      "createdBy": {
+                        "userId": "user_abc123",
+                        "name": "Sarah Johnson",
+                        "role": "agent"
+                      },
+                      "createdAt": "2026-04-15T10:30:00.000Z"
+                    },
+                    {
+                      "commentId": "cmt_002",
+                      "text": "Confirmed — adding to scope.",
+                      "type": "followup",
+                      "createdBy": {
+                        "userId": "user_def456",
+                        "name": "Mike Builder",
+                        "role": "contractor"
+                      },
+                      "createdAt": "2026-04-15T11:00:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5768,7 +7327,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Image note added.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "imageNoteId": "imgnote_001",
+                    "imageUrl": "https://storage.revive.realty/visits/kitchen_damage.jpg",
+                    "note": "Water damage visible under sink cabinet",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5813,7 +7385,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Image note updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "imageNoteId": "imgnote_001",
+                    "note": "Updated: Water damage confirmed — needs full replacement"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5864,7 +7447,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Image note deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Image note imgnote_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5904,7 +7495,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Referral processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "referralId": "ref_realty_001",
+                    "leadEmail": "homeowner@example.com",
+                    "source": "realty.com",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -6031,7 +7635,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Production schedule created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "productionId": "prod_001",
+                    "startDate": "2026-01-01",
+                    "ownersRep": [
+                      {
+                        "userId": "user_abc123",
+                        "name": "Sarah Johnson"
+                      }
+                    ],
+                    "status": "active"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6089,7 +7711,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Project scope created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "scopeId": "scope_001",
+                    "dealId": "deal_xyz789",
+                    "items": [
+                      {
+                        "id": "item_001",
+                        "title": "Kitchen Remodel",
+                        "description": "Full kitchen renovation",
+                        "category": "Kitchen",
+                        "verified": false
+                      }
+                    ],
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6146,7 +7789,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Scope items removed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Project scope items removed from deal deal_xyz789."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6188,7 +7839,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Scope filled from PandaDoc.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "itemsImported": 12,
+                    "source": "pandadoc"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -6219,7 +7882,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Scope item updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "scope_001",
+                    "title": "Kitchen Remodel - Updated",
+                    "description": "Full kitchen renovation including island",
+                    "verified": true,
+                    "isInPunchList": false
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6292,17 +7969,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Report created.",
+            "description": "Property report created.",
             "content": {
               "application/json": {
                 "example": {
                   "status": "success",
                   "data": {
-                    "propertyId": "prop_abc123",
-                    "reportId": "rpt_xyz789",
-                    "address": "123 Main St",
-                    "state": "CA",
-                    "status": "processing"
+                    "reportId": "rpt_new123",
+                    "streetAddress": "123 Main St, Los Angeles, CA 90001",
+                    "estimatedValue": 725000,
+                    "estimatedAfterValue": 875000,
+                    "renovationBudget": 45000,
+                    "roi": 3.3,
+                    "timeline": 6,
+                    "createdAt": "2026-04-15T18:00:00.000Z"
                   }
                 }
               }
@@ -6405,7 +8085,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Migration results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "migrated": 89,
+                    "skipped": 4
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -6430,7 +8121,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Migration results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "migrated": 156,
+                    "skipped": 12
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -6455,7 +8157,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Association created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Property report linked to HubSpot custom object."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6498,7 +8208,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report completed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "status": "completed",
+                    "completedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6547,7 +8269,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Comparable added.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "comparableId": "comp_001",
+                    "reportId": "rpt_xyz789",
+                    "address": "456 Oak Ave",
+                    "salePrice": 710000,
+                    "closeDate": "2026-03-01",
+                    "bedrooms": 3,
+                    "yearBuilt": 1990,
+                    "grade": "B+",
+                    "distance": 0.4
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6654,7 +8394,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Log recorded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Comparable view logged."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -6695,7 +8443,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Log recorded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "PDF download logged."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -6759,7 +8515,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Log recorded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Report view logged."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -6823,7 +8587,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report and user created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_new456",
+                    "contactId": "cont_new789",
+                    "address": "123 Main St, Los Angeles, CA",
+                    "reportUrl": "https://edge.revive.realty/report/rpt_new456"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -6877,7 +8654,36 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Comparable search results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "address": "456 Oak Ave",
+                      "salePrice": 710000,
+                      "closeDate": "2026-03-01",
+                      "bedrooms": 3,
+                      "bathrooms": 2,
+                      "sqft": 1750,
+                      "yearBuilt": 1990,
+                      "distance": 0.4
+                    },
+                    {
+                      "address": "789 Elm St",
+                      "salePrice": 820000,
+                      "closeDate": "2026-01-20",
+                      "bedrooms": 4,
+                      "bathrooms": 3,
+                      "sqft": 2100,
+                      "yearBuilt": 1995,
+                      "distance": 0.6
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6934,7 +8740,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report shared.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "shareUrl": "https://edge.revive.realty/report/rpt_xyz789",
+                    "sharedWith": "cont_abc123",
+                    "type": "invite"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -6998,7 +8816,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report upgraded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "version": "v2",
+                    "upgradedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7041,7 +8871,51 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Property report.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "streetAddress": "123 Main St, Los Angeles, CA 90001",
+                    "state": "CA",
+                    "bedrooms": 3,
+                    "bathrooms": 2,
+                    "sqft": 1850,
+                    "yearBuilt": 1985,
+                    "estimatedValue": 725000,
+                    "estimatedAfterValue": 875000,
+                    "renovationBudget": 45000,
+                    "roi": 3.3,
+                    "timeline": 6,
+                    "conditionScore": 72,
+                    "comparables": [
+                      {
+                        "address": "456 Oak Ave",
+                        "salePrice": 710000,
+                        "distance": 0.4
+                      }
+                    ],
+                    "renovationItems": [
+                      {
+                        "category": "Kitchen",
+                        "cost": 18000
+                      },
+                      {
+                        "category": "Bathroom",
+                        "cost": 12000
+                      },
+                      {
+                        "category": "Exterior",
+                        "cost": 15000
+                      }
+                    ],
+                    "createdAt": "2026-03-01T10:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7072,7 +8946,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report recalculated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "estimatedValue": 730000,
+                    "estimatedAfterValue": 885000,
+                    "renovationBudget": 47000,
+                    "roi": 3.3,
+                    "recalculatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7133,7 +9022,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Punch list updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "submittedById": "user_abc123",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7188,7 +9089,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Tasks updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "tasksUpdated": 8,
+                    "tasksRemaining": 3
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7284,7 +9197,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Realtor created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "realtorId": "agent_new123",
+                    "firstname": "Jane",
+                    "lastname": "Smith",
+                    "email": "jane@realty.com",
+                    "brokerage": "Keller Williams",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -7309,7 +9237,31 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Realtor details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contactId": "agent_abc123",
+                    "firstname": "Jane",
+                    "lastname": "Smith",
+                    "email": "jane@realty.com",
+                    "phone": "+15551234567",
+                    "brokerage": "Keller Williams",
+                    "activeDeals": 5,
+                    "completedDeals": 42,
+                    "referrals": [
+                      {
+                        "referralId": "ref_001",
+                        "clientEmail": "john@example.com",
+                        "status": "active"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7385,7 +9337,27 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Referral list.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "referralId": "ref_001",
+                      "referralType": "agent",
+                      "clientEmail": "john@example.com",
+                      "clientFirstName": "John",
+                      "clientLastName": "Doe",
+                      "address": "123 Main St, Los Angeles, CA",
+                      "status": "active",
+                      "createdAt": "2026-03-01T10:00:00.000Z"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7492,7 +9464,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Visit recorded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "User visit recorded for referral ref_abc123."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7535,7 +9515,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Referral details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "referralId": "ref_001",
+                    "dealId": "deal_xyz789",
+                    "referralType": "agent",
+                    "clientEmail": "john@example.com",
+                    "clientFirstName": "John",
+                    "clientLastName": "Doe",
+                    "address": "123 Main St, Los Angeles, CA",
+                    "agentId": "agent_abc123",
+                    "status": "active",
+                    "createdAt": "2026-03-01T10:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7564,7 +9563,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Referral updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "referralId": "ref_001",
+                    "status": "converted",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7603,7 +9614,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Referral deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Referral deleted from deal deal_xyz789."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7752,7 +9771,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Association created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Reimagine report linked to property report."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7782,7 +9809,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Reimagine updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "rimg_001",
+                    "status": "completed",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7840,7 +9879,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Reimagine details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "rimg_001",
+                    "opportunityId": "opp_abc123",
+                    "originalImageUrl": "https://storage.revive.realty/photos/kitchen_before.jpg",
+                    "reimaginedImageUrl": "https://storage.revive.realty/photos/kitchen_reimagined.jpg",
+                    "prompt": "Modern white kitchen with marble countertops",
+                    "roomStyle": "modern",
+                    "status": "completed",
+                    "createdAt": "2026-04-10T14:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7869,7 +9925,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Reimagine deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Reimagine rimg_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7969,7 +10033,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Update recorded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "message": "Completed kitchen cabinet installation and began countertop templating.",
+                    "recordedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8023,7 +10099,31 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Renovation progress.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "renovationProgressId": "rp_001",
+                    "dealId": "deal_xyz789",
+                    "onSchedule": true,
+                    "percentComplete": 65,
+                    "completed": [
+                      "scope_001",
+                      "scope_002",
+                      "scope_003"
+                    ],
+                    "remaining": [
+                      "scope_004",
+                      "scope_005"
+                    ],
+                    "lastUpdate": "Completed kitchen cabinet installation.",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8052,7 +10152,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Progress updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "renovationProgressId": "rp_001",
+                    "onSchedule": true,
+                    "completed": [
+                      "scope_003",
+                      "scope_004"
+                    ],
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8115,7 +10231,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Progress record deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Renovation progress rp_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8146,7 +10270,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report generated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "annual_2026",
+                    "year": "2026",
+                    "totalDeals": 342,
+                    "totalRevenue": 4250000,
+                    "generatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8228,7 +10366,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Catalog product created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "productId": "prod_new123",
+                    "name": "Kitchen Cabinet Refinishing",
+                    "category": "Kitchen",
+                    "basePrice": 8500,
+                    "unit": "per kitchen",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8295,7 +10448,42 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Catalog product.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "productId": "prod_001",
+                    "name": "Kitchen Cabinet Refinishing",
+                    "category": "Kitchen",
+                    "basePrice": 8500,
+                    "unit": "per kitchen",
+                    "description": "Complete refinishing of existing cabinets.",
+                    "options": [
+                      {
+                        "optionId": "opt_001",
+                        "name": "Color",
+                        "selections": [
+                          "White",
+                          "Gray",
+                          "Natural"
+                        ]
+                      },
+                      {
+                        "optionId": "opt_002",
+                        "name": "Hardware",
+                        "selections": [
+                          "Brushed Nickel",
+                          "Matte Black",
+                          "Chrome"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8324,7 +10512,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Product updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "productId": "prod_001",
+                    "name": "Kitchen Cabinet Refinishing",
+                    "basePrice": 9000,
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8363,7 +10564,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Product deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Product prod_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8394,7 +10603,39 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Product options.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "optionId": "opt_001",
+                      "name": "Color",
+                      "type": "select",
+                      "required": true,
+                      "selections": [
+                        "White",
+                        "Gray",
+                        "Natural",
+                        "Espresso"
+                      ]
+                    },
+                    {
+                      "optionId": "opt_002",
+                      "name": "Hardware",
+                      "type": "select",
+                      "required": false,
+                      "selections": [
+                        "Brushed Nickel",
+                        "Matte Black",
+                        "Chrome"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8420,7 +10661,36 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Option selections.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "optionId": "opt_001",
+                    "name": "Color",
+                    "selections": [
+                      {
+                        "value": "White",
+                        "priceModifier": 0
+                      },
+                      {
+                        "value": "Gray",
+                        "priceModifier": 200
+                      },
+                      {
+                        "value": "Natural",
+                        "priceModifier": -100
+                      },
+                      {
+                        "value": "Espresso",
+                        "priceModifier": 350
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8523,7 +10793,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "RMA list.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "rmaId": "rma_001",
+                      "dealId": "deal_xyz789",
+                      "contractorId": "contr_abc123",
+                      "status": "signed",
+                      "totalBudget": 85000,
+                      "amountReleased": 34000,
+                      "currentDraw": 2,
+                      "totalDraws": 4,
+                      "createdAt": "2026-02-01T10:00:00.000Z"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8543,7 +10834,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "RMA contracts.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "contractId": "rma_contract_001",
+                      "rmaId": "rma_001",
+                      "status": "signed",
+                      "documentUrl": "https://app.pandadoc.com/doc/abc123",
+                      "signedAt": "2026-02-15T14:00:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8563,7 +10870,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract session.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "sessionUrl": "https://app.pandadoc.com/editor/abc123",
+                    "expiresAt": "2026-04-15T19:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8604,25 +10922,52 @@
         ],
         "responses": {
           "200": {
-            "description": "Full RMA details.",
+            "description": "RMA details.",
             "content": {
               "application/json": {
                 "example": {
                   "status": "success",
                   "data": {
-                    "rmaId": "rma_abc123",
+                    "rmaId": "rma_001",
                     "dealId": "deal_xyz789",
                     "contractorId": "contr_abc123",
+                    "contractorName": "BuildCo LLC",
                     "status": "signed",
-                    "amountRequested": 85000,
+                    "totalBudget": 85000,
+                    "amountReleased": 34000,
+                    "amountRemaining": 51000,
+                    "currentDraw": 2,
+                    "totalDraws": 4,
                     "draws": [
                       {
                         "draw": 1,
-                        "amount": 25000,
+                        "amount": 17000,
                         "status": "released",
-                        "releasedAt": "2026-03-15T12:00:00Z"
+                        "releasedAt": "2026-03-01T10:00:00.000Z"
+                      },
+                      {
+                        "draw": 2,
+                        "amount": 17000,
+                        "status": "released",
+                        "releasedAt": "2026-04-01T10:00:00.000Z"
                       }
-                    ]
+                    ],
+                    "notes": [
+                      {
+                        "noteId": "note_001",
+                        "text": "First draw approved after framing inspection.",
+                        "createdAt": "2026-03-01T10:00:00.000Z"
+                      }
+                    ],
+                    "activityLogs": [
+                      {
+                        "action": "draw_released",
+                        "amount": 17000,
+                        "timestamp": "2026-04-01T10:00:00.000Z",
+                        "performedBy": "admin@revive.realty"
+                      }
+                    ],
+                    "createdAt": "2026-02-01T10:00:00.000Z"
                   }
                 }
               }
@@ -8709,7 +11054,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "RMA updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "rmaId": "rma_001",
+                    "status": "in_progress",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8750,7 +11107,36 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Activity logs.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "log_001",
+                      "action": "rma_created",
+                      "timestamp": "2026-02-01T10:00:00.000Z",
+                      "performedBy": "admin@revive.realty"
+                    },
+                    {
+                      "id": "log_002",
+                      "action": "contract_signed",
+                      "timestamp": "2026-02-15T14:00:00.000Z",
+                      "performedBy": "contractor@buildco.com"
+                    },
+                    {
+                      "id": "log_003",
+                      "action": "draw_released",
+                      "amount": 17000,
+                      "draw": 1,
+                      "timestamp": "2026-03-01T10:00:00.000Z",
+                      "performedBy": "admin@revive.realty"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8781,7 +11167,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractId": "rma_contract_001",
+                    "rmaId": "rma_001",
+                    "status": "draft",
+                    "documentUrl": "https://app.pandadoc.com/editor/abc123",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8820,7 +11220,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "RMA contract deleted for rma_001."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8851,7 +11259,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "PDF file binary."
           }
         },
         "parameters": [
@@ -8882,7 +11290,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Edit session.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "sessionUrl": "https://app.pandadoc.com/editor/abc123",
+                    "expiresAt": "2026-04-15T19:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8913,7 +11332,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract sent.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "RMA contract sent for signature.",
+                  "data": {
+                    "recipientCount": 2,
+                    "sentAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -8954,7 +11385,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Note added.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "noteId": "note_002",
+                    "rmaId": "rma_001",
+                    "text": "Contractor requested schedule extension — approved by PM.",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -9006,7 +11450,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "RMA notes.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "noteId": "note_001",
+                      "text": "First draw approved after framing inspection.",
+                      "createdBy": "admin@revive.realty",
+                      "createdAt": "2026-03-01T10:00:00.000Z"
+                    },
+                    {
+                      "noteId": "note_002",
+                      "text": "Contractor requested schedule extension — approved by PM.",
+                      "createdBy": "admin@revive.realty",
+                      "createdAt": "2026-04-15T18:00:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -9149,7 +11614,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Deduplication results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "totalImages": 156,
+                    "duplicatesFound": 12,
+                    "duplicatesRemoved": 12
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9174,7 +11651,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Market health data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "marketHealthIndex": 78,
+                    "medianHomeValue": 685000,
+                    "yearOverYearChange": 4.2,
+                    "inventoryLevel": "low",
+                    "daysOnMarket": 28,
+                    "zipCode": "90001"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9225,7 +11717,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Vision AI reports.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "vai_001",
+                      "address": "123 Main St, Los Angeles, CA",
+                      "conditionScore": 72,
+                      "estimatedValue": 725000,
+                      "status": "completed",
+                      "createdAt": "2026-03-01T10:00:00.000Z"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9243,7 +11753,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Vision AI report created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "vai_new123",
+                    "address": "123 Main St, Los Angeles, CA 90001",
+                    "status": "processing",
+                    "imageCount": 5,
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9323,7 +11847,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report finalized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "status": "completed",
+                    "photosSaved": 12
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9375,7 +11911,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report and user created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_new456",
+                    "contactId": "cont_new789",
+                    "reportUrl": "https://edge.revive.realty/neighborhood/rpt_new456"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9420,7 +11968,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Photos processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "photosProcessed": 8,
+                    "photosSaved": 8
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9472,7 +12032,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report finished.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "status": "completed"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9515,7 +12086,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Search results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "vai_001",
+                      "address": "123 Main St, Los Angeles, CA",
+                      "conditionScore": 72,
+                      "status": "completed",
+                      "createdAt": "2026-03-01T10:00:00.000Z"
+                    }
+                  ],
+                  "total": 1,
+                  "after": 1
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9561,7 +12150,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report upgraded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "version": "v2"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9604,7 +12204,62 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Vision AI report details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "vai_001",
+                    "address": "123 Main St, Los Angeles, CA 90001",
+                    "state": "CA",
+                    "conditionScore": 72,
+                    "conditionGrade": "C+",
+                    "estimatedValue": 725000,
+                    "estimatedAfterValue": 875000,
+                    "renovationBudget": 45000,
+                    "roi": 3.3,
+                    "timeline": 6,
+                    "rooms": [
+                      {
+                        "name": "Kitchen",
+                        "score": 65,
+                        "issues": [
+                          "Dated cabinets",
+                          "Worn countertops",
+                          "Old appliances"
+                        ]
+                      },
+                      {
+                        "name": "Master Bathroom",
+                        "score": 58,
+                        "issues": [
+                          "Cracked tile",
+                          "Outdated vanity",
+                          "Poor lighting"
+                        ]
+                      },
+                      {
+                        "name": "Exterior",
+                        "score": 78,
+                        "issues": [
+                          "Needs paint",
+                          "Landscaping overgrown"
+                        ]
+                      }
+                    ],
+                    "photos": [
+                      {
+                        "url": "https://storage.revive.realty/photos/kitchen.jpg",
+                        "room": "Kitchen",
+                        "score": 65
+                      }
+                    ],
+                    "createdAt": "2026-03-01T10:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -9628,7 +12283,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "vai_001",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -9667,7 +12333,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Vision AI report vai_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -9698,7 +12372,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report recalculated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "vai_001",
+                    "conditionScore": 74,
+                    "estimatedValue": 730000,
+                    "estimatedAfterValue": 890000,
+                    "timeline": 6,
+                    "recalculatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -9755,7 +12444,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Affiliate partner webhook processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9780,7 +12477,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "GVG webhook processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9805,7 +12510,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Company created in HubSpot.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "companyId": "comp_new123",
+                    "name": "Acme Realty"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9830,7 +12546,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Realtor invited.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Invitation sent to realtor."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9855,7 +12579,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Production webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "HubSpot production webhook processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9880,7 +12612,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Reminder sent.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Report reminder email sent."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -9916,7 +12656,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Team webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Revive team webhook processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9941,7 +12689,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Company updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "HubSpot company updated."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9966,7 +12722,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractor updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "HubSpot contractor updated."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9991,7 +12755,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Edge URL updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Realtor Edge URL updated in HubSpot."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -10016,7 +12788,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "PandaDoc linked objects webhook processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -10041,7 +12821,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "PandaDoc project scope webhook processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -10066,7 +12854,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Case study published.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "caseStudyId": "cs_new123",
+                    "address": "123 Main St, Los Angeles, CA",
+                    "profit": 75000,
+                    "publishedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -10125,7 +12926,41 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Comparable analysis.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "comparables": [
+                      {
+                        "address": "456 Oak Ave",
+                        "salePrice": 710000,
+                        "closeDate": "2026-03-01",
+                        "bedrooms": 3,
+                        "bathrooms": 2,
+                        "sqft": 1750,
+                        "yearBuilt": 1990,
+                        "distance": 0.4,
+                        "similarity": 0.92
+                      },
+                      {
+                        "address": "789 Elm St",
+                        "salePrice": 820000,
+                        "closeDate": "2026-01-20",
+                        "bedrooms": 4,
+                        "bathrooms": 3,
+                        "sqft": 2100,
+                        "yearBuilt": 1995,
+                        "distance": 0.6,
+                        "similarity": 0.85
+                      }
+                    ],
+                    "adjustedValue": 745000
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -10245,7 +13080,41 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Analysis report created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "analyze_new123",
+                    "address": "123 Main St, Los Angeles, CA 90001",
+                    "conditionScore": 72,
+                    "conditionGrade": "C+",
+                    "rooms": [
+                      {
+                        "name": "Kitchen",
+                        "score": 65,
+                        "recommendations": [
+                          "Replace countertops",
+                          "Refinish cabinets"
+                        ]
+                      },
+                      {
+                        "name": "Bathroom",
+                        "score": 58,
+                        "recommendations": [
+                          "Replace tile",
+                          "Update vanity"
+                        ]
+                      }
+                    ],
+                    "estimatedRenovationCost": 45000,
+                    "estimatedValueIncrease": 150000,
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -10337,7 +13206,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Feedback recorded.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Feedback recorded for analysis analyze_001."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -10396,7 +13273,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Photos analyzed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "photos": [
+                      {
+                        "url": "https://photos.example.com/kitchen.jpg",
+                        "room": "Kitchen",
+                        "conditionScore": 65,
+                        "features": [
+                          "dated_cabinets",
+                          "worn_countertops",
+                          "old_appliances"
+                        ]
+                      },
+                      {
+                        "url": "https://photos.example.com/living_room.jpg",
+                        "room": "Living Room",
+                        "conditionScore": 78,
+                        "features": [
+                          "good_flooring",
+                          "needs_paint"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -10446,7 +13353,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Reanalysis results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimatedValue": 730000,
+                    "estimatedAfterValue": 885000,
+                    "adjustedROI": 3.4,
+                    "comparablesUsed": 5
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -10511,7 +13431,43 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Renovation analysis.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "reno_001",
+                    "address": "123 Main St, Los Angeles, CA",
+                    "estimatedValue": 725000,
+                    "estimatedAfterValue": 875000,
+                    "renovationBudget": 45000,
+                    "roi": 3.3,
+                    "timeline": 6,
+                    "items": [
+                      {
+                        "category": "Kitchen",
+                        "scope": "Full remodel",
+                        "cost": 18000,
+                        "valueAdd": 55000
+                      },
+                      {
+                        "category": "Bathroom",
+                        "scope": "Master bath update",
+                        "cost": 12000,
+                        "valueAdd": 38000
+                      },
+                      {
+                        "category": "Exterior",
+                        "scope": "Paint and landscape",
+                        "cost": 15000,
+                        "valueAdd": 42000
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -10537,7 +13493,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "V2 comparable analysis.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "comparables": [
+                      {
+                        "address": "456 Oak Ave",
+                        "salePrice": 710000,
+                        "similarity": 0.92
+                      }
+                    ],
+                    "adjustedValue": 745000,
+                    "confidence": 0.88
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -10595,7 +13569,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Calendar created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "calendarId": "cal_new123",
+                    "name": "LA Team Calendar",
+                    "group": "west-coast",
+                    "url": "https://meetings.hubspot.com/la-team",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -10671,7 +13659,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Calendar details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "calendarId": "cal_001",
+                    "name": "LA Team Calendar",
+                    "group": "west-coast",
+                    "hubspotOwnerId": "owner_abc123",
+                    "url": "https://meetings.hubspot.com/la-team",
+                    "availableSlots": 24,
+                    "createdAt": "2026-01-01T10:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -10700,7 +13704,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Calendar updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "calendarId": "cal_001",
+                    "name": "LA Team Calendar - Updated",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -10739,7 +13755,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Calendar deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Calendar cal_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -10873,7 +13897,27 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Admin's opportunities.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "opportunityId": "opp_001",
+                      "address": "123 Main St, Los Angeles, CA",
+                      "dealType": "Presale",
+                      "stage": "Estimate Sent",
+                      "agentName": "Jane Smith",
+                      "estimatedValue": 725000,
+                      "renovationBudget": 45000,
+                      "createdAt": "2026-03-01T10:00:00.000Z"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -10904,7 +13948,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Opportunity updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "opportunityId": "opp_001",
+                    "stage": "Contract Signed",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11001,7 +14057,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Opportunity deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Opportunity opp_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11052,7 +14116,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact associated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contact cont_abc123 associated with opportunity opp_001."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11093,7 +14165,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact created and associated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contactId": "cont_new789",
+                    "opportunityId": "opp_001",
+                    "email": "newhomeowner@example.com"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11134,7 +14218,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact disassociated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Contact removed from opportunity opp_001."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11175,7 +14267,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Onsite visit for opportunity.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "visitId": "visit_001",
+                    "opportunityId": "opp_001",
+                    "scheduledAt": "2026-04-16T10:00:00.000Z",
+                    "status": "scheduled",
+                    "assignedTo": "Sarah Johnson"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11204,7 +14310,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Onsite visit created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "visitId": "visit_new123",
+                    "opportunityId": "opp_001",
+                    "scheduledAt": "2026-04-16T10:00:00.000Z",
+                    "status": "scheduled"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11299,7 +14418,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Payment intent created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "paymentIntentId": "pi_abc123",
+                    "type": "one-time",
+                    "amount": 45000,
+                    "currency": "usd",
+                    "status": "requires_payment_method",
+                    "clientSecret": "pi_abc123_secret_xyz"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11344,7 +14478,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Subscription removed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Subscription cancelled."
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11397,7 +14539,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Stripe webhook processed."
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -11422,7 +14572,36 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "HubSpot property definitions.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "name": "deal_type",
+                      "label": "Deal Type",
+                      "type": "enumeration",
+                      "options": [
+                        {
+                          "value": "Presale",
+                          "label": "Presale"
+                        },
+                        {
+                          "value": "RTS",
+                          "label": "Renovate to Stay"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "renovation_budget",
+                      "label": "Renovation Budget",
+                      "type": "number"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11448,7 +14627,34 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Property definition.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "name": "deal_type",
+                    "label": "Deal Type",
+                    "type": "enumeration",
+                    "description": "Type of Revive deal",
+                    "options": [
+                      {
+                        "value": "Presale",
+                        "label": "Presale"
+                      },
+                      {
+                        "value": "RTS",
+                        "label": "Renovate to Stay"
+                      },
+                      {
+                        "value": "Special Services",
+                        "label": "Special Services"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11483,7 +14689,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Referral created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "referralId": "ref_new123",
+                    "referralType": "agent",
+                    "clientSituation": "Homeowner looking to sell within 3 months.",
+                    "status": "pending",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11622,7 +14842,34 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "User list.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "uid": "user_001",
+                      "email": "admin@revive.realty",
+                      "firstname": "Sarah",
+                      "lastname": "Johnson",
+                      "role": "admin",
+                      "position": "Project Manager",
+                      "active": true
+                    },
+                    {
+                      "uid": "user_002",
+                      "email": "agent@realty.com",
+                      "firstname": "Jane",
+                      "lastname": "Smith",
+                      "role": "agent",
+                      "active": true
+                    }
+                  ],
+                  "total": 2
+                }
+              }
+            }
           }
         },
         "description": "`GET /v2/users/`\n\nReturns all platform users with optional filtering by role."
@@ -11637,7 +14884,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "HubSpot owners.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "hubspotOwnerId": "owner_001",
+                      "email": "sarah@revive.realty",
+                      "firstname": "Sarah",
+                      "lastname": "Johnson"
+                    },
+                    {
+                      "hubspotOwnerId": "owner_002",
+                      "email": "mike@revive.realty",
+                      "firstname": "Mike",
+                      "lastname": "Davis"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11702,7 +14970,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "User updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "uid": "user_001",
+                    "email": "admin@revive.realty",
+                    "firstname": "Sarah",
+                    "lastname": "Johnson",
+                    "position": "Senior PM",
+                    "updatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11741,7 +15024,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "User deleted.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "User user_001 deleted."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11772,7 +15063,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Vision AI report created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "vai_new123",
+                    "address": "123 Main St, Los Angeles, CA",
+                    "status": "processing",
+                    "imageCount": 5,
+                    "reportType": "standard",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11868,7 +15174,36 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Condition analysis.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "conditionScore": 72,
+                    "conditionGrade": "C+",
+                    "rooms": [
+                      {
+                        "name": "Kitchen",
+                        "score": 65,
+                        "features": [
+                          "dated_cabinets",
+                          "worn_countertops"
+                        ]
+                      },
+                      {
+                        "name": "Bathroom",
+                        "score": 58,
+                        "features": [
+                          "cracked_tile",
+                          "outdated_vanity"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11931,7 +15266,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Custom object updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "recordId": "rec_abc123",
+                    "requested_call": "yes",
+                    "request_contact_reason": "Interested in renovation estimate"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -11988,7 +15335,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Images retrieved.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "rpt_xyz789",
+                    "images": [
+                      {
+                        "url": "https://storage.revive.realty/photos/exterior.jpg",
+                        "room": "Exterior",
+                        "type": "original"
+                      },
+                      {
+                        "url": "https://storage.revive.realty/photos/kitchen.jpg",
+                        "room": "Kitchen",
+                        "type": "original"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -12031,7 +15400,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Note added.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Rejection note recorded for report rec_abc123."
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -12085,7 +15462,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Scraper job started.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "jobId": "scrape_001",
+                    "propertiesQueued": 150,
+                    "status": "processing"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -12131,7 +15520,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "CSV export.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "type": "completed",
+                    "downloadUrl": "https://storage.revive.realty/exports/scraper_completed_20260415.csv",
+                    "rowCount": 342
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -12174,7 +15575,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report generation started.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "jobId": "gen_001",
+                    "reportsQueued": 50,
+                    "status": "processing"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [

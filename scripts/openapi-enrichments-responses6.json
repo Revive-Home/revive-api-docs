@@ -1,0 +1,83 @@
+{
+  "GET /v1/rma/": {
+    "responses": { "200": { "description": "RMA list.", "example": { "status": "success", "data": [{ "rmaId": "rma_001", "dealId": "deal_xyz789", "contractorId": "contr_abc123", "status": "signed", "totalBudget": 85000, "amountReleased": 34000, "currentDraw": 2, "totalDraws": 4, "createdAt": "2026-02-01T10:00:00.000Z" }], "total": 1 } } }
+  },
+  "GET /v1/rma/contracts": {
+    "responses": { "200": { "description": "RMA contracts.", "example": { "status": "success", "data": [{ "contractId": "rma_contract_001", "rmaId": "rma_001", "status": "signed", "documentUrl": "https://app.pandadoc.com/doc/abc123", "signedAt": "2026-02-15T14:00:00.000Z" }] } } }
+  },
+  "POST /v1/rma/contracts/{contractId}/session": {
+    "responses": { "200": { "description": "Contract session.", "example": { "status": "success", "data": { "sessionUrl": "https://app.pandadoc.com/editor/abc123", "expiresAt": "2026-04-15T19:00:00.000Z" } } } }
+  },
+  "GET /v1/rma/{rmaId}": {
+    "responses": { "200": { "description": "RMA details.", "example": { "status": "success", "data": { "rmaId": "rma_001", "dealId": "deal_xyz789", "contractorId": "contr_abc123", "contractorName": "BuildCo LLC", "status": "signed", "totalBudget": 85000, "amountReleased": 34000, "amountRemaining": 51000, "currentDraw": 2, "totalDraws": 4, "draws": [{ "draw": 1, "amount": 17000, "status": "released", "releasedAt": "2026-03-01T10:00:00.000Z" }, { "draw": 2, "amount": 17000, "status": "released", "releasedAt": "2026-04-01T10:00:00.000Z" }], "notes": [{ "noteId": "note_001", "text": "First draw approved after framing inspection.", "createdAt": "2026-03-01T10:00:00.000Z" }], "activityLogs": [{ "action": "draw_released", "amount": 17000, "timestamp": "2026-04-01T10:00:00.000Z", "performedBy": "admin@revive.realty" }], "createdAt": "2026-02-01T10:00:00.000Z" } } } }
+  },
+  "PATCH /v1/rma/{rmaId}": {
+    "responses": { "200": { "description": "RMA updated.", "example": { "status": "success", "data": { "rmaId": "rma_001", "status": "in_progress", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/rma/{rmaId}/activity-logs": {
+    "responses": { "200": { "description": "Activity logs.", "example": { "status": "success", "data": [{ "id": "log_001", "action": "rma_created", "timestamp": "2026-02-01T10:00:00.000Z", "performedBy": "admin@revive.realty" }, { "id": "log_002", "action": "contract_signed", "timestamp": "2026-02-15T14:00:00.000Z", "performedBy": "contractor@buildco.com" }, { "id": "log_003", "action": "draw_released", "amount": 17000, "draw": 1, "timestamp": "2026-03-01T10:00:00.000Z", "performedBy": "admin@revive.realty" }] } } }
+  },
+  "POST /v1/rma/{rmaId}/contract": {
+    "responses": { "200": { "description": "Contract created.", "example": { "status": "success", "data": { "contractId": "rma_contract_001", "rmaId": "rma_001", "status": "draft", "documentUrl": "https://app.pandadoc.com/editor/abc123", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/rma/{rmaId}/contract": {
+    "responses": { "200": { "description": "Contract deleted.", "example": { "status": "success", "message": "RMA contract deleted for rma_001." } } }
+  },
+  "GET /v1/rma/{rmaId}/contract/download": {
+    "responses": { "200": { "description": "PDF file binary." } }
+  },
+  "GET /v1/rma/{rmaId}/contract/edit-session": {
+    "responses": { "200": { "description": "Edit session.", "example": { "status": "success", "data": { "sessionUrl": "https://app.pandadoc.com/editor/abc123", "expiresAt": "2026-04-15T19:00:00.000Z" } } } }
+  },
+  "POST /v1/rma/{rmaId}/contract/send": {
+    "responses": { "200": { "description": "Contract sent.", "example": { "status": "success", "message": "RMA contract sent for signature.", "data": { "recipientCount": 2, "sentAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/rma/{rmaId}/notes": {
+    "responses": { "200": { "description": "Note added.", "example": { "status": "success", "data": { "noteId": "note_002", "rmaId": "rma_001", "text": "Contractor requested schedule extension — approved by PM.", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/rma/{rmaId}/notes": {
+    "responses": { "200": { "description": "RMA notes.", "example": { "status": "success", "data": [{ "noteId": "note_001", "text": "First draw approved after framing inspection.", "createdBy": "admin@revive.realty", "createdAt": "2026-03-01T10:00:00.000Z" }, { "noteId": "note_002", "text": "Contractor requested schedule extension — approved by PM.", "createdBy": "admin@revive.realty", "createdAt": "2026-04-15T18:00:00.000Z" }] } } }
+  },
+  "POST /v1/utility/deduplicate-images": {
+    "responses": { "200": { "description": "Deduplication results.", "example": { "status": "success", "data": { "totalImages": 156, "duplicatesFound": 12, "duplicatesRemoved": 12 } } } }
+  },
+  "POST /v1/utility/house-canary/market-health": {
+    "responses": { "200": { "description": "Market health data.", "example": { "status": "success", "data": { "marketHealthIndex": 78, "medianHomeValue": 685000, "yearOverYearChange": 4.2, "inventoryLevel": "low", "daysOnMarket": 28, "zipCode": "90001" } } } }
+  },
+  "GET /v1/vision-ai/": {
+    "responses": { "200": { "description": "Vision AI reports.", "example": { "status": "success", "data": [{ "id": "vai_001", "address": "123 Main St, Los Angeles, CA", "conditionScore": 72, "estimatedValue": 725000, "status": "completed", "createdAt": "2026-03-01T10:00:00.000Z" }], "total": 1 } } }
+  },
+  "POST /v1/vision-ai/": {
+    "responses": { "200": { "description": "Vision AI report created.", "example": { "status": "success", "data": { "id": "vai_new123", "address": "123 Main St, Los Angeles, CA 90001", "status": "processing", "imageCount": 5, "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/vision-ai/finish-neighborhood-report": {
+    "responses": { "200": { "description": "Report finalized.", "example": { "status": "success", "data": { "reportId": "rpt_xyz789", "status": "completed", "photosSaved": 12 } } } }
+  },
+  "POST /v1/vision-ai/neighbor-report-and-register": {
+    "responses": { "200": { "description": "Report and user created.", "example": { "status": "success", "data": { "reportId": "rpt_new456", "contactId": "cont_new789", "reportUrl": "https://edge.revive.realty/neighborhood/rpt_new456" } } } }
+  },
+  "POST /v1/vision-ai/neighbor-report-photos": {
+    "responses": { "200": { "description": "Photos processed.", "example": { "status": "success", "data": { "reportId": "rpt_xyz789", "photosProcessed": 8, "photosSaved": 8 } } } }
+  },
+  "POST /v1/vision-ai/neighbor-report-with-photos-finish": {
+    "responses": { "200": { "description": "Report finished.", "example": { "status": "success", "data": { "reportId": "rpt_xyz789", "status": "completed" } } } }
+  },
+  "POST /v1/vision-ai/search": {
+    "responses": { "200": { "description": "Search results.", "example": { "status": "success", "data": [{ "id": "vai_001", "address": "123 Main St, Los Angeles, CA", "conditionScore": 72, "status": "completed", "createdAt": "2026-03-01T10:00:00.000Z" }], "total": 1, "after": 1 } } }
+  },
+  "POST /v1/vision-ai/upgrade-to-v2": {
+    "responses": { "200": { "description": "Report upgraded.", "example": { "status": "success", "data": { "reportId": "rpt_xyz789", "version": "v2" } } } }
+  },
+  "GET /v1/vision-ai/{id}": {
+    "responses": { "200": { "description": "Vision AI report details.", "example": { "status": "success", "data": { "id": "vai_001", "address": "123 Main St, Los Angeles, CA 90001", "state": "CA", "conditionScore": 72, "conditionGrade": "C+", "estimatedValue": 725000, "estimatedAfterValue": 875000, "renovationBudget": 45000, "roi": 3.3, "timeline": 6, "rooms": [{ "name": "Kitchen", "score": 65, "issues": ["Dated cabinets", "Worn countertops", "Old appliances"] }, { "name": "Master Bathroom", "score": 58, "issues": ["Cracked tile", "Outdated vanity", "Poor lighting"] }, { "name": "Exterior", "score": 78, "issues": ["Needs paint", "Landscaping overgrown"] }], "photos": [{ "url": "https://storage.revive.realty/photos/kitchen.jpg", "room": "Kitchen", "score": 65 }], "createdAt": "2026-03-01T10:00:00.000Z" } } } }
+  },
+  "PATCH /v1/vision-ai/{id}": {
+    "responses": { "200": { "description": "Report updated.", "example": { "status": "success", "data": { "id": "vai_001", "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/vision-ai/{id}": {
+    "responses": { "200": { "description": "Report deleted.", "example": { "status": "success", "message": "Vision AI report vai_001 deleted." } } }
+  },
+  "POST /v1/vision-ai/{id}/recalculate": {
+    "responses": { "200": { "description": "Report recalculated.", "example": { "status": "success", "data": { "id": "vai_001", "conditionScore": 74, "estimatedValue": 730000, "estimatedAfterValue": 890000, "timeline": 6, "recalculatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  }
+}

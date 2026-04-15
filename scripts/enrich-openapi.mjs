@@ -33,7 +33,7 @@ const enrichments = JSON.parse(fs.readFileSync(path.join(scriptsDir, 'openapi-en
 // Load all path enrichment files and merge into a single paths object
 const allPaths = { ...enrichments.paths };
 const pathFiles = fs.readdirSync(scriptsDir)
-  .filter((f) => f.startsWith('openapi-enrichments-paths') && f.endsWith('.json'))
+  .filter((f) => (f.startsWith('openapi-enrichments-paths') || f.startsWith('openapi-enrichments-responses')) && f.endsWith('.json'))
   .sort();
 
 for (const file of pathFiles) {

@@ -1,0 +1,98 @@
+{
+  "GET /health": {
+    "responses": { "200": { "description": "API is healthy.", "example": { "status": "ok", "version": "2.152.0", "uptime": 86400 } } }
+  },
+  "GET /v1/app-config/feature-flags/{app}": {
+    "responses": { "200": { "description": "Feature flag configuration for the platform.", "example": { "status": "success", "data": { "enableNewEstimateFlow": true, "enableAIPhotoAnalysis": true, "enableRTSContracts": false, "maintenanceMode": false } } } }
+  },
+  "POST /v1/app-config/feature-flags/{app}": {
+    "responses": { "200": { "description": "Feature flags created.", "example": { "status": "success", "message": "Feature flags created for dashboard." } } }
+  },
+  "PATCH /v1/app-config/feature-flags/{app}": {
+    "responses": { "200": { "description": "Feature flags updated.", "example": { "status": "success", "message": "Feature flags updated." } } }
+  },
+  "PUT /v1/app-config/feature-flags/{app}": {
+    "responses": { "200": { "description": "Feature flags replaced.", "example": { "status": "success", "message": "Feature flags replaced for dashboard." } } }
+  },
+  "POST /v1/auth/login": {
+    "responses": { "200": { "description": "Authenticated session.", "example": { "status": "success", "data": { "uid": "user_abc123", "email": "agent@revive.realty", "role": "agent", "firstname": "Sarah", "lastname": "Johnson", "token": "eyJhbGciOiJSUzI1NiIs...", "companyId": "comp_abc123" } } } }
+  },
+  "POST /v1/auth/register": {
+    "responses": { "200": { "description": "User registered.", "example": { "status": "success", "data": { "uid": "user_new123", "email": "newuser@example.com", "role": "agent", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/avm/": {
+    "responses": { "200": { "description": "Automated valuation result.", "example": { "status": "success", "data": { "estimatedValue": 725000, "confidenceScore": 0.87, "lowEstimate": 685000, "highEstimate": 765000, "comparablesUsed": 6, "valuationDate": "2026-04-15" } } } }
+  },
+  "GET /v1/broadcast/": {
+    "responses": { "200": { "description": "List of broadcasts.", "example": { "status": "success", "data": [{ "id": "bcast_001", "title": "Q2 Market Update", "channel": "email", "status": "sent", "recipientCount": 245, "sentAt": "2026-04-10T14:00:00.000Z" }, { "id": "bcast_002", "title": "New Feature Announcement", "channel": "push", "status": "draft", "recipientCount": 0, "sentAt": null }] } } }
+  },
+  "POST /v1/broadcast/create": {
+    "responses": { "200": { "description": "Broadcast created.", "example": { "status": "success", "data": { "id": "bcast_003", "title": "Q2 Market Update", "channel": "email", "status": "draft", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/broadcast/read/{id}": {
+    "responses": { "200": { "description": "Broadcast details.", "example": { "status": "success", "data": { "id": "bcast_001", "title": "Q2 Market Update", "message": "Check out the latest renovation trends in your area.", "channel": "email", "status": "sent", "recipientCount": 245, "deliveredCount": 238, "openedCount": 142, "sentAt": "2026-04-10T14:00:00.000Z" } } } }
+  },
+  "PATCH /v1/broadcast/{id}": {
+    "responses": { "200": { "description": "Broadcast updated.", "example": { "status": "success", "data": { "id": "bcast_002", "title": "Updated Q2 Market Report", "status": "draft" } } } }
+  },
+  "DELETE /v1/broadcast/{id}": {
+    "responses": { "200": { "description": "Broadcast deleted.", "example": { "status": "success", "message": "Broadcast bcast_002 deleted." } } }
+  },
+  "POST /v1/brokerages/associate/{companyId}": {
+    "responses": { "200": { "description": "Brokerage associated.", "example": { "status": "success", "message": "Brokerage linked to company comp_abc123." } } }
+  },
+  "POST /v1/brokerages/get-associate": {
+    "responses": { "200": { "description": "Brokerage association.", "example": { "status": "success", "data": { "brokerageId": "brok_abc123", "companyId": "comp_abc123", "name": "Keller Williams Realty", "state": "CA" } } } }
+  },
+  "GET /v1/brokerages/public": {
+    "responses": { "200": { "description": "Public brokerage list.", "example": { "status": "success", "data": [{ "companyId": "comp_abc123", "name": "Keller Williams Realty", "state": "CA", "city": "Los Angeles", "agentCount": 42 }, { "companyId": "comp_def456", "name": "Compass Real Estate", "state": "CA", "city": "San Francisco", "agentCount": 28 }] } } }
+  },
+  "POST /v1/brokerages/search": {
+    "responses": { "200": { "description": "Search results.", "example": { "status": "success", "data": [{ "companyId": "comp_abc123", "name": "Keller Williams Realty", "state": "CA", "city": "Los Angeles" }], "total": 1 } } }
+  },
+  "PATCH /v1/brokerages/{companyId}": {
+    "responses": { "200": { "description": "Brokerage updated.", "example": { "status": "success", "data": { "companyId": "comp_abc123", "name": "Keller Williams Realty - Updated", "state": "CA", "city": "San Francisco" } } } }
+  },
+  "GET /v1/brokerages/{companyId}": {
+    "responses": { "200": { "description": "Brokerage details.", "example": { "status": "success", "data": { "companyId": "comp_abc123", "name": "Keller Williams Realty", "state": "CA", "city": "Los Angeles", "phone": "+15551234567", "agentCount": 42, "activeDealCount": 15 } } } }
+  },
+  "POST /v1/case-studies/search": {
+    "responses": { "200": { "description": "Case study results.", "example": { "status": "success", "data": [{ "id": "cs_001", "address": "123 Main St, Los Angeles, CA", "dealType": "Presale", "renovationCost": 45000, "listPriceIncrease": 120000, "profit": 75000, "completedAt": "2026-01-15" }], "total": 1 } } }
+  },
+  "GET /v1/contacts/dashboard": {
+    "responses": { "200": { "description": "Contact dashboard metrics.", "example": { "status": "success", "data": { "totalContacts": 1284, "newThisMonth": 47, "activeDeals": 23, "pendingInvites": 8, "byType": { "homeowner": 856, "agent": 312, "contractor": 116 } } } } }
+  },
+  "POST /v1/contacts/": {
+    "responses": { "200": { "description": "Contact created.", "example": { "status": "success", "data": { "contactId": "cont_new123", "email": "homeowner@example.com", "firstname": "John", "lastname": "Doe", "phone": "+15551234567", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/contacts/edge-view": {
+    "responses": { "200": { "description": "Edge view link generated.", "example": { "status": "success", "data": { "url": "https://edge.revive.realty/view/abc123", "expiresAt": "2026-05-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/contacts/invite": {
+    "responses": { "200": { "description": "Invitation sent.", "example": { "status": "success", "message": "Invitation sent to homeowner@example.com." } } }
+  },
+  "POST /v1/contacts/merge": {
+    "responses": { "200": { "description": "Contacts merged.", "example": { "status": "success", "data": { "mergedContactId": "cont_abc123", "removedContactId": "cont_def456", "dealsTransferred": 2 } } } }
+  },
+  "POST /v1/contacts/remove-from-deal": {
+    "responses": { "200": { "description": "Contact removed from deal.", "example": { "status": "success", "message": "Contact cont_abc123 removed from deal deal_xyz789." } } }
+  },
+  "POST /v1/contacts/search": {
+    "responses": { "200": { "description": "Contact search results.", "example": { "status": "success", "data": [{ "contactId": "cont_abc123", "email": "john@example.com", "firstname": "John", "lastname": "Doe", "phone": "+15551234567", "type": "homeowner" }], "total": 1 } } }
+  },
+  "PATCH /v1/contacts/{contactId}": {
+    "responses": { "200": { "description": "Contact updated.", "example": { "status": "success", "data": { "contactId": "cont_abc123", "email": "john.updated@example.com", "firstname": "John", "lastname": "Doe", "phone": "+15559876543" } } } }
+  },
+  "DELETE /v1/contacts/{contactId}": {
+    "responses": { "200": { "description": "Contact deleted.", "example": { "status": "success", "message": "Contact cont_abc123 deleted." } } }
+  },
+  "GET /v1/contacts/{contactId}/edge-view": {
+    "responses": { "200": { "description": "Edge view data.", "example": { "status": "success", "data": { "contactId": "cont_abc123", "reportUrl": "https://edge.revive.realty/view/abc123", "opportunities": [{ "id": "opp_001", "address": "123 Main St", "status": "active" }] } } } }
+  },
+  "GET /v1/contacts/{contactId}/homes": {
+    "responses": { "200": { "description": "Contact's homes.", "example": { "status": "success", "data": [{ "dealId": "deal_xyz789", "address": "123 Main St, Los Angeles, CA 90001", "status": "in_renovation", "estimatedValue": 725000 }] } } }
+  },
+  "GET /v1/contacts/{contactId}/referrals": {
+    "responses": { "200": { "description": "Contact's referrals.", "example": { "status": "success", "data": [{ "referralId": "ref_001", "referralType": "agent", "clientEmail": "jane@example.com", "status": "pending", "createdAt": "2026-03-01T10:00:00.000Z" }] } } }
+  }
+}

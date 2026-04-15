@@ -1,0 +1,125 @@
+{
+  "POST /v1/contractors/": {
+    "responses": { "200": { "description": "Contractor created.", "example": { "status": "success", "data": { "contractorId": "contr_new123", "firstname": "Mike", "lastname": "Builder", "email": "mike@buildco.com", "company": "BuildCo LLC", "phone": "+15559876543", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "PATCH /v1/contractors/": {
+    "responses": { "200": { "description": "Contractors updated.", "example": { "status": "success", "message": "Contractor contr_abc123 updated." } } }
+  },
+  "GET /v1/contractors/": {
+    "responses": { "200": { "description": "Contractor list.", "example": { "status": "success", "data": [{ "contractorId": "contr_abc123", "firstname": "Mike", "lastname": "Builder", "email": "mike@buildco.com", "company": "BuildCo LLC", "phone": "+15559876543", "state": "CA", "specialties": ["kitchen", "bathroom", "flooring"], "rating": 4.8, "activeProjects": 3 }], "total": 1 } } }
+  },
+  "POST /v1/contractors/associate/{companyId}": {
+    "responses": { "200": { "description": "Contractor associated.", "example": { "status": "success", "message": "Contractor linked to company comp_abc123." } } }
+  },
+  "POST /v1/contractors/atlist": {
+    "responses": { "200": { "description": "Available contractors.", "example": { "status": "success", "data": [{ "contractorId": "contr_abc123", "company": "BuildCo LLC", "specialties": ["kitchen", "bathroom"], "rating": 4.8, "availability": "available", "distance": 12.5 }, { "contractorId": "contr_def456", "company": "RenovatePro", "specialties": ["kitchen", "flooring"], "rating": 4.5, "availability": "available", "distance": 18.3 }] } } }
+  },
+  "POST /v1/contractors/get-association": {
+    "responses": { "200": { "description": "Contractor association.", "example": { "status": "success", "data": { "contractorId": "contr_abc123", "companyId": "comp_abc123", "company": "BuildCo LLC" } } } }
+  },
+  "POST /v1/contractors/import": {
+    "responses": { "200": { "description": "Import results.", "example": { "status": "success", "data": { "imported": 15, "skipped": 2, "errors": [{ "row": 8, "reason": "Duplicate email: mike@buildco.com" }] } } } }
+  },
+  "GET /v1/contractors/opportunity/{opportunityId}": {
+    "responses": { "200": { "description": "Assigned contractor.", "example": { "status": "success", "data": { "contractorId": "contr_abc123", "company": "BuildCo LLC", "contact": "Mike Builder", "phone": "+15559876543", "assignedAt": "2026-03-15T10:00:00.000Z" } } } }
+  },
+  "POST /v1/contractors/search": {
+    "responses": { "200": { "description": "Contractor search results.", "example": { "status": "success", "data": [{ "contractorId": "contr_abc123", "company": "BuildCo LLC", "state": "CA", "city": "Los Angeles", "specialties": ["kitchen", "bathroom"] }], "total": 1 } } }
+  },
+  "GET /v1/contractors/{contractorId}": {
+    "responses": { "200": { "description": "Contractor details.", "example": { "status": "success", "data": { "contractorId": "contr_abc123", "firstname": "Mike", "lastname": "Builder", "email": "mike@buildco.com", "company": "BuildCo LLC", "phone": "+15559876543", "state": "CA", "city": "Los Angeles", "specialties": ["kitchen", "bathroom", "flooring"], "rating": 4.8, "activeProjects": 3, "completedProjects": 47, "files": { "license": "https://storage.revive.realty/files/license_abc.pdf", "insurance": "https://storage.revive.realty/files/insurance_abc.pdf", "w9": null } } } } }
+  },
+  "PATCH /v1/contractors/{contractorId}": {
+    "responses": { "200": { "description": "Contractor updated.", "example": { "status": "success", "data": { "contractorId": "contr_abc123", "company": "BuildCo LLC - Updated", "phone": "+15559876543" } } } }
+  },
+  "POST /v1/contractors/{contractorId}/files": {
+    "responses": { "200": { "description": "File uploaded.", "example": { "status": "success", "data": { "fileType": "license", "url": "https://storage.revive.realty/files/license_abc.pdf", "uploadedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/contractors/{contractorId}/files/{type}": {
+    "responses": { "200": { "description": "File deleted.", "example": { "status": "success", "message": "File type 'license' deleted from contractor contr_abc123." } } }
+  },
+  "PATCH /v1/contractors/{contractorId}/set-primary-contact": {
+    "responses": { "200": { "description": "Primary contact set.", "example": { "status": "success", "message": "Primary contact updated for contractor contr_abc123." } } }
+  },
+  "POST /v1/contracts/": {
+    "responses": { "200": { "description": "Contract created.", "example": { "status": "success", "data": { "contractId": "contract_new123", "opportunityId": "opp_abc123", "status": "draft", "homeowners": [{ "email": "homeowner@example.com", "firstname": "John", "lastname": "Doe" }], "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/contracts/download/{contractId}": {
+    "responses": { "200": { "description": "PDF file binary." } }
+  },
+  "GET /v1/contracts/edit-session/{contractId}": {
+    "responses": { "200": { "description": "Edit session URL.", "example": { "status": "success", "data": { "sessionUrl": "https://app.pandadoc.com/editor/abc123", "expiresAt": "2026-04-15T19:00:00.000Z" } } } }
+  },
+  "GET /v1/contracts/send-for-signature/{contractId}": {
+    "responses": { "200": { "description": "Contract sent.", "example": { "status": "success", "message": "Contract contract_abc123 sent for signature.", "data": { "recipientCount": 2, "sentAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "GET /v1/contracts/session/{contractId}": {
+    "responses": { "200": { "description": "Contract session.", "example": { "status": "success", "data": { "contractId": "contract_abc123", "sessionType": "signing", "status": "waiting_for_signatures", "signers": [{ "email": "homeowner@example.com", "signed": false }, { "email": "agent@realty.com", "signed": true }] } } } }
+  },
+  "GET /v1/contracts/signing-links/{documentId}": {
+    "responses": { "200": { "description": "Signing URLs.", "example": { "status": "success", "data": [{ "recipientEmail": "homeowner@example.com", "signingUrl": "https://app.pandadoc.com/s/abc123", "expiresAt": "2026-04-22T18:00:00.000Z" }, { "recipientEmail": "agent@realty.com", "signingUrl": "https://app.pandadoc.com/s/def456", "expiresAt": "2026-04-22T18:00:00.000Z" }] } } }
+  },
+  "POST /v1/contracts/webhook/complete": {
+    "responses": { "200": { "description": "Webhook processed.", "example": { "status": "success", "message": "Contract completion processed." } } }
+  },
+  "DELETE /v1/contracts/{contractId}": {
+    "responses": { "200": { "description": "Contract deleted.", "example": { "status": "success", "message": "Contract contract_abc123 deleted." } } }
+  },
+  "POST /v1/esignatures/{dealId}": {
+    "responses": { "200": { "description": "E-signature document created.", "example": { "status": "success", "data": { "documentId": "doc_abc123", "dealId": "deal_xyz789", "status": "draft", "signingUrl": "https://app.pandadoc.com/s/abc123", "createdAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/estimates/": {
+    "responses": { "200": { "description": "Estimates list.", "example": { "status": "success", "data": [{ "estimateId": "est_001", "dealId": "deal_xyz789", "status": "draft", "total": 45000, "itemCount": 12, "createdAt": "2026-04-01T10:00:00.000Z" }], "total": 1 } } }
+  },
+  "GET /v1/estimates/approve/{estimateId}": {
+    "responses": { "200": { "description": "Estimate approved.", "example": { "status": "success", "data": { "estimateId": "est_001", "status": "approved", "approvedAt": "2026-04-15T18:00:00.000Z", "approvedBy": "homeowner@example.com" } } } }
+  },
+  "POST /v1/estimates/complete/{estimateId}": {
+    "responses": { "200": { "description": "Estimate completed.", "example": { "status": "success", "data": { "estimateId": "est_001", "status": "completed", "documentId": "doc_abc123", "total": 45000 } } } }
+  },
+  "PATCH /v1/estimates/create-document/{estimateId}": {
+    "responses": { "200": { "description": "Document generated.", "example": { "status": "success", "data": { "estimateId": "est_001", "documentId": "doc_abc123", "documentUrl": "https://app.pandadoc.com/editor/abc123" } } } }
+  },
+  "PATCH /v1/estimates/delete-contract/{estimateId}": {
+    "responses": { "200": { "description": "Contract removed.", "example": { "status": "success", "message": "Contract removed from estimate est_001." } } }
+  },
+  "POST /v1/estimates/duplicate": {
+    "responses": { "200": { "description": "Estimate duplicated.", "example": { "status": "success", "data": { "estimateId": "est_002", "sourceEstimateId": "est_001", "status": "draft", "total": 45000, "itemCount": 12 } } } }
+  },
+  "POST /v1/estimates/generation": {
+    "responses": { "200": { "description": "Estimate generated.", "example": { "status": "success", "data": { "estimateId": "est_003", "opportunityId": "opp_abc123", "status": "draft", "total": 52000, "itemCount": 15, "generatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/estimates/migrate-products": {
+    "responses": { "200": { "description": "Migration results.", "example": { "status": "success", "data": { "migrated": 24, "skipped": 3, "dryRun": true } } } }
+  },
+  "PATCH /v1/estimates/reset/{estimateId}": {
+    "responses": { "200": { "description": "Estimate reset.", "example": { "status": "success", "data": { "estimateId": "est_001", "status": "draft" } } } }
+  },
+  "PATCH /v1/estimates/save/{estimateId}": {
+    "responses": { "200": { "description": "Estimate saved.", "example": { "status": "success", "data": { "estimateId": "est_001", "total": 47500, "itemCount": 13, "savedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/estimates/search": {
+    "responses": { "200": { "description": "Estimate search results.", "example": { "status": "success", "data": [{ "estimateId": "est_001", "dealId": "deal_xyz789", "status": "draft", "total": 45000, "createdAt": "2026-04-01T10:00:00.000Z" }], "total": 1 } } }
+  },
+  "PATCH /v1/estimates/send-for-signature/{estimateId}": {
+    "responses": { "200": { "description": "Estimate sent for signing.", "example": { "status": "success", "data": { "estimateId": "est_001", "status": "pending_signature", "sentAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "POST /v1/estimates/sort-custom-products": {
+    "responses": { "200": { "description": "Products reordered.", "example": { "status": "success", "message": "Custom products reordered." } } }
+  },
+  "POST /v1/estimates/sort-products": {
+    "responses": { "200": { "description": "Products reordered.", "example": { "status": "success", "message": "Products reordered." } } }
+  },
+  "PATCH /v1/estimates/{estimateId}": {
+    "responses": { "200": { "description": "Estimate updated.", "example": { "status": "success", "data": { "estimateId": "est_001", "status": "draft", "total": 48000, "updatedAt": "2026-04-15T18:00:00.000Z" } } } }
+  },
+  "DELETE /v1/estimates/{estimateId}": {
+    "responses": { "200": { "description": "Estimate deleted.", "example": { "status": "success", "message": "Estimate est_001 deleted." } } }
+  },
+  "GET /v1/estimates/{estimateId}/proposal": {
+    "responses": { "200": { "description": "Estimate proposal view.", "example": { "status": "success", "data": { "estimateId": "est_001", "dealId": "deal_xyz789", "address": "123 Main St, Los Angeles, CA", "total": 45000, "categories": [{ "name": "Kitchen", "items": [{ "title": "Cabinet Refinishing", "price": 8500 }, { "title": "Countertop Replacement", "price": 6200 }], "subtotal": 14700 }, { "name": "Bathroom", "items": [{ "title": "Tile Replacement", "price": 4800 }], "subtotal": 4800 }], "homeowners": [{ "firstname": "John", "lastname": "Doe", "email": "homeowner@example.com" }] } } } }
+  },
+  "DELETE /v1/estimates/{estimateId}/{uid}": {
+    "responses": { "200": { "description": "User removed from estimate.", "example": { "status": "success", "message": "User removed from estimate est_001." } } }
+  }
+}
