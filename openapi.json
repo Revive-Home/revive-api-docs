@@ -76,7 +76,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Email updated successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Admin email updated"
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -87,7 +95,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Firebase UID of the admin user."
+            "description": "Firebase UID of the admin user (e.g., 'abc123def456')."
           }
         ],
         "security": [
@@ -106,6 +114,9 @@
                     "type": "string"
                   }
                 }
+              },
+              "example": {
+                "newEmail": "newemail@revive.realty"
               }
             }
           }
@@ -122,7 +133,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Profile updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Admin profile updated"
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -161,11 +180,17 @@
                     "type": "string"
                   }
                 }
+              },
+              "example": {
+                "email": "admin@revive.realty",
+                "lastname": "Johnson",
+                "phone": "+15551234567",
+                "position": "Senior PM"
               }
             }
           }
         },
-        "description": "Updates profile fields (email, last name, phone, position) for an admin user."
+        "description": "Updates profile fields for an admin user. All fields are optional — only included fields are updated."
       }
     },
     "/v1/agents/get-opportunities": {
@@ -177,7 +202,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "List of matching opportunities.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "id": "987654321",
+                      "dealname": "123 Main St Renovation",
+                      "dealtype": "Presale",
+                      "stage": "In Progress",
+                      "amount": 85000,
+                      "contact": {
+                        "firstname": "John",
+                        "lastname": "Doe",
+                        "email": "john@example.com"
+                      }
+                    }
+                  ],
+                  "hasMore": false
+                }
+              }
+            }
           }
         },
         "security": [
@@ -194,7 +241,7 @@
                 "properties": {
                   "agentId": {
                     "type": "string",
-                    "description": "The unique identifier for the agent."
+                    "description": "HubSpot contact ID for the agent."
                   },
                   "after": {
                     "type": "string",
@@ -202,25 +249,32 @@
                   },
                   "dealType": {
                     "type": "string",
-                    "description": "Filter by deal type (e.g., 'Presale', 'RTS', 'Special Services')."
+                    "description": "Filter: 'Presale', 'RTS' (Renovate to Stay), or 'Special Services'."
                   },
                   "isLost": {
                     "type": "boolean",
-                    "description": "When true, only return lost/closed opportunities."
+                    "description": "When true, returns only lost/closed opportunities. Defaults to false."
                   },
                   "startDate": {
                     "type": "number",
-                    "description": "Unix timestamp — only return opportunities created on or after this date."
+                    "description": "Unix timestamp (ms) — only return opportunities created on or after this date."
                   },
                   "separateByDealType": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "When true, groups results by deal type."
                   }
                 }
+              },
+              "example": {
+                "agentId": "12345678",
+                "dealType": "Presale",
+                "isLost": false,
+                "startDate": 1704067200000
               }
             }
           }
         },
-        "description": "Retrieves deal opportunities associated with a specific agent. Supports filtering by deal type, date range, and status."
+        "description": "Retrieves deal opportunities for a specific agent. Supports pagination, filtering by deal type, date range, and status."
       }
     },
     "/v1/agents/search": {
@@ -232,7 +286,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Matching agents.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "agentId": "12345678",
+                      "firstname": "Jane",
+                      "lastname": "Smith",
+                      "email": "jane@realty.com",
+                      "brokerage": "Keller Williams"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -248,29 +318,51 @@
                 "type": "object",
                 "properties": {
                   "limit": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Max results to return. Defaults to 25."
                   },
                   "search": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Query string — matches agent name, email, or brokerage."
                   }
                 }
+              },
+              "example": {
+                "search": "jane smith",
+                "limit": 10
               }
             }
           }
         },
-        "description": "Search for agents by name, email, or other criteria. Returns a paginated list of matching agent records."
+        "description": "Search for agents by name, email, or other criteria. Returns a paginated list."
       }
     },
     "/v1/agents/{agentId}": {
       "get": {
         "operationId": "get_v1_agents_agentId_",
-        "summary": "v1/agents/{agentId}",
+        "summary": "Get agent by ID",
         "tags": [
           "Agents"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Agent profile.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "agentId": "12345678",
+                    "firstname": "Jane",
+                    "lastname": "Smith",
+                    "email": "jane@realty.com",
+                    "phone": "+15551234567",
+                    "brokerage": "Keller Williams",
+                    "state": "CA"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -280,26 +372,40 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot contact ID for the agent."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a single agent record by their unique agent ID."
       }
     },
     "/v1/app-config/feature-flags/{app}": {
       "get": {
         "operationId": "get_v1_app_config_feature_flags_app_",
-        "summary": "v1/app-config/feature-flags/{app}",
+        "summary": "Get feature flags",
         "tags": [
           "AppConfigs"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Feature flag configuration.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "flags": {
+                    "enableNewEstimateFlow": true,
+                    "enableAIPhotoAnalysis": true,
+                    "enableRTSContracts": false
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -309,7 +415,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Platform identifier: 'dashboard', 'admin', or 'mobile'."
           }
         ],
         "requestBody": {
@@ -329,7 +436,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Returns all active feature flags for the specified application platform."
       },
       "post": {
         "operationId": "post_v1_app_config_feature_flags_app_",
@@ -445,7 +553,33 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Authentication successful.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "user": {
+                    "uid": "abc123def456",
+                    "email": "user@example.com",
+                    "role": "admin",
+                    "firstname": "Jane",
+                    "lastname": "Smith"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or expired Firebase token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Invalid authentication token",
+                  "code": 401
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -466,7 +600,7 @@
             }
           }
         },
-        "description": "Authenticates a user with Firebase credentials and returns session information. This is the primary entry point for all authenticated API access."
+        "description": "Authenticates a user with Firebase credentials and returns session information including user role and profile."
       }
     },
     "/v1/auth/register": {
@@ -725,13 +859,25 @@
     "/v1/brokerages/": {
       "post": {
         "operationId": "post_v1_brokerages_",
-        "summary": "v1/brokerages/",
+        "summary": "Create brokerage",
         "tags": [
           "Brokerages"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Brokerage created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "brok_abc123",
+                    "name": "Keller Williams Realty",
+                    "state": "CA"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -776,10 +922,16 @@
                   "zip",
                   "id"
                 ]
+              },
+              "example": {
+                "name": "Keller Williams Realty",
+                "state": "CA",
+                "city": "Los Angeles"
               }
             }
           }
-        }
+        },
+        "description": "Creates a new real estate brokerage record."
       }
     },
     "/v1/brokerages/associate/{companyId}": {
@@ -909,7 +1061,7 @@
     "/v1/brokerages/search": {
       "post": {
         "operationId": "post_v1_brokerages_search",
-        "summary": "v1/brokerages/search",
+        "summary": "Search brokerages",
         "tags": [
           "Brokerages"
         ],
@@ -940,7 +1092,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Searches brokerages by name, location, or other criteria."
       }
     },
     "/v1/brokerages/{companyId}": {
@@ -1080,7 +1233,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contactId": "cont_abc123",
+                    "firstname": "John",
+                    "lastname": "Doe",
+                    "email": "john@example.com",
+                    "type": "homeowner",
+                    "createdAt": "2026-04-14T12:00:00Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1124,11 +1292,18 @@
                   "firstname",
                   "userType"
                 ]
+              },
+              "example": {
+                "firstname": "John",
+                "lastname": "Doe",
+                "email": "john@example.com",
+                "phone": "+15551234567",
+                "type": "homeowner"
               }
             }
           }
         },
-        "description": "Creates a new contact record in the system. Contacts can be associated with deals and opportunities."
+        "description": "Creates a new contact record. Contacts can be associated with deals and opportunities. Syncs to HubSpot."
       }
     },
     "/v1/contacts/dashboard": {
@@ -1316,7 +1491,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Matching contacts.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "contactId": "cont_abc123",
+                      "firstname": "John",
+                      "lastname": "Doe",
+                      "email": "john@example.com",
+                      "type": "homeowner"
+                    }
+                  ],
+                  "total": 1,
+                  "hasMore": false
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1348,23 +1541,44 @@
                   "propertyName",
                   "additionalFilters"
                 ]
+              },
+              "example": {
+                "search": "john doe",
+                "limit": 25
               }
             }
           }
         },
-        "description": "Search for contacts across the platform by name, email, phone, or other fields."
+        "description": "Search for contacts by name, email, phone, or other fields. Returns paginated results."
       }
     },
     "/v1/contacts/{contactId}": {
       "get": {
         "operationId": "get_v1_contacts_contactId_",
-        "summary": "v1/contacts/{contactId}",
+        "summary": "Get contact",
         "tags": [
           "Contacts"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contact data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contactId": "cont_abc123",
+                    "firstname": "John",
+                    "lastname": "Doe",
+                    "email": "john@example.com",
+                    "type": "homeowner",
+                    "deals": [
+                      "deal_xyz789"
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1374,18 +1588,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot contact ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a contact by ID, including associated deals and opportunities."
       },
       "patch": {
         "operationId": "patch_v1_contacts_contactId_",
-        "summary": "v1/contacts/{contactId}",
+        "summary": "Update contact",
         "tags": [
           "Contacts"
         ],
@@ -1401,7 +1617,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot contact ID."
           }
         ],
         "security": [
@@ -1418,11 +1635,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates fields on an existing contact. Only included fields are modified."
       },
       "delete": {
         "operationId": "delete_v1_contacts_contactId_",
-        "summary": "v1/contacts/{contactId}",
+        "summary": "Delete contact",
         "tags": [
           "Contacts"
         ],
@@ -1438,14 +1656,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot contact ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a contact record."
       }
     },
     "/v1/contacts/{contactId}/edge-view": {
@@ -1538,13 +1758,27 @@
     "/v1/contractors/": {
       "post": {
         "operationId": "post_v1_contractors_",
-        "summary": "v1/contractors/",
+        "summary": "Create contractor",
         "tags": [
           "Contractors"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contractor created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractorId": "contr_abc123",
+                    "firstname": "Mike",
+                    "lastname": "Builder",
+                    "email": "mike@buildco.com",
+                    "company": "BuildCo LLC"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -1575,10 +1809,18 @@
                   "address",
                   "state"
                 ]
+              },
+              "example": {
+                "firstname": "Mike",
+                "lastname": "Builder",
+                "email": "mike@buildco.com",
+                "phone": "+15559876543",
+                "company": "BuildCo LLC"
               }
             }
           }
-        }
+        },
+        "description": "Creates a new contractor profile. Contractors are assigned to renovation projects and can submit weekly updates."
       },
       "patch": {
         "operationId": "patch_v1_contractors_",
@@ -1639,7 +1881,7 @@
       },
       "get": {
         "operationId": "get_v1_contractors_",
-        "summary": "v1/contractors/",
+        "summary": "List contractors",
         "tags": [
           "Contractors"
         ],
@@ -1652,7 +1894,8 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all registered contractors with optional filtering."
       }
     },
     "/v1/contractors/associate/{companyId}": {
@@ -1852,7 +2095,7 @@
     "/v1/contractors/search": {
       "post": {
         "operationId": "post_v1_contractors_search",
-        "summary": "v1/contractors/search",
+        "summary": "Search contractors",
         "tags": [
           "Contractors"
         ],
@@ -1886,13 +2129,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Searches contractors by name, company, specialty, or location."
       }
     },
     "/v1/contractors/{contractorId}": {
       "get": {
         "operationId": "get_v1_contractors_contractorId_",
-        "summary": "v1/contractors/{contractorId}",
+        "summary": "Get contractor",
         "tags": [
           "Contractors"
         ],
@@ -1908,18 +2152,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique contractor identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a contractor profile by ID, including assigned projects and status."
       },
       "patch": {
         "operationId": "patch_v1_contractors_contractorId_",
-        "summary": "v1/contractors/{contractorId}",
+        "summary": "Update contractor",
         "tags": [
           "Contractors"
         ],
@@ -1935,7 +2181,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique contractor identifier."
           }
         ],
         "security": [
@@ -1952,7 +2199,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates fields on a contractor profile."
       }
     },
     "/v1/contractors/{contractorId}/files": {
@@ -2096,13 +2344,24 @@
     "/v1/contracts/": {
       "post": {
         "operationId": "post_v1_contracts_",
-        "summary": "v1/contracts/",
+        "summary": "Create contract",
         "tags": [
           "Contracts"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Contract created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractId": "doc_abc123",
+                    "editUrl": "https://app.pandadoc.com/editor/doc_abc123"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2133,7 +2392,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new contract document via PandaDoc. Returns the contract ID and edit session."
       }
     },
     "/v1/contracts/download/{contractId}": {
@@ -2308,7 +2568,7 @@
     "/v1/contracts/{contractId}": {
       "delete": {
         "operationId": "delete_v1_contracts_contractId_",
-        "summary": "v1/contracts/{contractId}",
+        "summary": "Delete contract",
         "tags": [
           "Contracts"
         ],
@@ -2324,14 +2584,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique contract document identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a contract document. Only draft contracts can be deleted."
       }
     },
     "/v1/esignatures/{dealId}": {
@@ -2390,7 +2652,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Estimate created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_abc123",
+                    "dealId": "deal_xyz789",
+                    "status": "draft",
+                    "subtotal": 0
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2423,7 +2698,7 @@
             }
           }
         },
-        "description": "Creates a new renovation estimate for a property. The estimate includes line items from the product catalog, pricing, and scope details."
+        "description": "Creates a new renovation estimate for a property with line items from the product catalog."
       }
     },
     "/v1/estimates/approve/{estimateId}": {
@@ -2969,7 +3244,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Full estimate.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimateId": "est_abc123",
+                    "dealId": "deal_xyz789",
+                    "status": "draft",
+                    "subtotal": 85000,
+                    "items": [
+                      {
+                        "productId": "prod_001",
+                        "title": "Kitchen Remodel - Standard",
+                        "category": "Kitchen",
+                        "price": 35000,
+                        "labor": 15000,
+                        "materials": 20000
+                      },
+                      {
+                        "productId": "prod_002",
+                        "title": "Bathroom Update - Primary",
+                        "category": "Bathroom",
+                        "price": 25000
+                      }
+                    ],
+                    "changeOrders": []
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2980,7 +3285,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The unique identifier for the estimate."
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
@@ -2988,7 +3293,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a single estimate by ID, including all line items, pricing, and status information."
+        "description": "Retrieves an estimate by ID including all line items, pricing, status, and change order history."
       },
       "patch": {
         "operationId": "patch_v1_estimates_estimateId_",
@@ -3009,7 +3314,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The unique identifier for the estimate."
+            "description": "Unique estimate identifier."
           }
         ],
         "security": [
@@ -3027,7 +3332,7 @@
             }
           }
         },
-        "description": "Updates an existing estimate. Can modify line items, pricing, status, and other estimate fields."
+        "description": "Updates an estimate — modify line items, pricing, status, or other fields."
       },
       "delete": {
         "operationId": "delete_v1_estimates_estimateId_",
@@ -4375,13 +4680,30 @@
       },
       "post": {
         "operationId": "post_v1_meetings_",
-        "summary": "v1/meetings/",
+        "summary": "Book meeting",
         "tags": [
           "Meetings"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Meeting booked.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "meetingId": "mtg_abc123",
+                    "date": "2026-04-20T14:00:00Z",
+                    "duration": 60,
+                    "participants": [
+                      "agent@realty.com",
+                      "homeowner@example.com"
+                    ],
+                    "location": "123 Main St"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4393,7 +4715,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Books a meeting between participants. Creates calendar entries and sends notifications."
       }
     },
     "/v1/meetings/available-calendars": {
@@ -4942,7 +5265,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Job started.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "predictionId": "pred_abc123",
+                    "status": "processing",
+                    "estimatedDuration": 30
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4965,7 +5300,7 @@
             }
           }
         },
-        "description": "Starts an async AI image generation job. Returns a job ID that can be polled for completion. Supports material predictions with reference images."
+        "description": "Starts an async AI image generation job. Returns a job ID to poll for completion."
       }
     },
     "/v1/predictions/{id}": {
@@ -4977,7 +5312,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Job status and results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "predictionId": "pred_abc123",
+                    "status": "completed",
+                    "images": [
+                      "https://storage.revive.realty/predictions/pred_abc123_01.jpg",
+                      "https://storage.revive.realty/predictions/pred_abc123_02.jpg"
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4988,7 +5338,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The prediction job ID returned from the create endpoint."
+            "description": "Prediction job ID."
           }
         ],
         "security": [
@@ -4996,13 +5346,13 @@
             "BearerAuth": []
           }
         ],
-        "description": "Polls the status of an AI prediction job. Returns the generated images when the job is complete."
+        "description": "Polls an AI prediction job. Returns generated images when complete. Poll every few seconds."
       }
     },
     "/v1/production/": {
       "post": {
         "operationId": "post_v1_production_",
-        "summary": "v1/production/",
+        "summary": "Production status",
         "tags": [
           "Production"
         ],
@@ -5037,7 +5387,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Returns production deployment status and version information."
       }
     },
     "/v1/project-scopes/": {
@@ -5118,7 +5469,7 @@
     "/v1/project-scopes/fill-from-pandadoc/{dealId}": {
       "get": {
         "operationId": "get_v1_project_scopes_fill_from_pandadoc_dealId_",
-        "summary": "v1/project-scopes/fill-from-pandadoc/{dealId}",
+        "summary": "Fill scope from PandaDoc",
         "tags": [
           "Project Scopes"
         ],
@@ -5134,20 +5485,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID to fill scope for."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Populates project scope by extracting line items from the signed PandaDoc document."
       }
     },
     "/v1/project-scopes/update": {
       "patch": {
         "operationId": "patch_v1_project_scopes_update",
-        "summary": "v1/project-scopes/update",
+        "summary": "Update scope item",
         "tags": [
           "Project Scopes"
         ],
@@ -5169,22 +5522,28 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Deal ID."
                   },
                   "id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Scope item ID."
                   },
                   "description": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Updated description."
                   },
                   "title": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Updated title."
                   },
                   "isInPunchList": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Whether to include in punch list."
                   },
                   "verified": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Whether the item is verified complete."
                   }
                 },
                 "required": [
@@ -5193,19 +5552,34 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates a single project scope item."
       }
     },
     "/v1/property/": {
       "post": {
         "operationId": "post_v1_property_",
-        "summary": "v1/property/",
+        "summary": "Create property report",
         "tags": [
           "Property"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Report created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "propertyId": "prop_abc123",
+                    "reportId": "rpt_xyz789",
+                    "address": "123 Main St",
+                    "state": "CA",
+                    "status": "processing"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5221,31 +5595,40 @@
                 "type": "object",
                 "properties": {
                   "application": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Source: 'dashboard', 'admin', or 'intake'."
                   },
                   "opportunityId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Associated opportunity ID."
                   },
                   "streetAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Full street address."
                   },
                   "state": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Two-letter state code."
                   },
                   "bedrooms": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Number of bedrooms."
                   },
                   "yearBuilt": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Year built."
                   },
                   "reportType": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "'standard' or 'premium'."
                   },
                   "rejectedReason": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Reason for prior rejection, if re-creating."
                   },
                   "sellingTimeFrame": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "'immediately', '1-3 months', '3-6 months', '6+ months'."
                   }
                 },
                 "required": [
@@ -5254,16 +5637,26 @@
                   "bedrooms",
                   "yearBuilt"
                 ]
+              },
+              "example": {
+                "application": "dashboard",
+                "streetAddress": "123 Main St, Los Angeles, CA 90001",
+                "state": "CA",
+                "bedrooms": 3,
+                "yearBuilt": 1985,
+                "reportType": "standard",
+                "sellingTimeFrame": "3-6 months"
               }
             }
           }
-        }
+        },
+        "description": "Creates a new property record and initiates analysis. Main entry point for the property assessment flow."
       }
     },
     "/v1/property/admin/migrate-latest-leads-to-reports-meta": {
       "post": {
         "operationId": "post_v1_property_admin_migrate_latest_leads_to_reports_meta",
-        "summary": "v1/property/admin/migrate-latest-leads-to-reports-meta",
+        "summary": "Migrate leads to reports metadata",
         "tags": [
           "Property"
         ],
@@ -5281,13 +5674,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Internal migration — updates leads with latest report metadata. Admin only."
       }
     },
     "/v1/property/admin/migrate-leads": {
       "post": {
         "operationId": "post_v1_property_admin_migrate_leads",
-        "summary": "v1/property/admin/migrate-leads",
+        "summary": "Migrate property leads",
         "tags": [
           "Property"
         ],
@@ -5305,13 +5699,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Internal migration — converts legacy property lead records. Admin only."
       }
     },
     "/v1/property/association": {
       "post": {
         "operationId": "post_v1_property_association",
-        "summary": "v1/property/association",
+        "summary": "Associate report with HubSpot",
         "tags": [
           "Property"
         ],
@@ -5333,7 +5728,8 @@
                 "type": "object",
                 "properties": {
                   "reportCustomObjectId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "HubSpot custom object record ID."
                   }
                 },
                 "required": [
@@ -5342,13 +5738,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates an association between a report and a HubSpot custom object."
       }
     },
     "/v1/property/complete-report": {
       "post": {
         "operationId": "post_v1_property_complete_report",
-        "summary": "v1/property/complete-report",
+        "summary": "Complete property report",
         "tags": [
           "Property"
         ],
@@ -5370,10 +5767,12 @@
                 "type": "object",
                 "properties": {
                   "id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Property record ID."
                   },
                   "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Report ID to complete."
                   }
                 },
                 "required": [
@@ -5382,13 +5781,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Marks a report as complete and triggers final processing including PDF generation."
       }
     },
     "/v1/property/create-comparable": {
       "post": {
         "operationId": "post_v1_property_create_comparable",
-        "summary": "v1/property/create-comparable",
+        "summary": "Add comparable property",
         "tags": [
           "Property"
         ],
@@ -5410,25 +5810,32 @@
                 "type": "object",
                 "properties": {
                   "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Report ID."
                   },
                   "streetAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Address."
                   },
                   "state": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "State code."
                   },
                   "closeDate": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Sale date (YYYY-MM-DD)."
                   },
                   "grade": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Condition rating."
                   },
                   "beds": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Bedrooms."
                   },
                   "year": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Year built."
                   },
                   "status": {
                     "type": "string",
@@ -5436,13 +5843,16 @@
                       "active",
                       "pending",
                       "sold"
-                    ]
+                    ],
+                    "description": "'sold', 'pending', or 'active'."
                   },
                   "id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "External ID."
                   },
                   "imageUrl": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Photo URL."
                   }
                 },
                 "required": [
@@ -5456,13 +5866,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Manually adds a comparable to a report."
       }
     },
     "/v1/property/log/comparable/{reportId}": {
       "post": {
         "operationId": "post_v1_property_log_comparable_reportId_",
-        "summary": "v1/property/log/comparable/{reportId}",
+        "summary": "Log comparable view",
         "tags": [
           "Property"
         ],
@@ -5478,7 +5889,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report whose comparables were viewed."
           }
         ],
         "security": [
@@ -5495,13 +5907,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Logs an analytics event when comparables are viewed."
       }
     },
     "/v1/property/log/pdf/{reportId}": {
       "post": {
         "operationId": "post_v1_property_log_pdf_reportId_",
-        "summary": "v1/property/log/pdf/{reportId}",
+        "summary": "Log PDF download",
         "tags": [
           "Property"
         ],
@@ -5517,7 +5930,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report being downloaded."
           }
         ],
         "security": [
@@ -5549,13 +5963,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Logs an analytics event when a report PDF is downloaded."
       }
     },
     "/v1/property/log/view/{reportId}": {
       "post": {
         "operationId": "post_v1_property_log_view_reportId_",
-        "summary": "v1/property/log/view/{reportId}",
+        "summary": "Log report view",
         "tags": [
           "Property"
         ],
@@ -5571,7 +5986,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report being viewed."
           }
         ],
         "security": [
@@ -5603,13 +6019,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Logs an analytics event when a report is viewed."
       }
     },
     "/v1/property/neighborhood-report-and-register-user": {
       "post": {
         "operationId": "post_v1_property_neighborhood_report_and_register_user",
-        "summary": "v1/property/neighborhood-report-and-register-user",
+        "summary": "Create neighborhood report and register user",
         "tags": [
           "Property"
         ],
@@ -5626,10 +6043,12 @@
                 "type": "object",
                 "properties": {
                   "contact": {
-                    "type": "object"
+                    "type": "object",
+                    "description": "Object with firstname, lastname, email, phone."
                   },
                   "agentId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Referring agent's ID."
                   }
                 },
                 "required": [
@@ -5638,13 +6057,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a neighborhood report and registers the requesting user."
       }
     },
     "/v1/property/search-comparable": {
       "post": {
         "operationId": "post_v1_property_search_comparable",
-        "summary": "v1/property/search-comparable",
+        "summary": "Search comparable properties",
         "tags": [
           "Property"
         ],
@@ -5666,13 +6086,16 @@
                 "type": "object",
                 "properties": {
                   "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Report to find comparables for."
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "City to search."
                   },
                   "postalCode": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "ZIP code."
                   }
                 },
                 "required": [
@@ -5683,13 +6106,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Searches for comparable properties near a given address."
       }
     },
     "/v1/property/share/{reportId}": {
       "post": {
         "operationId": "post_v1_property_share_reportId_",
-        "summary": "v1/property/share/{reportId}",
+        "summary": "Share property report",
         "tags": [
           "Property"
         ],
@@ -5705,7 +6129,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report to share."
           }
         ],
         "security": [
@@ -5725,10 +6150,12 @@
                     "enum": [
                       "email",
                       "sms"
-                    ]
+                    ],
+                    "description": "'link' or 'invite'."
                   },
                   "inviteId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Contact ID to invite."
                   }
                 },
                 "required": [
@@ -5737,13 +6164,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Generates a shareable link or sends an invite for a property report."
       }
     },
     "/v1/property/upgrade-to-v2": {
       "post": {
         "operationId": "post_v1_property_upgrade_to_v2",
-        "summary": "v1/property/upgrade-to-v2",
+        "summary": "Upgrade report to V2",
         "tags": [
           "Property"
         ],
@@ -5765,7 +6193,8 @@
                 "type": "object",
                 "properties": {
                   "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "V1 report ID to upgrade."
                   }
                 },
                 "required": [
@@ -5774,13 +6203,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Upgrades a legacy V1 report to V2 format with enhanced analysis."
       }
     },
     "/v1/property/{id}": {
       "get": {
         "operationId": "get_v1_property_id_",
-        "summary": "v1/property/{id}",
+        "summary": "Get property report",
         "tags": [
           "Property"
         ],
@@ -5796,14 +6226,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique property report identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a property report with valuation data, condition assessment, comparables, and renovation recommendations."
       }
     },
     "/v1/property/{id}/recalculate": {
@@ -5854,7 +6286,7 @@
     "/v1/punch-list/update-punch-data": {
       "patch": {
         "operationId": "patch_v1_punch_list_update_punch_data",
-        "summary": "v1/punch-list/update-punch-data",
+        "summary": "Update punch list data",
         "tags": [
           "Punch List"
         ],
@@ -5881,10 +6313,12 @@
                       "draft",
                       "submitted",
                       "approved"
-                    ]
+                    ],
+                    "description": "Deal ID."
                   },
                   "submittedById": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "User ID who submitted the update."
                   }
                 },
                 "required": [
@@ -5894,13 +6328,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates punch list items and status."
       }
     },
     "/v1/punch-list/update-tasks": {
       "post": {
         "operationId": "post_v1_punch_list_update_tasks",
-        "summary": "v1/punch-list/update-tasks",
+        "summary": "Update punch list tasks",
         "tags": [
           "Punch List"
         ],
@@ -5922,7 +6357,8 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Deal ID."
                   }
                 },
                 "required": [
@@ -5931,19 +6367,42 @@
               }
             }
           }
-        }
+        },
+        "description": "Batch updates task statuses on the punch list."
       }
     },
     "/v1/punch-list/{dealId}": {
       "get": {
         "operationId": "get_v1_punch_list_dealId_",
-        "summary": "v1/punch-list/{dealId}",
+        "summary": "Get punch list",
         "tags": [
           "Punch List"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Punch list items.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "items": [
+                      {
+                        "id": "punch_001",
+                        "title": "Touch up paint - master bedroom",
+                        "status": "pending"
+                      },
+                      {
+                        "id": "punch_002",
+                        "title": "Fix cabinet door alignment - kitchen",
+                        "status": "completed"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -5953,20 +6412,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves the punch list — all outstanding items before project completion."
       }
     },
     "/v1/realtors/": {
       "post": {
         "operationId": "post_v1_realtors_",
-        "summary": "v1/realtors/",
+        "summary": "Create realtor profile",
         "tags": [
           "Realtors"
         ],
@@ -5984,13 +6445,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new realtor contact profile."
       }
     },
     "/v1/realtors/{contactId}": {
       "get": {
         "operationId": "get_v1_realtors_contactId_",
-        "summary": "v1/realtors/{contactId}",
+        "summary": "Get realtor profile",
         "tags": [
           "Realtors"
         ],
@@ -6006,7 +6468,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Contact ID for the realtor."
           }
         ],
         "requestBody": {
@@ -6046,13 +6509,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Retrieves a realtor's profile by contact ID."
       }
     },
     "/v1/referrals/": {
       "get": {
         "operationId": "get_v1_referrals_",
-        "summary": "v1/referrals/",
+        "summary": "List referrals",
         "tags": [
           "Referrals"
         ],
@@ -6065,17 +6529,31 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all referral records with optional filtering."
       },
       "post": {
         "operationId": "post_v1_referrals_",
-        "summary": "v1/referrals/",
+        "summary": "Create referral",
         "tags": [
           "Referrals"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Referral created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "referralId": "ref_abc123",
+                    "referralType": "agent",
+                    "clientEmail": "homeowner@example.com",
+                    "status": "new"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6096,37 +6574,51 @@
                       "buyer",
                       "seller",
                       "both"
-                    ]
+                    ],
+                    "description": "'agent', 'partner', 'website', or 'direct'."
                   },
                   "clientEmail": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Referred client's email."
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Client's city."
                   },
                   "listingAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Property address."
                   },
                   "zipCode": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "ZIP code."
                   },
                   "latitude": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Property latitude."
                   }
                 },
                 "required": [
                   "referralType"
                 ]
+              },
+              "example": {
+                "referralType": "agent",
+                "clientEmail": "homeowner@example.com",
+                "city": "Los Angeles",
+                "listingAddress": "123 Main St",
+                "zipCode": "90001"
               }
             }
           }
-        }
+        },
+        "description": "Creates a new referral record for lead attribution."
       }
     },
     "/v1/referrals/update-user-visit": {
       "post": {
         "operationId": "post_v1_referrals_update_user_visit",
-        "summary": "v1/referrals/update-user-visit",
+        "summary": "Log referral visit",
         "tags": [
           "Referrals"
         ],
@@ -6148,7 +6640,8 @@
                 "type": "object",
                 "properties": {
                   "referralId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Referral ID."
                   }
                 },
                 "required": [
@@ -6157,13 +6650,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Logs a visit event for referral tracking."
       }
     },
     "/v1/referrals/{dealId}": {
       "get": {
         "operationId": "get_v1_referrals_dealId_",
-        "summary": "v1/referrals/{dealId}",
+        "summary": "Get referral by deal",
         "tags": [
           "Referrals"
         ],
@@ -6179,18 +6673,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves referral info for a deal."
       },
       "patch": {
         "operationId": "patch_v1_referrals_dealId_",
-        "summary": "v1/referrals/{dealId}",
+        "summary": "Update referral",
         "tags": [
           "Referrals"
         ],
@@ -6206,7 +6702,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -6223,11 +6720,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates referral info for a deal."
       },
       "delete": {
         "operationId": "delete_v1_referrals_dealId_",
-        "summary": "v1/referrals/{dealId}",
+        "summary": "Delete referral",
         "tags": [
           "Referrals"
         ],
@@ -6243,7 +6741,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -6263,7 +6762,8 @@
                     "enum": [
                       "buyer",
                       "seller"
-                    ]
+                    ],
+                    "description": "Referral type to delete (in body)."
                   }
                 },
                 "required": [
@@ -6272,19 +6772,32 @@
               }
             }
           }
-        }
+        },
+        "description": "Deletes a referral record."
       }
     },
     "/v1/reimagine/create-image": {
       "post": {
         "operationId": "post_v1_reimagine_create_image",
-        "summary": "v1/reimagine/create-image",
+        "summary": "Create reimagined image",
         "tags": [
           "Reimagine"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Job started.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reimagineId": "rimg_abc123",
+                    "status": "processing",
+                    "sourceUrl": "https://storage.revive.realty/photos/kitchen_01.jpg"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6300,19 +6813,24 @@
                 "type": "object",
                 "properties": {
                   "opportunityId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Associated opportunity."
                   },
                   "imageUrl": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Source photo URL."
                   },
                   "prompt": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "AI prompt describing desired transformation."
                   },
                   "roomStyle": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "'modern', 'traditional', 'transitional', 'contemporary', 'farmhouse'."
                   },
                   "userId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Requesting user's ID."
                   },
                   "source": {
                     "type": "string",
@@ -6320,23 +6838,33 @@
                       "Admin",
                       "Dashboard",
                       "Mobile"
-                    ]
+                    ],
+                    "description": "'dashboard' or 'admin'."
                   }
                 },
                 "required": [
                   "roomStyle",
                   "source"
                 ]
+              },
+              "example": {
+                "opportunityId": "opp_abc123",
+                "imageUrl": "https://storage.revive.realty/photos/kitchen_01.jpg",
+                "prompt": "Modern white kitchen with marble countertops",
+                "roomStyle": "modern",
+                "userId": "user_xyz",
+                "source": "dashboard"
               }
             }
           }
-        }
+        },
+        "description": "Generates an AI-reimagined version of a property photo with a specified room style."
       }
     },
     "/v1/reimagine/report-association": {
       "post": {
         "operationId": "post_v1_reimagine_report_association",
-        "summary": "v1/reimagine/report-association",
+        "summary": "Associate reimagine with report",
         "tags": [
           "Reimagine"
         ],
@@ -6359,13 +6887,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Links a reimagined image to a property report."
       }
     },
     "/v1/reimagine/{id}": {
       "patch": {
         "operationId": "patch_v1_reimagine_id_",
-        "summary": "v1/reimagine/{id}",
+        "summary": "Update reimagine record",
         "tags": [
           "Reimagine"
         ],
@@ -6381,7 +6910,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Reimagine record ID."
           }
         ],
         "security": [
@@ -6407,11 +6937,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates metadata on a reimagine record."
       },
       "get": {
         "operationId": "get_v1_reimagine_id_",
-        "summary": "v1/reimagine/{id}",
+        "summary": "Get reimagined image",
         "tags": [
           "Reimagine"
         ],
@@ -6427,18 +6958,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Reimagine job ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a reimagined image result."
       },
       "delete": {
         "operationId": "delete_v1_reimagine_id_",
-        "summary": "v1/reimagine/{id}",
+        "summary": "Delete reimagined image",
         "tags": [
           "Reimagine"
         ],
@@ -6454,26 +6987,41 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Reimagine record ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a reimagined image."
       }
     },
     "/v1/renovation-progress/": {
       "post": {
         "operationId": "post_v1_renovation_progress_",
-        "summary": "v1/renovation-progress/",
+        "summary": "Create weekly update",
         "tags": [
           "WeeklyUpdates"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Update created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "updateId": "update_abc123",
+                    "dealId": "deal_xyz789",
+                    "onSchedule": true,
+                    "completedItems": 2
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6489,26 +7037,36 @@
                 "type": "object",
                 "properties": {
                   "onSchedule": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Whether the project is on schedule."
                   },
                   "completed": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "description": "Array of scope item IDs completed this week."
                   }
                 },
                 "required": [
                   "onSchedule"
                 ]
+              },
+              "example": {
+                "onSchedule": true,
+                "completed": [
+                  "scope_001",
+                  "scope_002"
+                ]
               }
             }
           }
-        }
+        },
+        "description": "Creates a weekly renovation progress update for a project."
       }
     },
     "/v1/renovation-progress/what-was-done/{dealId}": {
       "patch": {
         "operationId": "patch_v1_renovation_progress_what_was_done_dealId_",
-        "summary": "v1/renovation-progress/what-was-done/{dealId}",
+        "summary": "Update 'what was done' summary",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6524,7 +7082,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Deal ID."
           }
         ],
         "security": [
@@ -6540,7 +7099,8 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Summary of work completed."
                   }
                 },
                 "required": [
@@ -6549,13 +7109,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates the free-text summary of work completed."
       }
     },
     "/v1/renovation-progress/{renovationProgressId}": {
       "get": {
         "operationId": "get_v1_renovation_progress_renovationProgressId_",
-        "summary": "v1/renovation-progress/{renovationProgressId}",
+        "summary": "Get weekly update",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6571,18 +7132,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Update identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a single weekly update."
       },
       "patch": {
         "operationId": "patch_v1_renovation_progress_renovationProgressId_",
-        "summary": "v1/renovation-progress/{renovationProgressId}",
+        "summary": "Update weekly update",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6598,7 +7161,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Update identifier."
           }
         ],
         "security": [
@@ -6627,11 +7191,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Modifies a weekly update — schedule status, completed items, or notes."
       },
       "delete": {
         "operationId": "delete_v1_renovation_progress_renovationProgressId_",
-        "summary": "v1/renovation-progress/{renovationProgressId}",
+        "summary": "Delete weekly update",
         "tags": [
           "WeeklyUpdates"
         ],
@@ -6647,20 +7212,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Update identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a weekly update."
       }
     },
     "/v1/reports/": {
       "post": {
         "operationId": "post_v1_reports_",
-        "summary": "v1/reports/",
+        "summary": "Generate report",
         "tags": [
           "Reports"
         ],
@@ -6682,7 +7249,8 @@
                 "type": "object",
                 "properties": {
                   "year": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Year to generate for (e.g., '2026')."
                   }
                 },
                 "required": [
@@ -6691,30 +7259,53 @@
               }
             }
           }
-        }
+        },
+        "description": "Generates an annual or periodic analytics report."
       }
     },
     "/v1/ret-catalog/": {
       "get": {
         "operationId": "get_v1_ret_catalog_",
-        "summary": "v1/ret-catalog/",
+        "summary": "List catalog products",
         "tags": [
           "Ret Catalog"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Product catalog.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "productId": "prod_001",
+                      "title": "Kitchen Remodel - Standard",
+                      "productType": "Kitchen",
+                      "basePrice": 35000
+                    },
+                    {
+                      "productId": "prod_002",
+                      "title": "Bathroom Update - Primary",
+                      "productType": "Bathroom",
+                      "basePrice": 25000
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all products in the renovation catalog with pricing."
       },
       "post": {
         "operationId": "post_v1_ret_catalog_",
-        "summary": "v1/ret-catalog/",
+        "summary": "Create catalog product",
         "tags": [
           "Ret Catalog"
         ],
@@ -6737,32 +7328,51 @@
               }
             }
           }
-        }
+        },
+        "description": "Adds a new product to the renovation catalog."
       }
     },
     "/v1/ret-catalog/all-product-types": {
       "get": {
         "operationId": "get_v1_ret_catalog_all_product_types",
-        "summary": "v1/ret-catalog/all-product-types",
+        "summary": "List product types",
         "tags": [
           "Ret Catalog"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Product types.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    "Kitchen",
+                    "Bathroom",
+                    "Flooring",
+                    "Painting",
+                    "Landscaping",
+                    "Roofing",
+                    "HVAC",
+                    "Electrical"
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all product type categories."
       }
     },
     "/v1/ret-catalog/{productId}": {
       "get": {
         "operationId": "get_v1_ret_catalog_productId_",
-        "summary": "v1/ret-catalog/{productId}",
+        "summary": "Get catalog product",
         "tags": [
           "Ret Catalog"
         ],
@@ -6778,18 +7388,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Product identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a product by ID."
       },
       "patch": {
         "operationId": "patch_v1_ret_catalog_productId_",
-        "summary": "v1/ret-catalog/{productId}",
+        "summary": "Update catalog product",
         "tags": [
           "Ret Catalog"
         ],
@@ -6805,7 +7417,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Product identifier."
           }
         ],
         "security": [
@@ -6822,11 +7435,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates a catalog product."
       },
       "delete": {
         "operationId": "delete_v1_ret_catalog_productId_",
-        "summary": "v1/ret-catalog/{productId}",
+        "summary": "Delete catalog product",
         "tags": [
           "Ret Catalog"
         ],
@@ -6842,20 +7456,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Product identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Removes a product from the catalog."
       }
     },
     "/v1/ret-catalog/{productTypeId}/options": {
       "get": {
         "operationId": "get_v1_ret_catalog_productTypeId_options",
-        "summary": "v1/ret-catalog/{productTypeId}/options",
+        "summary": "List product options",
         "tags": [
           "Ret Catalog"
         ],
@@ -6871,15 +7487,17 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Product type ID."
           }
-        ]
+        ],
+        "description": "Returns options for a product type (e.g., countertop materials for kitchen)."
       }
     },
     "/v1/ret-catalog/{productTypeId}/options/{optionId}/selections": {
       "get": {
         "operationId": "get_v1_ret_catalog_productTypeId_options_optionId_selections",
-        "summary": "v1/ret-catalog/{productTypeId}/options/{optionId}/selections",
+        "summary": "List option selections",
         "tags": [
           "Ret Catalog"
         ],
@@ -6895,7 +7513,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Product type ID."
           },
           {
             "name": "optionId",
@@ -6903,9 +7522,11 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Option ID."
           }
-        ]
+        ],
+        "description": "Returns selections for an option (e.g., granite colors)."
       }
     },
     "/v1/rma/": {
@@ -6917,7 +7538,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "RMA created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "rmaId": "rma_abc123",
+                    "dealId": "deal_xyz789",
+                    "contractorId": "contr_abc123",
+                    "status": "draft",
+                    "createdAt": "2026-04-14T12:00:00Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6933,28 +7568,36 @@
                 "type": "object",
                 "properties": {
                   "contractor_id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Contractor assigned to the renovation."
                   },
                   "deal_id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Deal ID for the project."
                   },
                   "note": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Optional note."
                   }
                 },
                 "required": [
                   "contractor_id",
                   "deal_id"
                 ]
+              },
+              "example": {
+                "contractor_id": "contr_abc123",
+                "deal_id": "deal_xyz789",
+                "note": "Initial RMA for kitchen and bathroom renovation"
               }
             }
           }
         },
-        "description": "Creates a new Renovation Management Agreement for a property. Triggers notification workflows and sets up the contract pipeline."
+        "description": "Creates a new Renovation Management Agreement. Triggers notifications and sets up the contract pipeline."
       },
       "get": {
         "operationId": "get_v1_rma_",
-        "summary": "v1/rma/",
+        "summary": "List RMAs",
         "tags": [
           "Rma"
         ],
@@ -6967,13 +7610,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all RMAs with optional filtering by status, deal, or contractor."
       }
     },
     "/v1/rma/contracts": {
       "get": {
         "operationId": "get_v1_rma_contracts",
-        "summary": "v1/rma/contracts",
+        "summary": "List RMA contracts",
         "tags": [
           "Rma"
         ],
@@ -6986,13 +7630,14 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all RMA contract documents across projects."
       }
     },
     "/v1/rma/contracts/{contractId}/session": {
       "post": {
         "operationId": "post_v1_rma_contracts_contractId_session",
-        "summary": "v1/rma/contracts/{contractId}/session",
+        "summary": "Create RMA contract session",
         "tags": [
           "Rma"
         ],
@@ -7008,7 +7653,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Contract document ID."
           }
         ],
         "security": [
@@ -7025,7 +7671,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates an edit or signing session for an RMA contract."
       }
     },
     "/v1/rma/{rmaId}": {
@@ -7037,7 +7684,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Full RMA details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "rmaId": "rma_abc123",
+                    "dealId": "deal_xyz789",
+                    "contractorId": "contr_abc123",
+                    "status": "signed",
+                    "amountRequested": 85000,
+                    "draws": [
+                      {
+                        "draw": 1,
+                        "amount": 25000,
+                        "status": "released",
+                        "releasedAt": "2026-03-15T12:00:00Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -7048,7 +7717,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The unique identifier for the RMA."
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
@@ -7096,11 +7765,11 @@
             }
           }
         },
-        "description": "Retrieves an RMA by ID, including contract status, activity logs, and associated notes."
+        "description": "Retrieves an RMA by ID including contract status, activity logs, draw history, and notes."
       },
       "patch": {
         "operationId": "patch_v1_rma_rmaId_",
-        "summary": "v1/rma/{rmaId}",
+        "summary": "Update RMA",
         "tags": [
           "Rma"
         ],
@@ -7116,7 +7785,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
@@ -7133,13 +7803,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates RMA fields — status, amount, draw information, or metadata."
       }
     },
     "/v1/rma/{rmaId}/activity-logs": {
       "get": {
         "operationId": "get_v1_rma_rmaId_activity_logs",
-        "summary": "v1/rma/{rmaId}/activity-logs",
+        "summary": "Get RMA activity logs",
         "tags": [
           "Rma"
         ],
@@ -7155,20 +7826,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns the audit log for an RMA including status changes, contract events, and draws."
       }
     },
     "/v1/rma/{rmaId}/contract": {
       "post": {
         "operationId": "post_v1_rma_rmaId_contract",
-        "summary": "v1/rma/{rmaId}/contract",
+        "summary": "Create RMA contract",
         "tags": [
           "Rma"
         ],
@@ -7184,7 +7857,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
@@ -7201,11 +7875,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new contract document for the RMA via PandaDoc."
       },
       "delete": {
         "operationId": "delete_v1_rma_rmaId_contract",
-        "summary": "v1/rma/{rmaId}/contract",
+        "summary": "Delete RMA contract",
         "tags": [
           "Rma"
         ],
@@ -7221,20 +7896,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes the RMA contract. Only drafts can be deleted."
       }
     },
     "/v1/rma/{rmaId}/contract/download": {
       "get": {
         "operationId": "get_v1_rma_rmaId_contract_download",
-        "summary": "v1/rma/{rmaId}/contract/download",
+        "summary": "Download RMA contract",
         "tags": [
           "Rma"
         ],
@@ -7250,20 +7927,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Downloads the RMA contract as a PDF."
       }
     },
     "/v1/rma/{rmaId}/contract/edit-session": {
       "get": {
         "operationId": "get_v1_rma_rmaId_contract_edit_session",
-        "summary": "v1/rma/{rmaId}/contract/edit-session",
+        "summary": "Get RMA contract edit session",
         "tags": [
           "Rma"
         ],
@@ -7279,14 +7958,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Creates or retrieves an edit session for the RMA contract."
       }
     },
     "/v1/rma/{rmaId}/contract/send": {
@@ -7309,7 +7990,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The unique identifier for the RMA."
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
@@ -7327,13 +8008,13 @@
             }
           }
         },
-        "description": "Sends the RMA contract to all recipients for e-signature via PandaDoc."
+        "description": "Sends the RMA contract to all recipients for e-signature."
       }
     },
     "/v1/rma/{rmaId}/notes": {
       "post": {
         "operationId": "post_v1_rma_rmaId_notes",
-        "summary": "v1/rma/{rmaId}/notes",
+        "summary": "Add RMA note",
         "tags": [
           "Rma"
         ],
@@ -7349,7 +8030,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
@@ -7365,20 +8047,25 @@
                 "type": "object",
                 "properties": {
                   "note": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Note content."
                   }
                 },
                 "required": [
                   "note"
                 ]
+              },
+              "example": {
+                "note": "Contractor requested schedule extension — approved by PM."
               }
             }
           }
-        }
+        },
+        "description": "Adds a note to the RMA's activity feed."
       },
       "get": {
         "operationId": "get_v1_rma_rmaId_notes",
-        "summary": "v1/rma/{rmaId}/notes",
+        "summary": "Get RMA notes",
         "tags": [
           "Rma"
         ],
@@ -7394,14 +8081,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unique RMA identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves all notes for an RMA in chronological order."
       }
     },
     "/v1/support/": {
@@ -7413,7 +8102,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Ticket created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Support ticket created successfully",
+                  "ticketId": "ticket_abc123"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -7423,25 +8121,36 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "dealId": {},
+                  "dealId": {
+                    "description": "Optional related deal ID."
+                  },
                   "content": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Issue description."
                   },
                   "firstName": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Requester's first name."
                   },
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Requester's email."
                   }
                 },
                 "required": [
                   "content"
                 ]
+              },
+              "example": {
+                "content": "Unable to access estimate for deal #12345",
+                "firstName": "Jane",
+                "email": "jane@example.com",
+                "dealId": "deal_xyz789"
               }
             }
           }
         },
-        "description": "Submits a new support ticket with contact information and issue details."
+        "description": "Submits a new support ticket with contact info and issue details."
       }
     },
     "/v1/utility/check-home-images": {
@@ -7453,7 +8162,30 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Home images.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "images": [
+                      {
+                        "url": "https://photos.example.com/property_01.jpg",
+                        "source": "AnyProp",
+                        "type": "exterior"
+                      },
+                      {
+                        "url": "https://photos.example.com/property_02.jpg",
+                        "source": "Zillow",
+                        "type": "interior"
+                      }
+                    ],
+                    "totalFound": 12,
+                    "duplicatesRemoved": 3
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -7466,13 +8198,13 @@
             }
           }
         },
-        "description": "Multi-source home image lookup by address. Queries AnyProp, Zillow, RestB, and other providers, then deduplicates results."
+        "description": "Multi-source home image lookup by address. Queries AnyProp, Zillow, RestB, deduplicates results."
       }
     },
     "/v1/utility/deduplicate-images": {
       "post": {
         "operationId": "post_v1_utility_deduplicate_images",
-        "summary": "v1/utility/deduplicate-images",
+        "summary": "Deduplicate images",
         "tags": [
           "Utility"
         ],
@@ -7490,13 +8222,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Detects and removes duplicate images using perceptual hashing. Returns only unique images."
       }
     },
     "/v1/utility/house-canary/market-health": {
       "post": {
         "operationId": "post_v1_utility_house_canary_market_health",
-        "summary": "v1/utility/house-canary/market-health",
+        "summary": "Get market health data",
         "tags": [
           "Utility"
         ],
@@ -7518,22 +8251,31 @@
                 "type": "object",
                 "properties": {
                   "zipCodes": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Array of ZIP code strings."
                   }
                 },
                 "required": [
                   "zipCodes"
                 ]
+              },
+              "example": {
+                "zipCodes": [
+                  "90001",
+                  "90210",
+                  "90401"
+                ]
               }
             }
           }
-        }
+        },
+        "description": "Retrieves market health indicators for given ZIP codes using House Canary."
       }
     },
     "/v1/vision-ai/": {
       "get": {
         "operationId": "get_v1_vision_ai_",
-        "summary": "v1/vision-ai/",
+        "summary": "List Vision AI reports",
         "tags": [
           "Vision Ai"
         ],
@@ -7546,11 +8288,12 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns all Vision AI property analysis reports."
       },
       "post": {
         "operationId": "post_v1_vision_ai_",
-        "summary": "v1/vision-ai/",
+        "summary": "Create Vision AI report",
         "tags": [
           "Vision Ai"
         ],
@@ -7572,19 +8315,24 @@
                 "type": "object",
                 "properties": {
                   "streetAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Full street address."
                   },
                   "state": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "State code."
                   },
                   "imageUrls": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Array of photo URLs."
                   },
                   "rejected": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Whether this is a re-submission after rejection."
                   },
                   "application": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Source: 'dashboard', 'admin', or 'intake'."
                   }
                 },
                 "required": [
@@ -7595,13 +8343,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new AI property analysis report from photos."
       }
     },
     "/v1/vision-ai/finish-neighborhood-report": {
       "post": {
         "operationId": "post_v1_vision_ai_finish_neighborhood_report",
-        "summary": "v1/vision-ai/finish-neighborhood-report",
+        "summary": "Finish neighborhood report",
         "tags": [
           "Vision Ai"
         ],
@@ -7623,25 +8372,29 @@
                 "type": "object",
                 "properties": {
                   "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Report ID."
                   },
                   "savePhotos": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Whether to save analyzed photos."
                   },
                   "userId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Requesting user."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Completes a neighborhood report and optionally saves photos."
       }
     },
     "/v1/vision-ai/neighbor-report-and-register": {
       "post": {
         "operationId": "post_v1_vision_ai_neighbor_report_and_register",
-        "summary": "v1/vision-ai/neighbor-report-and-register",
+        "summary": "Create neighborhood report and register",
         "tags": [
           "Vision Ai"
         ],
@@ -7658,19 +8411,21 @@
                 "type": "object",
                 "properties": {
                   "contact": {
-                    "type": "object"
+                    "type": "object",
+                    "description": "Object with contact details."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Creates a neighborhood report and registers the user."
       }
     },
     "/v1/vision-ai/neighbor-report-photos": {
       "post": {
         "operationId": "post_v1_vision_ai_neighbor_report_photos",
-        "summary": "v1/vision-ai/neighbor-report-photos",
+        "summary": "Process neighborhood report photos",
         "tags": [
           "Vision Ai"
         ],
@@ -7692,25 +8447,29 @@
                 "type": "object",
                 "properties": {
                   "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Report ID."
                   },
                   "savePhotos": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Whether to save."
                   },
                   "userId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "User ID."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Processes and analyzes photos for a neighborhood report."
       }
     },
     "/v1/vision-ai/neighbor-report-with-photos-finish": {
       "post": {
         "operationId": "post_v1_vision_ai_neighbor_report_with_photos_finish",
-        "summary": "v1/vision-ai/neighbor-report-with-photos-finish",
+        "summary": "Finish neighborhood report with photos",
         "tags": [
           "Vision Ai"
         ],
@@ -7732,7 +8491,8 @@
                 "type": "object",
                 "properties": {
                   "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Report ID."
                   }
                 },
                 "required": [
@@ -7741,13 +8501,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Completes a neighborhood report that includes photo analysis."
       }
     },
     "/v1/vision-ai/search": {
       "post": {
         "operationId": "post_v1_vision_ai_search",
-        "summary": "v1/vision-ai/search",
+        "summary": "Search Vision AI reports",
         "tags": [
           "Vision Ai"
         ],
@@ -7769,22 +8530,25 @@
                 "type": "object",
                 "properties": {
                   "after": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Cursor for pagination."
                   },
                   "search": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Search query."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Searches Vision AI reports by address or other criteria."
       }
     },
     "/v1/vision-ai/upgrade-to-v2": {
       "post": {
         "operationId": "post_v1_vision_ai_upgrade_to_v2",
-        "summary": "v1/vision-ai/upgrade-to-v2",
+        "summary": "Upgrade to V2 report",
         "tags": [
           "Vision Ai"
         ],
@@ -7806,7 +8570,8 @@
                 "type": "object",
                 "properties": {
                   "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "V1 report ID."
                   }
                 },
                 "required": [
@@ -7815,13 +8580,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Upgrades a V1 Vision AI report to V2 format."
       }
     },
     "/v1/vision-ai/{id}": {
       "get": {
         "operationId": "get_v1_vision_ai_id_",
-        "summary": "v1/vision-ai/{id}",
+        "summary": "Get Vision AI report",
         "tags": [
           "Vision Ai"
         ],
@@ -7837,13 +8603,15 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report ID."
           }
-        ]
+        ],
+        "description": "Retrieves a Vision AI report by ID."
       },
       "patch": {
         "operationId": "patch_v1_vision_ai_id_",
-        "summary": "v1/vision-ai/{id}",
+        "summary": "Update Vision AI report",
         "tags": [
           "Vision Ai"
         ],
@@ -7859,7 +8627,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report ID."
           }
         ],
         "security": [
@@ -7876,11 +8645,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates fields on a Vision AI report."
       },
       "delete": {
         "operationId": "delete_v1_vision_ai_id_",
-        "summary": "v1/vision-ai/{id}",
+        "summary": "Delete Vision AI report",
         "tags": [
           "Vision Ai"
         ],
@@ -7896,20 +8666,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a Vision AI report."
       }
     },
     "/v1/vision-ai/{id}/recalculate": {
       "post": {
         "operationId": "post_v1_vision_ai_id_recalculate",
-        "summary": "v1/vision-ai/{id}/recalculate",
+        "summary": "Recalculate Vision AI report",
         "tags": [
           "Vision Ai"
         ],
@@ -7925,7 +8697,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report ID."
           }
         ],
         "security": [
@@ -7941,22 +8714,25 @@
                 "type": "object",
                 "properties": {
                   "timeline": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Renovation timeline in months."
                   },
                   "viewOnly": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "When true, returns results without saving."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Recalculates a report with updated timeline or parameters."
       }
     },
     "/v1/webhooks/affiliate-partners": {
       "post": {
         "operationId": "post_v1_webhooks_affiliate_partners",
-        "summary": "v1/webhooks/affiliate-partners",
+        "summary": "Affiliate partner webhook",
         "tags": [
           "Webhooks"
         ],
@@ -7974,13 +8750,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles incoming referral data from affiliate partners. Called by partner systems."
       }
     },
     "/v1/webhooks/gvg": {
       "post": {
         "operationId": "post_v1_webhooks_gvg",
-        "summary": "v1/webhooks/gvg",
+        "summary": "GVG webhook",
         "tags": [
           "Webhooks"
         ],
@@ -7998,13 +8775,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles incoming data from GVG for property valuation updates."
       }
     },
     "/v1/webhooks/hubspot/createCompany": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_createCompany",
-        "summary": "v1/webhooks/hubspot/createCompany",
+        "summary": "HubSpot create company",
         "tags": [
           "Webhooks"
         ],
@@ -8022,13 +8800,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles HubSpot workflow action to create a company record."
       }
     },
     "/v1/webhooks/hubspot/invite-realtor": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_invite_realtor",
-        "summary": "v1/webhooks/hubspot/invite-realtor",
+        "summary": "HubSpot invite realtor",
         "tags": [
           "Webhooks"
         ],
@@ -8046,13 +8825,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles HubSpot workflow to invite a realtor to the platform."
       }
     },
     "/v1/webhooks/hubspot/production": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_production",
-        "summary": "v1/webhooks/hubspot/production",
+        "summary": "HubSpot production webhook",
         "tags": [
           "Webhooks"
         ],
@@ -8070,13 +8850,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles production events from HubSpot workflows."
       }
     },
     "/v1/webhooks/hubspot/report-reminder/{emailId}": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_report_reminder_emailId_",
-        "summary": "v1/webhooks/hubspot/report-reminder/{emailId}",
+        "summary": "HubSpot report reminder",
         "tags": [
           "Webhooks"
         ],
@@ -8092,7 +8873,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Email template ID."
           }
         ],
         "requestBody": {
@@ -8104,13 +8886,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Sends report reminder emails."
       }
     },
     "/v1/webhooks/hubspot/revive-team": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_revive_team",
-        "summary": "v1/webhooks/hubspot/revive-team",
+        "summary": "HubSpot Revive team webhook",
         "tags": [
           "Webhooks"
         ],
@@ -8128,13 +8911,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles HubSpot actions for internal team notifications."
       }
     },
     "/v1/webhooks/hubspot/updateCompany": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_updateCompany",
-        "summary": "v1/webhooks/hubspot/updateCompany",
+        "summary": "HubSpot update company",
         "tags": [
           "Webhooks"
         ],
@@ -8152,13 +8936,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles HubSpot workflow to update company records."
       }
     },
     "/v1/webhooks/hubspot/updateContractor": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_updateContractor",
-        "summary": "v1/webhooks/hubspot/updateContractor",
+        "summary": "HubSpot update contractor",
         "tags": [
           "Webhooks"
         ],
@@ -8176,13 +8961,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles HubSpot workflow to sync contractor data."
       }
     },
     "/v1/webhooks/hubspot/updateRealtorEdgeUrl": {
       "post": {
         "operationId": "post_v1_webhooks_hubspot_updateRealtorEdgeUrl",
-        "summary": "v1/webhooks/hubspot/updateRealtorEdgeUrl",
+        "summary": "HubSpot update realtor Edge URL",
         "tags": [
           "Webhooks"
         ],
@@ -8200,13 +8986,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles HubSpot workflow to update a realtor's Edge URL."
       }
     },
     "/v1/webhooks/pandadoc/linked-objects": {
       "post": {
         "operationId": "post_v1_webhooks_pandadoc_linked_objects",
-        "summary": "v1/webhooks/pandadoc/linked-objects",
+        "summary": "PandaDoc linked objects webhook",
         "tags": [
           "Webhooks"
         ],
@@ -8224,13 +9011,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles PandaDoc events for document-object associations."
       }
     },
     "/v1/webhooks/pandadoc/project-scope": {
       "post": {
         "operationId": "post_v1_webhooks_pandadoc_project_scope",
-        "summary": "v1/webhooks/pandadoc/project-scope",
+        "summary": "PandaDoc project scope webhook",
         "tags": [
           "Webhooks"
         ],
@@ -8248,13 +9036,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles PandaDoc events to sync project scope items from signed documents."
       }
     },
     "/v1/webhooks/website-case-study": {
       "post": {
         "operationId": "post_v1_webhooks_website_case_study",
-        "summary": "v1/webhooks/website-case-study",
+        "summary": "Website case study webhook",
         "tags": [
           "Webhooks"
         ],
@@ -8271,16 +9060,20 @@
                 "type": "object",
                 "properties": {
                   "dealId": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Deal ID."
                   },
                   "address": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Property address."
                   },
                   "state": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "State code."
                   },
                   "profit": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Net profit from renovation."
                   }
                 },
                 "required": [
@@ -8292,7 +9085,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Receives case study data from the marketing website."
       }
     },
     "/v2/analyze/comparables": {
@@ -8315,20 +9109,26 @@
                 "type": "object",
                 "properties": {
                   "address": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Full property address."
                   },
                   "conditionScore": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Condition score (1-10)."
                   }
                 },
                 "required": [
                   "address"
                 ]
+              },
+              "example": {
+                "address": "123 Main St, Los Angeles, CA 90001",
+                "conditionScore": 6.5
               }
             }
           }
         },
-        "description": "Retrieves comparable property data for valuation analysis."
+        "description": "Retrieves comparable sales data based on address and condition score."
       }
     },
     "/v2/analyze/condition": {
@@ -8340,7 +9140,36 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Condition analysis.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "conditionScore": 6.5,
+                    "features": [
+                      "hardwood floors",
+                      "granite countertops",
+                      "original windows"
+                    ],
+                    "recommendations": [
+                      {
+                        "area": "Kitchen",
+                        "priority": "high",
+                        "description": "Cabinets show significant wear — recommend full replacement",
+                        "estimatedCost": 15000
+                      },
+                      {
+                        "area": "Bathroom",
+                        "priority": "medium",
+                        "description": "Tile grout needs replacement, fixtures dated",
+                        "estimatedCost": 8000
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -8352,17 +9181,25 @@
                 "properties": {
                   "imageUrls": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "description": "Array of image URLs to analyze."
                   }
                 },
                 "required": [
                   "imageUrls"
                 ]
+              },
+              "example": {
+                "imageUrls": [
+                  "https://photos.example.com/kitchen_01.jpg",
+                  "https://photos.example.com/bathroom_01.jpg",
+                  "https://photos.example.com/exterior_01.jpg"
+                ]
               }
             }
           }
         },
-        "description": "Submits property photos for AI-powered condition analysis. Returns a structured assessment of property condition, identified features, and renovation recommendations."
+        "description": "Submits property photos for AI condition analysis. Returns condition score, features, and renovation recommendations."
       }
     },
     "/v2/analyze/create-report": {
@@ -8391,22 +9228,28 @@
                 "properties": {
                   "photos": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "description": "Array of photo URLs."
                   },
                   "address": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Full address."
                   },
                   "state": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "State code."
                   },
                   "bathroom": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Number of bathrooms."
                   },
                   "yearBuilt": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Year built."
                   },
                   "createdBy": {
-                    "type": "object"
+                    "type": "object",
+                    "description": "Object with userId and role."
                   }
                 },
                 "required": [
@@ -8420,13 +9263,13 @@
             }
           }
         },
-        "description": "Generates a full property analysis report combining condition assessment, comparables, and renovation recommendations."
+        "description": "Generates a full property analysis report with condition assessment, comparables, market data, and renovation recommendations."
       }
     },
     "/v2/analyze/feedback/{id}": {
       "post": {
         "operationId": "post_v2_analyze_feedback_id_",
-        "summary": "v2/analyze/feedback/{id}",
+        "summary": "Submit analysis feedback",
         "tags": [
           "Analyze"
         ],
@@ -8442,7 +9285,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report ID."
           }
         ],
         "security": [
@@ -8462,7 +9306,8 @@
                     "enum": [
                       "good",
                       "bad"
-                    ]
+                    ],
+                    "description": "Feedback text."
                   },
                   "then": {}
                 },
@@ -8472,13 +9317,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Submits feedback on an analysis report."
       }
     },
     "/v2/analyze/photos": {
       "post": {
         "operationId": "post_v2_analyze_photos",
-        "summary": "v2/analyze/photos",
+        "summary": "Analyze property photos",
         "tags": [
           "Analyze"
         ],
@@ -8501,7 +9347,8 @@
                 "properties": {
                   "imageUrls": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "description": "Array of image URLs."
                   }
                 },
                 "required": [
@@ -8510,13 +9357,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Analyzes photos to identify rooms, features, and condition issues without a full report."
       }
     },
     "/v2/analyze/reanalyze": {
       "post": {
         "operationId": "post_v2_analyze_reanalyze",
-        "summary": "v2/analyze/reanalyze",
+        "summary": "Reanalyze with updated comparables",
         "tags": [
           "Analyze"
         ],
@@ -8538,7 +9386,8 @@
                 "type": "object",
                 "properties": {
                   "comparables": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Updated comparable data."
                   }
                 },
                 "required": [
@@ -8547,13 +9396,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Re-runs analysis with updated comparable properties."
       }
     },
     "/v2/analyze/renovation/{id}": {
       "get": {
         "operationId": "get_v2_analyze_renovation_id_",
-        "summary": "v2/analyze/renovation/{id}",
+        "summary": "Get renovation analysis",
         "tags": [
           "Analyze"
         ],
@@ -8569,15 +9419,17 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report ID."
           }
-        ]
+        ],
+        "description": "Retrieves renovation-specific analysis with recommendations and ROI projections."
       }
     },
     "/v2/analyze/v2/comparables": {
       "post": {
         "operationId": "post_v2_analyze_v2_comparables",
-        "summary": "v2/analyze/v2/comparables",
+        "summary": "Get V2 comparables",
         "tags": [
           "Analyze"
         ],
@@ -8595,7 +9447,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Enhanced comparable lookup using V2 analysis engine with improved matching."
       }
     },
     "/v2/calendars/": {
@@ -8607,7 +9460,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Calendars.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "calendarId": "cal_abc123",
+                      "name": "LA Team Calendar",
+                      "group": "west-coast",
+                      "url": "https://meetings.hubspot.com/la-team"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8615,7 +9483,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all configured calendars for scheduling meetings and onsite visits."
+        "description": "Returns all configured calendars for scheduling."
       },
       "post": {
         "operationId": "post_v2_calendars_",
@@ -8641,22 +9509,27 @@
                 "type": "object",
                 "properties": {
                   "hubspotOwnerId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "HubSpot owner ID."
                   },
                   "hs_static_app": {
                     "type": "string"
                   },
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Display name."
                   },
                   "group": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Calendar group."
                   },
                   "url": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Booking URL."
                   },
                   "clienttimeout": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Timeout in ms for booking operations."
                   }
                 },
                 "required": [
@@ -8670,13 +9543,13 @@
             }
           }
         },
-        "description": "Creates a new calendar configuration for scheduling."
+        "description": "Creates a new calendar configuration."
       }
     },
     "/v2/calendars/{calendarId}": {
       "get": {
         "operationId": "get_v2_calendars_calendarId_",
-        "summary": "v2/calendars/{calendarId}",
+        "summary": "Get calendar",
         "tags": [
           "Calendars"
         ],
@@ -8692,18 +9565,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Calendar identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves a calendar by ID."
       },
       "patch": {
         "operationId": "patch_v2_calendars_calendarId_",
-        "summary": "v2/calendars/{calendarId}",
+        "summary": "Update calendar",
         "tags": [
           "Calendars"
         ],
@@ -8719,7 +9594,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Calendar identifier."
           }
         ],
         "security": [
@@ -8736,11 +9612,12 @@
               }
             }
           }
-        }
+        },
+        "description": "Updates calendar configuration."
       },
       "delete": {
         "operationId": "delete_v2_calendars_calendarId_",
-        "summary": "v2/calendars/{calendarId}",
+        "summary": "Delete calendar",
         "tags": [
           "Calendars"
         ],
@@ -8756,14 +9633,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Calendar identifier."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Deletes a calendar."
       }
     },
     "/v2/deals/": {
@@ -8775,7 +9654,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Deal created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_abc123",
+                    "dealname": "123 Main St, Los Angeles, CA",
+                    "dealtype": "Presale",
+                    "pipeline": "Pre-Sale Pipeline",
+                    "stage": "New Lead"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -8789,20 +9682,26 @@
                     "type": "string",
                     "enum": [
                       "prepareToSell"
-                    ]
+                    ],
+                    "description": "Deal type: 'Presale', 'RTS', or 'Special Services'."
                   },
                   "dealname": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Display name, typically the property address."
                   }
                 },
                 "required": [
                   "dealtype"
                 ]
+              },
+              "example": {
+                "dealtype": "Presale",
+                "dealname": "123 Main St, Los Angeles, CA"
               }
             }
           }
         },
-        "description": "Creates a new deal in the pipeline. Deals are routed to the appropriate pipeline and stage based on property value and deal type."
+        "description": "Creates a new deal in the HubSpot pipeline. Deals are routed to the appropriate pipeline and stage based on deal type."
       }
     },
     "/v2/opportunities/": {
@@ -8814,7 +9713,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Opportunities list.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "opportunityId": "opp_abc123",
+                      "dealname": "123 Main St Renovation",
+                      "dealtype": "Presale",
+                      "stage": "Estimate Review",
+                      "amount": 85000,
+                      "contact": {
+                        "firstname": "John",
+                        "lastname": "Doe"
+                      }
+                    }
+                  ],
+                  "total": 42,
+                  "hasMore": true
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8822,13 +9743,13 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns a list of all opportunities. Supports pagination and filtering."
+        "description": "Returns a paginated list of all opportunities. Supports filtering by status, deal type, and assignee."
       }
     },
     "/v2/opportunities/admin/{adminId}": {
       "get": {
         "operationId": "get_v2_opportunities_admin_adminId_",
-        "summary": "v2/opportunities/admin/{adminId}",
+        "summary": "List opportunities by admin",
         "tags": [
           "Opportunities"
         ],
@@ -8844,14 +9765,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID of the admin."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns opportunities assigned to a specific admin user."
       }
     },
     "/v2/opportunities/{opportunityId}": {
@@ -8874,7 +9797,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The unique identifier for the opportunity."
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -8892,11 +9815,69 @@
             }
           }
         },
-        "description": "Updates fields on an existing opportunity."
+        "description": "Updates fields on an opportunity — stage, amount, notes, or custom properties."
       },
       "get": {
         "operationId": "get_v2_opportunities_opportunityId_",
         "summary": "Get opportunity",
+        "tags": [
+          "Opportunities"
+        ],
+        "responses": {
+          "200": {
+            "description": "Opportunity details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "opportunityId": "opp_abc123",
+                    "dealname": "123 Main St Renovation",
+                    "dealtype": "Presale",
+                    "stage": "Estimate Review",
+                    "amount": 85000,
+                    "contacts": [
+                      {
+                        "contactId": "cont_xyz",
+                        "firstname": "John",
+                        "lastname": "Doe",
+                        "role": "homeowner"
+                      }
+                    ],
+                    "property": {
+                      "address": "123 Main St",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "bedrooms": 3,
+                      "yearBuilt": 1985
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "opportunityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "HubSpot deal ID."
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Retrieves a single opportunity with contacts, property data, estimates, and status history."
+      },
+      "delete": {
+        "operationId": "delete_v2_opportunities_opportunityId_",
+        "summary": "Delete opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -8913,35 +9894,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The unique identifier for the opportunity."
-          }
-        ],
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ],
-        "description": "Retrieves a single opportunity by ID, including associated contacts, property data, and status."
-      },
-      "delete": {
-        "operationId": "delete_v2_opportunities_opportunityId_",
-        "summary": "v2/opportunities/{opportunityId}",
-        "tags": [
-          "Opportunities"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "parameters": [
-          {
-            "name": "opportunityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -8957,13 +9910,15 @@
                 "type": "object",
                 "properties": {
                   "contactId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Associated contact ID (in request body)."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Deletes an opportunity. Requires the associated contact ID for cleanup."
       }
     },
     "/v2/opportunities/{opportunityId}/associate-contact": {
@@ -8986,7 +9941,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The unique identifier for the opportunity."
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -9010,7 +9965,7 @@
     "/v2/opportunities/{opportunityId}/create-and-associate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_create_and_associate_contact",
-        "summary": "v2/opportunities/{opportunityId}/create-and-associate-contact",
+        "summary": "Create and associate contact",
         "tags": [
           "Opportunities"
         ],
@@ -9026,7 +9981,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -9043,13 +9999,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a new contact and associates it with the opportunity in one call."
       }
     },
     "/v2/opportunities/{opportunityId}/disassociate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_disassociate_contact",
-        "summary": "v2/opportunities/{opportunityId}/disassociate-contact",
+        "summary": "Disassociate contact",
         "tags": [
           "Opportunities"
         ],
@@ -9065,7 +10022,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -9082,13 +10040,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Removes the link between a contact and an opportunity."
       }
     },
     "/v2/opportunities/{opportunityId}/onsite-visit": {
       "get": {
         "operationId": "get_v2_opportunities_opportunityId_onsite_visit",
-        "summary": "v2/opportunities/{opportunityId}/onsite-visit",
+        "summary": "Get opportunity's onsite visit",
         "tags": [
           "Opportunities"
         ],
@@ -9104,18 +10063,20 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves the onsite visit for this opportunity."
       },
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_onsite_visit",
-        "summary": "v2/opportunities/{opportunityId}/onsite-visit",
+        "summary": "Schedule onsite visit for opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -9131,7 +10092,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -9148,7 +10110,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Schedules a new onsite visit for this opportunity's property."
       }
     },
     "/v2/payments/reno/create-checkout-session": {
@@ -9160,7 +10123,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Checkout session created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "sessionUrl": "https://checkout.stripe.com/c/pay/cs_live_abc123",
+                  "sessionId": "cs_live_abc123"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9181,20 +10153,24 @@
                       "year-starter",
                       "year-plus",
                       "year-pro"
-                    ]
+                    ],
+                    "description": "Payment type: 'subscription' or 'one-time'."
                   }
                 }
+              },
+              "example": {
+                "type": "subscription"
               }
             }
           }
         },
-        "description": "Creates a Stripe checkout session for renovation-related payments. Returns a session URL to redirect the user to Stripe's hosted checkout."
+        "description": "Creates a Stripe checkout session. Returns a URL to redirect the user to Stripe's hosted checkout."
       }
     },
     "/v2/payments/reno/payment-intents": {
       "post": {
         "operationId": "post_v2_payments_reno_payment_intents",
-        "summary": "v2/payments/reno/payment-intents",
+        "summary": "Create payment intent",
         "tags": [
           "Payments"
         ],
@@ -9221,19 +10197,21 @@
                       "year-starter",
                       "year-plus",
                       "year-pro"
-                    ]
+                    ],
+                    "description": "Payment type identifier."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Creates a Stripe payment intent for a one-time renovation payment."
       }
     },
     "/v2/payments/reno/remove-subscription": {
       "delete": {
         "operationId": "delete_v2_payments_reno_remove_subscription",
-        "summary": "v2/payments/reno/remove-subscription",
+        "summary": "Cancel subscription",
         "tags": [
           "Payments"
         ],
@@ -9246,32 +10224,47 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Cancels an active Stripe subscription for the authenticated user."
       }
     },
     "/v2/payments/reno/user-subscription": {
       "get": {
         "operationId": "get_v2_payments_reno_user_subscription",
-        "summary": "v2/payments/reno/user-subscription",
+        "summary": "Get user subscription",
         "tags": [
           "Payments"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Subscription details.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "subscriptionId": "sub_abc123",
+                    "plan": "premium",
+                    "status": "active",
+                    "currentPeriodEnd": "2026-05-14T00:00:00Z"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Retrieves the current subscription status for the authenticated user."
       }
     },
     "/v2/payments/reno/webhook": {
       "post": {
         "operationId": "post_v2_payments_reno_webhook",
-        "summary": "v2/payments/reno/webhook",
+        "summary": "Stripe webhook handler",
         "tags": [
           "Payments"
         ],
@@ -9289,13 +10282,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Handles incoming Stripe webhook events. Called by Stripe, not by your application."
       }
     },
     "/v2/properties/{objectType}": {
       "get": {
         "operationId": "get_v2_properties_objectType_",
-        "summary": "v2/properties/{objectType}",
+        "summary": "List HubSpot properties",
         "tags": [
           "Properties"
         ],
@@ -9311,15 +10305,17 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot object: 'contacts', 'deals', 'companies', or custom objects."
           }
-        ]
+        ],
+        "description": "Retrieves all custom property definitions for a HubSpot object type."
       }
     },
     "/v2/properties/{objectType}/{propertyName}": {
       "get": {
         "operationId": "get_v2_properties_objectType_propertyName_",
-        "summary": "v2/properties/{objectType}/{propertyName}",
+        "summary": "Get HubSpot property",
         "tags": [
           "Properties"
         ],
@@ -9335,7 +10331,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot object type."
           },
           {
             "name": "propertyName",
@@ -9343,15 +10340,17 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Internal property name."
           }
-        ]
+        ],
+        "description": "Retrieves a single property definition by name."
       }
     },
     "/v2/referrals/": {
       "post": {
         "operationId": "post_v2_referrals_",
-        "summary": "v2/referrals/",
+        "summary": "Create V2 referral",
         "tags": [
           "Referrals"
         ],
@@ -9378,10 +10377,12 @@
                       "buyer",
                       "seller",
                       "both"
-                    ]
+                    ],
+                    "description": "Referral type."
                   },
                   "clientSituation": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Description of client's situation and needs."
                   }
                 },
                 "required": [
@@ -9390,7 +10391,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a referral with additional client situation data."
       }
     },
     "/v2/users/": {
@@ -9402,7 +10404,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "User created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "uid": "user_abc123",
+                    "email": "newuser@revive.realty",
+                    "role": "admin",
+                    "firstname": "Sarah",
+                    "position": "Project Manager"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -9413,37 +10429,50 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Email (must be unique)."
                   },
                   "role": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "'admin', 'agent', 'contractor', or 'homeowner'."
                   },
                   "position": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Job title."
                   },
                   "hubspotOwnerId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "HubSpot owner ID."
                   },
                   "firstname": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "First name."
                   },
                   "slackId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Slack member ID for notifications."
                   }
                 },
                 "required": [
                   "role",
                   "firstname"
                 ]
+              },
+              "example": {
+                "email": "newuser@revive.realty",
+                "role": "admin",
+                "firstname": "Sarah",
+                "position": "Project Manager",
+                "slackId": "U0123456789"
               }
             }
           }
         },
-        "description": "Creates a new platform user with the specified profile information."
+        "description": "Creates a new platform user with role-based access."
       },
       "get": {
         "operationId": "get_v2_users_",
-        "summary": "v2/users/",
+        "summary": "List users",
         "tags": [
           "Users"
         ],
@@ -9451,13 +10480,14 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "description": "Returns all platform users with optional filtering by role."
       }
     },
     "/v2/users/owners": {
       "get": {
         "operationId": "get_v2_users_owners",
-        "summary": "v2/users/owners",
+        "summary": "List user owners",
         "tags": [
           "Users"
         ],
@@ -9470,7 +10500,8 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "description": "Returns users designated as HubSpot owners — used for deal assignment."
       }
     },
     "/v2/users/{uid}": {
@@ -9482,7 +10513,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "User profile.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "uid": "user_abc123",
+                    "email": "sarah@revive.realty",
+                    "role": "admin",
+                    "firstname": "Sarah",
+                    "lastname": "Johnson",
+                    "position": "Project Manager",
+                    "phone": "+15551234567"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -9493,7 +10540,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Firebase UID of the user."
+            "description": "Firebase UID."
           }
         ],
         "security": [
@@ -9501,7 +10548,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "Retrieves a user profile by Firebase UID."
+        "description": "Retrieves a user profile by Firebase UID including role, permissions, and activity."
       },
       "patch": {
         "operationId": "patch_v2_users_uid_",
@@ -9522,7 +10569,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Firebase UID of the user."
+            "description": "Firebase UID."
           }
         ],
         "security": [
@@ -9540,7 +10587,7 @@
             }
           }
         },
-        "description": "Updates profile fields for an existing user."
+        "description": "Updates profile fields for a user. Only included fields are modified."
       },
       "delete": {
         "operationId": "delete_v2_users_uid_",
@@ -9561,7 +10608,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Firebase UID of the user."
+            "description": "Firebase UID."
           }
         ],
         "security": [
@@ -9569,13 +10616,13 @@
             "BearerAuth": []
           }
         ],
-        "description": "Soft-deletes a user by Firebase UID. The user record is marked as deleted but retained for audit purposes."
+        "description": "Soft-deletes a user — marks as deleted but retains for audit."
       }
     },
     "/v2/vision-ai/": {
       "post": {
         "operationId": "post_v2_vision_ai_",
-        "summary": "v2/vision-ai/",
+        "summary": "Create V2 Vision AI report",
         "tags": [
           "Vision Ai"
         ],
@@ -9597,28 +10644,36 @@
                 "type": "object",
                 "properties": {
                   "imageUrls": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Array of photo URLs."
                   },
                   "contactId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Associated contact."
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "City."
                   },
                   "postalCode": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "ZIP code."
                   },
                   "rejectionReason": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Reason for prior rejection."
                   },
                   "bedrooms": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Number of bedrooms."
                   },
                   "yearBuilt": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Year built."
                   },
                   "reportType": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "'standard' or 'premium'."
                   }
                 },
                 "required": [
@@ -9630,13 +10685,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Creates a V2 property analysis report with enhanced AI capabilities."
       }
     },
     "/v2/vision-ai/condition": {
       "post": {
         "operationId": "post_v2_vision_ai_condition",
-        "summary": "v2/vision-ai/condition",
+        "summary": "V2 condition analysis",
         "tags": [
           "Vision Ai"
         ],
@@ -9658,13 +10714,16 @@
                 "type": "object",
                 "properties": {
                   "imageUrls": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Array of photo URLs."
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "City."
                   },
                   "postalCode": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "ZIP code."
                   }
                 },
                 "required": [
@@ -9675,13 +10734,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Enhanced AI condition analysis with improved accuracy."
       }
     },
     "/v2/vision-ai/custom-object/{recordId}": {
       "patch": {
         "operationId": "patch_v2_vision_ai_custom_object_recordId_",
-        "summary": "v2/vision-ai/custom-object/{recordId}",
+        "summary": "Update Vision AI custom object",
         "tags": [
           "Vision Ai"
         ],
@@ -9697,7 +10757,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot custom object record ID."
           }
         ],
         "security": [
@@ -9713,22 +10774,25 @@
                 "type": "object",
                 "properties": {
                   "requested_call": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Whether a call was requested."
                   },
                   "request_contact_reason": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Reason for contact request."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Updates a HubSpot custom object record for a Vision AI report."
       }
     },
     "/v2/vision-ai/images": {
       "post": {
         "operationId": "post_v2_vision_ai_images",
-        "summary": "v2/vision-ai/images",
+        "summary": "Process Vision AI images",
         "tags": [
           "Vision Ai"
         ],
@@ -9750,7 +10814,8 @@
                 "type": "object",
                 "properties": {
                   "id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Report ID to add images to."
                   }
                 },
                 "required": [
@@ -9759,13 +10824,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Processes and uploads images for a V2 Vision AI report."
       }
     },
     "/v2/vision-ai/rejected-report-note/{recordId}": {
       "post": {
         "operationId": "post_v2_vision_ai_rejected_report_note_recordId_",
-        "summary": "v2/vision-ai/rejected-report-note/{recordId}",
+        "summary": "Add rejected report note",
         "tags": [
           "Vision Ai"
         ],
@@ -9781,7 +10847,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Custom object record ID."
           }
         ],
         "security": [
@@ -9797,7 +10864,8 @@
                 "type": "object",
                 "properties": {
                   "note": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Rejection note."
                   }
                 },
                 "required": [
@@ -9806,13 +10874,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Adds a note explaining why a report was rejected."
       }
     },
     "/v2/vision-ai/scraper": {
       "post": {
         "operationId": "post_v2_vision_ai_scraper",
-        "summary": "v2/vision-ai/scraper",
+        "summary": "Run Vision AI scraper",
         "tags": [
           "Vision Ai"
         ],
@@ -9834,19 +10903,21 @@
                 "type": "object",
                 "properties": {
                   "csv": {
-                    "type": "object"
+                    "type": "object",
+                    "description": "CSV data object for batch processing."
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": "Runs the property data scraper for Vision AI reports."
       }
     },
     "/v2/vision-ai/scraper/csv": {
       "get": {
         "operationId": "get_v2_vision_ai_scraper_csv",
-        "summary": "v2/vision-ai/scraper/csv",
+        "summary": "Get scraper CSV export",
         "tags": [
           "Vision Ai"
         ],
@@ -9868,7 +10939,8 @@
                 "type": "object",
                 "properties": {
                   "type": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Export type filter."
                   }
                 },
                 "required": [
@@ -9877,13 +10949,14 @@
               }
             }
           }
-        }
+        },
+        "description": "Exports scraper results as a CSV file."
       }
     },
     "/v2/vision-ai/scraper/generate-report": {
       "post": {
         "operationId": "post_v2_vision_ai_scraper_generate_report",
-        "summary": "v2/vision-ai/scraper/generate-report",
+        "summary": "Generate report from scraper",
         "tags": [
           "Vision Ai"
         ],
@@ -9906,7 +10979,8 @@
               }
             }
           }
-        }
+        },
+        "description": "Generates a full report from scraped property data."
       }
     }
   },
@@ -9937,35 +11011,35 @@
     },
     {
       "name": "Estimates",
-      "description": "Create, update, duplicate, and manage renovation estimates and change orders."
+      "description": "Create, update, duplicate, and manage renovation estimates and change orders with line items from the product catalog."
     },
     {
       "name": "Opportunities",
-      "description": "Deal opportunities — create, update, associate contacts, and manage onsite visits."
+      "description": "Deal opportunities — create, update, associate contacts, track status, and manage onsite visits."
     },
     {
       "name": "Deals",
-      "description": "Deal creation and pipeline management."
+      "description": "Deal creation and pipeline management in HubSpot."
     },
     {
       "name": "Property",
-      "description": "Property data — lookups, valuations, images, and property-related analytics."
+      "description": "Property data — lookups, valuations, images, reports, comparables, and property-related analytics."
     },
     {
       "name": "Homes",
-      "description": "Home records — create, retrieve, and manage home details and associated data."
+      "description": "Home records — create, retrieve, and manage home details and associated property data."
     },
     {
       "name": "Vision Ai",
-      "description": "AI-powered property analysis — condition reports, photo analysis, neighborhood reports, and renovation recommendations."
+      "description": "AI-powered property analysis — condition reports, photo analysis, neighborhood reports, scraping tools, and renovation recommendations."
     },
     {
       "name": "Analyze",
-      "description": "Property analysis tools — comparables, condition assessment, photo analysis, and report generation."
+      "description": "Property analysis tools — AI condition assessment, comparable property lookup, photo analysis, and full report generation."
     },
     {
       "name": "Rma",
-      "description": "Renovation Management Agreements — create, manage, and track RMA contracts and related documents."
+      "description": "Renovation Management Agreements — create, manage, track contracts, handle draws, and manage signing workflows."
     },
     {
       "name": "Contracts",
@@ -9973,11 +11047,11 @@
     },
     {
       "name": "Payments",
-      "description": "Payment processing — checkout sessions, subscriptions, payment intents, and Stripe webhook handling."
+      "description": "Payment processing via Stripe — checkout sessions, subscriptions, payment intents, and webhook handling."
     },
     {
       "name": "Users",
-      "description": "User management — create, retrieve, update, and delete platform users."
+      "description": "Platform user management — create, retrieve, update, and delete users with role-based access."
     },
     {
       "name": "Calendars",
@@ -9989,27 +11063,27 @@
     },
     {
       "name": "Media",
-      "description": "File and media management — upload, retrieve, and manage photos and documents."
+      "description": "File and media management — upload, retrieve, organize, and delete photos, documents, and attachments."
     },
     {
       "name": "Referrals",
-      "description": "Referral tracking — create and manage referral records and attribution."
+      "description": "Referral tracking — create, update, and manage referral records and attribution across deal types."
     },
     {
       "name": "Ret Catalog",
-      "description": "Renovation product catalog — browse product types, options, and selections for estimates."
+      "description": "Renovation product catalog — browse product types, options, selections, and pricing for estimates."
     },
     {
       "name": "Marketing Center",
-      "description": "Marketing tools — flyers, campaigns, and marketing material management."
+      "description": "Marketing tools — flyers, brochures, campaigns, and marketing material management for agents."
     },
     {
       "name": "Notifications",
-      "description": "Push notifications and in-app messaging."
+      "description": "Push notifications and in-app messaging — send targeted alerts to users across platforms."
     },
     {
       "name": "Onsite Visits",
-      "description": "Onsite visit scheduling, management, and tracking for property inspections."
+      "description": "Onsite visit scheduling, tracking, and management for property inspections and contractor walkthroughs."
     },
     {
       "name": "Project Scopes",
@@ -10017,68 +11091,83 @@
     },
     {
       "name": "Broadcast",
-      "description": "Broadcast messaging — send communications to groups of users."
+      "description": "Broadcast messaging — send communications to groups of users via SMS, email, or push notifications."
     },
     {
       "name": "WeeklyUpdates",
-      "description": "Weekly renovation progress updates — create, view, and manage update reports."
+      "description": "Weekly renovation progress updates — create, view, edit, and delete update reports for active projects."
     },
     {
       "name": "Utility",
-      "description": "Utility endpoints — home image lookups, image deduplication, and market health checks."
+      "description": "Utility endpoints — multi-source home image lookups, image deduplication, and market health checks."
     },
     {
       "name": "Predictions",
-      "description": "AI image generation — create and poll prediction jobs for material and design visualizations."
+      "description": "AI image generation — create and poll async prediction jobs for material and design visualizations."
     },
     {
       "name": "Reimagine",
-      "description": "AI-powered home reimagining — generate design visualizations and renovation previews."
+      "description": "AI-powered home reimagining — generate design visualizations and renovation previews using AI image generation."
     },
     {
-      "name": "AppConfigs"
+      "name": "AppConfigs",
+      "description": "Application configuration — feature flags and app settings per platform (dashboard, admin, mobile)."
     },
     {
-      "name": "Automated Valuation Models"
+      "name": "Automated Valuation Models",
+      "description": "Automated property valuation using third-party data sources."
     },
     {
-      "name": "Brokerages"
+      "name": "Brokerages",
+      "description": "Brokerage management — create, update, and manage real estate brokerage records and associations."
     },
     {
-      "name": "Case Studies"
+      "name": "Case Studies",
+      "description": "Case study management for marketing materials and website content."
     },
     {
-      "name": "Esignatures"
+      "name": "Esignatures",
+      "description": "Electronic signature management via PandaDoc — document status and signing workflows."
     },
     {
-      "name": "Follow Up Boss"
+      "name": "Follow Up Boss",
+      "description": "Integration with Follow Up Boss CRM — sync contacts, leads, and deal data."
     },
     {
-      "name": "Meetings"
+      "name": "Meetings",
+      "description": "Meeting scheduling — book, update, and manage meetings between agents, homeowners, and contractors."
     },
     {
-      "name": "Migrations"
+      "name": "Migrations",
+      "description": "Data migration utilities for internal platform upgrades."
     },
     {
-      "name": "Partners"
+      "name": "Partners",
+      "description": "Partner management — affiliate and referral partner records."
     },
     {
-      "name": "Production"
+      "name": "Production",
+      "description": "Production environment management and deployment status."
     },
     {
-      "name": "Punch List"
+      "name": "Punch List",
+      "description": "Punch list management — track outstanding items and tasks for renovation project completion."
     },
     {
-      "name": "Realtors"
+      "name": "Realtors",
+      "description": "Realtor profiles — create and retrieve realtor contact information."
     },
     {
-      "name": "Reports"
+      "name": "Reports",
+      "description": "Report generation — annual reports, analytics exports, and data summaries."
     },
     {
-      "name": "Support"
+      "name": "Support",
+      "description": "Support ticket submission — create tickets with contact details and issue descriptions."
     },
     {
-      "name": "Properties"
+      "name": "Properties",
+      "description": "HubSpot property definitions — retrieve custom property metadata for objects."
     }
   ]
 }

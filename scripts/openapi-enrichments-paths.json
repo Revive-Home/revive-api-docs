@@ -1,0 +1,329 @@
+{
+  "GET /health": {
+    "summary": "Health check",
+    "description": "Returns the current health status of the API. No authentication required. Use this to verify API connectivity.",
+    "responses": {
+      "200": {
+        "description": "API is healthy and operational.",
+        "example": { "uptime": 123456.789, "message": "OK", "timestamp": 1713100000000 }
+      }
+    }
+  },
+  "POST /v1/auth/login": {
+    "summary": "Log in",
+    "description": "Authenticates a user with Firebase credentials and returns session information including user role and profile.",
+    "responses": {
+      "200": {
+        "description": "Authentication successful.",
+        "example": {
+          "status": "success",
+          "user": { "uid": "abc123def456", "email": "user@example.com", "role": "admin", "firstname": "Jane", "lastname": "Smith" }
+        }
+      },
+      "401": {
+        "description": "Invalid or expired Firebase token.",
+        "example": { "status": "error", "message": "Invalid authentication token", "code": 401 }
+      }
+    }
+  },
+  "PATCH /v1/admins/email/{uid}": {
+    "summary": "Update admin email",
+    "description": "Updates the email address for an admin user identified by their Firebase UID.",
+    "parameters": { "uid": "Firebase UID of the admin user (e.g., 'abc123def456')." },
+    "requestExample": { "newEmail": "newemail@revive.realty" },
+    "responses": {
+      "200": { "description": "Email updated successfully.", "example": { "status": "success", "message": "Admin email updated" } }
+    }
+  },
+  "PATCH /v1/admins/{uid}": {
+    "summary": "Update admin profile",
+    "description": "Updates profile fields for an admin user. All fields are optional — only included fields are updated.",
+    "parameters": { "uid": "Firebase UID of the admin user." },
+    "requestExample": { "email": "admin@revive.realty", "lastname": "Johnson", "phone": "+15551234567", "position": "Senior PM" },
+    "responses": {
+      "200": { "description": "Profile updated.", "example": { "status": "success", "message": "Admin profile updated" } }
+    }
+  },
+  "POST /v1/agents/get-opportunities": {
+    "summary": "Get agent opportunities",
+    "description": "Retrieves deal opportunities for a specific agent. Supports pagination, filtering by deal type, date range, and status.",
+    "parameters": {
+      "agentId": "HubSpot contact ID for the agent.",
+      "after": "Cursor for pagination — pass the last opportunity ID from the previous page.",
+      "dealType": "Filter: 'Presale', 'RTS' (Renovate to Stay), or 'Special Services'.",
+      "isLost": "When true, returns only lost/closed opportunities. Defaults to false.",
+      "startDate": "Unix timestamp (ms) — only return opportunities created on or after this date.",
+      "separateByDealType": "When true, groups results by deal type."
+    },
+    "requestExample": { "agentId": "12345678", "dealType": "Presale", "isLost": false, "startDate": 1704067200000 },
+    "responses": {
+      "200": {
+        "description": "List of matching opportunities.",
+        "example": {
+          "status": "success",
+          "data": [
+            { "id": "987654321", "dealname": "123 Main St Renovation", "dealtype": "Presale", "stage": "In Progress", "amount": 85000, "contact": { "firstname": "John", "lastname": "Doe", "email": "john@example.com" } }
+          ],
+          "hasMore": false
+        }
+      }
+    }
+  },
+  "POST /v1/agents/search": {
+    "summary": "Search agents",
+    "description": "Search for agents by name, email, or other criteria. Returns a paginated list.",
+    "parameters": { "search": "Query string — matches agent name, email, or brokerage.", "limit": "Max results to return. Defaults to 25." },
+    "requestExample": { "search": "jane smith", "limit": 10 },
+    "responses": {
+      "200": {
+        "description": "Matching agents.",
+        "example": { "status": "success", "data": [{ "agentId": "12345678", "firstname": "Jane", "lastname": "Smith", "email": "jane@realty.com", "brokerage": "Keller Williams" }] }
+      }
+    }
+  },
+  "GET /v1/agents/{agentId}": {
+    "summary": "Get agent by ID",
+    "description": "Retrieves a single agent record by their unique agent ID.",
+    "parameters": { "agentId": "HubSpot contact ID for the agent." },
+    "responses": {
+      "200": {
+        "description": "Agent profile.",
+        "example": { "status": "success", "data": { "agentId": "12345678", "firstname": "Jane", "lastname": "Smith", "email": "jane@realty.com", "phone": "+15551234567", "brokerage": "Keller Williams", "state": "CA" } }
+      }
+    }
+  },
+  "GET /v1/app-config/feature-flags/{app}": {
+    "summary": "Get feature flags",
+    "description": "Returns all active feature flags for the specified application platform.",
+    "parameters": { "app": "Platform identifier: 'dashboard', 'admin', or 'mobile'." },
+    "responses": {
+      "200": { "description": "Feature flag configuration.", "example": { "status": "success", "flags": { "enableNewEstimateFlow": true, "enableAIPhotoAnalysis": true, "enableRTSContracts": false } } }
+    }
+  },
+  "GET /v1/app-config/{app}": {
+    "summary": "Get app configuration",
+    "description": "Returns the full application configuration including feature flags, UI settings, and environment values.",
+    "parameters": { "app": "Platform identifier: 'dashboard', 'admin', or 'mobile'." }
+  },
+  "PATCH /v1/app-config/{app}": {
+    "summary": "Update app configuration",
+    "description": "Updates configuration values for the specified platform. Only included fields are modified.",
+    "parameters": { "app": "Platform identifier: 'dashboard', 'admin', or 'mobile'." }
+  },
+  "POST /v1/app-config/{app}": {
+    "summary": "Create app configuration",
+    "description": "Creates a new configuration entry for the specified platform.",
+    "parameters": { "app": "Platform identifier: 'dashboard', 'admin', or 'mobile'." }
+  },
+  "POST /v1/avm": {
+    "summary": "Run automated valuation",
+    "description": "Runs an automated valuation model (AVM) for a property address. Returns estimated value based on comparables, market trends, and property data."
+  },
+  "POST /v1/broadcast/email": {
+    "summary": "Send broadcast email",
+    "description": "Sends an email broadcast to a targeted list of recipients."
+  },
+  "POST /v1/broadcast/push-notification": {
+    "summary": "Send broadcast push notification",
+    "description": "Sends a push notification to a group of users across mobile and web."
+  },
+  "POST /v1/broadcast/sms": {
+    "summary": "Send broadcast SMS",
+    "description": "Sends an SMS broadcast message to a list of phone numbers."
+  },
+  "GET /v1/broadcast/templates": {
+    "summary": "List broadcast templates",
+    "description": "Returns available broadcast message templates for email, SMS, and push."
+  },
+  "POST /v1/broadcast/templates": {
+    "summary": "Create broadcast template",
+    "description": "Creates a new broadcast message template."
+  },
+  "POST /v1/brokerages/": {
+    "summary": "Create brokerage",
+    "description": "Creates a new real estate brokerage record.",
+    "requestExample": { "name": "Keller Williams Realty", "state": "CA", "city": "Los Angeles" },
+    "responses": {
+      "200": { "description": "Brokerage created.", "example": { "status": "success", "data": { "id": "brok_abc123", "name": "Keller Williams Realty", "state": "CA" } } }
+    }
+  },
+  "GET /v1/brokerages/": {
+    "summary": "List brokerages",
+    "description": "Returns all registered brokerages with optional filtering and pagination."
+  },
+  "POST /v1/brokerages/search": {
+    "summary": "Search brokerages",
+    "description": "Searches brokerages by name, location, or other criteria."
+  },
+  "GET /v1/brokerages/{brokerageId}": {
+    "summary": "Get brokerage",
+    "description": "Retrieves a single brokerage record by ID.",
+    "parameters": { "brokerageId": "Unique brokerage identifier." }
+  },
+  "PATCH /v1/brokerages/{brokerageId}": {
+    "summary": "Update brokerage",
+    "description": "Updates fields on an existing brokerage record.",
+    "parameters": { "brokerageId": "Unique brokerage identifier." }
+  },
+  "DELETE /v1/brokerages/{brokerageId}": {
+    "summary": "Delete brokerage",
+    "description": "Deletes a brokerage record.",
+    "parameters": { "brokerageId": "Unique brokerage identifier." }
+  },
+  "POST /v1/brokerages/{brokerageId}/agents": {
+    "summary": "Add agent to brokerage",
+    "description": "Associates an agent with a brokerage.",
+    "parameters": { "brokerageId": "Unique brokerage identifier." }
+  },
+  "POST /v1/case-studies/": {
+    "summary": "Create case study",
+    "description": "Creates a new case study from a completed deal for marketing materials and the website."
+  },
+  "POST /v1/contacts/": {
+    "summary": "Create contact",
+    "description": "Creates a new contact record. Contacts can be associated with deals and opportunities. Syncs to HubSpot.",
+    "requestExample": { "firstname": "John", "lastname": "Doe", "email": "john@example.com", "phone": "+15551234567", "type": "homeowner" },
+    "responses": {
+      "200": { "description": "Contact created.", "example": { "status": "success", "data": { "contactId": "cont_abc123", "firstname": "John", "lastname": "Doe", "email": "john@example.com", "type": "homeowner", "createdAt": "2026-04-14T12:00:00Z" } } }
+    }
+  },
+  "POST /v1/contacts/search": {
+    "summary": "Search contacts",
+    "description": "Search for contacts by name, email, phone, or other fields. Returns paginated results.",
+    "requestExample": { "search": "john doe", "limit": 25 },
+    "responses": {
+      "200": { "description": "Matching contacts.", "example": { "status": "success", "data": [{ "contactId": "cont_abc123", "firstname": "John", "lastname": "Doe", "email": "john@example.com", "type": "homeowner" }], "total": 1, "hasMore": false } }
+    }
+  },
+  "GET /v1/contacts/{contactId}": {
+    "summary": "Get contact",
+    "description": "Retrieves a contact by ID, including associated deals and opportunities.",
+    "parameters": { "contactId": "HubSpot contact ID." },
+    "responses": {
+      "200": { "description": "Contact data.", "example": { "status": "success", "data": { "contactId": "cont_abc123", "firstname": "John", "lastname": "Doe", "email": "john@example.com", "type": "homeowner", "deals": ["deal_xyz789"] } } }
+    }
+  },
+  "PATCH /v1/contacts/{contactId}": {
+    "summary": "Update contact",
+    "description": "Updates fields on an existing contact. Only included fields are modified.",
+    "parameters": { "contactId": "HubSpot contact ID." }
+  },
+  "DELETE /v1/contacts/{contactId}": {
+    "summary": "Delete contact",
+    "description": "Deletes a contact record.",
+    "parameters": { "contactId": "HubSpot contact ID." }
+  },
+  "POST /v1/contacts/{contactId}/intake-url": {
+    "summary": "Generate intake URL",
+    "description": "Generates a unique intake URL for a contact to begin the property assessment process.",
+    "parameters": { "contactId": "HubSpot contact ID." },
+    "responses": {
+      "200": { "description": "Intake URL generated.", "example": { "status": "success", "url": "https://app.revive.realty/intake?token=abc123xyz" } }
+    }
+  },
+  "POST /v1/contractors/": {
+    "summary": "Create contractor",
+    "description": "Creates a new contractor profile. Contractors are assigned to renovation projects and can submit weekly updates.",
+    "requestExample": { "firstname": "Mike", "lastname": "Builder", "email": "mike@buildco.com", "phone": "+15559876543", "company": "BuildCo LLC" },
+    "responses": {
+      "200": { "description": "Contractor created.", "example": { "status": "success", "data": { "contractorId": "contr_abc123", "firstname": "Mike", "lastname": "Builder", "email": "mike@buildco.com", "company": "BuildCo LLC" } } }
+    }
+  },
+  "GET /v1/contractors/": {
+    "summary": "List contractors",
+    "description": "Returns all registered contractors with optional filtering."
+  },
+  "POST /v1/contractors/search": {
+    "summary": "Search contractors",
+    "description": "Searches contractors by name, company, specialty, or location."
+  },
+  "GET /v1/contractors/{contractorId}": {
+    "summary": "Get contractor",
+    "description": "Retrieves a contractor profile by ID, including assigned projects and status.",
+    "parameters": { "contractorId": "Unique contractor identifier." }
+  },
+  "PATCH /v1/contractors/{contractorId}": {
+    "summary": "Update contractor",
+    "description": "Updates fields on a contractor profile.",
+    "parameters": { "contractorId": "Unique contractor identifier." }
+  },
+  "DELETE /v1/contractors/{contractorId}": {
+    "summary": "Delete contractor",
+    "description": "Deletes a contractor profile.",
+    "parameters": { "contractorId": "Unique contractor identifier." }
+  },
+  "GET /v1/contractors/{contractorId}/dashboard": {
+    "summary": "Get contractor dashboard",
+    "description": "Returns dashboard data for a contractor including active projects, milestones, and performance metrics.",
+    "parameters": { "contractorId": "Unique contractor identifier." },
+    "responses": {
+      "200": { "description": "Dashboard data.", "example": { "status": "success", "data": { "activeProjects": 3, "completedProjects": 12, "totalRevenue": 450000, "projects": [{ "dealId": "deal_xyz789", "address": "123 Main St", "status": "In Progress", "estimateAmount": 85000 }] } } }
+    }
+  },
+  "POST /v1/contractors/{contractorId}/dashboard": {
+    "summary": "Update contractor dashboard",
+    "description": "Updates or refreshes dashboard metrics for a contractor.",
+    "parameters": { "contractorId": "Unique contractor identifier." }
+  },
+  "POST /v1/contracts/": {
+    "summary": "Create contract",
+    "description": "Creates a new contract document via PandaDoc. Returns the contract ID and edit session.",
+    "responses": {
+      "200": { "description": "Contract created.", "example": { "status": "success", "data": { "contractId": "doc_abc123", "editUrl": "https://app.pandadoc.com/editor/doc_abc123" } } }
+    }
+  },
+  "GET /v1/contracts/{contractId}": {
+    "summary": "Get contract",
+    "description": "Retrieves a contract document by ID including status, recipients, and signing info.",
+    "parameters": { "contractId": "Unique contract document identifier." }
+  },
+  "PATCH /v1/contracts/{contractId}": {
+    "summary": "Update contract",
+    "description": "Updates metadata or status on an existing contract.",
+    "parameters": { "contractId": "Unique contract document identifier." }
+  },
+  "POST /v1/contracts/{contractId}/send": {
+    "summary": "Send contract for signing",
+    "description": "Sends the contract to all recipients for e-signature via PandaDoc.",
+    "parameters": { "contractId": "Unique contract document identifier." },
+    "responses": {
+      "200": { "description": "Contract sent.", "example": { "status": "success", "message": "Contract sent to 2 recipients", "recipients": [{ "email": "homeowner@example.com", "status": "sent" }, { "email": "agent@realty.com", "status": "sent" }] } }
+    }
+  },
+  "GET /v1/contracts/{contractId}/signing-links": {
+    "summary": "Get signing links",
+    "description": "Returns direct signing links for each contract recipient.",
+    "parameters": { "contractId": "Unique contract document identifier." },
+    "responses": {
+      "200": { "description": "Signing links.", "example": { "status": "success", "links": [{ "recipientEmail": "homeowner@example.com", "signingUrl": "https://app.pandadoc.com/sign/abc123" }] } }
+    }
+  },
+  "GET /v1/contracts/{contractId}/download": {
+    "summary": "Download contract PDF",
+    "description": "Downloads the contract document as a PDF.",
+    "parameters": { "contractId": "Unique contract document identifier." }
+  },
+  "GET /v1/contracts/{contractId}/edit-session": {
+    "summary": "Get contract edit session",
+    "description": "Creates or retrieves an edit session for the contract, allowing modifications before sending.",
+    "parameters": { "contractId": "Unique contract document identifier." }
+  },
+  "DELETE /v1/contracts/{contractId}": {
+    "summary": "Delete contract",
+    "description": "Deletes a contract document. Only draft contracts can be deleted.",
+    "parameters": { "contractId": "Unique contract document identifier." }
+  },
+  "POST /v2/deals/": {
+    "summary": "Create deal",
+    "description": "Creates a new deal in the HubSpot pipeline. Deals are routed to the appropriate pipeline and stage based on deal type.",
+    "parameters": { "dealtype": "Deal type: 'Presale', 'RTS', or 'Special Services'.", "dealname": "Display name, typically the property address." },
+    "requestExample": { "dealtype": "Presale", "dealname": "123 Main St, Los Angeles, CA" },
+    "responses": {
+      "200": { "description": "Deal created.", "example": { "status": "success", "data": { "dealId": "deal_abc123", "dealname": "123 Main St, Los Angeles, CA", "dealtype": "Presale", "pipeline": "Pre-Sale Pipeline", "stage": "New Lead" } } }
+    }
+  },
+  "POST /v1/esignatures/document-status": {
+    "summary": "Check document signing status",
+    "description": "Checks the current signing status of a PandaDoc document and syncs to HubSpot."
+  }
+}

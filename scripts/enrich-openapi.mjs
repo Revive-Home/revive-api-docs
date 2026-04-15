@@ -11,7 +11,7 @@
  * Usage:
  *   node scripts/enrich-openapi.mjs
  *
- * Reads:  openapi.json + scripts/openapi-enrichments.json
+ * Reads:  openapi.json + scripts/openapi-enrichments*.json
  * Writes: openapi.json (in-place)
  */
 
@@ -23,10 +23,24 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
 const specPath = path.join(ROOT, 'openapi.json');
-const enrichPath = path.join(ROOT, 'scripts', 'openapi-enrichments.json');
+const scriptsDir = path.join(ROOT, 'scripts');
 
 const spec = JSON.parse(fs.readFileSync(specPath, 'utf8'));
-const enrichments = JSON.parse(fs.readFileSync(enrichPath, 'utf8'));
+
+// Load main enrichments file (tags)
+const enrichments = JSON.parse(fs.readFileSync(path.join(scriptsDir, 'openapi-enrichments.json'), 'utf8'));
+
+// Load all path enrichment files and merge into a single paths object
+const allPaths = { ...enrichments.paths };
+const pathFiles = fs.readdirSync(scriptsDir)
+  .filter((f) => f.startsWith('openapi-enrichments-paths') && f.endsWith('.json'))
+  .sort();
+
+for (const file of pathFiles) {
+  const data = JSON.parse(fs.readFileSync(path.join(scriptsDir, file), 'utf8'));
+  Object.assign(allPaths, data);
+  console.log(`  Loaded ${Object.keys(data).length} path(s) from ${file}`);
+}
 
 let enrichedCount = 0;
 
@@ -61,8 +75,8 @@ if (enrichments.tags) {
 }
 
 // --- Enrich paths ---
-if (enrichments.paths) {
-  for (const [key, overlay] of Object.entries(enrichments.paths)) {
+if (Object.keys(allPaths).length > 0) {
+  for (const [key, overlay] of Object.entries(allPaths)) {
     // key format: "METHOD /path"
     const spaceIdx = key.indexOf(' ');
     if (spaceIdx === -1) continue;
@@ -109,6 +123,18 @@ if (enrichments.paths) {
       }
     }
 
+    // Merge request body example
+    if (overlay.requestExample) {
+      if (!operation.requestBody) {
+        operation.requestBody = { required: true, content: { 'application/json': { schema: { type: 'object' } } } };
+      }
+      const jsonContent = operation.requestBody.content?.['application/json'] || {};
+      jsonContent.example = overlay.requestExample;
+      if (operation.requestBody.content) {
+        operation.requestBody.content['application/json'] = jsonContent;
+      }
+    }
+
     // Merge response descriptions and examples
     if (overlay.responses) {
       for (const [status, responseOverlay] of Object.entries(overlay.responses)) {
@@ -138,4 +164,4 @@ if (enrichments.paths) {
 }
 
 fs.writeFileSync(specPath, JSON.stringify(spec, null, 2) + '\n');
-console.log(`Enriched ${enrichedCount} endpoint(s) and ${Object.keys(enrichments.tags || {}).length} tag(s) in openapi.json`);
+console.log(`\nEnriched ${enrichedCount} endpoint(s) and ${Object.keys(enrichments.tags || {}).length} tag(s) in openapi.json`);

@@ -1,0 +1,170 @@
+{
+  "POST /v1/rma/": {
+    "summary": "Create RMA",
+    "description": "Creates a new Renovation Management Agreement. Triggers notifications and sets up the contract pipeline.",
+    "parameters": { "contractor_id": "Contractor assigned to the renovation.", "deal_id": "Deal ID for the project.", "note": "Optional note." },
+    "requestExample": { "contractor_id": "contr_abc123", "deal_id": "deal_xyz789", "note": "Initial RMA for kitchen and bathroom renovation" },
+    "responses": {
+      "200": { "description": "RMA created.", "example": { "status": "success", "data": { "rmaId": "rma_abc123", "dealId": "deal_xyz789", "contractorId": "contr_abc123", "status": "draft", "createdAt": "2026-04-14T12:00:00Z" } } }
+    }
+  },
+  "GET /v1/rma/": { "summary": "List RMAs", "description": "Returns all RMAs with optional filtering by status, deal, or contractor." },
+  "GET /v1/rma/contracts": { "summary": "List RMA contracts", "description": "Returns all RMA contract documents across projects." },
+  "POST /v1/rma/contracts/{contractId}/session": { "summary": "Create RMA contract session", "description": "Creates an edit or signing session for an RMA contract.", "parameters": { "contractId": "Contract document ID." } },
+  "GET /v1/rma/{rmaId}": {
+    "summary": "Get RMA",
+    "description": "Retrieves an RMA by ID including contract status, activity logs, draw history, and notes.",
+    "parameters": { "rmaId": "Unique RMA identifier." },
+    "responses": {
+      "200": { "description": "Full RMA details.", "example": { "status": "success", "data": { "rmaId": "rma_abc123", "dealId": "deal_xyz789", "contractorId": "contr_abc123", "status": "signed", "amountRequested": 85000, "draws": [{ "draw": 1, "amount": 25000, "status": "released", "releasedAt": "2026-03-15T12:00:00Z" }] } } }
+    }
+  },
+  "PATCH /v1/rma/{rmaId}": { "summary": "Update RMA", "description": "Updates RMA fields — status, amount, draw information, or metadata.", "parameters": { "rmaId": "Unique RMA identifier." } },
+  "GET /v1/rma/{rmaId}/activity-logs": { "summary": "Get RMA activity logs", "description": "Returns the audit log for an RMA including status changes, contract events, and draws.", "parameters": { "rmaId": "Unique RMA identifier." } },
+  "POST /v1/rma/{rmaId}/contract": { "summary": "Create RMA contract", "description": "Creates a new contract document for the RMA via PandaDoc.", "parameters": { "rmaId": "Unique RMA identifier." } },
+  "DELETE /v1/rma/{rmaId}/contract": { "summary": "Delete RMA contract", "description": "Deletes the RMA contract. Only drafts can be deleted.", "parameters": { "rmaId": "Unique RMA identifier." } },
+  "GET /v1/rma/{rmaId}/contract/download": { "summary": "Download RMA contract", "description": "Downloads the RMA contract as a PDF.", "parameters": { "rmaId": "Unique RMA identifier." } },
+  "GET /v1/rma/{rmaId}/contract/edit-session": { "summary": "Get RMA contract edit session", "description": "Creates or retrieves an edit session for the RMA contract.", "parameters": { "rmaId": "Unique RMA identifier." } },
+  "POST /v1/rma/{rmaId}/contract/send": { "summary": "Send RMA contract for signing", "description": "Sends the RMA contract to all recipients for e-signature.", "parameters": { "rmaId": "Unique RMA identifier." } },
+  "POST /v1/rma/{rmaId}/notes": {
+    "summary": "Add RMA note",
+    "description": "Adds a note to the RMA's activity feed.",
+    "parameters": { "rmaId": "Unique RMA identifier.", "note": "Note content." },
+    "requestExample": { "note": "Contractor requested schedule extension — approved by PM." }
+  },
+  "GET /v1/rma/{rmaId}/notes": { "summary": "Get RMA notes", "description": "Retrieves all notes for an RMA in chronological order.", "parameters": { "rmaId": "Unique RMA identifier." } },
+  "POST /v1/support/": {
+    "summary": "Create support ticket",
+    "description": "Submits a new support ticket with contact info and issue details.",
+    "parameters": { "dealId": "Optional related deal ID.", "content": "Issue description.", "firstName": "Requester's first name.", "email": "Requester's email." },
+    "requestExample": { "content": "Unable to access estimate for deal #12345", "firstName": "Jane", "email": "jane@example.com", "dealId": "deal_xyz789" },
+    "responses": {
+      "200": { "description": "Ticket created.", "example": { "status": "success", "message": "Support ticket created successfully", "ticketId": "ticket_abc123" } }
+    }
+  },
+  "POST /v2/users/": {
+    "summary": "Create user",
+    "description": "Creates a new platform user with role-based access.",
+    "parameters": { "email": "Email (must be unique).", "role": "'admin', 'agent', 'contractor', or 'homeowner'.", "position": "Job title.", "hubspotOwnerId": "HubSpot owner ID.", "firstname": "First name.", "slackId": "Slack member ID for notifications." },
+    "requestExample": { "email": "newuser@revive.realty", "role": "admin", "firstname": "Sarah", "position": "Project Manager", "slackId": "U0123456789" },
+    "responses": {
+      "200": { "description": "User created.", "example": { "status": "success", "data": { "uid": "user_abc123", "email": "newuser@revive.realty", "role": "admin", "firstname": "Sarah", "position": "Project Manager" } } }
+    }
+  },
+  "GET /v2/users/": { "summary": "List users", "description": "Returns all platform users with optional filtering by role." },
+  "GET /v2/users/owners": { "summary": "List user owners", "description": "Returns users designated as HubSpot owners — used for deal assignment." },
+  "GET /v2/users/{uid}": {
+    "summary": "Get user",
+    "description": "Retrieves a user profile by Firebase UID including role, permissions, and activity.",
+    "parameters": { "uid": "Firebase UID." },
+    "responses": {
+      "200": { "description": "User profile.", "example": { "status": "success", "data": { "uid": "user_abc123", "email": "sarah@revive.realty", "role": "admin", "firstname": "Sarah", "lastname": "Johnson", "position": "Project Manager", "phone": "+15551234567" } } }
+    }
+  },
+  "PATCH /v2/users/{uid}": { "summary": "Update user", "description": "Updates profile fields for a user. Only included fields are modified.", "parameters": { "uid": "Firebase UID." } },
+  "DELETE /v2/users/{uid}": { "summary": "Delete user", "description": "Soft-deletes a user — marks as deleted but retains for audit.", "parameters": { "uid": "Firebase UID." } },
+  "POST /v1/utility/check-home-images": {
+    "summary": "Check home images",
+    "description": "Multi-source home image lookup by address. Queries AnyProp, Zillow, RestB, deduplicates results.",
+    "responses": {
+      "200": { "description": "Home images.", "example": { "status": "success", "data": { "images": [{ "url": "https://photos.example.com/property_01.jpg", "source": "AnyProp", "type": "exterior" }, { "url": "https://photos.example.com/property_02.jpg", "source": "Zillow", "type": "interior" }], "totalFound": 12, "duplicatesRemoved": 3 } } }
+    }
+  },
+  "POST /v1/utility/deduplicate-images": { "summary": "Deduplicate images", "description": "Detects and removes duplicate images using perceptual hashing. Returns only unique images." },
+  "POST /v1/utility/house-canary/market-health": {
+    "summary": "Get market health data",
+    "description": "Retrieves market health indicators for given ZIP codes using House Canary.",
+    "parameters": { "zipCodes": "Array of ZIP code strings." },
+    "requestExample": { "zipCodes": ["90001", "90210", "90401"] }
+  },
+  "POST /v1/renovation-progress/": {
+    "summary": "Create weekly update",
+    "description": "Creates a weekly renovation progress update for a project.",
+    "parameters": { "onSchedule": "Whether the project is on schedule.", "completed": "Array of scope item IDs completed this week." },
+    "requestExample": { "onSchedule": true, "completed": ["scope_001", "scope_002"] },
+    "responses": {
+      "200": { "description": "Update created.", "example": { "status": "success", "data": { "updateId": "update_abc123", "dealId": "deal_xyz789", "onSchedule": true, "completedItems": 2 } } }
+    }
+  },
+  "GET /v1/renovation-progress/{renovationProgressId}": { "summary": "Get weekly update", "description": "Retrieves a single weekly update.", "parameters": { "renovationProgressId": "Update identifier." } },
+  "PATCH /v1/renovation-progress/{renovationProgressId}": { "summary": "Update weekly update", "description": "Modifies a weekly update — schedule status, completed items, or notes.", "parameters": { "renovationProgressId": "Update identifier." } },
+  "DELETE /v1/renovation-progress/{renovationProgressId}": { "summary": "Delete weekly update", "description": "Deletes a weekly update.", "parameters": { "renovationProgressId": "Update identifier." } },
+  "PATCH /v1/renovation-progress/what-was-done/{dealId}": { "summary": "Update 'what was done' summary", "description": "Updates the free-text summary of work completed.", "parameters": { "dealId": "Deal ID.", "message": "Summary of work completed." } },
+  "GET /v2/calendars/": {
+    "summary": "List calendars",
+    "description": "Returns all configured calendars for scheduling.",
+    "responses": {
+      "200": { "description": "Calendars.", "example": { "status": "success", "data": [{ "calendarId": "cal_abc123", "name": "LA Team Calendar", "group": "west-coast", "url": "https://meetings.hubspot.com/la-team" }] } }
+    }
+  },
+  "POST /v2/calendars/": { "summary": "Create calendar", "description": "Creates a new calendar configuration.", "parameters": { "hubspotOwnerId": "HubSpot owner ID.", "name": "Display name.", "group": "Calendar group.", "url": "Booking URL.", "clienttimeout": "Timeout in ms for booking operations." } },
+  "GET /v2/calendars/{calendarId}": { "summary": "Get calendar", "description": "Retrieves a calendar by ID.", "parameters": { "calendarId": "Calendar identifier." } },
+  "PATCH /v2/calendars/{calendarId}": { "summary": "Update calendar", "description": "Updates calendar configuration.", "parameters": { "calendarId": "Calendar identifier." } },
+  "DELETE /v2/calendars/{calendarId}": { "summary": "Delete calendar", "description": "Deletes a calendar.", "parameters": { "calendarId": "Calendar identifier." } },
+  "POST /v2/analyze/condition": {
+    "summary": "Analyze property condition",
+    "description": "Submits property photos for AI condition analysis. Returns condition score, features, and renovation recommendations.",
+    "parameters": { "imageUrls": "Array of image URLs to analyze." },
+    "requestExample": { "imageUrls": ["https://photos.example.com/kitchen_01.jpg", "https://photos.example.com/bathroom_01.jpg", "https://photos.example.com/exterior_01.jpg"] },
+    "responses": {
+      "200": { "description": "Condition analysis.", "example": { "status": "success", "data": { "conditionScore": 6.5, "features": ["hardwood floors", "granite countertops", "original windows"], "recommendations": [{ "area": "Kitchen", "priority": "high", "description": "Cabinets show significant wear — recommend full replacement", "estimatedCost": 15000 }, { "area": "Bathroom", "priority": "medium", "description": "Tile grout needs replacement, fixtures dated", "estimatedCost": 8000 }] } } }
+    }
+  },
+  "POST /v2/analyze/comparables": {
+    "summary": "Get comparable properties",
+    "description": "Retrieves comparable sales data based on address and condition score.",
+    "parameters": { "address": "Full property address.", "conditionScore": "Condition score (1-10)." },
+    "requestExample": { "address": "123 Main St, Los Angeles, CA 90001", "conditionScore": 6.5 }
+  },
+  "POST /v2/analyze/create-report": {
+    "summary": "Create analysis report",
+    "description": "Generates a full property analysis report with condition assessment, comparables, market data, and renovation recommendations.",
+    "parameters": { "photos": "Array of photo URLs.", "address": "Full address.", "state": "State code.", "bathroom": "Number of bathrooms.", "yearBuilt": "Year built.", "createdBy": "Object with userId and role." }
+  },
+  "POST /v2/analyze/photos": { "summary": "Analyze property photos", "description": "Analyzes photos to identify rooms, features, and condition issues without a full report.", "parameters": { "imageUrls": "Array of image URLs." } },
+  "POST /v2/analyze/reanalyze": { "summary": "Reanalyze with updated comparables", "description": "Re-runs analysis with updated comparable properties.", "parameters": { "comparables": "Updated comparable data." } },
+  "POST /v2/analyze/feedback/{id}": { "summary": "Submit analysis feedback", "description": "Submits feedback on an analysis report.", "parameters": { "id": "Report ID.", "experience": "Feedback text." } },
+  "GET /v2/analyze/renovation/{id}": { "summary": "Get renovation analysis", "description": "Retrieves renovation-specific analysis with recommendations and ROI projections.", "parameters": { "id": "Report ID." } },
+  "POST /v2/analyze/v2/comparables": { "summary": "Get V2 comparables", "description": "Enhanced comparable lookup using V2 analysis engine with improved matching." },
+  "GET /v1/vision-ai/": { "summary": "List Vision AI reports", "description": "Returns all Vision AI property analysis reports." },
+  "POST /v1/vision-ai/": {
+    "summary": "Create Vision AI report",
+    "description": "Creates a new AI property analysis report from photos.",
+    "parameters": { "streetAddress": "Full street address.", "state": "State code.", "imageUrls": "Array of photo URLs.", "rejected": "Whether this is a re-submission after rejection.", "application": "Source: 'dashboard', 'admin', or 'intake'." }
+  },
+  "POST /v1/vision-ai/finish-neighborhood-report": { "summary": "Finish neighborhood report", "description": "Completes a neighborhood report and optionally saves photos.", "parameters": { "reportId": "Report ID.", "savePhotos": "Whether to save analyzed photos.", "userId": "Requesting user." } },
+  "POST /v1/vision-ai/neighbor-report-and-register": { "summary": "Create neighborhood report and register", "description": "Creates a neighborhood report and registers the user.", "parameters": { "contact": "Object with contact details." } },
+  "POST /v1/vision-ai/neighbor-report-photos": { "summary": "Process neighborhood report photos", "description": "Processes and analyzes photos for a neighborhood report.", "parameters": { "reportId": "Report ID.", "savePhotos": "Whether to save.", "userId": "User ID." } },
+  "POST /v1/vision-ai/neighbor-report-with-photos-finish": { "summary": "Finish neighborhood report with photos", "description": "Completes a neighborhood report that includes photo analysis.", "parameters": { "reportId": "Report ID." } },
+  "POST /v1/vision-ai/search": { "summary": "Search Vision AI reports", "description": "Searches Vision AI reports by address or other criteria.", "parameters": { "after": "Cursor for pagination.", "search": "Search query." } },
+  "POST /v1/vision-ai/upgrade-to-v2": { "summary": "Upgrade to V2 report", "description": "Upgrades a V1 Vision AI report to V2 format.", "parameters": { "reportId": "V1 report ID." } },
+  "GET /v1/vision-ai/{id}": { "summary": "Get Vision AI report", "description": "Retrieves a Vision AI report by ID.", "parameters": { "id": "Report ID." } },
+  "PATCH /v1/vision-ai/{id}": { "summary": "Update Vision AI report", "description": "Updates fields on a Vision AI report.", "parameters": { "id": "Report ID." } },
+  "DELETE /v1/vision-ai/{id}": { "summary": "Delete Vision AI report", "description": "Deletes a Vision AI report.", "parameters": { "id": "Report ID." } },
+  "POST /v1/vision-ai/{id}/recalculate": { "summary": "Recalculate Vision AI report", "description": "Recalculates a report with updated timeline or parameters.", "parameters": { "id": "Report ID.", "timeline": "Renovation timeline in months.", "viewOnly": "When true, returns results without saving." } },
+  "POST /v2/vision-ai/": {
+    "summary": "Create V2 Vision AI report",
+    "description": "Creates a V2 property analysis report with enhanced AI capabilities.",
+    "parameters": { "imageUrls": "Array of photo URLs.", "contactId": "Associated contact.", "city": "City.", "postalCode": "ZIP code.", "rejectionReason": "Reason for prior rejection.", "bedrooms": "Number of bedrooms.", "yearBuilt": "Year built.", "reportType": "'standard' or 'premium'." }
+  },
+  "POST /v2/vision-ai/condition": { "summary": "V2 condition analysis", "description": "Enhanced AI condition analysis with improved accuracy.", "parameters": { "imageUrls": "Array of photo URLs.", "city": "City.", "postalCode": "ZIP code." } },
+  "PATCH /v2/vision-ai/custom-object/{recordId}": { "summary": "Update Vision AI custom object", "description": "Updates a HubSpot custom object record for a Vision AI report.", "parameters": { "recordId": "HubSpot custom object record ID.", "requested_call": "Whether a call was requested.", "request_contact_reason": "Reason for contact request." } },
+  "POST /v2/vision-ai/images": { "summary": "Process Vision AI images", "description": "Processes and uploads images for a V2 Vision AI report.", "parameters": { "id": "Report ID to add images to." } },
+  "POST /v2/vision-ai/rejected-report-note/{recordId}": { "summary": "Add rejected report note", "description": "Adds a note explaining why a report was rejected.", "parameters": { "recordId": "Custom object record ID.", "note": "Rejection note." } },
+  "POST /v2/vision-ai/scraper": { "summary": "Run Vision AI scraper", "description": "Runs the property data scraper for Vision AI reports.", "parameters": { "csv": "CSV data object for batch processing." } },
+  "GET /v2/vision-ai/scraper/csv": { "summary": "Get scraper CSV export", "description": "Exports scraper results as a CSV file.", "parameters": { "type": "Export type filter." } },
+  "POST /v2/vision-ai/scraper/generate-report": { "summary": "Generate report from scraper", "description": "Generates a full report from scraped property data." },
+  "POST /v1/webhooks/affiliate-partners": { "summary": "Affiliate partner webhook", "description": "Handles incoming referral data from affiliate partners. Called by partner systems." },
+  "POST /v1/webhooks/gvg": { "summary": "GVG webhook", "description": "Handles incoming data from GVG for property valuation updates." },
+  "POST /v1/webhooks/hubspot/createCompany": { "summary": "HubSpot create company", "description": "Handles HubSpot workflow action to create a company record." },
+  "POST /v1/webhooks/hubspot/invite-realtor": { "summary": "HubSpot invite realtor", "description": "Handles HubSpot workflow to invite a realtor to the platform." },
+  "POST /v1/webhooks/hubspot/production": { "summary": "HubSpot production webhook", "description": "Handles production events from HubSpot workflows." },
+  "POST /v1/webhooks/hubspot/report-reminder/{emailId}": { "summary": "HubSpot report reminder", "description": "Sends report reminder emails.", "parameters": { "emailId": "Email template ID." } },
+  "POST /v1/webhooks/hubspot/revive-team": { "summary": "HubSpot Revive team webhook", "description": "Handles HubSpot actions for internal team notifications." },
+  "POST /v1/webhooks/hubspot/updateCompany": { "summary": "HubSpot update company", "description": "Handles HubSpot workflow to update company records." },
+  "POST /v1/webhooks/hubspot/updateContractor": { "summary": "HubSpot update contractor", "description": "Handles HubSpot workflow to sync contractor data." },
+  "POST /v1/webhooks/hubspot/updateRealtorEdgeUrl": { "summary": "HubSpot update realtor Edge URL", "description": "Handles HubSpot workflow to update a realtor's Edge URL." },
+  "POST /v1/webhooks/pandadoc/linked-objects": { "summary": "PandaDoc linked objects webhook", "description": "Handles PandaDoc events for document-object associations." },
+  "POST /v1/webhooks/pandadoc/project-scope": { "summary": "PandaDoc project scope webhook", "description": "Handles PandaDoc events to sync project scope items from signed documents." },
+  "POST /v1/webhooks/website-case-study": { "summary": "Website case study webhook", "description": "Receives case study data from the marketing website.", "parameters": { "dealId": "Deal ID.", "address": "Property address.", "state": "State code.", "profit": "Net profit from renovation." } }
+}

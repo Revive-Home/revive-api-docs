@@ -1,0 +1,448 @@
+{
+  "POST /v1/estimates/": {
+    "summary": "Create estimate",
+    "description": "Creates a new renovation estimate for a property with line items from the product catalog.",
+    "responses": {
+      "200": { "description": "Estimate created.", "example": { "status": "success", "data": { "estimateId": "est_abc123", "dealId": "deal_xyz789", "status": "draft", "subtotal": 0 } } }
+    }
+  },
+  "GET /v1/estimates/{estimateId}": {
+    "summary": "Get estimate",
+    "description": "Retrieves an estimate by ID including all line items, pricing, status, and change order history.",
+    "parameters": { "estimateId": "Unique estimate identifier." },
+    "responses": {
+      "200": { "description": "Full estimate.", "example": { "status": "success", "data": { "estimateId": "est_abc123", "dealId": "deal_xyz789", "status": "draft", "subtotal": 85000, "items": [{ "productId": "prod_001", "title": "Kitchen Remodel - Standard", "category": "Kitchen", "price": 35000, "labor": 15000, "materials": 20000 }, { "productId": "prod_002", "title": "Bathroom Update - Primary", "category": "Bathroom", "price": 25000 }], "changeOrders": [] } } }
+    }
+  },
+  "PATCH /v1/estimates/{estimateId}": {
+    "summary": "Update estimate",
+    "description": "Updates an estimate — modify line items, pricing, status, or other fields.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "POST /v1/estimates/{estimateId}/duplicate": {
+    "summary": "Duplicate estimate",
+    "description": "Creates a copy of an existing estimate with all line items. Duplicate starts in draft status.",
+    "parameters": { "estimateId": "ID of the estimate to duplicate." },
+    "responses": {
+      "200": { "description": "Duplicated estimate.", "example": { "status": "success", "data": { "estimateId": "est_new456", "copiedFrom": "est_abc123", "status": "draft", "subtotal": 85000 } } }
+    }
+  },
+  "POST /v1/estimates/{estimateId}/reset": {
+    "summary": "Reset estimate to draft",
+    "description": "Resets an estimate back to draft status. Cleans up associated project scope items and unlinks documents.",
+    "parameters": { "estimateId": "Unique estimate identifier." }
+  },
+  "GET /v1/follow-up-boss/contacts": {
+    "summary": "List Follow Up Boss contacts",
+    "description": "Retrieves contacts synced from Follow Up Boss CRM."
+  },
+  "POST /v1/follow-up-boss/contacts": {
+    "summary": "Sync contact to Follow Up Boss",
+    "description": "Creates or updates a contact in Follow Up Boss CRM."
+  },
+  "GET /v1/follow-up-boss/events": {
+    "summary": "List Follow Up Boss events",
+    "description": "Retrieves events synced from Follow Up Boss."
+  },
+  "POST /v1/homes/": {
+    "summary": "Create home record",
+    "description": "Creates a new home record with property details and address.",
+    "responses": {
+      "200": { "description": "Home created.", "example": { "status": "success", "data": { "homeId": "home_abc123", "address": "123 Main St", "city": "Los Angeles", "state": "CA", "postalCode": "90001" } } }
+    }
+  },
+  "GET /v1/homes/": {
+    "summary": "List homes",
+    "description": "Returns home records with optional filtering."
+  },
+  "GET /v1/homes/{homeId}": {
+    "summary": "Get home",
+    "description": "Retrieves a home record by ID including property details and documents.",
+    "parameters": { "homeId": "Unique home identifier." }
+  },
+  "PATCH /v1/homes/{homeId}": {
+    "summary": "Update home",
+    "description": "Updates fields on a home record.",
+    "parameters": { "homeId": "Unique home identifier." }
+  },
+  "DELETE /v1/homes/{homeId}": {
+    "summary": "Delete home",
+    "description": "Soft-deletes a home record — marks as deleted but retains for audit.",
+    "parameters": { "homeId": "Unique home identifier." }
+  },
+  "POST /v1/marketing-center/": {
+    "summary": "Create marketing asset",
+    "description": "Creates a new marketing asset (flyer, brochure, or campaign material)."
+  },
+  "GET /v1/marketing-center/": {
+    "summary": "List marketing assets",
+    "description": "Returns available marketing materials with filtering by type and status."
+  },
+  "POST /v1/media/": {
+    "summary": "Upload media file",
+    "description": "Uploads a file (photo, document, or attachment) and returns a URL. Supports image optimization and thumbnails.",
+    "responses": {
+      "200": { "description": "File uploaded.", "example": { "status": "success", "data": { "mediaId": "med_abc123", "url": "https://storage.revive.realty/uploads/med_abc123.jpg", "thumbnailUrl": "https://storage.revive.realty/uploads/med_abc123_thumb.jpg", "mimeType": "image/jpeg", "size": 245760 } } }
+    }
+  },
+  "GET /v1/media/": {
+    "summary": "List media files",
+    "description": "Returns media files with optional filtering by deal, contact, or type."
+  },
+  "GET /v1/media/{mediaId}": {
+    "summary": "Get media file",
+    "description": "Retrieves metadata for a single media file.",
+    "parameters": { "mediaId": "Unique media identifier." }
+  },
+  "DELETE /v1/media/{mediaId}": {
+    "summary": "Delete media file",
+    "description": "Soft-deletes a media file.",
+    "parameters": { "mediaId": "Unique media identifier." }
+  },
+  "POST /v1/meetings/": {
+    "summary": "Book meeting",
+    "description": "Books a meeting between participants. Creates calendar entries and sends notifications.",
+    "responses": {
+      "200": { "description": "Meeting booked.", "example": { "status": "success", "data": { "meetingId": "mtg_abc123", "date": "2026-04-20T14:00:00Z", "duration": 60, "participants": ["agent@realty.com", "homeowner@example.com"], "location": "123 Main St" } } }
+    }
+  },
+  "POST /v1/meetings/check-available-times": {
+    "summary": "Check available meeting times",
+    "description": "Returns available time slots based on participant availability and calendar configuration."
+  },
+  "POST /v1/meetings/get-meeting-link": {
+    "summary": "Get meeting booking link",
+    "description": "Generates a shareable booking link for scheduling a meeting."
+  },
+  "POST /v1/migrations/leads-to-contacts": {
+    "summary": "Migrate leads to contacts",
+    "description": "Internal migration utility — converts legacy lead records to contact format. Admin only."
+  },
+  "POST /v1/notifications/push": {
+    "summary": "Send push notification",
+    "description": "Sends a push notification to a specific user or group across mobile and web.",
+    "requestExample": { "userId": "user_abc123", "title": "Weekly Update Available", "body": "A new weekly update has been posted for 123 Main St.", "data": { "type": "weekly_update", "dealId": "deal_xyz789" } }
+  },
+  "POST /v1/notifications/sms": {
+    "summary": "Send SMS notification",
+    "description": "Sends an SMS message to a user's phone number."
+  },
+  "POST /v1/notifications/{userId}": {
+    "summary": "Send notification to user",
+    "description": "Sends a notification to a specific user via their preferred channel.",
+    "parameters": { "userId": "Unique user identifier." }
+  },
+  "POST /v1/onsite-visits/": {
+    "summary": "Create onsite visit",
+    "description": "Schedules a new onsite visit for a property inspection or contractor walkthrough.",
+    "responses": {
+      "200": { "description": "Visit scheduled.", "example": { "status": "success", "data": { "visitId": "visit_abc123", "dealId": "deal_xyz789", "date": "2026-04-20T10:00:00Z", "status": "scheduled", "address": "123 Main St, Los Angeles, CA" } } }
+    }
+  },
+  "GET /v1/onsite-visits/": {
+    "summary": "List onsite visits",
+    "description": "Returns visits with optional filtering by deal, date range, or status."
+  },
+  "GET /v1/onsite-visits/{visitId}": {
+    "summary": "Get onsite visit",
+    "description": "Retrieves a single onsite visit by ID.",
+    "parameters": { "visitId": "Unique visit identifier." }
+  },
+  "PATCH /v1/onsite-visits/{visitId}": {
+    "summary": "Update onsite visit",
+    "description": "Updates fields on a visit (date, status, notes).",
+    "parameters": { "visitId": "Unique visit identifier." }
+  },
+  "DELETE /v1/onsite-visits/{visitId}": {
+    "summary": "Cancel onsite visit",
+    "description": "Cancels a scheduled onsite visit.",
+    "parameters": { "visitId": "Unique visit identifier." }
+  },
+  "GET /v2/opportunities/": {
+    "summary": "List opportunities",
+    "description": "Returns a paginated list of all opportunities. Supports filtering by status, deal type, and assignee.",
+    "responses": {
+      "200": { "description": "Opportunities list.", "example": { "status": "success", "data": [{ "opportunityId": "opp_abc123", "dealname": "123 Main St Renovation", "dealtype": "Presale", "stage": "Estimate Review", "amount": 85000, "contact": { "firstname": "John", "lastname": "Doe" } }], "total": 42, "hasMore": true } }
+    }
+  },
+  "GET /v2/opportunities/admin/{adminId}": {
+    "summary": "List opportunities by admin",
+    "description": "Returns opportunities assigned to a specific admin user.",
+    "parameters": { "adminId": "Firebase UID of the admin." }
+  },
+  "GET /v2/opportunities/{opportunityId}": {
+    "summary": "Get opportunity",
+    "description": "Retrieves a single opportunity with contacts, property data, estimates, and status history.",
+    "parameters": { "opportunityId": "HubSpot deal ID." },
+    "responses": {
+      "200": { "description": "Opportunity details.", "example": { "status": "success", "data": { "opportunityId": "opp_abc123", "dealname": "123 Main St Renovation", "dealtype": "Presale", "stage": "Estimate Review", "amount": 85000, "contacts": [{ "contactId": "cont_xyz", "firstname": "John", "lastname": "Doe", "role": "homeowner" }], "property": { "address": "123 Main St", "city": "Los Angeles", "state": "CA", "bedrooms": 3, "yearBuilt": 1985 } } } }
+    }
+  },
+  "PATCH /v2/opportunities/{opportunityId}": {
+    "summary": "Update opportunity",
+    "description": "Updates fields on an opportunity — stage, amount, notes, or custom properties.",
+    "parameters": { "opportunityId": "HubSpot deal ID." }
+  },
+  "DELETE /v2/opportunities/{opportunityId}": {
+    "summary": "Delete opportunity",
+    "description": "Deletes an opportunity. Requires the associated contact ID for cleanup.",
+    "parameters": { "opportunityId": "HubSpot deal ID.", "contactId": "Associated contact ID (in request body)." }
+  },
+  "POST /v2/opportunities/{opportunityId}/associate-contact": {
+    "summary": "Associate contact with opportunity",
+    "description": "Links an existing contact to an opportunity.",
+    "parameters": { "opportunityId": "HubSpot deal ID." }
+  },
+  "POST /v2/opportunities/{opportunityId}/create-and-associate-contact": {
+    "summary": "Create and associate contact",
+    "description": "Creates a new contact and associates it with the opportunity in one call.",
+    "parameters": { "opportunityId": "HubSpot deal ID." }
+  },
+  "POST /v2/opportunities/{opportunityId}/disassociate-contact": {
+    "summary": "Disassociate contact",
+    "description": "Removes the link between a contact and an opportunity.",
+    "parameters": { "opportunityId": "HubSpot deal ID." }
+  },
+  "GET /v2/opportunities/{opportunityId}/onsite-visit": {
+    "summary": "Get opportunity's onsite visit",
+    "description": "Retrieves the onsite visit for this opportunity.",
+    "parameters": { "opportunityId": "HubSpot deal ID." }
+  },
+  "POST /v2/opportunities/{opportunityId}/onsite-visit": {
+    "summary": "Schedule onsite visit for opportunity",
+    "description": "Schedules a new onsite visit for this opportunity's property.",
+    "parameters": { "opportunityId": "HubSpot deal ID." }
+  },
+  "POST /v1/partners/referral": {
+    "summary": "Submit partner referral",
+    "description": "Submits a referral from an affiliate partner, creating a new lead."
+  },
+  "POST /v2/payments/reno/create-checkout-session": {
+    "summary": "Create checkout session",
+    "description": "Creates a Stripe checkout session. Returns a URL to redirect the user to Stripe's hosted checkout.",
+    "parameters": { "type": "Payment type: 'subscription' or 'one-time'." },
+    "requestExample": { "type": "subscription" },
+    "responses": {
+      "200": { "description": "Checkout session created.", "example": { "status": "success", "sessionUrl": "https://checkout.stripe.com/c/pay/cs_live_abc123", "sessionId": "cs_live_abc123" } }
+    }
+  },
+  "POST /v2/payments/reno/payment-intents": {
+    "summary": "Create payment intent",
+    "description": "Creates a Stripe payment intent for a one-time renovation payment.",
+    "parameters": { "type": "Payment type identifier." }
+  },
+  "DELETE /v2/payments/reno/remove-subscription": {
+    "summary": "Cancel subscription",
+    "description": "Cancels an active Stripe subscription for the authenticated user."
+  },
+  "GET /v2/payments/reno/user-subscription": {
+    "summary": "Get user subscription",
+    "description": "Retrieves the current subscription status for the authenticated user.",
+    "responses": {
+      "200": { "description": "Subscription details.", "example": { "status": "success", "data": { "subscriptionId": "sub_abc123", "plan": "premium", "status": "active", "currentPeriodEnd": "2026-05-14T00:00:00Z" } } }
+    }
+  },
+  "POST /v2/payments/reno/webhook": {
+    "summary": "Stripe webhook handler",
+    "description": "Handles incoming Stripe webhook events. Called by Stripe, not by your application."
+  },
+  "POST /v1/predictions/": {
+    "summary": "Create prediction job",
+    "description": "Starts an async AI image generation job. Returns a job ID to poll for completion.",
+    "responses": {
+      "200": { "description": "Job started.", "example": { "status": "success", "data": { "predictionId": "pred_abc123", "status": "processing", "estimatedDuration": 30 } } }
+    }
+  },
+  "GET /v1/predictions/{id}": {
+    "summary": "Get prediction status",
+    "description": "Polls an AI prediction job. Returns generated images when complete. Poll every few seconds.",
+    "parameters": { "id": "Prediction job ID." },
+    "responses": {
+      "200": { "description": "Job status and results.", "example": { "status": "success", "data": { "predictionId": "pred_abc123", "status": "completed", "images": ["https://storage.revive.realty/predictions/pred_abc123_01.jpg", "https://storage.revive.realty/predictions/pred_abc123_02.jpg"] } } }
+    }
+  },
+  "POST /v1/production/": {
+    "summary": "Production status",
+    "description": "Returns production deployment status and version information."
+  },
+  "GET /v1/project-scopes/{dealId}": {
+    "summary": "Get project scope",
+    "description": "Retrieves the full project scope for a deal with all line items and completion status.",
+    "parameters": { "dealId": "Deal ID for the project." },
+    "responses": {
+      "200": { "description": "Scope details.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "items": [{ "id": "scope_001", "title": "Kitchen Remodel", "description": "Full kitchen renovation", "category": "Kitchen", "verified": true, "isInPunchList": false }] } } }
+    }
+  },
+  "GET /v1/project-scopes/fill-from-pandadoc/{dealId}": {
+    "summary": "Fill scope from PandaDoc",
+    "description": "Populates project scope by extracting line items from the signed PandaDoc document.",
+    "parameters": { "dealId": "Deal ID to fill scope for." }
+  },
+  "PATCH /v1/project-scopes/update": {
+    "summary": "Update scope item",
+    "description": "Updates a single project scope item.",
+    "parameters": { "dealId": "Deal ID.", "id": "Scope item ID.", "description": "Updated description.", "title": "Updated title.", "isInPunchList": "Whether to include in punch list.", "verified": "Whether the item is verified complete." }
+  },
+  "POST /v1/project-scopes/remove": {
+    "summary": "Remove scope items",
+    "description": "Removes scope items from a project."
+  },
+  "GET /v2/properties/{objectType}": {
+    "summary": "List HubSpot properties",
+    "description": "Retrieves all custom property definitions for a HubSpot object type.",
+    "parameters": { "objectType": "HubSpot object: 'contacts', 'deals', 'companies', or custom objects." }
+  },
+  "GET /v2/properties/{objectType}/{propertyName}": {
+    "summary": "Get HubSpot property",
+    "description": "Retrieves a single property definition by name.",
+    "parameters": { "objectType": "HubSpot object type.", "propertyName": "Internal property name." }
+  },
+  "POST /v1/property/": {
+    "summary": "Create property report",
+    "description": "Creates a new property record and initiates analysis. Main entry point for the property assessment flow.",
+    "parameters": { "application": "Source: 'dashboard', 'admin', or 'intake'.", "opportunityId": "Associated opportunity ID.", "streetAddress": "Full street address.", "state": "Two-letter state code.", "bedrooms": "Number of bedrooms.", "yearBuilt": "Year built.", "reportType": "'standard' or 'premium'.", "rejectedReason": "Reason for prior rejection, if re-creating.", "sellingTimeFrame": "'immediately', '1-3 months', '3-6 months', '6+ months'." },
+    "requestExample": { "application": "dashboard", "streetAddress": "123 Main St, Los Angeles, CA 90001", "state": "CA", "bedrooms": 3, "yearBuilt": 1985, "reportType": "standard", "sellingTimeFrame": "3-6 months" },
+    "responses": {
+      "200": { "description": "Report created.", "example": { "status": "success", "data": { "propertyId": "prop_abc123", "reportId": "rpt_xyz789", "address": "123 Main St", "state": "CA", "status": "processing" } } }
+    }
+  },
+  "GET /v1/property/{id}": {
+    "summary": "Get property report",
+    "description": "Retrieves a property report with valuation data, condition assessment, comparables, and renovation recommendations.",
+    "parameters": { "id": "Unique property report identifier." }
+  },
+  "POST /v1/property/search-comparable": {
+    "summary": "Search comparable properties",
+    "description": "Searches for comparable properties near a given address.",
+    "parameters": { "reportId": "Report to find comparables for.", "city": "City to search.", "postalCode": "ZIP code." }
+  },
+  "POST /v1/property/create-comparable": {
+    "summary": "Add comparable property",
+    "description": "Manually adds a comparable to a report.",
+    "parameters": { "reportId": "Report ID.", "streetAddress": "Address.", "state": "State code.", "closeDate": "Sale date (YYYY-MM-DD).", "grade": "Condition rating.", "beds": "Bedrooms.", "year": "Year built.", "status": "'sold', 'pending', or 'active'.", "id": "External ID.", "imageUrl": "Photo URL." }
+  },
+  "POST /v1/property/complete-report": {
+    "summary": "Complete property report",
+    "description": "Marks a report as complete and triggers final processing including PDF generation.",
+    "parameters": { "id": "Property record ID.", "reportId": "Report ID to complete." }
+  },
+  "POST /v1/property/share/{reportId}": {
+    "summary": "Share property report",
+    "description": "Generates a shareable link or sends an invite for a property report.",
+    "parameters": { "reportId": "Report to share.", "type": "'link' or 'invite'.", "inviteId": "Contact ID to invite." }
+  },
+  "POST /v1/property/upgrade-to-v2": {
+    "summary": "Upgrade report to V2",
+    "description": "Upgrades a legacy V1 report to V2 format with enhanced analysis.",
+    "parameters": { "reportId": "V1 report ID to upgrade." }
+  },
+  "POST /v1/property/association": {
+    "summary": "Associate report with HubSpot",
+    "description": "Creates an association between a report and a HubSpot custom object.",
+    "parameters": { "reportCustomObjectId": "HubSpot custom object record ID." }
+  },
+  "POST /v1/property/neighborhood-report-and-register-user": {
+    "summary": "Create neighborhood report and register user",
+    "description": "Creates a neighborhood report and registers the requesting user.",
+    "parameters": { "contact": "Object with firstname, lastname, email, phone.", "agentId": "Referring agent's ID." }
+  },
+  "POST /v1/property/log/view/{reportId}": {
+    "summary": "Log report view",
+    "description": "Logs an analytics event when a report is viewed.",
+    "parameters": { "reportId": "Report being viewed." }
+  },
+  "POST /v1/property/log/pdf/{reportId}": {
+    "summary": "Log PDF download",
+    "description": "Logs an analytics event when a report PDF is downloaded.",
+    "parameters": { "reportId": "Report being downloaded." }
+  },
+  "POST /v1/property/log/comparable/{reportId}": {
+    "summary": "Log comparable view",
+    "description": "Logs an analytics event when comparables are viewed.",
+    "parameters": { "reportId": "Report whose comparables were viewed." }
+  },
+  "POST /v1/property/admin/migrate-latest-leads-to-reports-meta": {
+    "summary": "Migrate leads to reports metadata",
+    "description": "Internal migration — updates leads with latest report metadata. Admin only."
+  },
+  "POST /v1/property/admin/migrate-leads": {
+    "summary": "Migrate property leads",
+    "description": "Internal migration — converts legacy property lead records. Admin only."
+  },
+  "GET /v1/punch-list/{dealId}": {
+    "summary": "Get punch list",
+    "description": "Retrieves the punch list — all outstanding items before project completion.",
+    "parameters": { "dealId": "Deal ID." },
+    "responses": {
+      "200": { "description": "Punch list items.", "example": { "status": "success", "data": { "dealId": "deal_xyz789", "items": [{ "id": "punch_001", "title": "Touch up paint - master bedroom", "status": "pending" }, { "id": "punch_002", "title": "Fix cabinet door alignment - kitchen", "status": "completed" }] } } }
+    }
+  },
+  "PATCH /v1/punch-list/update-punch-data": {
+    "summary": "Update punch list data",
+    "description": "Updates punch list items and status.",
+    "parameters": { "dealId": "Deal ID.", "submittedById": "User ID who submitted the update." }
+  },
+  "POST /v1/punch-list/update-tasks": {
+    "summary": "Update punch list tasks",
+    "description": "Batch updates task statuses on the punch list.",
+    "parameters": { "dealId": "Deal ID." }
+  },
+  "POST /v1/realtors/": {
+    "summary": "Create realtor profile",
+    "description": "Creates a new realtor contact profile."
+  },
+  "GET /v1/realtors/{contactId}": {
+    "summary": "Get realtor profile",
+    "description": "Retrieves a realtor's profile by contact ID.",
+    "parameters": { "contactId": "Contact ID for the realtor." }
+  },
+  "POST /v1/referrals/": {
+    "summary": "Create referral",
+    "description": "Creates a new referral record for lead attribution.",
+    "parameters": { "referralType": "'agent', 'partner', 'website', or 'direct'.", "clientEmail": "Referred client's email.", "city": "Client's city.", "listingAddress": "Property address.", "zipCode": "ZIP code.", "latitude": "Property latitude." },
+    "requestExample": { "referralType": "agent", "clientEmail": "homeowner@example.com", "city": "Los Angeles", "listingAddress": "123 Main St", "zipCode": "90001" },
+    "responses": {
+      "200": { "description": "Referral created.", "example": { "status": "success", "data": { "referralId": "ref_abc123", "referralType": "agent", "clientEmail": "homeowner@example.com", "status": "new" } } }
+    }
+  },
+  "GET /v1/referrals/": { "summary": "List referrals", "description": "Returns all referral records with optional filtering." },
+  "GET /v1/referrals/{dealId}": { "summary": "Get referral by deal", "description": "Retrieves referral info for a deal.", "parameters": { "dealId": "Deal ID." } },
+  "PATCH /v1/referrals/{dealId}": { "summary": "Update referral", "description": "Updates referral info for a deal.", "parameters": { "dealId": "Deal ID." } },
+  "DELETE /v1/referrals/{dealId}": { "summary": "Delete referral", "description": "Deletes a referral record.", "parameters": { "dealId": "Deal ID.", "referralType": "Referral type to delete (in body)." } },
+  "POST /v1/referrals/update-user-visit": { "summary": "Log referral visit", "description": "Logs a visit event for referral tracking.", "parameters": { "referralId": "Referral ID." } },
+  "POST /v2/referrals/": { "summary": "Create V2 referral", "description": "Creates a referral with additional client situation data.", "parameters": { "referralType": "Referral type.", "clientSituation": "Description of client's situation and needs." } },
+  "POST /v1/reimagine/create-image": {
+    "summary": "Create reimagined image",
+    "description": "Generates an AI-reimagined version of a property photo with a specified room style.",
+    "parameters": { "opportunityId": "Associated opportunity.", "imageUrl": "Source photo URL.", "prompt": "AI prompt describing desired transformation.", "roomStyle": "'modern', 'traditional', 'transitional', 'contemporary', 'farmhouse'.", "userId": "Requesting user's ID.", "source": "'dashboard' or 'admin'." },
+    "requestExample": { "opportunityId": "opp_abc123", "imageUrl": "https://storage.revive.realty/photos/kitchen_01.jpg", "prompt": "Modern white kitchen with marble countertops", "roomStyle": "modern", "userId": "user_xyz", "source": "dashboard" },
+    "responses": {
+      "200": { "description": "Job started.", "example": { "status": "success", "data": { "reimagineId": "rimg_abc123", "status": "processing", "sourceUrl": "https://storage.revive.realty/photos/kitchen_01.jpg" } } }
+    }
+  },
+  "GET /v1/reimagine/{id}": { "summary": "Get reimagined image", "description": "Retrieves a reimagined image result.", "parameters": { "id": "Reimagine job ID." } },
+  "PATCH /v1/reimagine/{id}": { "summary": "Update reimagine record", "description": "Updates metadata on a reimagine record.", "parameters": { "id": "Reimagine record ID." } },
+  "DELETE /v1/reimagine/{id}": { "summary": "Delete reimagined image", "description": "Deletes a reimagined image.", "parameters": { "id": "Reimagine record ID." } },
+  "POST /v1/reimagine/report-association": { "summary": "Associate reimagine with report", "description": "Links a reimagined image to a property report." },
+  "POST /v1/reports/": { "summary": "Generate report", "description": "Generates an annual or periodic analytics report.", "parameters": { "year": "Year to generate for (e.g., '2026')." } },
+  "GET /v1/ret-catalog/": {
+    "summary": "List catalog products",
+    "description": "Returns all products in the renovation catalog with pricing.",
+    "responses": {
+      "200": { "description": "Product catalog.", "example": { "status": "success", "data": [{ "productId": "prod_001", "title": "Kitchen Remodel - Standard", "productType": "Kitchen", "basePrice": 35000 }, { "productId": "prod_002", "title": "Bathroom Update - Primary", "productType": "Bathroom", "basePrice": 25000 }] } }
+    }
+  },
+  "POST /v1/ret-catalog/": { "summary": "Create catalog product", "description": "Adds a new product to the renovation catalog." },
+  "GET /v1/ret-catalog/all-product-types": {
+    "summary": "List product types",
+    "description": "Returns all product type categories.",
+    "responses": {
+      "200": { "description": "Product types.", "example": { "status": "success", "data": ["Kitchen", "Bathroom", "Flooring", "Painting", "Landscaping", "Roofing", "HVAC", "Electrical"] } }
+    }
+  },
+  "GET /v1/ret-catalog/{productId}": { "summary": "Get catalog product", "description": "Retrieves a product by ID.", "parameters": { "productId": "Product identifier." } },
+  "PATCH /v1/ret-catalog/{productId}": { "summary": "Update catalog product", "description": "Updates a catalog product.", "parameters": { "productId": "Product identifier." } },
+  "DELETE /v1/ret-catalog/{productId}": { "summary": "Delete catalog product", "description": "Removes a product from the catalog.", "parameters": { "productId": "Product identifier." } },
+  "GET /v1/ret-catalog/{productTypeId}/options": { "summary": "List product options", "description": "Returns options for a product type (e.g., countertop materials for kitchen).", "parameters": { "productTypeId": "Product type ID." } },
+  "GET /v1/ret-catalog/{productTypeId}/options/{optionId}/selections": { "summary": "List option selections", "description": "Returns selections for an option (e.g., granite colors).", "parameters": { "productTypeId": "Product type ID.", "optionId": "Option ID." } }
+}
