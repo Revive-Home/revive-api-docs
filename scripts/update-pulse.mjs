@@ -93,20 +93,20 @@ async function main() {
     `$1**${dates.apiVersion}** — updated ${dates.apiRef}`
   );
   content = content.replace(
-    /(<Card title="revive-api" icon="server">\n\s+)Last release: \*\*.+?\*\*/,
-    `$1Last release: **${dates.apiRef}**`
+    /(<Card title="revive-api" icon="server">\n\s+)Last deploy: \*\*.+?\*\*/,
+    `$1Last deploy: **${dates.apiRef}**`
   );
   content = content.replace(
-    /(<Card title="revive-dashboard" icon="browser">\n\s+)Last push: \*\*.+?\*\*/,
-    `$1Last push: **${dates.dashboard}**`
+    /(<Card title="revive-dashboard" icon="browser">\n\s+)Last deploy: \*\*.+?\*\*/,
+    `$1Last deploy: **${dates.dashboard}**`
   );
   content = content.replace(
-    /(<Card title="revive-admin" icon="shield">\n\s+)Last push: \*\*.+?\*\*/,
-    `$1Last push: **${dates.admin}**`
+    /(<Card title="revive-admin" icon="shield">\n\s+)Last deploy: \*\*.+?\*\*/,
+    `$1Last deploy: **${dates.admin}**`
   );
   content = content.replace(
-    /(<Card title="revive-mobile" icon="mobile">\n\s+)Last push: \*\*.+?\*\*/,
-    `$1Last push: **${dates.mobile}**`
+    /(<Card title="revive-mobile" icon="mobile">\n\s+)Last deploy: \*\*.+?\*\*/,
+    `$1Last deploy: **${dates.mobile}**`
   );
   content = content.replace(
     /(<Card title="This docs site" icon="book">\n\s+)Last updated: \*\*.+?\*\*/,
