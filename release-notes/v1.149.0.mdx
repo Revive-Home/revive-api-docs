@@ -1,12 +1,16 @@
 ---
 title: "v1.149.0"
 description: "Revive platform production release"
+description: "Finalized Sell 360 proposal numbers and improved scenario comparison readability"
 ---
 
 ## Highlights
 
 - Sell360 scenario comparison now shows estimated mortgage/debt payoff and agent commission as separate line items, replacing the previous holdback row for clearer financial breakdowns
 - Intake flow URL parameters now support address prefill with automatic background deal creation, so users with complete address and property details land directly on the next relevant step without waiting
+- The Sell 360 value opportunity section now displays a "home increase" label sourced from the API, replacing the client-side "profit increase" calculation.
+- Negative cash offer comparisons in the scenario comparison modal and transaction summary are now highlighted in red for clearer differentiation.
+- The Sell 360 scenario comparison PDF now correctly reflects the latest financial field names from the API.
 
 ## Changes shipped to production
 
@@ -17,6 +21,9 @@ description: "Revive platform production release"
 - Scenario comparison PDF updated with the new financial row layout and improved vertical spacing ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
 - Addresses in the scenario comparison PDF are now trimmed to remove extra spaces before commas ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
 - Fixed address prefill via URL parameters to correctly create a deal in the background when property details are provided, so users skip completed steps without delay ([#2363](https://github.com/Revive-Home/revive-dashboard/pull/2363))
+- **Home increase label on value opportunity** — The Sell 360 value opportunity section now shows a "home increase" value provided by the API instead of computing a "profit increase" label on the client. This aligns the proposal with how the API models the renovation value-add and ensures the displayed amount is consistent across all consumers of the proposal endpoint. ([#2367](https://github.com/Revive-Home/revive-dashboard/pull/2367))
+- **Red highlight for below-cash-offer scenarios** — When a Sell 360 scenario's net proceeds fall below the cash offer amount, the comparison text now renders in red bold instead of gray. This applies to both the scenario comparison modal and the transaction summary section, making it easier to identify scenarios that underperform relative to a direct cash offer. ([#2367](https://github.com/Revive-Home/revive-dashboard/pull/2367))
+- **Scenario comparison PDF field alignment** — The downloadable scenario comparison PDF now uses the correct API field names for initial payment, resale net, and total net. Previously, the PDF referenced legacy field names that could display incorrect values. ([#2367](https://github.com/Revive-Home/revive-dashboard/pull/2367))
 
 ### revive-admin
 
@@ -38,3 +45,10 @@ No updates in this release.
 ## Breaking changes
 
 No breaking changes.
+- Fixed a race condition in the proposal page that could cause state updates after the component had unmounted during navigation. ([#2367](https://github.com/Revive-Home/revive-dashboard/pull/2367))
+
+## Breaking changes
+
+### New `homeIncrease` field in the proposal response
+
+The `valueOpportunity` object returned by `GET /v1/estimates/{estimateId}/proposal` now includes an optional `homeIncrease` field (string). This is a pre-formatted dollar amount representing the estimated home value increase from the renovation. If you display value opportunity data, use `homeIncrease` instead of computing a profit increase on the client side. The field is optional and may be absent for older estimates.
