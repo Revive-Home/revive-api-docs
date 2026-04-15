@@ -28,3 +28,7 @@ No bug fixes in this release.
 ## Breaking changes
 
 - **RMA contract generation prerequisites changed** — The `POST /v1/rma/:rmaId/contract` endpoint no longer requires a completed PC contract. Instead, it requires the contractor to have an Authorized Signer contact association in HubSpot with a valid email address. If the Authorized Signer is missing or has no email, the endpoint returns a `400` error. Update any workflows that depend on a signed PC contract being present before generating RMA contracts.
+
+<Warning>
+This change was reversed in [v2.152.0](/release-notes/v2.152.0). RMA contract generation once again requires a completed PC contract, and the contractor signer is sourced from that contract.
+</Warning>
