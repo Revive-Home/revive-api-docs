@@ -1,0 +1,152 @@
+---
+title: "Release Notes"
+description: "What's new across the Revive platform — features, improvements, fixes, and breaking changes"
+mode: wide
+---
+
+<Update label="April 14, 2025" description="v2.154.0" tags={["revive-api"]}>
+
+### New
+
+- The estimate proposal response now includes a `homeIncrease` field in the `valueOpportunity` object. When present, it contains a formatted currency string (e.g. `"$45,000"`) representing the estimated increase in home value from renovations. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
+
+### Improved
+
+- Estimate proposals and opportunity lookups load faster — comparables, case studies, HubSpot metadata, and associated records are now fetched concurrently. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
+- The `trendText` label in the comparison chart now reads `"$X home increase"` instead of `"$X est. profit"` to better describe the value. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
+
+### Fixed
+
+No bug fixes in this release.
+
+### Action required
+
+- **`trendText` label changed** — The `trendText` field in the `comparisonChart` section of `GET /v1/estimates/{estimateId}/proposal` now uses "home increase" instead of "est. profit". If you parse or match against this string, update your code to expect the new label.
+
+</Update>
+
+<Update label="April 14, 2025" description="v2.153.0" tags={["revive-api"]}>
+
+### New
+
+- The Sell 360 cash offer comparison now subtracts existing mortgage/liens from the cash offer amount, giving homeowners a more accurate side-by-side comparison. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
+
+### Improved
+
+- RMA contract generation now resolves the contractor signer from the completed PC contract instead of HubSpot contact associations, ensuring the signer on the RMA matches the signer who executed the PC contract. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
+- Generating an RMA contract once again requires a signed Purchase Commitment (PC) contract on the associated opportunity (restores the requirement removed in v2.151.0). ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
+
+### Fixed
+
+- The renovation plan form now correctly saves the **rehab used** amount when updating estimates. Previously, this value could be omitted from the save payload.
+
+### Action required
+
+- **Signed PC contract required for RMA generation** — The `POST /v1/rma/:rmaId/contract` endpoint now requires a completed PC contract on the associated opportunity. If no completed PC contract exists, the endpoint returns a `400` error. This reverses the v2.151.0 change. Ensure a PC contract is completed before generating RMA contracts.
+- **Sell 360 `comparisonDiff` values will change** — The `comparisonDiff` field in `GET /v1/estimates/{estimateId}/proposal` now reflects a lower cash offer baseline (debt is subtracted). If you display or use `comparisonDiff` in calculations, values will be higher for homeowners with existing mortgage balances.
+
+</Update>
+
+<Update label="April 14, 2025" description="v2.152.0" tags={["revive-api"]}>
+
+### New
+
+- Tiered Sell 360 program fee — properties with ARV ≥ $1M now use a 4% rate; below $1M uses 3%. Previously a flat 3% applied to all. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+- `debt` and `agentCommission` fields added to the `sell360TransactionSummary.shared` object so clients can display these deductions. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+- New `firstCheckAmount` field on opportunity and deal responses, representing the first check amount stored in HubSpot. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+
+### Improved
+
+- Revised holding cost formula: `(initialPayment + renovationCost) × 1% × holdingMonths` — produces lower holding costs for most deals. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+- Simplified taxes/insurance/HOA estimate: `asIsPrice × 0.16% × holdingMonths`. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+- Break-even calculation no longer includes holding costs. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+- Sell 360 comparison baseline now uses `asIsPrice × 90%` instead of a full as-is net calculation. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+- Renovation timeline is now budget-based: 1 month per $100K increment, producing more consistent scenario projections. ([#1950](https://github.com/Revive-Home/revive-api/pull/1950))
+- Initial payment now sourced directly from the opportunity's `firstCheckAmount` instead of a break-even formula. ([#1950](https://github.com/Revive-Home/revive-api/pull/1950))
+- RMA contractor signer now sourced from the completed PC contract instead of HubSpot. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+
+### Fixed
+
+No bug fixes in this release.
+
+### Action required
+
+- **`agentCommissionSold` renamed to `firstTransactionCommission`** — Update any client code that reads this field on opportunity and deal responses.
+- **`isFirstCheckNegative` removed** — This boolean has been removed from `sell360TransactionSummary`. Check `firstCheckNet` directly instead.
+- **RMA contract generation requires completed PC contract** — `POST /v1/rma/:rmaId/contract` returns `400` if no completed PC contract exists.
+- **Sell 360 scenario values will change** — All calculated values (initial payment, holding costs, program fees, scenario projections) may differ due to the formula changes above.
+
+</Update>
+
+<Update label="April 10, 2025" description="v2.151.0" tags={["revive-api", "revive-admin"]}>
+
+### New
+
+- RMA contract generation no longer requires a signed PC contract — you only need an owner's rep assigned and an Authorized Signer contact linked to the contractor in HubSpot. ([#1746](https://github.com/Revive-Home/revive-admin/pull/1746))
+- The RMA contract generation endpoint now resolves the contractor signer from HubSpot's Authorized Signer contact association instead of a signed PC contract. ([#1942](https://github.com/Revive-Home/revive-api/pull/1942))
+
+### Improved
+
+No improvements in this release.
+
+### Fixed
+
+No bug fixes in this release.
+
+### Action required
+
+- **RMA contract generation prerequisites changed** — The `POST /v1/rma/:rmaId/contract` endpoint no longer requires a completed PC contract. It now requires the contractor to have an Authorized Signer contact in HubSpot with a valid email. _Note: this was reverted in v2.152.0._
+
+</Update>
+
+<Update label="April 9, 2025" description="v2.150.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
+
+### New
+
+- RMA tabbed list view with Pending, On Hold, Ready for Check Run, Next Check Run, Completed, and All tabs — each with live count badges. ([#1737](https://github.com/Revive-Home/revive-admin/pull/1737))
+- RMA CSV export for the currently filtered list. ([#1737](https://github.com/Revive-Home/revive-admin/pull/1737))
+- Sell 360 pre-estimate support — renovation plan forms now include mortgage/liens and agent commission fields. ([#1742](https://github.com/Revive-Home/revive-admin/pull/1742))
+- Sell 360 transaction summary with three financial scenarios (conservative, target, stretch) and downloadable PDF. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+- Redesigned pre-estimate proposal pages with sidebar navigation, auto-hiding header, and responsive mobile layout. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+- Predictions API for async image-generation jobs. ([#1897](https://github.com/Revive-Home/revive-api/pull/1897))
+- Pricing table added to Renovate-to-Stay RSA contracts. ([#1927](https://github.com/Revive-Home/revive-api/pull/1927))
+
+### Improved
+
+- RMA statuses renamed for clarity: `drafting` → `preparing`, `sent` → `pending_signatures`, `review` → `executed`, `rejected` → `not_approved`, `released` → `paid`. ([#1741](https://github.com/Revive-Home/revive-admin/pull/1741))
+- RMA workflow guardrails — Hold and Paid actions disabled for pre-execution statuses. ([#1740](https://github.com/Revive-Home/revive-admin/pull/1740))
+- Estimate proposal response fields renamed from numbered slides to semantic names (e.g. `slide1` → `coverSlide`). ([#1932](https://github.com/Revive-Home/revive-api/pull/1932))
+
+### Fixed
+
+- Deal creation correctly handles unit and secondary address numbers, preventing duplicate deals for multi-unit properties. ([#1924](https://github.com/Revive-Home/revive-api/pull/1924))
+
+### Action required
+
+- **RMA status values changed** — Update any code that filters or updates RMAs by status. See the mapping: `drafting` → `preparing`, `sent` → `pending_signatures`, `review` → `executed`, `rejected` → `not_approved`, `released` → `paid`.
+- **Estimate proposal response shape changed** — Fields renamed: `slide1` → `coverSlide`, `slide2` → `neighborhoodComparables`, `slide3` → `valueOpportunity`, `slide4` → `comparisonChart`, `slide9` → `caseStudies`, `slide10` → `advisorNextSteps`. A new `sell360TransactionSummary` object is included when applicable.
+
+</Update>
+
+<Update label="April 9, 2025" description="v2.149.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
+
+### New
+
+- Predictions API: create and poll async image-generation jobs with a new admin endpoint for contract signing links. ([#1897](https://github.com/Revive-Home/revive-api/pull/1897))
+- Copy signing links for contract recipients and estimates in Admin. ([#1723](https://github.com/Revive-Home/revive-admin/pull/1723))
+- Document status sync to HubSpot with mapped property translations. ([#1913](https://github.com/Revive-Home/revive-api/pull/1913))
+
+### Improved
+
+- Smarter renovation update selection and optimistic weekly-update handling in Admin. ([#1723](https://github.com/Revive-Home/revive-admin/pull/1723))
+- Pre-estimate analytics: page views, time-on-page, per-section tracking in Dashboard. ([#2327](https://github.com/Revive-Home/revive-dashboard/pull/2327))
+
+### Fixed
+
+- Fixed a condition that determines when the V2-specific edit modal is displayed in Admin. ([#1735](https://github.com/Revive-Home/revive-admin/pull/1735))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>

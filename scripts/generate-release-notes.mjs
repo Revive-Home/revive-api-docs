@@ -143,7 +143,7 @@ async function fetchPull(repo, number) {
   return ghJson(url);
 }
 
-function toReleaseNotesMdx(grouped) {
+function toUpdateBlock(grouped) {
   // Collect all PRs and categorize into buckets
   const allPRs = REPOS.flatMap((r) => (grouped[r] || []));
 
@@ -169,15 +169,22 @@ function toReleaseNotesMdx(grouped) {
     }
   }
 
-  // Build the description from the first feature or fix
-  const descPR = allPRs.find((pr) => !pr.isFix && !pr.isSprint) || allPRs[0];
-  const desc = descPR ? descPR.title : 'Revive platform production release';
+  // Determine which repos had changes for tags
+  const activeTags = REPOS.filter((r) => (grouped[r] || []).length > 0);
+  const tagsAttr = activeTags.length > 0
+    ? ` tags={[${activeTags.map((t) => `"${t}"`).join(', ')}]}`
+    : '';
+
+  // Format date as "Month Day, Year"
+  const today = new Date();
+  const dateLabel = today.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
   const lines = [];
-  lines.push('---');
-  lines.push(`title: "${version}"`);
-  lines.push(`description: "${desc.replace(/"/g, '\\"')}"`);
-  lines.push('---');
+  lines.push(`<Update label="${dateLabel}" description="${version}"${tagsAttr}>`);
   lines.push('');
 
   lines.push('### New');
@@ -215,81 +222,24 @@ function toReleaseNotesMdx(grouped) {
     lines.push('No action required for existing integrations.');
   }
   lines.push('');
+  lines.push('</Update>');
 
   return lines.join('\n');
 }
 
-function updateIndexMdx(indexPath) {
-  const href = `/release-notes/${version}`;
+function prependUpdateToReleaseNotes(releaseNotesPath, updateBlock) {
+  let content = fs.readFileSync(releaseNotesPath, 'utf8');
 
-  let current = fs.readFileSync(indexPath, 'utf8');
-  if (current.includes(`href="${href}"`)) return;
+  // Don't add if this version is already there
+  if (content.includes(`description="${version}"`)) return;
 
-  // Replace the first Card in the CardGroup with the new version, shifting others down
-  const groupTag = '<CardGroup cols={3}>';
-  const idx = current.indexOf(groupTag);
-  if (idx === -1) {
-    // Fallback: try cols={1} for older format
-    const oldTag = '<CardGroup cols={1}>';
-    const oldIdx = current.indexOf(oldTag);
-    if (oldIdx === -1) return;
-    const insertAt = oldIdx + oldTag.length;
-    const insertion = `\n  <Card title="${version}" icon="rocket" href="${href}" />`;
-    current = current.slice(0, insertAt) + insertion + current.slice(insertAt);
-    fs.writeFileSync(indexPath, current);
-    return;
-  }
+  // Insert after the frontmatter closing ---
+  const frontmatterEnd = content.indexOf('---', content.indexOf('---') + 3);
+  if (frontmatterEnd === -1) return;
 
-  // Find all existing Card lines in the group and keep only the 2 newest after adding
-  const groupEnd = current.indexOf('</CardGroup>', idx);
-  const groupContent = current.slice(idx, groupEnd + '</CardGroup>'.length);
-
-  const newCard = `  <Card title="${version}" icon="rocket" href="${href}" />`;
-  const cardRe = /\s*<Card\s+[^/]*\/>/g;
-  const existingCards = [];
-  let match;
-  while ((match = cardRe.exec(groupContent)) !== null) {
-    existingCards.push(match[0].trim());
-  }
-
-  // Build new group with latest 3 (new + top 2 existing)
-  const topCards = [newCard, ...existingCards.slice(0, 2)];
-  const newGroup = `<CardGroup cols={3}>\n${topCards.map((c) => '  ' + c).join('\n')}\n</CardGroup>`;
-
-  current = current.slice(0, idx) + newGroup + current.slice(groupEnd + '</CardGroup>'.length);
-  fs.writeFileSync(indexPath, current);
-}
-
-function updateDocsJson(docsJsonPath) {
-  const pagePath = `release-notes/${version}`;
-  const raw = fs.readFileSync(docsJsonPath, 'utf8');
-  const config = JSON.parse(raw);
-
-  // Find the Changelog tab in navigation
-  const tabs = config.navigation?.tabs || [];
-  let changelogGroup = null;
-  for (const tab of tabs) {
-    if (tab.tab === 'Changelog') {
-      for (const group of tab.groups || []) {
-        if (group.group === 'Changelog') {
-          changelogGroup = group;
-          break;
-        }
-      }
-      break;
-    }
-  }
-
-  if (!changelogGroup) return;
-
-  // Add the page after index if not already present
-  if (!changelogGroup.pages.includes(pagePath)) {
-    // Insert after the index page (position 1) so newest is first after index
-    const indexPos = changelogGroup.pages.indexOf('release-notes/index');
-    changelogGroup.pages.splice(indexPos + 1, 0, pagePath);
-  }
-
-  fs.writeFileSync(docsJsonPath, JSON.stringify(config, null, 2) + '\n');
+  const insertAt = frontmatterEnd + 3;
+  content = content.slice(0, insertAt) + '\n\n' + updateBlock + '\n' + content.slice(insertAt);
+  fs.writeFileSync(releaseNotesPath, content);
 }
 
 function ensureDir(dir) {
@@ -559,23 +509,16 @@ async function main() {
 
   for (const repo of REPOS) grouped[repo].sort(byMergedAtDesc);
 
-  const outDir = path.join(process.cwd(), 'release-notes');
-  ensureDir(outDir);
+  const updateBlock = toUpdateBlock(grouped);
 
-  const mdxPath = path.join(outDir, `${version}.mdx`);
-  if (fs.existsSync(mdxPath) && !overwrite) {
-    throw new Error(`Release notes already exist: ${mdxPath}. Set RELEASE_OVERWRITE=true to regenerate.`);
+  const releaseNotesPath = path.join(process.cwd(), 'release-notes.mdx');
+  if (!fs.existsSync(releaseNotesPath)) {
+    throw new Error(`Release notes page not found: ${releaseNotesPath}`);
   }
 
-  fs.writeFileSync(mdxPath, toReleaseNotesMdx(grouped));
+  prependUpdateToReleaseNotes(releaseNotesPath, updateBlock);
 
-  const indexPath = path.join(outDir, 'index.mdx');
-  updateIndexMdx(indexPath);
-
-  const docsJsonPath = path.join(process.cwd(), 'docs.json');
-  updateDocsJson(docsJsonPath);
-
-  console.log(`Generated: ${mdxPath}`);
+  console.log(`Prepended ${version} to ${releaseNotesPath}`);
 }
 
 main().catch((err) => {

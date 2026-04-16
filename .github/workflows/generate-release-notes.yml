@@ -62,8 +62,8 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "docs: add release notes ${{ env.VERSION }}"
+          commit-message: "docs: add ${{ env.VERSION }} release notes"
           title: "Release notes: ${{ env.VERSION }}"
-          body: "Generated from merged PRs labeled `${{ env.LABEL }}` across Revive repos."
+          body: "Prepended ${{ env.VERSION }} update block to `release-notes.mdx` from merged PRs labeled `${{ env.LABEL }}`."
           branch: "automation/release-notes-${{ env.VERSION }}"
           delete-branch: true
