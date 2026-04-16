@@ -3,34 +3,19 @@ title: "v2.154.0"
 description: "New home value increase field in estimate proposals and faster proposal loading"
 ---
 
-## Highlights
+### New
 
-- The estimate proposal response now includes a `homeIncrease` field showing the estimated home value increase from renovations.
-- The "est. profit" trend label in the comparison chart has been updated to "home increase" to better describe the value.
-- Estimate proposals and opportunity lookups load faster thanks to parallelized data fetching.
+- The estimate proposal response now includes a `homeIncrease` field in the `valueOpportunity` object. When present, it contains a formatted currency string (e.g. `"$45,000"`) representing the estimated increase in home value from renovations. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
 
-## Changes shipped to production
+### Improved
 
-### revive-api
+- Estimate proposals and opportunity lookups load faster — comparables, case studies, HubSpot metadata, and associated records are now fetched concurrently. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
+- The `trendText` label in the comparison chart now reads `"$X home increase"` instead of `"$X est. profit"` to better describe the value. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
 
-- **New `homeIncrease` field in estimate proposals** — The `valueOpportunity` object returned by `GET /v1/estimates/{estimateId}/proposal` now includes an optional `homeIncrease` field. When present, it contains a formatted currency string (e.g. `"$45,000"`) representing the estimated increase in home value from renovations. This field is `undefined` when no value lift data is available. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
-- **Comparison chart label updated** — The `trendText` field in the comparison chart section of the estimate proposal response now reads `"$X home increase"` instead of `"$X est. profit"`. If you display this string directly, the label will change automatically. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
-- **Faster estimate proposal and opportunity loading** — Data fetching for estimate proposals and opportunity lookups has been parallelized. Comparables, case studies, HubSpot metadata, and associated records are now fetched concurrently where possible. This reduces response times for the `GET /v1/estimates/{estimateId}/proposal` and `GET /v1/opportunities/{id}` endpoints without changing the response shape. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
-
-### revive-admin
-
-No updates in this release.
-
-### revive-mobile
-
-No updates in this release.
-
-## Fixes
+### Fixed
 
 No bug fixes in this release.
 
-## Breaking changes
+### Action required
 
-### `trendText` label changed from "est. profit" to "home increase"
-
-The `trendText` field in the `comparisonChart` section of the `GET /v1/estimates/{estimateId}/proposal` response now uses "home increase" instead of "est. profit". If you parse or match against this string, update your code to expect the new label.
+- **`trendText` label changed** — The `trendText` field in the `comparisonChart` section of `GET /v1/estimates/{estimateId}/proposal` now uses "home increase" instead of "est. profit". If you parse or match against this string, update your code to expect the new label.

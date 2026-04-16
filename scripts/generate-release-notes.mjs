@@ -144,67 +144,76 @@ async function fetchPull(repo, number) {
 }
 
 function toReleaseNotesMdx(grouped) {
-  // Collect all PRs for highlights and fixes
+  // Collect all PRs and categorize into buckets
   const allPRs = REPOS.flatMap((r) => (grouped[r] || []));
-  const fixes = allPRs.filter((pr) => pr.isFix);
-  const features = allPRs.filter((pr) => !pr.isFix && !pr.isSprint);
+
+  const buckets = {
+    new: [],       // new features
+    improved: [],  // enhancements, improvements, refactors
+    fixed: [],     // bug fixes
+    action: [],    // breaking changes (detected from title keywords)
+  };
+
+  for (const pr of allPRs) {
+    const link = `([#${pr.number}](${pr.url}))`;
+    const entry = `- ${pr.title} ${link}`;
+
+    if (pr.isFix) {
+      buckets.fixed.push(entry);
+    } else if (pr.isBreaking) {
+      buckets.action.push(entry);
+    } else if (pr.isImprovement) {
+      buckets.improved.push(entry);
+    } else {
+      buckets.new.push(entry);
+    }
+  }
+
+  // Build the description from the first feature or fix
+  const descPR = allPRs.find((pr) => !pr.isFix && !pr.isSprint) || allPRs[0];
+  const desc = descPR ? descPR.title : 'Revive platform production release';
 
   const lines = [];
   lines.push('---');
   lines.push(`title: "${version}"`);
-  lines.push('description: "Revive platform production release"');
+  lines.push(`description: "${desc.replace(/"/g, '\\"')}"`);
   lines.push('---');
   lines.push('');
-  lines.push('## Highlights');
+
+  lines.push('### New');
   lines.push('');
-  if (features.length > 0) {
-    const seenTitles = new Set();
-    for (const pr of features) {
-      if (seenTitles.size >= 6) break;
-      if (seenTitles.has(pr.title)) continue;
-      seenTitles.add(pr.title);
-      lines.push(`- ${pr.title}`);
-    }
-  } else if (fixes.length > 0) {
-    lines.push('- Bug fixes and stability improvements');
+  if (buckets.new.length > 0) {
+    for (const entry of buckets.new) lines.push(entry);
   } else {
-    lines.push('- Routine maintenance release');
+    lines.push('No new features in this release.');
   }
   lines.push('');
-  lines.push('## Changes shipped to production');
+
+  lines.push('### Improved');
   lines.push('');
-
-  for (const repo of REPOS) {
-    const prs = grouped[repo] || [];
-    lines.push(`### ${repo}`);
-    lines.push('');
-
-    if (prs.length === 0) {
-      lines.push('No updates in this release.');
-      lines.push('');
-      continue;
-    }
-
-    for (const pr of prs) {
-      lines.push(`- ${pr.title} ([#${pr.number}](${pr.url}))`);
-    }
-
-    lines.push('');
+  if (buckets.improved.length > 0) {
+    for (const entry of buckets.improved) lines.push(entry);
+  } else {
+    lines.push('No improvements in this release.');
   }
-
-  lines.push('## Fixes');
   lines.push('');
-  if (fixes.length > 0) {
-    for (const pr of fixes) {
-      lines.push(`- ${pr.title} ([#${pr.number}](${pr.url}))`);
-    }
+
+  lines.push('### Fixed');
+  lines.push('');
+  if (buckets.fixed.length > 0) {
+    for (const entry of buckets.fixed) lines.push(entry);
   } else {
     lines.push('No bug fixes in this release.');
   }
   lines.push('');
-  lines.push('## Breaking changes');
+
+  lines.push('### Action required');
   lines.push('');
-  lines.push('No breaking changes.');
+  if (buckets.action.length > 0) {
+    for (const entry of buckets.action) lines.push(entry);
+  } else {
+    lines.push('No action required for existing integrations.');
+  }
   lines.push('');
 
   return lines.join('\n');
@@ -212,20 +221,42 @@ function toReleaseNotesMdx(grouped) {
 
 function updateIndexMdx(indexPath) {
   const href = `/release-notes/${version}`;
-  const cardLine = `  <Card title="${version}" icon="rocket" href="${href}">`;
 
   let current = fs.readFileSync(indexPath, 'utf8');
   if (current.includes(`href="${href}"`)) return;
 
-  const groupTag = '<CardGroup cols={1}>';
+  // Replace the first Card in the CardGroup with the new version, shifting others down
+  const groupTag = '<CardGroup cols={3}>';
   const idx = current.indexOf(groupTag);
   if (idx === -1) {
-    throw new Error(`Could not find ${groupTag} in ${indexPath}`);
+    // Fallback: try cols={1} for older format
+    const oldTag = '<CardGroup cols={1}>';
+    const oldIdx = current.indexOf(oldTag);
+    if (oldIdx === -1) return;
+    const insertAt = oldIdx + oldTag.length;
+    const insertion = `\n  <Card title="${version}" icon="rocket" href="${href}" />`;
+    current = current.slice(0, insertAt) + insertion + current.slice(insertAt);
+    fs.writeFileSync(indexPath, current);
+    return;
   }
 
-  const insertAt = idx + groupTag.length;
-  const insertion = `\n${cardLine}\n    See what shipped in ${version}.\n  </Card>`;
-  current = current.slice(0, insertAt) + insertion + current.slice(insertAt);
+  // Find all existing Card lines in the group and keep only the 2 newest after adding
+  const groupEnd = current.indexOf('</CardGroup>', idx);
+  const groupContent = current.slice(idx, groupEnd + '</CardGroup>'.length);
+
+  const newCard = `  <Card title="${version}" icon="rocket" href="${href}" />`;
+  const cardRe = /\s*<Card\s+[^/]*\/>/g;
+  const existingCards = [];
+  let match;
+  while ((match = cardRe.exec(groupContent)) !== null) {
+    existingCards.push(match[0].trim());
+  }
+
+  // Build new group with latest 3 (new + top 2 existing)
+  const topCards = [newCard, ...existingCards.slice(0, 2)];
+  const newGroup = `<CardGroup cols={3}>\n${topCards.map((c) => '  ' + c).join('\n')}\n</CardGroup>`;
+
+  current = current.slice(0, idx) + newGroup + current.slice(groupEnd + '</CardGroup>'.length);
   fs.writeFileSync(indexPath, current);
 }
 
@@ -234,39 +265,28 @@ function updateDocsJson(docsJsonPath) {
   const raw = fs.readFileSync(docsJsonPath, 'utf8');
   const config = JSON.parse(raw);
 
-  // Determine the year from the version or fall back to current year
-  const year = new Date().getFullYear().toString();
-  const yearGroupName = `${year} Release Notes`;
-
-  // Find the Releases group in navigation
+  // Find the Changelog tab in navigation
   const tabs = config.navigation?.tabs || [];
-  let releasesGroup = null;
+  let changelogGroup = null;
   for (const tab of tabs) {
-    for (const group of tab.groups || []) {
-      if (group.group === 'Releases') {
-        releasesGroup = group;
-        break;
+    if (tab.tab === 'Changelog') {
+      for (const group of tab.groups || []) {
+        if (group.group === 'Changelog') {
+          changelogGroup = group;
+          break;
+        }
       }
+      break;
     }
-    if (releasesGroup) break;
   }
 
-  if (!releasesGroup) return;
+  if (!changelogGroup) return;
 
-  // Find or create the year subgroup
-  let yearGroup = releasesGroup.pages.find(
-    (p) => typeof p === 'object' && p.group === yearGroupName
-  );
-
-  if (!yearGroup) {
-    yearGroup = { group: yearGroupName, pages: [] };
-    releasesGroup.pages.push(yearGroup);
-  }
-
-  // Add the page if not already present
-  if (!yearGroup.pages.includes(pagePath)) {
-    // Insert at the beginning so newest is first
-    yearGroup.pages.unshift(pagePath);
+  // Add the page after index if not already present
+  if (!changelogGroup.pages.includes(pagePath)) {
+    // Insert after the index page (position 1) so newest is first after index
+    const indexPos = changelogGroup.pages.indexOf('release-notes/index');
+    changelogGroup.pages.splice(indexPos + 1, 0, pagePath);
   }
 
   fs.writeFileSync(docsJsonPath, JSON.stringify(config, null, 2) + '\n');
@@ -509,10 +529,13 @@ async function main() {
 
     if (shouldExcludePRTitle(pr.title)) continue;
 
-    // Detect fix/sprint from the ORIGINAL title before any cleaning
+    // Detect category from the ORIGINAL title before any cleaning
     const originalTitle = pr.title || '';
     const isFix = /^fix/i.test(originalTitle) || /\bfix\b/i.test(originalTitle);
     const isSprint = /^sprint\s+\d+/i.test(originalTitle);
+    const isBreaking = /\bbreaking\b/i.test(originalTitle) || /\bBREAKING.CHANGE\b/i.test(originalTitle);
+    const isImprovement = /^(refactor|improve|perf|chore|update|bump)/i.test(originalTitle)
+      || /\b(refactor|improve|enhance|optimize|clean.?up)\b/i.test(originalTitle);
 
     const preferredSummary = extractPreferredSummaryFromBody(pr.body);
     let displaySummary = toSingleLineSummary(preferredSummary) || cleanPRTitle(originalTitle);
@@ -529,6 +552,8 @@ async function main() {
       mergedAt: pr.merged_at,
       isFix,
       isSprint,
+      isBreaking,
+      isImprovement,
     });
   }
 

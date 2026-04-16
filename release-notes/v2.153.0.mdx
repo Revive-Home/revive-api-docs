@@ -1,73 +1,22 @@
 ---
 title: "v2.153.0"
-description: "RMA contract generation now requires a signed PC contract; renovation plan rehab budget fix"
 description: "Accurate Sell 360 cash offer comparison and updated RMA contract signer source"
 ---
 
-## Highlights
+### New
 
-- Generating an RMA contract now requires a signed Purchase Commitment (PC) contract on the associated opportunity, in addition to an assigned owner's rep. This restores the PC requirement that was temporarily removed in [v2.151.0](/release-notes/v2.151.0).
-- The renovation plan form now correctly saves the **rehab used** amount when updating estimates.
+- The Sell 360 cash offer comparison now subtracts existing mortgage/liens from the cash offer amount, giving homeowners a more accurate side-by-side comparison. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
 
-## RMA contract generation prerequisites
+### Improved
 
-To generate an RMA contract, you now need both of the following:
+- RMA contract generation now resolves the contractor signer from the completed PC contract instead of HubSpot contact associations, ensuring the signer on the RMA matches the signer who executed the PC contract. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
+- Generating an RMA contract once again requires a signed Purchase Commitment (PC) contract on the associated opportunity (restores the requirement removed in [v2.151.0](/release-notes/v2.151.0)). ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
 
-| Prerequisite | How to verify |
-|---|---|
-| **Owner's rep assigned** | The RMA detail page shows an owner's rep in the header |
-| **Signed PC contract** | The opportunity has a completed Purchase Commitment contract |
+### Fixed
 
-If either condition is not met, the **Generate RMA** button is disabled. A tooltip indicates which prerequisite is missing:
+- The renovation plan form now correctly saves the **rehab used** amount when updating estimates. Previously, this value could be omitted from the save payload.
 
-- "Missing: owner's rep" — assign an owner's rep to the RMA
-- "Missing: signed PC contract" — ensure the Purchase Commitment contract on the opportunity is signed and completed
+### Action required
 
-<Note>
-This restores the signed PC requirement that was removed in v2.151.0. If you updated your workflows to generate RMA contracts without a signed PC, you need to ensure the PC is completed before generating the RMA contract.
-</Note>
-
-## Renovation plan form fix
-
-The renovation plan form now correctly includes the **rehab used** amount when saving updates. Previously, this value could be omitted from the save payload, resulting in stale or missing data on the estimate. This fix applies to all renovation plan forms where the budget section is visible.
-
-## Fixes
-
-No additional bug fixes in this release.
-
-## Breaking changes
-
-### Signed PC contract required for RMA generation
-
-The `POST /v1/rma/:rmaId/contract` endpoint once again requires a completed PC contract on the associated opportunity. This reverts the change introduced in [v2.151.0](/release-notes/v2.151.0). If you generate RMA contracts programmatically, ensure the opportunity's PC contract status is "completed" before calling this endpoint.
-- The Sell 360 cash offer comparison now subtracts existing mortgage/liens from the cash offer amount, giving homeowners a more accurate side-by-side comparison.
-- RMA contract generation now resolves the contractor signer from the completed PC contract instead of HubSpot contact associations.
-
-## Changes shipped to production
-
-### revive-api
-
-- **Sell 360 cash offer comparison accounts for debt** — The `comparisonDiff` value in the Sell 360 transaction summary now subtracts the homeowner's existing debt (mortgage/liens) from the estimated cash offer amount before comparing it to the Sell 360 total net proceeds. Previously, the cash offer side of the comparison did not account for debt payoff, which overstated the cash offer relative to the Sell 360 option. This produces a more realistic comparison for homeowners carrying a mortgage. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
-- **RMA contractor signer sourced from PC contract** — The RMA contract generation endpoint now pulls the contractor signer information from the completed Professional Contractor (PC) contract on the opportunity rather than looking up the Authorized Signer contact association in HubSpot. This ensures the signer on the RMA matches the signer who executed the PC contract. A completed PC contract is now required to generate an RMA contract. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
-
-### revive-admin
-
-No updates in this release.
-
-### revive-mobile
-
-No updates in this release.
-
-## Fixes
-
-No bug fixes in this release.
-
-## Breaking changes
-
-### RMA contract generation requires a completed PC contract
-
-The `POST /v1/rma/:rmaId/contract` endpoint now requires a completed PC contract on the associated opportunity. If no completed PC contract exists, the endpoint returns a `400` error. This reverses the v2.151.0 change that removed the PC requirement. Update any workflows that generate RMA contracts to ensure a PC contract is completed first.
-
-### Sell 360 `comparisonDiff` values will change
-
-The `comparisonDiff` field in the `sell360TransactionSummary` response from `GET /v1/estimates/{estimateId}/proposal` now reflects a lower cash offer baseline (since debt is subtracted). If you display or use `comparisonDiff` in calculations, the values will be higher than before for homeowners with existing mortgage balances.
+- **Signed PC contract required for RMA generation** — The `POST /v1/rma/:rmaId/contract` endpoint now requires a completed PC contract on the associated opportunity. If no completed PC contract exists, the endpoint returns a `400` error. This reverses the [v2.151.0](/release-notes/v2.151.0) change. Ensure a PC contract is completed before generating RMA contracts.
+- **Sell 360 `comparisonDiff` values will change** — The `comparisonDiff` field in `GET /v1/estimates/{estimateId}/proposal` now reflects a lower cash offer baseline (debt is subtracted). If you display or use `comparisonDiff` in calculations, values will be higher for homeowners with existing mortgage balances.
