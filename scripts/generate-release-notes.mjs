@@ -511,7 +511,7 @@ async function main() {
 
   const updateBlock = toUpdateBlock(grouped);
 
-  const releaseNotesPath = path.join(process.cwd(), 'release-notes.mdx');
+  const releaseNotesPath = path.join(process.cwd(), 'changelog.mdx');
   if (!fs.existsSync(releaseNotesPath)) {
     throw new Error(`Release notes page not found: ${releaseNotesPath}`);
   }
