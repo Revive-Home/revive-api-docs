@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Generate release notes files
+      - name: Generate release notes
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB }}
           RELEASE_VERSION: ${{ env.VERSION }}
@@ -59,11 +59,11 @@ jobs:
           RELEASE_LABEL: ${{ env.LABEL }}
         run: node scripts/generate-release-notes.mjs
 
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          commit-message: "docs: add ${{ env.VERSION }} release notes"
-          title: "Release notes: ${{ env.VERSION }}"
-          body: "Prepended ${{ env.VERSION }} update block to `release-notes.mdx` from merged PRs labeled `${{ env.LABEL }}`."
-          branch: "automation/release-notes-${{ env.VERSION }}"
-          delete-branch: true
+      - name: Commit and push directly
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release-notes.mdx
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "docs: add ${{ env.VERSION }} release notes [skip ci]"
+          git push
