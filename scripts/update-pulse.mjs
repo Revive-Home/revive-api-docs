@@ -62,9 +62,9 @@ async function main() {
 
   const [apiDate, dashboardDate, adminDate, mobileDate, docsDate] = await Promise.all([
     getLatestRelease('Revive-Home', 'revive-api'),
-    getLatestPush('Revive-Home', 'revive-dashboard'),
-    getLatestPush('Revive-Home', 'revive-admin'),
-    getLatestPush('Revive-Home', 'revive-mobile'),
+    getLatestRelease('Revive-Home', 'revive-dashboard'),
+    getLatestRelease('Revive-Home', 'revive-admin'),
+    getLatestRelease('Revive-Home', 'revive-mobile'),
     getLatestPush('Revive-Home', 'revive-api-docs'),
   ]);
 
