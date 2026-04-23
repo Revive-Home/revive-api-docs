@@ -264,6 +264,15 @@ for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
   }
 }
 
+// --- Remove v1 endpoints (docs only expose v2) ---
+const v1Paths = Object.keys(spec.paths || {}).filter((p) => p.startsWith('/v1/'));
+for (const p of v1Paths) {
+  delete spec.paths[p];
+}
+if (v1Paths.length > 0) {
+  console.log(`\n  Removed ${v1Paths.length} v1 endpoint(s) from spec`);
+}
+
 // --- Prepend endpoint path to every description for visibility ---
 for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
   for (const [method, operation] of Object.entries(methods)) {
