@@ -237,17 +237,16 @@ function prependUpdateToReleaseNotes(releaseNotesPath, blocks) {
   const frontmatterEnd = content.indexOf('---', content.indexOf('---') + 3);
   if (frontmatterEnd === -1) return;
 
-  // Filter out blocks whose version+repo combo is already in the file
+  // Filter out blocks whose exact version+repo combo is already in the file
   const newBlocks = blocks.filter((block) => {
-    // Extract the description from the block to check for duplicates
     const descMatch = block.match(/description="([^"]+)"/);
     const tagMatch = block.match(/tags={\["([^"]+)"\]}/);
     if (descMatch && tagMatch) {
-      // Check if this exact version+repo combo exists
-      return !content.includes(`description="${descMatch[1]}"`) ||
-             !content.includes(`tags={["${tagMatch[1]}"]}`)
-             ? !content.includes(`description="${descMatch[1]}" tags={["${tagMatch[1]}"]}`)
-             : false;
+      const needle = `description="${descMatch[1]}" tags={["${tagMatch[1]}"]}`;
+      if (content.includes(needle)) {
+        console.log(`  Skipping ${descMatch[1]} [${tagMatch[1]}] — already present.`);
+        return false;
+      }
     }
     return true;
   });
