@@ -238,7 +238,11 @@ function prependUpdateToReleaseNotes(releaseNotesPath, updateBlock) {
   if (frontmatterEnd === -1) return;
 
   const insertAt = frontmatterEnd + 3;
-  content = content.slice(0, insertAt) + '\n\n' + updateBlock + '\n' + content.slice(insertAt);
+  // Ensure the block always ends with </Update>
+  const safeBlock = updateBlock.trimEnd().endsWith('</Update>')
+    ? updateBlock
+    : updateBlock.trimEnd() + '\n</Update>';
+  content = content.slice(0, insertAt) + '\n\n' + safeBlock + '\n' + content.slice(insertAt);
   fs.writeFileSync(releaseNotesPath, content);
 }
 
