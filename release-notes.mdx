@@ -82,7 +82,7 @@ No action required for existing integrations. The new `email` and `phone` fields
 
 </Update>
 
-<Update label="April 23, 2026" description="v2.132.0" tags={["revive-admin"]}>
+<Update label="April 20, 2026" description="v2.132.0" tags={["revive-admin"]}>
 
 ### New
 
@@ -109,6 +109,27 @@ No action required for existing integrations. The new `email` and `phone` fields
 - **Custom items require a `group`** — Saving a custom item without selecting a group now fails validation. Existing custom items on in-flight estimates should be re-opened and assigned a group.
 - **RMA `dealtype` field is now a label** — `useRmas` maps `opportunity.dealtype` through `getDealTypeLabel` before returning it, so consumers see `Renovate to sell`, `Sell 360`, etc. instead of raw HubSpot IDs like `Contract Buy-out` or `Buy It Now`. If you filter on this field client-side, use the label values.
 - **RMA check-run filter uses `executed_at`** — The Ready and Next Check Run tab split now uses `executed_at || updated_at` and a Friday cutoff. RMAs executed on Friday itself roll into Next Check Run until Saturday.
+
+</Update>
+
+<Update label="April 23, 2026" description="v2.154.2" tags={["revive-api"]}>
+
+### New
+
+No new features in this release.
+
+### Improved
+
+No improvements in this release.
+
+### Fixed
+
+- Fixed incorrect contractor sandbox IDs in the HubSpot configuration, which caused contractor lookups to fail in the staging environment. ([#1991](https://github.com/Revive-Home/revive-api/pull/1991))
+- Fixed missing imports and improved error handling in the meeting booking service. Timezone defaults are now applied when retrieving availability, and bookings are normalized consistently across calendar providers. ([#1987](https://github.com/Revive-Home/revive-api/pull/1987))
+
+### Action required
+
+No action required for existing integrations.
 
 </Update>
 
@@ -186,7 +207,7 @@ No bug fixes in this release.
 
 </Update>
 
-<Update label="April 10, 2025" description="v2.151.0" tags={["revive-api", "revive-admin"]}>
+<Update label="April 10, 2026" description="v2.151.0" tags={["revive-api", "revive-admin"]}>
 
 ### New
 
@@ -207,7 +228,7 @@ No bug fixes in this release.
 
 </Update>
 
-<Update label="April 9, 2025" description="v2.150.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
+<Update label="April 9, 2026" description="v2.150.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
 
 ### New
 
@@ -236,7 +257,7 @@ No bug fixes in this release.
 
 </Update>
 
-<Update label="April 9, 2025" description="v2.149.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
+<Update label="March 26, 2026" description="v2.149.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
 
 ### New
 
@@ -252,6 +273,26 @@ No bug fixes in this release.
 ### Fixed
 
 - Fixed a condition that determines when the V2-specific edit modal is displayed in Admin. ([#1735](https://github.com/Revive-Home/revive-admin/pull/1735))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+<Update label="December 23, 2025" description="v1.78.0" tags={["revive-mobile"]}>
+
+### New
+
+- **Revive Wrapped video.** The mobile app now supports an in-app Revive Wrapped experience — a personalized year-in-review video that contractors can view directly from the app. ([#503](https://github.com/Revive-Home/revive-mobile/pull/503))
+
+### Improved
+
+No improvements in this release.
+
+### Fixed
+
+No bug fixes in this release.
 
 ### Action required
 
