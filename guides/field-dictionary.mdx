@@ -34,7 +34,12 @@ All timestamps are ISO 8601 UTC unless noted otherwise.
 | `sentAt` | ISO 8601 | `"2026-04-15T18:00:00.000Z"` |
 | `completedAt` | ISO 8601 | `"2026-04-15T18:00:00.000Z"` |
 | `signedAt` | ISO 8601 | `"2026-02-15T14:00:00.000Z"` |
+| `executed_at` | ISO 8601 | `"2026-04-18T22:15:00.000Z"` |
 | `startTime` | Unix ms | `1713100000000` |
+
+<Info>
+  `executed_at` is set on an RMA when it transitions to the `executed` status. The Admin RMA list uses this timestamp (falling back to `updated_at`) to decide whether an RMA falls into **Ready for Check Run** or **Next Check Run**, based on the most recent Friday 23:59:59 cutoff.
+</Info>
 
 <Warning>
   Some older endpoints use Unix milliseconds (`startTime`, `startDate`) instead of ISO 8601. Check the endpoint reference for the specific format.
@@ -46,11 +51,25 @@ All timestamps are ISO 8601 UTC unless noted otherwise.
 
 ### Deal type (`dealType` / `dealtype`)
 
-| Value | Description |
-|-------|-------------|
-| `Presale` | Pre-sale renovation — improve before listing |
-| `RTS` | Renovate to Stay — homeowner keeps the property |
-| `Special Services` | Custom renovation services |
+On RMA responses from `useRmas` (Admin), `opportunity.dealtype` is returned as the human-readable **label** (right column). Other surfaces still expose the raw HubSpot ID.
+
+| HubSpot ID | Label |
+|------------|-------|
+| `Contract Buy-out` | Renovate to sell |
+| `Buy It Now` | Sell 360 |
+| `Flip 360` | Flip 360 |
+| `Buy with cash` | Buy with cash |
+| `Prepare for sell` | Prepare to sell |
+| `Bridge Financing` | Prepare to buy |
+| `Trade Up Downleg` | Prepare to sell |
+| `Special Services` | Renovate to stay |
+| `TBD` | TBD |
+| `Unknown` | Unknown |
+| `Other` | Other |
+| `B2B` | B2B |
+| `Realtor Referral` | Realtor Referral |
+| `Revive Lite` | Revive Lite |
+| `Cash Offer` | Cash Offer |
 
 ### User role (`role`)
 
@@ -99,10 +118,12 @@ All timestamps are ISO 8601 UTC unless noted otherwise.
 
 | Value | Description |
 |-------|-------------|
-| `draft` | RMA created, not yet sent |
-| `signed` | All parties signed |
-| `in_progress` | Renovation underway, draws being released |
-| `completed` | All draws released, project finished |
+| `preparing` | RMA being drafted (was `drafting` before v2.150.0) |
+| `pending_signatures` | Sent for signatures (was `sent`) |
+| `executed` | All parties signed; `executed_at` is set (was `review`) |
+| `not_approved` | Rejected (was `rejected`) |
+| `paid` | Funds released (was `released`) |
+| `hold` | Temporarily on hold |
 
 ### Onsite visit status (`sessionStatus`)
 
