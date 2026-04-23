@@ -4,6 +4,30 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="April 23, 2026" description="Dashboard Sprint 7" tags={["revive-dashboard"]}>
+
+### New
+
+- **Create brokerage from the dashboard** — Agents can add a new brokerage from **Account Settings → My Profile** without contacting support. The new modal captures name, website, email, phone, address (via autocomplete), logo, and brand colors, and runs a duplicate check against existing records before creating the brokerage. ([#2358](https://github.com/Revive-Home/revive-dashboard/pull/2358))
+- **TBD cost labels on custom estimate items** — Renovation estimate custom items can now be flagged as **TBD** when a price has not been finalized. Items marked TBD display a red `TBD` label in place of the total cost in the proposal view, side menu, and products list. ([#2370](https://github.com/Revive-Home/revive-dashboard/pull/2370))
+- **Disclaimer text on pre-estimate slides** — Added "Individual results may vary" disclaimers to the **Nearby Case Studies** and **Value Opportunity** sections, and clarified language on the **Sell 360 Scenario Comparison** modal, **Sell 360 Transaction Summary**, and the scenario-comparison PDF. ([#2376](https://github.com/Revive-Home/revive-dashboard/pull/2376))
+
+### Improved
+
+- **Sell 360 proposal finalization** — Updated cash-offer coloring, home-increase copy, row alignment, address trimming, and PDF formatting on the Sell 360 pre-estimate proposal and scenario-comparison modal. ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359), [#2364](https://github.com/Revive-Home/revive-dashboard/pull/2364), [#2365](https://github.com/Revive-Home/revive-dashboard/pull/2365), [#2367](https://github.com/Revive-Home/revive-dashboard/pull/2367), [#2368](https://github.com/Revive-Home/revive-dashboard/pull/2368), [#2369](https://github.com/Revive-Home/revive-dashboard/pull/2369))
+- **Brokerage create request** — `POST /v1/brokerages/` now accepts optional `email` and `phone` fields. Address fields (`address`, `city`, `state`, `zip`) are now optional at the client level — omit them to create a brokerage without a physical address.
+
+### Fixed
+
+- **Intake flow** — Removed the legacy `refer-renovate` option from the "What can we help with?" step so the intake flow no longer skips screens for that path. ([#2372](https://github.com/Revive-Home/revive-dashboard/pull/2372))
+- **Intake address prefill** — Address details passed via URL parameters now prefill correctly, and the deal is created in the background so users can continue through the flow without waiting. ([#2363](https://github.com/Revive-Home/revive-dashboard/pull/2363))
+
+### Action required
+
+No action required for existing integrations. The new `email` and `phone` fields on `POST /v1/brokerages/` are optional and backwards compatible.
+
+</Update>
+
 <Update label="April 14, 2025" description="v2.154.0" tags={["revive-api"]}>
 
 ### New
