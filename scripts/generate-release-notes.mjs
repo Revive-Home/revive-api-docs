@@ -143,20 +143,17 @@ async function fetchPull(repo, number) {
   return ghJson(url);
 }
 
-function toUpdateBlock(grouped) {
-  // Collect all PRs and categorize into buckets
-  const allPRs = REPOS.flatMap((r) => (grouped[r] || []));
-
+function buildRepoUpdateBlock(repo, prs, dateLabel, versionLabel) {
   const buckets = {
-    new: [],       // new features
-    improved: [],  // enhancements, improvements, refactors
-    fixed: [],     // bug fixes
-    action: [],    // breaking changes (detected from title keywords)
+    new: [],
+    improved: [],
+    fixed: [],
+    action: [],
   };
 
-  for (const pr of allPRs) {
+  for (const pr of prs) {
     const link = `([#${pr.number}](${pr.url}))`;
-    const entry = `- ${pr.title} ${link}`;
+    const entry = `- **${pr.title}.** ${link}`;
 
     if (pr.isFix) {
       buckets.fixed.push(entry);
@@ -169,22 +166,10 @@ function toUpdateBlock(grouped) {
     }
   }
 
-  // Determine which repos had changes for tags
-  const activeTags = REPOS.filter((r) => (grouped[r] || []).length > 0);
-  const tagsAttr = activeTags.length > 0
-    ? ` tags={[${activeTags.map((t) => `"${t}"`).join(', ')}]}`
-    : '';
-
-  // Format date as "Month Day, Year"
-  const today = new Date();
-  const dateLabel = today.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const tagsAttr = ` tags={["${repo}"]}`;
 
   const lines = [];
-  lines.push(`<Update label="${dateLabel}" description="${version}"${tagsAttr}>`);
+  lines.push(`<Update label="${dateLabel}" description="${versionLabel}"${tagsAttr}>`);
   lines.push('');
 
   lines.push('### New');
@@ -227,22 +212,54 @@ function toUpdateBlock(grouped) {
   return lines.join('\n');
 }
 
-function prependUpdateToReleaseNotes(releaseNotesPath, updateBlock) {
-  let content = fs.readFileSync(releaseNotesPath, 'utf8');
+function toUpdateBlocks(grouped) {
+  const today = new Date();
+  const dateLabel = today.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
-  // Don't add if this version is already there
-  if (content.includes(`description="${version}"`)) return;
+  const blocks = [];
+  for (const repo of REPOS) {
+    const prs = grouped[repo] || [];
+    if (prs.length === 0) continue;
+    blocks.push(buildRepoUpdateBlock(repo, prs, dateLabel, version));
+  }
+
+  return blocks;
+}
+
+function prependUpdateToReleaseNotes(releaseNotesPath, blocks) {
+  let content = fs.readFileSync(releaseNotesPath, 'utf8');
 
   // Insert after the frontmatter closing ---
   const frontmatterEnd = content.indexOf('---', content.indexOf('---') + 3);
   if (frontmatterEnd === -1) return;
 
+  // Filter out blocks whose version+repo combo is already in the file
+  const newBlocks = blocks.filter((block) => {
+    // Extract the description from the block to check for duplicates
+    const descMatch = block.match(/description="([^"]+)"/);
+    const tagMatch = block.match(/tags={\["([^"]+)"\]}/);
+    if (descMatch && tagMatch) {
+      // Check if this exact version+repo combo exists
+      return !content.includes(`description="${descMatch[1]}"`) ||
+             !content.includes(`tags={["${tagMatch[1]}"]}`)
+             ? !content.includes(`description="${descMatch[1]}" tags={["${tagMatch[1]}"]}`)
+             : false;
+    }
+    return true;
+  });
+
+  if (newBlocks.length === 0) {
+    console.log('All blocks already present — nothing to prepend.');
+    return;
+  }
+
   const insertAt = frontmatterEnd + 3;
-  // Ensure the block always ends with </Update>
-  const safeBlock = updateBlock.trimEnd().endsWith('</Update>')
-    ? updateBlock
-    : updateBlock.trimEnd() + '\n</Update>';
-  content = content.slice(0, insertAt) + '\n\n' + safeBlock + '\n' + content.slice(insertAt);
+  const combined = newBlocks.join('\n\n');
+  content = content.slice(0, insertAt) + '\n\n' + combined + '\n' + content.slice(insertAt);
   fs.writeFileSync(releaseNotesPath, content);
 }
 
@@ -513,16 +530,21 @@ async function main() {
 
   for (const repo of REPOS) grouped[repo].sort(byMergedAtDesc);
 
-  const updateBlock = toUpdateBlock(grouped);
+  const blocks = toUpdateBlocks(grouped);
+
+  if (blocks.length === 0) {
+    console.log('No PRs found for any repo — nothing to generate.');
+    return;
+  }
 
   const releaseNotesPath = path.join(process.cwd(), 'release-notes.mdx');
   if (!fs.existsSync(releaseNotesPath)) {
     throw new Error(`Release notes page not found: ${releaseNotesPath}`);
   }
 
-  prependUpdateToReleaseNotes(releaseNotesPath, updateBlock);
+  prependUpdateToReleaseNotes(releaseNotesPath, blocks);
 
-  console.log(`Prepended ${version} to ${releaseNotesPath}`);
+  console.log(`Prepended ${blocks.length} block(s) for ${version} to ${releaseNotesPath}`);
 }
 
 main().catch((err) => {
