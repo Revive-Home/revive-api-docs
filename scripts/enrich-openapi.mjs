@@ -38,7 +38,18 @@ const pathFiles = fs.readdirSync(scriptsDir)
 
 for (const file of pathFiles) {
   const data = JSON.parse(fs.readFileSync(path.join(scriptsDir, file), 'utf8'));
-  Object.assign(allPaths, data);
+  for (const [key, val] of Object.entries(data)) {
+    if (!allPaths[key]) {
+      allPaths[key] = val;
+    } else {
+      // Deep merge: only overwrite fields that are actually defined
+      for (const [field, fieldVal] of Object.entries(val)) {
+        if (fieldVal !== undefined && fieldVal !== null) {
+          allPaths[key][field] = fieldVal;
+        }
+      }
+    }
+  }
   console.log(`  Loaded ${Object.keys(data).length} path(s) from ${file}`);
 }
 
@@ -260,6 +271,29 @@ for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
       // Skip 422 for GET/DELETE (they don't send bodies)
       if (code === '422' && (method === 'get' || method === 'delete')) continue;
       operation.responses[code] = { ...resp };
+    }
+  }
+}
+
+// --- Clean up path-based summaries (sidebar labels) ---
+for (const [pathStr, methods] of Object.entries(spec.paths || {})) {
+  for (const [method, operation] of Object.entries(methods)) {
+    const summary = operation.summary || '';
+    // If summary looks like a path (contains /v1/ or /v2/ or starts with v1/ v2/), clean it
+    if (/(?:^|\/)v[12]\//.test(summary)) {
+      // Strip version prefix and convert path segments to readable text
+      const cleaned = summary
+        .replace(/^\/?(v[12]\/)?/, '')     // strip leading /v2/
+        .replace(/\/\{[^}]+\}/g, '')       // remove path params like /{id}
+        .replace(/\//g, ' ')               // slashes to spaces
+        .replace(/-/g, ' ')                // hyphens to spaces
+        .replace(/\s+/g, ' ')             // collapse whitespace
+        .trim();
+      // Build a readable label: "METHOD resource" e.g. "Create calendar"
+      const methodLabels = { get: 'Get', post: 'Create', patch: 'Update', put: 'Update', delete: 'Delete' };
+      const verb = methodLabels[method] || method.toUpperCase();
+      const noun = cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+      operation.summary = `${verb} ${noun}`.replace(/\s+/g, ' ').trim();
     }
   }
 }

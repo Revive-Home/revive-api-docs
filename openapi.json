@@ -103,13 +103,13 @@
             }
           }
         },
-        "description": "`GET /health`"
+        "description": "`GET /health`\n\nReturns the current health status of the API. No authentication required. Use this to verify API connectivity."
       }
     },
     "/v2/analyze/comparables": {
       "post": {
         "operationId": "post_v2_analyze_comparables",
-        "summary": "v2/analyze/comparables",
+        "summary": "Get comparable properties",
         "tags": [
           "Analyze"
         ],
@@ -238,20 +238,28 @@
                 "type": "object",
                 "properties": {
                   "address": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Full property address.",
+                    "example": "123 Main St, Los Angeles, CA 90001"
                   },
                   "conditionScore": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Condition score (1-10).",
+                    "example": 6.5
                   }
                 },
                 "required": [
                   "address"
                 ]
+              },
+              "example": {
+                "address": "123 Main St, Los Angeles, CA 90001",
+                "conditionScore": 6.5
               }
             }
           }
         },
-        "description": "`POST /v2/analyze/comparables`"
+        "description": "`POST /v2/analyze/comparables`\n\nRetrieves comparable sales data based on address and condition score."
       }
     },
     "/v2/analyze/condition": {
@@ -411,7 +419,7 @@
     "/v2/analyze/create-report": {
       "post": {
         "operationId": "post_v2_analyze_create_report",
-        "summary": "v2/analyze/create-report",
+        "summary": "Create analysis report",
         "tags": [
           "Analyze"
         ],
@@ -583,22 +591,41 @@
                 "properties": {
                   "photos": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "description": "Array of photo URLs.",
+                    "example": [
+                      "https://photos.example.com/exterior.jpg",
+                      "https://photos.example.com/kitchen.jpg",
+                      "https://photos.example.com/bathroom.jpg"
+                    ]
                   },
                   "address": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Full address.",
+                    "example": "123 Main St, Los Angeles, CA 90001"
                   },
                   "state": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "State code.",
+                    "example": "CA"
                   },
                   "bathroom": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Number of bathrooms.",
+                    "example": 2
                   },
                   "yearBuilt": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Year built.",
+                    "example": 1985
                   },
                   "createdBy": {
-                    "type": "object"
+                    "type": "object",
+                    "description": "Object with userId and role.",
+                    "example": {
+                      "userId": "user_abc123",
+                      "role": "admin"
+                    }
                   }
                 },
                 "required": [
@@ -608,17 +635,32 @@
                   "bathroom",
                   "yearBuilt"
                 ]
+              },
+              "example": {
+                "photos": [
+                  "https://photos.example.com/exterior.jpg",
+                  "https://photos.example.com/kitchen.jpg",
+                  "https://photos.example.com/bathroom.jpg"
+                ],
+                "address": "123 Main St, Los Angeles, CA 90001",
+                "state": "CA",
+                "bathroom": 2,
+                "yearBuilt": 1985,
+                "createdBy": {
+                  "userId": "user_abc123",
+                  "role": "admin"
+                }
               }
             }
           }
         },
-        "description": "`POST /v2/analyze/create-report`"
+        "description": "`POST /v2/analyze/create-report`\n\nGenerates a full property analysis report with condition assessment, comparables, market data, and renovation recommendations."
       }
     },
     "/v2/analyze/feedback/{id}": {
       "post": {
         "operationId": "post_v2_analyze_feedback_id_",
-        "summary": "v2/analyze/feedback/{id}",
+        "summary": "Submit analysis feedback",
         "tags": [
           "Analyze"
         ],
@@ -720,7 +762,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report ID."
           }
         ],
         "security": [
@@ -740,24 +783,29 @@
                     "enum": [
                       "good",
                       "bad"
-                    ]
+                    ],
+                    "description": "Feedback text.",
+                    "example": "The analysis was very accurate for the kitchen but missed the bathroom condition issues."
                   },
                   "then": {}
                 },
                 "required": [
                   "then"
                 ]
+              },
+              "example": {
+                "experience": "The analysis was very accurate for the kitchen but missed the bathroom condition issues."
               }
             }
           }
         },
-        "description": "`POST /v2/analyze/feedback/{id}`"
+        "description": "`POST /v2/analyze/feedback/{id}`\n\nSubmits feedback on an analysis report."
       }
     },
     "/v2/analyze/photos": {
       "post": {
         "operationId": "post_v2_analyze_photos",
-        "summary": "v2/analyze/photos",
+        "summary": "Analyze property photos",
         "tags": [
           "Analyze"
         ],
@@ -888,23 +936,34 @@
                 "properties": {
                   "imageUrls": {
                     "type": "array",
-                    "items": {}
+                    "items": {},
+                    "description": "Array of image URLs.",
+                    "example": [
+                      "https://photos.example.com/kitchen.jpg",
+                      "https://photos.example.com/living_room.jpg"
+                    ]
                   }
                 },
                 "required": [
                   "imageUrls"
                 ]
+              },
+              "example": {
+                "imageUrls": [
+                  "https://photos.example.com/kitchen.jpg",
+                  "https://photos.example.com/living_room.jpg"
+                ]
               }
             }
           }
         },
-        "description": "`POST /v2/analyze/photos`"
+        "description": "`POST /v2/analyze/photos`\n\nAnalyzes photos to identify rooms, features, and condition issues without a full report."
       }
     },
     "/v2/analyze/reanalyze": {
       "post": {
         "operationId": "post_v2_analyze_reanalyze",
-        "summary": "v2/analyze/reanalyze",
+        "summary": "Reanalyze with updated comparables",
         "tags": [
           "Analyze"
         ],
@@ -1017,23 +1076,50 @@
                 "type": "object",
                 "properties": {
                   "comparables": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Updated comparable data.",
+                    "example": [
+                      {
+                        "address": "456 Oak Ave",
+                        "salePrice": 750000,
+                        "closeDate": "2026-02-15"
+                      },
+                      {
+                        "address": "789 Elm St",
+                        "salePrice": 820000,
+                        "closeDate": "2026-01-20"
+                      }
+                    ]
                   }
                 },
                 "required": [
                   "comparables"
                 ]
+              },
+              "example": {
+                "comparables": [
+                  {
+                    "address": "456 Oak Ave",
+                    "salePrice": 750000,
+                    "closeDate": "2026-02-15"
+                  },
+                  {
+                    "address": "789 Elm St",
+                    "salePrice": 820000,
+                    "closeDate": "2026-01-20"
+                  }
+                ]
               }
             }
           }
         },
-        "description": "`POST /v2/analyze/reanalyze`"
+        "description": "`POST /v2/analyze/reanalyze`\n\nRe-runs analysis with updated comparable properties."
       }
     },
     "/v2/analyze/renovation/{id}": {
       "get": {
         "operationId": "get_v2_analyze_renovation_id_",
-        "summary": "v2/analyze/renovation/{id}",
+        "summary": "Get renovation analysis",
         "tags": [
           "Analyze"
         ],
@@ -1146,16 +1232,17 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Report ID."
           }
         ],
-        "description": "`GET /v2/analyze/renovation/{id}`"
+        "description": "`GET /v2/analyze/renovation/{id}`\n\nRetrieves renovation-specific analysis with recommendations and ROI projections."
       }
     },
     "/v2/analyze/v2/comparables": {
       "post": {
         "operationId": "post_v2_analyze_v2_comparables",
-        "summary": "v2/analyze/v2/comparables",
+        "summary": "Get V2 comparables",
         "tags": [
           "Analyze"
         ],
@@ -1270,7 +1357,7 @@
             }
           }
         },
-        "description": "`POST /v2/analyze/v2/comparables`"
+        "description": "`POST /v2/analyze/v2/comparables`\n\nEnhanced comparable lookup using V2 analysis engine with improved matching."
       }
     },
     "/v2/calendars/": {
@@ -1359,7 +1446,7 @@
       },
       "post": {
         "operationId": "post_v2_calendars_",
-        "summary": "v2/calendars/",
+        "summary": "Create calendar",
         "tags": [
           "Calendars"
         ],
@@ -1479,22 +1566,33 @@
                 "type": "object",
                 "properties": {
                   "hubspotOwnerId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "HubSpot owner ID.",
+                    "example": "owner_abc123"
                   },
                   "hs_static_app": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "meetings"
                   },
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Display name.",
+                    "example": "LA Team Calendar"
                   },
                   "group": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Calendar group.",
+                    "example": "west-coast"
                   },
                   "url": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Booking URL.",
+                    "example": "https://meetings.hubspot.com/la-team"
                   },
                   "clienttimeout": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Timeout in ms for booking operations.",
+                    "example": 30000
                   }
                 },
                 "required": [
@@ -1504,17 +1602,25 @@
                   "url",
                   "clienttimeout"
                 ]
+              },
+              "example": {
+                "hubspotOwnerId": "owner_abc123",
+                "hs_static_app": "meetings",
+                "name": "LA Team Calendar",
+                "group": "west-coast",
+                "url": "https://meetings.hubspot.com/la-team",
+                "clienttimeout": 30000
               }
             }
           }
         },
-        "description": "`POST /v2/calendars/`"
+        "description": "`POST /v2/calendars/`\n\nCreates a new calendar configuration."
       }
     },
     "/v2/calendars/{calendarId}": {
       "get": {
         "operationId": "get_v2_calendars_calendarId_",
-        "summary": "v2/calendars/{calendarId}",
+        "summary": "Get calendar",
         "tags": [
           "Calendars"
         ],
@@ -1607,7 +1713,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Calendar identifier."
           }
         ],
         "security": [
@@ -1615,11 +1722,11 @@
             "BearerAuth": []
           }
         ],
-        "description": "`GET /v2/calendars/{calendarId}`"
+        "description": "`GET /v2/calendars/{calendarId}`\n\nRetrieves a calendar by ID."
       },
       "patch": {
         "operationId": "patch_v2_calendars_calendarId_",
-        "summary": "v2/calendars/{calendarId}",
+        "summary": "Update calendar",
         "tags": [
           "Calendars"
         ],
@@ -1725,7 +1832,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Calendar identifier."
           }
         ],
         "security": [
@@ -1743,11 +1851,11 @@
             }
           }
         },
-        "description": "`PATCH /v2/calendars/{calendarId}`"
+        "description": "`PATCH /v2/calendars/{calendarId}`\n\nUpdates calendar configuration."
       },
       "delete": {
         "operationId": "delete_v2_calendars_calendarId_",
-        "summary": "v2/calendars/{calendarId}",
+        "summary": "Delete calendar",
         "tags": [
           "Calendars"
         ],
@@ -1835,7 +1943,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Calendar identifier."
           }
         ],
         "security": [
@@ -1843,7 +1952,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "`DELETE /v2/calendars/{calendarId}`"
+        "description": "`DELETE /v2/calendars/{calendarId}`\n\nDeletes a calendar."
       }
     },
     "/v2/deals/": {
@@ -2086,7 +2195,7 @@
     "/v2/opportunities/admin/{adminId}": {
       "get": {
         "operationId": "get_v2_opportunities_admin_adminId_",
-        "summary": "v2/opportunities/admin/{adminId}",
+        "summary": "List opportunities by admin",
         "tags": [
           "Opportunities"
         ],
@@ -2183,7 +2292,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID of the admin."
           }
         ],
         "security": [
@@ -2191,13 +2301,13 @@
             "BearerAuth": []
           }
         ],
-        "description": "`GET /v2/opportunities/admin/{adminId}`"
+        "description": "`GET /v2/opportunities/admin/{adminId}`\n\nReturns opportunities assigned to a specific admin user."
       }
     },
     "/v2/opportunities/{opportunityId}": {
       "patch": {
         "operationId": "patch_v2_opportunities_opportunityId_",
-        "summary": "v2/opportunities/{opportunityId}",
+        "summary": "Update opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -2303,7 +2413,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -2321,7 +2432,7 @@
             }
           }
         },
-        "description": "`PATCH /v2/opportunities/{opportunityId}`"
+        "description": "`PATCH /v2/opportunities/{opportunityId}`\n\nUpdates fields on an opportunity — stage, amount, notes, or custom properties."
       },
       "get": {
         "operationId": "get_v2_opportunities_opportunityId_",
@@ -2444,7 +2555,7 @@
       },
       "delete": {
         "operationId": "delete_v2_opportunities_opportunityId_",
-        "summary": "v2/opportunities/{opportunityId}",
+        "summary": "Delete opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -2532,7 +2643,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -2548,20 +2660,25 @@
                 "type": "object",
                 "properties": {
                   "contactId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Associated contact ID (in request body).",
+                    "example": "cont_abc123"
                   }
                 }
+              },
+              "example": {
+                "contactId": "cont_abc123"
               }
             }
           }
         },
-        "description": "`DELETE /v2/opportunities/{opportunityId}`"
+        "description": "`DELETE /v2/opportunities/{opportunityId}`\n\nDeletes an opportunity. Requires the associated contact ID for cleanup."
       }
     },
     "/v2/opportunities/{opportunityId}/associate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_associate_contact",
-        "summary": "v2/opportunities/{opportunityId}/associate-contact",
+        "summary": "Associate contact with opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -2663,7 +2780,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -2681,13 +2799,13 @@
             }
           }
         },
-        "description": "`POST /v2/opportunities/{opportunityId}/associate-contact`"
+        "description": "`POST /v2/opportunities/{opportunityId}/associate-contact`\n\nLinks an existing contact to an opportunity."
       }
     },
     "/v2/opportunities/{opportunityId}/create-and-associate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_create_and_associate_contact",
-        "summary": "v2/opportunities/{opportunityId}/create-and-associate-contact",
+        "summary": "Create and associate contact",
         "tags": [
           "Opportunities"
         ],
@@ -2808,7 +2926,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -2826,13 +2945,13 @@
             }
           }
         },
-        "description": "`POST /v2/opportunities/{opportunityId}/create-and-associate-contact`"
+        "description": "`POST /v2/opportunities/{opportunityId}/create-and-associate-contact`\n\nCreates a new contact and associates it with the opportunity in one call."
       }
     },
     "/v2/opportunities/{opportunityId}/disassociate-contact": {
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_disassociate_contact",
-        "summary": "v2/opportunities/{opportunityId}/disassociate-contact",
+        "summary": "Disassociate contact",
         "tags": [
           "Opportunities"
         ],
@@ -2934,7 +3053,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -2952,13 +3072,13 @@
             }
           }
         },
-        "description": "`POST /v2/opportunities/{opportunityId}/disassociate-contact`"
+        "description": "`POST /v2/opportunities/{opportunityId}/disassociate-contact`\n\nRemoves the link between a contact and an opportunity."
       }
     },
     "/v2/opportunities/{opportunityId}/onsite-visit": {
       "get": {
         "operationId": "get_v2_opportunities_opportunityId_onsite_visit",
-        "summary": "v2/opportunities/{opportunityId}/onsite-visit",
+        "summary": "Get opportunity's onsite visit",
         "tags": [
           "Opportunities"
         ],
@@ -3049,7 +3169,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -3057,11 +3178,11 @@
             "BearerAuth": []
           }
         ],
-        "description": "`GET /v2/opportunities/{opportunityId}/onsite-visit`"
+        "description": "`GET /v2/opportunities/{opportunityId}/onsite-visit`\n\nRetrieves the onsite visit for this opportunity."
       },
       "post": {
         "operationId": "post_v2_opportunities_opportunityId_onsite_visit",
-        "summary": "v2/opportunities/{opportunityId}/onsite-visit",
+        "summary": "Schedule onsite visit for opportunity",
         "tags": [
           "Opportunities"
         ],
@@ -3168,7 +3289,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot deal ID."
           }
         ],
         "security": [
@@ -3186,7 +3308,7 @@
             }
           }
         },
-        "description": "`POST /v2/opportunities/{opportunityId}/onsite-visit`"
+        "description": "`POST /v2/opportunities/{opportunityId}/onsite-visit`\n\nSchedules a new onsite visit for this opportunity's property."
       }
     },
     "/v2/payments/reno/create-checkout-session": {
@@ -3336,12 +3458,12 @@
     "/v2/payments/reno/payment-intents": {
       "post": {
         "operationId": "post_v2_payments_reno_payment_intents",
-        "summary": "v2/payments/reno/payment-intents",
+        "summary": "Create payment intent",
         "tags": [
           "Payments"
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Payment intent created.",
             "content": {
               "application/json": {
@@ -3456,20 +3578,25 @@
                       "year-starter",
                       "year-plus",
                       "year-pro"
-                    ]
+                    ],
+                    "description": "Payment type identifier.",
+                    "example": "one-time"
                   }
                 }
+              },
+              "example": {
+                "type": "one-time"
               }
             }
           }
         },
-        "description": "`POST /v2/payments/reno/payment-intents`"
+        "description": "`POST /v2/payments/reno/payment-intents`\n\nCreates a Stripe payment intent for a one-time renovation payment."
       }
     },
     "/v2/payments/reno/remove-subscription": {
       "delete": {
         "operationId": "delete_v2_payments_reno_remove_subscription",
-        "summary": "v2/payments/reno/remove-subscription",
+        "summary": "Cancel subscription",
         "tags": [
           "Payments"
         ],
@@ -3555,7 +3682,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "`DELETE /v2/payments/reno/remove-subscription`"
+        "description": "`DELETE /v2/payments/reno/remove-subscription`\n\nCancels an active Stripe subscription for the authenticated user."
       }
     },
     "/v2/payments/reno/user-subscription": {
@@ -3655,7 +3782,7 @@
     "/v2/payments/reno/webhook": {
       "post": {
         "operationId": "post_v2_payments_reno_webhook",
-        "summary": "v2/payments/reno/webhook",
+        "summary": "Stripe webhook handler",
         "tags": [
           "Payments"
         ],
@@ -3749,13 +3876,13 @@
             }
           }
         },
-        "description": "`POST /v2/payments/reno/webhook`"
+        "description": "`POST /v2/payments/reno/webhook`\n\nHandles incoming Stripe webhook events. Called by Stripe, not by your application."
       }
     },
     "/v2/properties/{objectType}": {
       "get": {
         "operationId": "get_v2_properties_objectType_",
-        "summary": "v2/properties/{objectType}",
+        "summary": "List HubSpot properties",
         "tags": [
           "Properties"
         ],
@@ -3861,16 +3988,17 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot object: 'contacts', 'deals', 'companies', or custom objects."
           }
         ],
-        "description": "`GET /v2/properties/{objectType}`"
+        "description": "`GET /v2/properties/{objectType}`\n\nRetrieves all custom property definitions for a HubSpot object type."
       }
     },
     "/v2/properties/{objectType}/{propertyName}": {
       "get": {
         "operationId": "get_v2_properties_objectType_propertyName_",
-        "summary": "v2/properties/{objectType}/{propertyName}",
+        "summary": "Get HubSpot property",
         "tags": [
           "Properties"
         ],
@@ -3974,7 +4102,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot object type."
           },
           {
             "name": "propertyName",
@@ -3982,16 +4111,17 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Internal property name."
           }
         ],
-        "description": "`GET /v2/properties/{objectType}/{propertyName}`"
+        "description": "`GET /v2/properties/{objectType}/{propertyName}`\n\nRetrieves a single property definition by name."
       }
     },
     "/v2/referrals/": {
       "post": {
         "operationId": "post_v2_referrals_",
-        "summary": "v2/referrals/",
+        "summary": "Create V2 referral",
         "tags": [
           "Referrals"
         ],
@@ -4116,20 +4246,28 @@
                       "buyer",
                       "seller",
                       "both"
-                    ]
+                    ],
+                    "description": "Referral type.",
+                    "example": "agent"
                   },
                   "clientSituation": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Description of client's situation and needs.",
+                    "example": "Homeowner looking to sell within 3 months, needs kitchen and bathroom updates."
                   }
                 },
                 "required": [
                   "clientSituation"
                 ]
+              },
+              "example": {
+                "referralType": "agent",
+                "clientSituation": "Homeowner looking to sell within 3 months, needs kitchen and bathroom updates."
               }
             }
           }
         },
-        "description": "`POST /v2/referrals/`"
+        "description": "`POST /v2/referrals/`\n\nCreates a referral with additional client situation data."
       }
     },
     "/v2/users/": {
@@ -4304,7 +4442,7 @@
       },
       "get": {
         "operationId": "get_v2_users_",
-        "summary": "v2/users/",
+        "summary": "List users",
         "tags": [
           "Users"
         ],
@@ -4390,13 +4528,13 @@
             }
           }
         },
-        "description": "`GET /v2/users/`"
+        "description": "`GET /v2/users/`\n\nReturns all platform users with optional filtering by role."
       }
     },
     "/v2/users/owners": {
       "get": {
         "operationId": "get_v2_users_owners",
-        "summary": "v2/users/owners",
+        "summary": "List user owners",
         "tags": [
           "Users"
         ],
@@ -4492,7 +4630,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "`GET /v2/users/owners`"
+        "description": "`GET /v2/users/owners`\n\nReturns users designated as HubSpot owners — used for deal assignment."
       }
     },
     "/v2/users/{uid}": {
@@ -4604,7 +4742,7 @@
       },
       "patch": {
         "operationId": "patch_v2_users_uid_",
-        "summary": "v2/users/{uid}",
+        "summary": "Update user",
         "tags": [
           "Users"
         ],
@@ -4713,7 +4851,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID."
           }
         ],
         "security": [
@@ -4731,11 +4870,11 @@
             }
           }
         },
-        "description": "`PATCH /v2/users/{uid}`"
+        "description": "`PATCH /v2/users/{uid}`\n\nUpdates profile fields for a user. Only included fields are modified."
       },
       "delete": {
         "operationId": "delete_v2_users_uid_",
-        "summary": "v2/users/{uid}",
+        "summary": "Delete user",
         "tags": [
           "Users"
         ],
@@ -4823,7 +4962,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Firebase UID."
           }
         ],
         "security": [
@@ -4831,13 +4971,13 @@
             "BearerAuth": []
           }
         ],
-        "description": "`DELETE /v2/users/{uid}`"
+        "description": "`DELETE /v2/users/{uid}`\n\nSoft-deletes a user — marks as deleted but retains for audit."
       }
     },
     "/v2/vision-ai/": {
       "post": {
         "operationId": "post_v2_vision_ai_",
-        "summary": "v2/vision-ai/",
+        "summary": "Create V2 Vision AI report",
         "tags": [
           "Vision Ai"
         ],
@@ -4959,28 +5099,50 @@
                 "type": "object",
                 "properties": {
                   "imageUrls": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Array of photo URLs.",
+                    "example": [
+                      "https://photos.example.com/exterior.jpg",
+                      "https://photos.example.com/kitchen.jpg"
+                    ]
                   },
                   "contactId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Associated contact.",
+                    "example": "cont_abc123"
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "City.",
+                    "example": "Los Angeles"
                   },
                   "postalCode": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "ZIP code.",
+                    "example": "90001"
                   },
                   "rejectionReason": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Reason for prior rejection."
                   },
                   "bedrooms": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Number of bedrooms.",
+                    "example": 3
                   },
                   "yearBuilt": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Year built.",
+                    "example": 1985
                   },
                   "reportType": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "'standard' or 'premium'.",
+                    "example": "standard",
+                    "enum": [
+                      "standard",
+                      "premium"
+                    ]
                   }
                 },
                 "required": [
@@ -4989,17 +5151,29 @@
                   "bedrooms",
                   "yearBuilt"
                 ]
+              },
+              "example": {
+                "imageUrls": [
+                  "https://photos.example.com/exterior.jpg",
+                  "https://photos.example.com/kitchen.jpg"
+                ],
+                "contactId": "cont_abc123",
+                "city": "Los Angeles",
+                "postalCode": "90001",
+                "bedrooms": 3,
+                "yearBuilt": 1985,
+                "reportType": "standard"
               }
             }
           }
         },
-        "description": "`POST /v2/vision-ai/`"
+        "description": "`POST /v2/vision-ai/`\n\nCreates a V2 property analysis report with enhanced AI capabilities."
       }
     },
     "/v2/vision-ai/condition": {
       "post": {
         "operationId": "post_v2_vision_ai_condition",
-        "summary": "v2/vision-ai/condition",
+        "summary": "V2 condition analysis",
         "tags": [
           "Vision Ai"
         ],
@@ -5128,13 +5302,22 @@
                 "type": "object",
                 "properties": {
                   "imageUrls": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Array of photo URLs.",
+                    "example": [
+                      "https://photos.example.com/kitchen.jpg",
+                      "https://photos.example.com/bathroom.jpg"
+                    ]
                   },
                   "city": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "City.",
+                    "example": "Los Angeles"
                   },
                   "postalCode": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "ZIP code.",
+                    "example": "90001"
                   }
                 },
                 "required": [
@@ -5142,17 +5325,25 @@
                   "city",
                   "postalCode"
                 ]
+              },
+              "example": {
+                "imageUrls": [
+                  "https://photos.example.com/kitchen.jpg",
+                  "https://photos.example.com/bathroom.jpg"
+                ],
+                "city": "Los Angeles",
+                "postalCode": "90001"
               }
             }
           }
         },
-        "description": "`POST /v2/vision-ai/condition`"
+        "description": "`POST /v2/vision-ai/condition`\n\nEnhanced AI condition analysis with improved accuracy."
       }
     },
     "/v2/vision-ai/custom-object/{recordId}": {
       "patch": {
         "operationId": "patch_v2_vision_ai_custom_object_recordId_",
-        "summary": "v2/vision-ai/custom-object/{recordId}",
+        "summary": "Update Vision AI custom object",
         "tags": [
           "Vision Ai"
         ],
@@ -5258,7 +5449,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "HubSpot custom object record ID."
           }
         ],
         "security": [
@@ -5274,23 +5466,31 @@
                 "type": "object",
                 "properties": {
                   "requested_call": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Whether a call was requested.",
+                    "example": "yes"
                   },
                   "request_contact_reason": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Reason for contact request.",
+                    "example": "Interested in renovation estimate"
                   }
                 }
+              },
+              "example": {
+                "requested_call": "yes",
+                "request_contact_reason": "Interested in renovation estimate"
               }
             }
           }
         },
-        "description": "`PATCH /v2/vision-ai/custom-object/{recordId}`"
+        "description": "`PATCH /v2/vision-ai/custom-object/{recordId}`\n\nUpdates a HubSpot custom object record for a Vision AI report."
       }
     },
     "/v2/vision-ai/images": {
       "post": {
         "operationId": "post_v2_vision_ai_images",
-        "summary": "v2/vision-ai/images",
+        "summary": "Process Vision AI images",
         "tags": [
           "Vision Ai"
         ],
@@ -5412,23 +5612,28 @@
                 "type": "object",
                 "properties": {
                   "id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Report ID to add images to.",
+                    "example": "rpt_xyz789"
                   }
                 },
                 "required": [
                   "id"
                 ]
+              },
+              "example": {
+                "id": "rpt_xyz789"
               }
             }
           }
         },
-        "description": "`POST /v2/vision-ai/images`"
+        "description": "`POST /v2/vision-ai/images`\n\nProcesses and uploads images for a V2 Vision AI report."
       }
     },
     "/v2/vision-ai/rejected-report-note/{recordId}": {
       "post": {
         "operationId": "post_v2_vision_ai_rejected_report_note_recordId_",
-        "summary": "v2/vision-ai/rejected-report-note/{recordId}",
+        "summary": "Add rejected report note",
         "tags": [
           "Vision Ai"
         ],
@@ -5530,7 +5735,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Custom object record ID."
           }
         ],
         "security": [
@@ -5546,23 +5752,28 @@
                 "type": "object",
                 "properties": {
                   "note": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Rejection note.",
+                    "example": "Report rejected due to insufficient photo quality — need higher resolution exterior photos."
                   }
                 },
                 "required": [
                   "note"
                 ]
+              },
+              "example": {
+                "note": "Report rejected due to insufficient photo quality — need higher resolution exterior photos."
               }
             }
           }
         },
-        "description": "`POST /v2/vision-ai/rejected-report-note/{recordId}`"
+        "description": "`POST /v2/vision-ai/rejected-report-note/{recordId}`\n\nAdds a note explaining why a report was rejected."
       }
     },
     "/v2/vision-ai/scraper": {
       "post": {
         "operationId": "post_v2_vision_ai_scraper",
-        "summary": "v2/vision-ai/scraper",
+        "summary": "Run Vision AI scraper",
         "tags": [
           "Vision Ai"
         ],
@@ -5674,20 +5885,31 @@
                 "type": "object",
                 "properties": {
                   "csv": {
-                    "type": "object"
+                    "type": "object",
+                    "description": "CSV data object for batch processing.",
+                    "example": {
+                      "filename": "properties_batch.csv",
+                      "data": "address,city,state\n123 Main St,Los Angeles,CA"
+                    }
                   }
+                }
+              },
+              "example": {
+                "csv": {
+                  "filename": "properties_batch.csv",
+                  "data": "address,city,state\n123 Main St,Los Angeles,CA"
                 }
               }
             }
           }
         },
-        "description": "`POST /v2/vision-ai/scraper`"
+        "description": "`POST /v2/vision-ai/scraper`\n\nRuns the property data scraper for Vision AI reports."
       }
     },
     "/v2/vision-ai/scraper/csv": {
       "get": {
         "operationId": "get_v2_vision_ai_scraper_csv",
-        "summary": "v2/vision-ai/scraper/csv",
+        "summary": "Get scraper CSV export",
         "tags": [
           "Vision Ai"
         ],
@@ -5782,23 +6004,28 @@
                 "type": "object",
                 "properties": {
                   "type": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Export type filter.",
+                    "example": "completed"
                   }
                 },
                 "required": [
                   "type"
                 ]
+              },
+              "example": {
+                "type": "completed"
               }
             }
           }
         },
-        "description": "`GET /v2/vision-ai/scraper/csv`"
+        "description": "`GET /v2/vision-ai/scraper/csv`\n\nExports scraper results as a CSV file."
       }
     },
     "/v2/vision-ai/scraper/generate-report": {
       "post": {
         "operationId": "post_v2_vision_ai_scraper_generate_report",
-        "summary": "v2/vision-ai/scraper/generate-report",
+        "summary": "Generate report from scraper",
         "tags": [
           "Vision Ai"
         ],
@@ -5912,7 +6139,7 @@
             }
           }
         },
-        "description": "`POST /v2/vision-ai/scraper/generate-report`"
+        "description": "`POST /v2/vision-ai/scraper/generate-report`\n\nGenerates a full report from scraped property data."
       }
     }
   },
