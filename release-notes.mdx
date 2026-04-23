@@ -4,6 +4,32 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="April 23, 2026" description="v2.133.0" tags={["revive-admin"]}>
+
+### New
+
+- **RMA list — deal type column and pipeline stage.** The RMA list now shows the opportunity's deal type (for example, Renovate to sell, Sell 360, Flip 360, Renovate to stay) alongside pipeline stage, making it easier to triage RMAs across programs. Deal type labels are normalized from the HubSpot `dealtype` values. ([#1755](https://github.com/Revive-Home/revive-admin/pull/1755))
+- **RMA `executed_at` timestamp.** RMAs now record the moment they move to the Executed status. The RMA detail page shows "Executed on M/D/YY at H:MM AM" beneath the status badge. ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
+- **Custom items support TBD pricing in RET.** When pricing isn't final, you can flag a custom line item as **TBD** in the Renovation Estimate Tool. TBD items appear in the estimate preview and review panel without a firm price, and the flag is reset automatically if the item is converted to a non-custom product. ([#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
+- **Group dropdown on custom items.** Custom items in RET now include a **Group** selector in both the custom item modal and the review side panel, so custom work can be grouped alongside catalog products for cleaner proposals. ([#1756](https://github.com/Revive-Home/revive-admin/pull/1756))
+- **Groups on Level 1 products in the RET Catalog.** Catalog admins can now assign a group to Level 1 (global) products when adding or editing catalog items. Groups flow through to Level 2 and Level 4 drag-and-drop reordering. ([#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
+
+### Improved
+
+- **Check Run tabs use execution date.** The **Ready for Check Run** and **Next Check Run** tabs now filter by `executed_at` (falling back to `updated_at`) instead of `created_at`, so RMAs appear in the correct tab based on when they were actually executed. ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
+- **Check run cutoff moved to Friday.** The weekly cutoff for the Ready list shifted from Thursday to Friday 11:59 PM. RMAs executed on Friday now stay in **Next Check Run** until Saturday, keeping the Ready list stable on processing day. ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
+
+### Fixed
+
+- Fixed a TypeScript error in Level 2 and Level 4 drag-and-drop reorder by including the missing `group` field on catalog product updates. ([#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
+- The **TBD** flag on custom items is now reset when an item is changed from custom to a catalog product, preventing stale TBD state in the RET preview. ([#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
+
+### Action required
+
+No action required for existing integrations. These changes are internal to Revive Admin and do not affect the public API.
+
+</Update>
+
 <Update label="April 14, 2025" description="v2.154.0" tags={["revive-api"]}>
 
 ### New
