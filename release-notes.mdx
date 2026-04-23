@@ -25,6 +25,33 @@ mode: wide
 ### Action required
 
 No action required for existing integrations. The new `email` and `phone` fields on `POST /v1/brokerages/` are optional and backwards compatible.
+<Update label="April 23, 2026" description="v2.132.0" tags={["revive-admin"]}>
+
+### New
+
+- **RET Catalog item groups** — Level 1 catalog items now have a required `group` field (one of `Interior`, `Exterior`, `MEP`, `Structural`, `Appliances`, `Soft cost`). The Add/Edit Item modal exposes a **Group** dropdown alongside the category name. ([#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
+- **Custom item groups in RET** — Custom items in the estimate builder now require a **Group** selection in both the Custom Item modal and the review panel. ([#1756](https://github.com/Revive-Home/revive-admin/pull/1756))
+- **TBD pricing for custom items** — Custom items can now be marked **TBD** when a price isn't yet known. TBD items show `TBD` instead of a currency value in the review panel, side menu, and CSV export, and `value`/`factoredValue` are persisted as `0`. ([#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
+- **RMA list — Deal Type column** — The RMA list view now includes a **Deal Type** column sourced from the associated opportunity's HubSpot dealtype, with a human-readable label mapping (e.g. `Contract Buy-out` → `Renovate to sell`). ([#1755](https://github.com/Revive-Home/revive-admin/pull/1755))
+- **RMA detail — Deal Type and Pipeline Stage** — The RMA detail Information panel now displays **Deal Type** and **Pipeline Stage** fields from the opportunity. ([#1755](https://github.com/Revive-Home/revive-admin/pull/1755))
+- **RMA `executed_at` timestamp** — RMAs now persist an `executed_at` timestamp when they transition to the Executed status. The detail view shows "Executed on M/D/YY at h:mm a". ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
+
+### Improved
+
+- **RMA check-run cutoff moved to Friday** — The Ready for Check Run and Next Check Run tabs now split on the most recent **Friday 23:59:59** (previously Thursday). The cutoff is evaluated against `executed_at` (falling back to `updated_at`) instead of `created_at`, so RMAs appear in the correct bucket based on when they were executed rather than when they were drafted. Check run totals are now computed from the full tab-filtered set, not just the current page. ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
+- **Catalog access** — `carlo@revive.realestate` and `nehme@revive.realestate` added to the RET Catalog allowed-email list. ([#1756](https://github.com/Revive-Home/revive-admin/pull/1756))
+- **Catalog drag-reorder reliability** — L1, L2, and L4 catalog reorders now wait for the server update before updating local state, and preserve the `group` field when reordering. ([#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
+
+### Fixed
+
+- **`isTBD` reset on non-custom items** — Non-custom RET items no longer retain an `isTBD` flag when edited through the preview panel. ([#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
+
+### Action required
+
+- **Catalog items require a `group`** — Existing L1 catalog items without a `group` (or with a group not in the current list) will show an empty **Group** dropdown and must be updated before saving. Keep the admin list in sync with `revive-api`'s `ret-catalog.validation.js` `.valid()` list.
+- **Custom items require a `group`** — Saving a custom item without selecting a group now fails validation. Existing custom items on in-flight estimates should be re-opened and assigned a group.
+- **RMA `dealtype` field is now a label** — `useRmas` maps `opportunity.dealtype` through `getDealTypeLabel` before returning it, so consumers see `Renovate to sell`, `Sell 360`, etc. instead of raw HubSpot IDs like `Contract Buy-out` or `Buy It Now`. If you filter on this field client-side, use the label values.
+- **RMA check-run filter uses `executed_at`** — The Ready and Next Check Run tab split now uses `executed_at || updated_at` and a Friday cutoff. RMAs executed on Friday itself roll into Next Check Run until Saturday.
 
 </Update>
 
