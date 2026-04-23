@@ -4,6 +4,36 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="April 23, 2026" description="Sprint 7" tags={["revive-api"]}>
+
+### New
+
+- **`executed_at` field added to RMAs** — Tracks when an RMA contract was fully executed. Populated automatically on PandaDoc completion and preserved across webhook retries. Returned by `GET /v1/rma/{rmaId}`, `GET /v1/rma/`, and accepted on `PATCH /v1/rma/{rmaId}`. ([#1974](https://github.com/Revive-Home/revive-api/pull/1974))
+- **Pipeline stage and deal type on RMA detail** — `GET /v1/rma/{rmaId}` now includes a live `opportunity.pipeline_stage` (fetched from HubSpot) and a human-readable `opportunity.dealtype` (e.g. `"Renovate to Sell"` instead of the internal ID). List responses also include the mapped `dealtype`. ([#1964](https://github.com/Revive-Home/revive-api/pull/1964))
+- **Push notifications for RMA lifecycle events** — Contractors now receive push notifications (via Novu + FCM) when an RMA contract is sent for signatures (`pending_signatures` status) and when it's paid. Deep-links into the home tab for the relevant contract or RMA. ([#1946](https://github.com/Revive-Home/revive-api/pull/1946))
+- **TBD pricing on custom estimate items** — Custom products on estimates now accept an `isTBD` boolean. When `true`, the item renders with a `"TBD"` subtotal in the proposal PDF, excludes the cost from totals, and prepends a scope disclaimer to the description. ([#1961](https://github.com/Revive-Home/revive-api/pull/1961))
+- **Catalog groups on custom products and globals** — Custom estimate items and default global variables now carry a `group` field (`"Interior"`, `"Exterior"`, `"MEP"`, `"Structural"`, `"Appliances"`, or `"Soft cost"`), enabling grouped rendering in the renovation estimate tool. Default globals (`DesignFee`, `DesignMaterialsProcurement`, `ContractorOverheadAndSupervision`, `OwnerRepServices`, `OwnerRepServicesPro`) are now tagged as `"Soft cost"`. ([#1982](https://github.com/Revive-Home/revive-api/pull/1982))
+
+### Improved
+
+- **Meeting scheduler uses HubSpot's supported scheduler API** — `GET /v1/meetings/available-calendars` and `POST /v1/meetings/` now call HubSpot's `/scheduler/2026-03/meetings/meeting-links` endpoints instead of the legacy `meetings-public/v1/book` URL. Behavior is unchanged for clients; the booking response now normalizes `contactId` to `vid` for backward compatibility. ([#1977](https://github.com/Revive-Home/revive-api/pull/1977))
+- **Brokerage logos are validated and resized on upload** — `POST /v1/brokerages/` and `PATCH /v1/brokerages/{companyId}` now download the submitted logo, resize it to a maximum of 800px on the longest side (JPEG, quality 90), re-upload the normalized version to Firebase Storage, and persist that URL. HTTP redirects on the source URL are followed. ([#1971](https://github.com/Revive-Home/revive-api/pull/1971))
+- **RET catalog groups standardized** — Product group values split `"MEP & structural"` into two groups: `"MEP"` and `"Structural"`. ([#1944](https://github.com/Revive-Home/revive-api/pull/1944))
+- **Predictions module migrated to TypeScript with Firestore-backed storage** — All prediction files (`controller`, `routes`, `service`, `validation`) are now TypeScript. AI-generated images are persisted in Firestore + Firebase Storage instead of in-memory, so `GET /v1/predictions/{id}` continues to return results after a process restart. ([#1926](https://github.com/Revive-Home/revive-api/pull/1926))
+- **Sell 360 proposal disclaimer updated** — The `disclaimer` field returned by `GET /v1/estimates/{estimateId}/proposal` now reads `"All values are estimates only and are not guaranteed."` ([#1968](https://github.com/Revive-Home/revive-api/pull/1968))
+
+### Fixed
+
+- **Executed_at preserved on PandaDoc retries** — Repeated PandaDoc webhooks for a completed contract no longer overwrite the original `executed_at` timestamp. ([#1974](https://github.com/Revive-Home/revive-api/pull/1974))
+- **Legacy estimates with unknown custom-item groups no longer fail validation** — `PATCH /v1/estimates/{estimateId}` accepts any string (including empty) for the `group` field on custom products and RET catalog items, so historical estimates saved before the group allowlist existed can still be updated. ([#1982](https://github.com/Revive-Home/revive-api/pull/1982))
+
+### Action required
+
+- **RMA list/detail `opportunity.dealtype` is now a display name** — Previously this field returned the raw HubSpot deal type ID. It now returns the mapped name (e.g. `"Renovate to Sell"`). Update any code that compares `opportunity.dealtype` to a raw ID.
+- **`MEP & structural` catalog group removed** — Products using `"MEP & structural"` must be re-tagged as either `"MEP"` or `"Structural"`. Create and update requests that submit `"MEP & structural"` are rejected.
+
+</Update>
+
 <Update label="April 14, 2025" description="v2.154.0" tags={["revive-api"]}>
 
 ### New

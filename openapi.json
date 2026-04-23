@@ -24431,11 +24431,17 @@
                 "example": {
                   "status": "success",
                   "data": [
-                    {
+                     {
                       "rmaId": "rma_001",
                       "dealId": "deal_xyz789",
                       "contractorId": "contr_abc123",
-                      "status": "signed",
+                      "status": "executed",
+                      "executed_at": "2026-03-15T14:22:00.000Z",
+                      "opportunity": {
+                        "id": "deal_xyz789",
+                        "dealname": "123 Main St",
+                        "dealtype": "Renovate to Sell"
+                      },
                       "totalBudget": 85000,
                       "amountReleased": 34000,
                       "currentDraw": 2,
@@ -24504,7 +24510,7 @@
             "BearerAuth": []
           }
         ],
-        "description": "`GET /v1/rma/`\n\nReturns all RMAs with optional filtering by status, deal, or contractor."
+        "description": "`GET /v1/rma/`\n\nReturns all RMAs with optional filtering by status, deal, or contractor. Each item includes `executed_at` and an `opportunity` object with a human-readable `dealtype` (e.g. `Renovate to Sell`)."
       }
     },
     "/v1/rma/contracts": {
@@ -24767,7 +24773,15 @@
                     "dealId": "deal_xyz789",
                     "contractorId": "contr_abc123",
                     "contractorName": "BuildCo LLC",
-                    "status": "signed",
+                    "status": "executed",
+                    "executed_at": "2026-03-15T14:22:00.000Z",
+                    "opportunity": {
+                      "id": "deal_xyz789",
+                      "dealname": "123 Main St",
+                      "address": "123 Main St, Austin, TX",
+                      "dealtype": "Renovate to Sell",
+                      "pipeline_stage": "Construction"
+                    },
                     "totalBudget": 85000,
                     "amountReleased": 34000,
                     "amountRemaining": 51000,
@@ -24921,7 +24935,15 @@
                   },
                   "released_at": {
                     "type": "string",
-                    "example": "2026-04-01"
+                    "format": "date-time",
+                    "description": "ISO 8601 timestamp when the RMA was paid.",
+                    "example": "2026-04-01T10:00:00.000Z"
+                  },
+                  "executed_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "ISO 8601 timestamp when the RMA contract was fully executed. Set automatically on PandaDoc completion and preserved across webhook retries.",
+                    "example": "2026-03-15T14:22:00.000Z"
                   },
                   "name": {
                     "type": "string",
@@ -24930,17 +24952,18 @@
                 }
               },
               "example": {
-                "status": "signed",
+                "status": "executed",
                 "amount_requested": 85000,
                 "is_final": false,
                 "draw": 2,
-                "released_at": "2026-04-01",
+                "released_at": "2026-04-01T10:00:00.000Z",
+                "executed_at": "2026-03-15T14:22:00.000Z",
                 "name": "Main Renovation RMA"
               }
             }
           }
         },
-        "description": "`GET /v1/rma/{rmaId}`\n\nRetrieves an RMA by ID including contract status, activity logs, draw history, and notes."
+        "description": "`GET /v1/rma/{rmaId}`\n\nRetrieves an RMA by ID including contract status, activity logs, draw history, and notes. The response includes `executed_at` (set when the contract is fully signed) and an `opportunity` object with the associated deal's `dealtype` (human-readable, e.g. `Renovate to Sell`) and live `pipeline_stage` fetched from HubSpot."
       },
       "patch": {
         "operationId": "patch_v1_rma_rmaId_",
