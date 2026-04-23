@@ -4,6 +4,33 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="April 23, 2026" description="Dashboard v1.150.0" tags={["revive-dashboard"]}>
+
+### New
+
+- Agents can add a new brokerage directly from the **My profile** screen in account settings. The new **Add brokerage** modal collects the brokerage name, website, logo, optional street address, and optional email and phone. Brand colors are auto-extracted from the uploaded logo. On success, the new brokerage is selected on the profile automatically.
+- Custom estimate items can now display a **TBD** label when no price has been set. In the proposal view, items flagged as TBD render a red `TBD` badge in place of the total cost, signalling that the price is to be determined rather than hiding the item. This is driven by an `isTBD` flag on custom estimate items.
+
+### Improved
+
+- Disclaimer copy across pre-estimate slides has been updated for clarity and legal accuracy:
+  - **Nearby case studies** slide now includes: _"Individual results may vary. Testimonials are not intended to guarantee the same or similar results."_
+  - **Value opportunity** slide now includes: _"All projected costs, values, and potential outcomes are estimates only and may vary based on market conditions, property-specific factors, and final project scope."_
+  - **Sell360 transaction summary** and **scenario comparison** disclaimers have been consolidated into shorter, clearer statements covering estimated figures, timing of payments, and non-binding proposal language. The scenario comparison PDF export reflects the same updated copy.
+- The **Save changes** button on **My profile** is disabled immediately after creating a new brokerage to prevent duplicate submissions while the profile refreshes.
+- Stale brokerage search responses are now aborted when the query changes, so the dropdown always reflects the latest input.
+
+### Fixed
+
+- **Intake "What help" screen** — Removed the `refer-renovate` flow branch that caused the "What help do you need?" screen to be skipped in certain intake funnels.
+- **Custom item TBD label position** — The TBD label now renders inside the item's content area so it aligns with other price elements instead of appearing detached above them.
+
+### Action required
+
+No action required for existing integrations. The `POST /v1/brokerages/` request body continues to accept the fields documented in the [API Reference](/api-reference) — `address`, `city`, `state`, and `zip` are optional, and `email` and `phone` are accepted optionally when creating a brokerage from the dashboard.
+
+</Update>
+
 <Update label="April 14, 2025" description="v2.154.0" tags={["revive-api"]}>
 
 ### New
