@@ -21,6 +21,10 @@ on:
         required: false
         default: "released"
         type: string
+      source_repo:
+        description: "Which repo released (e.g. revive-api). Leave blank to search all repos."
+        required: false
+        type: string
   repository_dispatch:
     types: [generate-release-notes]
 
@@ -36,6 +40,7 @@ jobs:
       OVERWRITE: ${{ inputs.overwrite || github.event.client_payload.overwrite || 'false' }}
       SINCE: ${{ inputs.since || github.event.client_payload.since || '' }}
       LABEL: ${{ inputs.label || github.event.client_payload.label || 'released' }}
+      SOURCE_REPO: ${{ inputs.source_repo || github.event.client_payload.source_repo || '' }}
     steps:
       - name: Validate version
         run: |
@@ -57,6 +62,7 @@ jobs:
           RELEASE_OVERWRITE: ${{ env.OVERWRITE }}
           RELEASE_SINCE: ${{ env.SINCE }}
           RELEASE_LABEL: ${{ env.LABEL }}
+          SOURCE_REPO: ${{ env.SOURCE_REPO }}
         run: node scripts/generate-release-notes.mjs
 
       - name: Commit and push directly
