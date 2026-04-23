@@ -1418,6 +1418,22 @@
           "Auth"
         ],
         "responses": {
+          "200": {
+            "description": "User registered.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "uid": "user_new123",
+                    "email": "newuser@example.com",
+                    "role": "agent",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "User registered.",
             "content": {
@@ -1556,6 +1572,24 @@
           "Automated Valuation Models"
         ],
         "responses": {
+          "200": {
+            "description": "Automated valuation result.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "estimatedValue": 725000,
+                    "confidenceScore": 0.87,
+                    "lowEstimate": 685000,
+                    "highEstimate": 765000,
+                    "comparablesUsed": 6,
+                    "valuationDate": "2026-04-15"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Automated valuation result.",
             "content": {
@@ -1778,6 +1812,23 @@
           "Broadcast"
         ],
         "responses": {
+          "200": {
+            "description": "Broadcast created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "bcast_003",
+                    "title": "Q2 Market Update",
+                    "channel": "email",
+                    "status": "draft",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Broadcast created.",
             "content": {
@@ -2259,6 +2310,21 @@
           "Brokerages"
         ],
         "responses": {
+          "200": {
+            "description": "Brokerage created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "brok_abc123",
+                    "name": "Keller Williams Realty",
+                    "state": "CA"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Brokerage created.",
             "content": {
@@ -3300,6 +3366,24 @@
           "Contacts"
         ],
         "responses": {
+          "200": {
+            "description": "Contact created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contactId": "cont_new123",
+                    "email": "homeowner@example.com",
+                    "firstname": "John",
+                    "lastname": "Doe",
+                    "phone": "+15551234567",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Contact created.",
             "content": {
@@ -4847,6 +4931,25 @@
           "Contractors"
         ],
         "responses": {
+          "200": {
+            "description": "Contractor created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractorId": "contr_new123",
+                    "firstname": "Mike",
+                    "lastname": "Builder",
+                    "email": "mike@buildco.com",
+                    "company": "BuildCo LLC",
+                    "phone": "+15559876543",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Contractor created.",
             "content": {
@@ -5628,6 +5731,26 @@
           "Contractors"
         ],
         "responses": {
+          "200": {
+            "description": "Import results.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "imported": 15,
+                    "skipped": 2,
+                    "errors": [
+                      {
+                        "row": 8,
+                        "reason": "Duplicate email: mike@buildco.com"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Import results.",
             "content": {
@@ -6624,6 +6747,29 @@
           "Contracts"
         ],
         "responses": {
+          "200": {
+            "description": "Contract created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contractId": "contract_new123",
+                    "opportunityId": "opp_abc123",
+                    "status": "draft",
+                    "homeowners": [
+                      {
+                        "email": "homeowner@example.com",
+                        "firstname": "John",
+                        "lastname": "Doe"
+                      }
+                    ],
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Contract created.",
             "content": {
@@ -7616,6 +7762,27 @@
           "Estimates"
         ],
         "responses": {
+          "200": {
+            "description": "Estimates list.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "estimateId": "est_001",
+                      "dealId": "deal_xyz789",
+                      "status": "draft",
+                      "total": 45000,
+                      "itemCount": 12,
+                      "createdAt": "2026-04-01T10:00:00.000Z"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
+          },
           "201": {
             "description": "Estimates list.",
             "content": {
@@ -11702,6 +11869,21 @@
           "Marketing Center"
         ],
         "responses": {
+          "200": {
+            "description": "Image creation started.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "jobId": "job_abc123",
+                    "templateId": "tmpl_abc123",
+                    "status": "processing"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Image creation started.",
             "content": {
@@ -12821,6 +13003,21 @@
           "Marketing Center"
         ],
         "responses": {
+          "200": {
+            "description": "Webhook processed.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "jobId": "job_abc123",
+                    "imageUrl": "https://storage.revive.realty/marketing/flyer_abc123.jpg",
+                    "status": "completed"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Webhook processed.",
             "content": {
@@ -13409,6 +13606,21 @@
           "Media"
         ],
         "responses": {
+          "200": {
+            "description": "Folder created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_xyz789",
+                    "folderName": "Inspection Photos",
+                    "folderId": "folder_abc123"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Folder created.",
             "content": {
@@ -14445,6 +14657,26 @@
           "Meetings"
         ],
         "responses": {
+          "200": {
+            "description": "Meeting booked.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "meetingId": "mtg_abc123",
+                    "date": "2026-04-20T14:00:00Z",
+                    "duration": 60,
+                    "participants": [
+                      "agent@realty.com",
+                      "homeowner@example.com"
+                    ],
+                    "location": "123 Main St"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Meeting booked.",
             "content": {
@@ -16549,6 +16781,27 @@
           "Production"
         ],
         "responses": {
+          "200": {
+            "description": "Production schedule created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "productionId": "prod_001",
+                    "startDate": "2026-01-01",
+                    "ownersRep": [
+                      {
+                        "userId": "user_abc123",
+                        "name": "Sarah Johnson"
+                      }
+                    ],
+                    "status": "active"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Production schedule created.",
             "content": {
@@ -16676,6 +16929,30 @@
           "Project Scopes"
         ],
         "responses": {
+          "200": {
+            "description": "Project scope created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "scopeId": "scope_001",
+                    "dealId": "deal_xyz789",
+                    "items": [
+                      {
+                        "id": "item_001",
+                        "title": "Kitchen Remodel",
+                        "description": "Full kitchen renovation",
+                        "category": "Kitchen",
+                        "verified": false
+                      }
+                    ],
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Project scope created.",
             "content": {
@@ -17150,6 +17427,26 @@
           "Property"
         ],
         "responses": {
+          "200": {
+            "description": "Property report created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_new123",
+                    "streetAddress": "123 Main St, Los Angeles, CA 90001",
+                    "estimatedValue": 725000,
+                    "estimatedAfterValue": 875000,
+                    "renovationBudget": 45000,
+                    "roi": 3.3,
+                    "timeline": 6,
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Property report created.",
             "content": {
@@ -17782,6 +18079,27 @@
           "Property"
         ],
         "responses": {
+          "200": {
+            "description": "Comparable added.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "comparableId": "comp_001",
+                    "reportId": "rpt_xyz789",
+                    "address": "456 Oak Ave",
+                    "salePrice": 710000,
+                    "closeDate": "2026-03-01",
+                    "bedrooms": 3,
+                    "yearBuilt": 1990,
+                    "grade": "B+",
+                    "distance": 0.4
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Comparable added.",
             "content": {
@@ -19556,6 +19874,24 @@
           "Realtors"
         ],
         "responses": {
+          "200": {
+            "description": "Realtor created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "realtorId": "agent_new123",
+                    "firstname": "Jane",
+                    "lastname": "Smith",
+                    "email": "jane@realty.com",
+                    "brokerage": "Keller Williams",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Realtor created.",
             "content": {
@@ -19899,6 +20235,22 @@
           "Referrals"
         ],
         "responses": {
+          "200": {
+            "description": "Referral created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "referralId": "ref_abc123",
+                    "referralType": "agent",
+                    "clientEmail": "homeowner@example.com",
+                    "status": "new"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Referral created.",
             "content": {
@@ -20539,6 +20891,21 @@
           "Reimagine"
         ],
         "responses": {
+          "200": {
+            "description": "Job started.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reimagineId": "rimg_abc123",
+                    "status": "processing",
+                    "sourceUrl": "https://storage.revive.realty/photos/kitchen_01.jpg"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Job started.",
             "content": {
@@ -21169,6 +21536,22 @@
           "WeeklyUpdates"
         ],
         "responses": {
+          "200": {
+            "description": "Update created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "updateId": "update_abc123",
+                    "dealId": "deal_xyz789",
+                    "onSchedule": true,
+                    "completedItems": 2
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Update created.",
             "content": {
@@ -21802,6 +22185,23 @@
           "Reports"
         ],
         "responses": {
+          "200": {
+            "description": "Report generated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "annual_2026",
+                    "year": "2026",
+                    "totalDeals": 342,
+                    "totalRevenue": 4250000,
+                    "generatedAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Report generated.",
             "content": {
@@ -22010,6 +22410,24 @@
           "Ret Catalog"
         ],
         "responses": {
+          "200": {
+            "description": "Catalog product created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "productId": "prod_new123",
+                    "name": "Kitchen Cabinet Refinishing",
+                    "category": "Kitchen",
+                    "basePrice": 8500,
+                    "unit": "per kitchen",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Catalog product created.",
             "content": {
@@ -22816,6 +23234,23 @@
           "Rma"
         ],
         "responses": {
+          "200": {
+            "description": "RMA created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "rmaId": "rma_abc123",
+                    "dealId": "deal_xyz789",
+                    "contractorId": "contr_abc123",
+                    "status": "draft",
+                    "createdAt": "2026-04-14T12:00:00Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "RMA created.",
             "content": {
@@ -24503,6 +24938,18 @@
           "Support"
         ],
         "responses": {
+          "200": {
+            "description": "Ticket created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "Support ticket created successfully",
+                  "ticketId": "ticket_abc123"
+                }
+              }
+            }
+          },
           "201": {
             "description": "Ticket created.",
             "content": {
@@ -25092,6 +25539,23 @@
           "Vision Ai"
         ],
         "responses": {
+          "200": {
+            "description": "Vision AI report created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "vai_new123",
+                    "address": "123 Main St, Los Angeles, CA 90001",
+                    "status": "processing",
+                    "imageCount": 5,
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Vision AI report created.",
             "content": {
@@ -26693,6 +27157,20 @@
           "Webhooks"
         ],
         "responses": {
+          "200": {
+            "description": "Company created in HubSpot.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "companyId": "comp_new123",
+                    "name": "Acme Realty"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Company created in HubSpot.",
             "content": {
@@ -28133,6 +28611,43 @@
           "Analyze"
         ],
         "responses": {
+          "200": {
+            "description": "Analysis report created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "analyze_new123",
+                    "address": "123 Main St, Los Angeles, CA 90001",
+                    "conditionScore": 72,
+                    "conditionGrade": "C+",
+                    "rooms": [
+                      {
+                        "name": "Kitchen",
+                        "score": 65,
+                        "recommendations": [
+                          "Replace countertops",
+                          "Refinish cabinets"
+                        ]
+                      },
+                      {
+                        "name": "Bathroom",
+                        "score": 58,
+                        "recommendations": [
+                          "Replace tile",
+                          "Update vanity"
+                        ]
+                      }
+                    ],
+                    "estimatedRenovationCost": 45000,
+                    "estimatedValueIncrease": 150000,
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Analysis report created.",
             "content": {
@@ -29044,6 +29559,23 @@
           "Calendars"
         ],
         "responses": {
+          "200": {
+            "description": "Calendar created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "calendarId": "cal_new123",
+                    "name": "LA Team Calendar",
+                    "group": "west-coast",
+                    "url": "https://meetings.hubspot.com/la-team",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Calendar created.",
             "content": {
@@ -29517,6 +30049,23 @@
           "Deals"
         ],
         "responses": {
+          "200": {
+            "description": "Deal created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "dealId": "deal_abc123",
+                    "dealname": "123 Main St, Los Angeles, CA",
+                    "dealtype": "Presale",
+                    "pipeline": "Pre-Sale Pipeline",
+                    "stage": "New Lead"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Deal created.",
             "content": {
@@ -30338,6 +30887,21 @@
           "Opportunities"
         ],
         "responses": {
+          "200": {
+            "description": "Contact created and associated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "contactId": "cont_new789",
+                    "opportunityId": "opp_001",
+                    "email": "newhomeowner@example.com"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Contact created and associated.",
             "content": {
@@ -30828,6 +31392,18 @@
           "Payments"
         ],
         "responses": {
+          "200": {
+            "description": "Checkout session created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "sessionUrl": "https://checkout.stripe.com/c/pay/cs_live_abc123",
+                  "sessionId": "cs_live_abc123"
+                }
+              }
+            }
+          },
           "201": {
             "description": "Checkout session created.",
             "content": {
@@ -31615,6 +32191,23 @@
           "Referrals"
         ],
         "responses": {
+          "200": {
+            "description": "Referral created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "referralId": "ref_new123",
+                    "referralType": "agent",
+                    "clientSituation": "Homeowner looking to sell within 3 months.",
+                    "status": "pending",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Referral created.",
             "content": {
@@ -31742,6 +32335,23 @@
           "Users"
         ],
         "responses": {
+          "200": {
+            "description": "User created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "uid": "user_abc123",
+                    "email": "newuser@revive.realty",
+                    "role": "admin",
+                    "firstname": "Sarah",
+                    "position": "Project Manager"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "User created.",
             "content": {
@@ -32427,6 +33037,24 @@
           "Vision Ai"
         ],
         "responses": {
+          "200": {
+            "description": "Vision AI report created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "id": "vai_new123",
+                    "address": "123 Main St, Los Angeles, CA",
+                    "status": "processing",
+                    "imageCount": 5,
+                    "reportType": "standard",
+                    "createdAt": "2026-04-15T18:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Vision AI report created.",
             "content": {
