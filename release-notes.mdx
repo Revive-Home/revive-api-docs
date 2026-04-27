@@ -82,6 +82,27 @@ No action required for existing integrations. The new `email` and `phone` fields
 
 </Update>
 
+<Update label="April 27, 2026" description="Report V4" tags={["revive-api"]}>
+
+### New
+
+- **Mortgage data endpoint** — New `POST /v1/avm/mortgage` returns standardized mortgage and ownership data (loan amount, lender, interest rate, term, recording date, equity, owner name, tax amount, monthly HOA, annual insurance, price history) from five providers (Estated, House Canary, Zillow, Redfin, RentCast). Each provider response is normalized into the same shape so consumers can pick the best available value across sources. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- **Mortgage data on AVM lookup** — `POST /v1/avm/` accepts a new optional `withMortgageData` boolean. When `true`, the AVM cache is populated with mortgage and ownership fields alongside valuation data, enabling downstream reports to display mortgage context without an extra round trip. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- **Readable property features endpoint** — New `POST /v1/property/{reportId}/generate-readable-features` analyzes a report's media, comparables, and condition ratings to generate AI-written renovation insights per room type (`kitchen`, `bathroom`, `interior`, `exterior`, `other`). The response groups insights into `short`, `afterRenovationCondition`, `valueImpact`, and `buyerAppealScore` blocks suitable for direct display in a report UI. Property dashboard creation also runs this in the background and saves the result to the report. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- **Reimagine V2 (material-based renderings)** — `POST /v1/reimagine/create-image` accepts a new `version: "v2"` flag and a `materials` object. When V2 is selected, the API uses Google Gemini and the supplied materials (countertops, backsplash, cabinets, hardware, faucet, sink, flooring, paint, appliances) — including reference images — to generate a photorealistic renovation of the source photo. `roomType` and `roomStyle` become optional in V2 (`materials` drives the prompt instead). The legacy V1 prompt-based flow is unchanged when `version` is omitted. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+
+### Improved
+
+- **Property dashboard responses include mortgage context** — `POST /v1/property/dashboard` and `POST /v1/property/neighborhood-dashboard` now request mortgage data from the AVM service automatically, so the cached AVM record exposes lender, loan, equity, and ownership fields when downstream consumers fetch it.
+- **Multi-source home image lookup** — `POST /v1/utility/get-home-images` accepts an optional `source` (`"restb"`, `"anyprop"`, or `"zillow"`). When `source` is omitted, the endpoint waterfalls through AnyProp → RestB → Zillow and returns the first non-empty deduplicated result, increasing image coverage during intake.
+
+### Action required
+
+- **`/v1/utility/check-home-images` renamed to `/v1/utility/get-home-images`** — The public intake-flow endpoint has been renamed. Update any direct callers from `POST /v1/utility/check-home-images` to `POST /v1/utility/get-home-images`. The request body now expects `streetAddress`, `city`, `state`, and `postalCode` (all required), plus an optional `source`. The response shape (`{ images: string[] }`) is unchanged.
+- **Reimagine V1 callers — no action needed** — Existing `POST /v1/reimagine/create-image` requests without a `version` field continue to use the legacy prompt-based flow. Adopt `version: "v2"` only when you are ready to send a `materials` object.
+
+</Update>
+
 <Update label="April 23, 2026" description="v2.154.2" tags={["revive-api"]}>
 
 ### New
