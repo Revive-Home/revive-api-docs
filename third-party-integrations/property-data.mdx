@@ -22,14 +22,47 @@ Using multiple providers improves coverage and allows Revive to generate valuati
 
 ## Relevant modules/endpoints
 
-- `/v1/avm/`
+- `POST /v1/avm/` — Trigger an AVM lookup for an address. Pass `withMortgageData: true` to also populate mortgage, ownership, and tax fields on the cached AVM record.
+- `POST /v1/avm/mortgage` — Synchronously fetch standardized mortgage and ownership data across all providers (Estated, House Canary, Zillow, Redfin, RentCast). Each provider's response is normalized to the same shape, so consumers can pick the best available value per field.
 - `revive-api/src/automated-valuation-models/avm.service.ts`
 - `revive-api/src/utils/estated/index.js`
 - `revive-api/src/lib/houseCanary/index.js`
 - `revive-api/src/lib/rentcast/index.ts`
 - `revive-api/src/lib/apify/index.ts`
 
+## Mortgage data shape
+
+The `/v1/avm/mortgage` response groups results by provider. Each provider entry uses the same standardized shape:
+
+```json
+{
+  "currentValue": 725000,
+  "valueLow": 685000,
+  "valueHigh": 765000,
+  "loanAmount": 540000,
+  "lenderName": "Wells Fargo",
+  "interestRate": 4.25,
+  "loanType": "Conventional",
+  "mortgageTerm": "30 years",
+  "mortgageDueDate": "2049-06-01",
+  "recordingDate": "2019-05-15",
+  "equity": 185000,
+  "lastSalePrice": 620000,
+  "lastSaleDate": "2019-05-10",
+  "priceHistory": [{ "date": "2019-05-10", "price": 620000, "event": "Sold" }],
+  "ownerName": "Jane Doe",
+  "ownerOccupied": true,
+  "taxAmount": 8200,
+  "taxYear": 2025,
+  "monthlyHoaFee": 0,
+  "annualInsurance": 1450
+}
+```
+
+Any field a given provider does not return is set to `null`. Use the highest-priority non-null value across providers when assembling a unified record.
+
 ## Operational notes
 
 - Provider outages and rate limits may reduce completeness of results.
 - Treat caching behavior as part of the API contract (changes can impact latency and provider costs).
+- AVM records are cached in Firestore for 30 days. Setting `withMortgageData: true` on a cached record without mortgage fields triggers a background backfill so subsequent reads include mortgage data.
