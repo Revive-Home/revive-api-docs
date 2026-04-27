@@ -3,7 +3,7 @@
   "info": {
     "title": "Revive API",
     "description": "Backend API for the Revive platform — pre-sale renovation management, property analysis, deal tracking, and more.",
-    "version": "v2.154.2"
+    "version": "v2.155.0"
   },
   "servers": [
     {
@@ -1687,8 +1687,7 @@
                   }
                 },
                 "required": [
-                  "city",
-                  "zipcode"
+                  "city"
                 ]
               },
               "example": {
@@ -1701,6 +1700,128 @@
           }
         },
         "description": "`POST /v1/avm/`\n\nRuns an automated valuation model (AVM) for a property address. Returns estimated value based on comparables, market trends, and property data."
+      }
+    },
+    "/v1/avm/mortgage": {
+      "post": {
+        "operationId": "post_v1_avm_mortgage",
+        "summary": "Create Avm mortgage",
+        "tags": [
+          "Automated Valuation Models"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request — invalid or missing parameters.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Validation failed.",
+                  "errors": [
+                    {
+                      "field": "email",
+                      "message": "Email is required."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "zipcode": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "city"
+                ]
+              }
+            }
+          }
+        },
+        "description": "`POST /v1/avm/mortgage`"
       }
     },
     "/v1/broadcast/": {
@@ -19947,6 +20068,124 @@
         "description": "`POST /v1/property/{id}/recalculate`\n\nRecalculates a property report with updated comparables, timeline, or renovation parameters."
       }
     },
+    "/v1/property/{reportId}/generate-readable-features": {
+      "post": {
+        "operationId": "post_v1_property_reportId_generate_readable_features",
+        "summary": "Create Property generate readable features",
+        "tags": [
+          "Property"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request — invalid or missing parameters.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Validation failed.",
+                  "errors": [
+                    {
+                      "field": "email",
+                      "message": "Email is required."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "reportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "description": "`POST /v1/property/{reportId}/generate-readable-features`"
+      }
+    },
     "/v1/punch-list/update-punch-data": {
       "patch": {
         "operationId": "patch_v1_punch_list_update_punch_data",
@@ -21462,46 +21701,20 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "opportunityId": {
-                    "type": "string",
-                    "description": "Associated opportunity.",
-                    "example": "opp_abc123"
-                  },
-                  "imageUrl": {
-                    "type": "string",
-                    "description": "Source photo URL.",
-                    "example": "https://storage.revive.realty/photos/kitchen_01.jpg"
-                  },
-                  "prompt": {
-                    "type": "string",
-                    "description": "AI prompt describing desired transformation.",
-                    "example": "Modern white kitchen with marble countertops"
-                  },
-                  "roomStyle": {
-                    "type": "string",
-                    "description": "'modern', 'traditional', 'transitional', 'contemporary', 'farmhouse'.",
-                    "example": "modern"
-                  },
-                  "userId": {
-                    "type": "string",
-                    "description": "Requesting user's ID.",
-                    "example": "user_xyz"
-                  },
-                  "source": {
+                  "version": {
                     "type": "string",
                     "enum": [
-                      "Admin",
-                      "Dashboard",
-                      "Mobile"
-                    ],
-                    "description": "'dashboard' or 'admin'.",
-                    "example": "dashboard"
-                  }
-                },
-                "required": [
-                  "roomStyle",
-                  "source"
-                ]
+                      "v2"
+                    ]
+                  },
+                  "reportId": {
+                    "type": "string"
+                  },
+                  "iterationPhotoUrl": {
+                    "type": "string"
+                  },
+                  "roomType": {}
+                }
               },
               "example": {
                 "opportunityId": "opp_abc123",
@@ -25518,132 +25731,6 @@
         "description": "`POST /v1/support/`\n\nSubmits a new support ticket with contact info and issue details."
       }
     },
-    "/v1/utility/check-home-images": {
-      "post": {
-        "operationId": "post_v1_utility_check_home_images",
-        "summary": "Check home images",
-        "tags": [
-          "Utility"
-        ],
-        "responses": {
-          "200": {
-            "description": "Home images.",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "success",
-                  "data": {
-                    "images": [
-                      {
-                        "url": "https://photos.example.com/property_01.jpg",
-                        "source": "AnyProp",
-                        "type": "exterior"
-                      },
-                      {
-                        "url": "https://photos.example.com/property_02.jpg",
-                        "source": "Zillow",
-                        "type": "interior"
-                      }
-                    ],
-                    "totalFound": 12,
-                    "duplicatesRemoved": 3
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request — invalid or missing parameters.",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "message": "Validation failed.",
-                  "errors": [
-                    {
-                      "field": "email",
-                      "message": "Email is required."
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized — missing or invalid Bearer token.",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden — you do not have permission to access this resource.",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "message": "Insufficient permissions."
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found — the requested resource does not exist.",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "message": "Resource not found."
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable entity — request was understood but contains semantic errors.",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "message": "Unprocessable entity.",
-                  "errors": [
-                    {
-                      "field": "dealId",
-                      "message": "Deal is already closed."
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error.",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "message": "An unexpected error occurred. Please try again later."
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": false,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "description": "`POST /v1/utility/check-home-images`\n\nMulti-source home image lookup by address. Queries AnyProp, Zillow, RestB, deduplicates results."
-      }
-    },
     "/v1/utility/deduplicate-images": {
       "post": {
         "operationId": "post_v1_utility_deduplicate_images",
@@ -25747,16 +25834,148 @@
           }
         },
         "requestBody": {
-          "required": false,
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {}
+                  }
+                },
+                "required": [
+                  "images"
+                ]
               }
             }
           }
         },
         "description": "`POST /v1/utility/deduplicate-images`\n\nDetects and removes duplicate images using perceptual hashing. Returns only unique images."
+      }
+    },
+    "/v1/utility/get-home-images": {
+      "post": {
+        "operationId": "post_v1_utility_get_home_images",
+        "summary": "Create Utility get home images",
+        "tags": [
+          "Utility"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request — invalid or missing parameters.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Validation failed.",
+                  "errors": [
+                    {
+                      "field": "email",
+                      "message": "Email is required."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "streetAddress": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "restb",
+                      "anyprop",
+                      "zillow"
+                    ]
+                  }
+                },
+                "required": [
+                  "streetAddress",
+                  "state"
+                ]
+              }
+            }
+          }
+        },
+        "description": "`POST /v1/utility/get-home-images`"
       }
     },
     "/v1/utility/house-canary/market-health": {
