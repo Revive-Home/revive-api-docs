@@ -66,10 +66,35 @@ jobs:
         run: node scripts/generate-release-notes.mjs
 
       - name: Commit and push directly
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add release-notes.mdx
-          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git commit -m "docs: add ${{ env.VERSION }} release notes [skip ci]"
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Notify Slack
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_RELEASE_NOTES_WEBHOOK }}
+        run: |
+          REPO_LABEL="${{ env.SOURCE_REPO }}"
+          [ -z "$REPO_LABEL" ] && REPO_LABEL="multiple repos"
+          DOCS_URL="https://docs.revive.realestate/release-notes"
+
+          curl -sf -X POST "$SLACK_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "$(cat <<EOF
+          {
+            "text": "📦 *${VERSION}* release notes published for *${REPO_LABEL}*\n<${DOCS_URL}|View release notes>",
+            "unfurl_links": false
+          }
+          EOF
+          )"
