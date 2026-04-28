@@ -93,7 +93,7 @@ jobs:
             -H "Content-Type: application/json" \
             -d "$(cat <<EOF
           {
-            "text": "📦 *${VERSION}* release notes published for *${REPO_LABEL}*\n<${DOCS_URL}|View release notes>\nPassword: \`ChampionHomeowners\`",
+            "text": "<!channel> � *New tech release!* *${VERSION}* just shipped for *${REPO_LABEL}*\n\nTo see what's new, check out the release notes:\n<${DOCS_URL}|📋 View Release Notes>\n\nPassword: \`ChampionHomeowners\`",
             "unfurl_links": false
           }
           EOF
