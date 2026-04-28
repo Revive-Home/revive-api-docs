@@ -5,6 +5,22 @@ mode: wide
 ---
 
 
+<Update label="April 28, 2026" tags={["revive-dashboard"]}>
+
+### New
+
+- **Select property advisor in intake.** Authenticated users now pick a specific Revive property advisor before scheduling their meeting at the end of the intake flow. The new step appears between sign-up/phone verification and **Schedule meeting**, and offers an **Anyone** option to keep the existing round-robin behavior. The chosen advisor's HubSpot calendar is preselected on the next step so the user only sees that advisor's availability. ([Revive-Home/revive-dashboard#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
+
+### Improved
+
+- **Property advisor list now merges HubSpot and Firestore.** The advisor list is hydrated from HubSpot meeting calendars and the Firestore `admins` collection (members with `position: "Property Advisor"`). Firestore entries take priority on duplicates, and the shared `info@revive.realestate` "Revive Concierge" calendar is excluded so only individual advisors appear.
+
+### Action required
+
+No action required. Funnels that don't need the meeting steps can continue to skip them by appending `showcalendar=false` to the intake URL — see [Intake URL parameters](/guides/intake-url-parameters#meeting-and-advisor-selection).
+
+</Update>
+
 <Update label="April 23, 2026" description="v2.133.0" tags={["revive-admin"]}>
 
 ### New
