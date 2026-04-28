@@ -87,13 +87,13 @@ jobs:
         run: |
           REPO_LABEL="${{ env.SOURCE_REPO }}"
           [ -z "$REPO_LABEL" ] && REPO_LABEL="multiple repos"
-          DOCS_URL="https://docs.revive.realestate/release-notes"
+          DOCS_URL="https://tech.revive.realestate/release-notes"
 
           curl -sf -X POST "$SLACK_WEBHOOK" \
             -H "Content-Type: application/json" \
             -d "$(cat <<EOF
           {
-            "text": "📦 *${VERSION}* release notes published for *${REPO_LABEL}*\n<${DOCS_URL}|View release notes>",
+            "text": "📦 *${VERSION}* release notes published for *${REPO_LABEL}*\n<${DOCS_URL}|View release notes>\nPassword: \`ChampionHomeowners\`",
             "unfurl_links": false
           }
           EOF
