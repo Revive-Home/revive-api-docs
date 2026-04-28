@@ -4,6 +4,28 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="April 28, 2026" description="Dashboard hotfix" tags={["revive-dashboard"]}>
+
+### Improved
+
+- **Inline "Add more" photo upload on the MLS photos step.** Sellers can now upload additional photos directly from the **MLS Photos Selection** step using a new **Add more** tile, without leaving the page. Uploaded photos appear alongside MLS photos in the same gallery and can be selected or deselected the same way. JPG, PNG, HEIC, HEIF, and WEBP files are accepted; HEIC/HEIF files are converted to JPG automatically. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+- **Streamlined intake submission.** The intake flow no longer creates a deal up front on address selection. Deals are now created at the end of the flow on the completion step, which prevents orphaned deals when sellers abandon the intake midway and reduces duplicate records when address details change. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+- **Cleaner state when changing addresses.** Selecting a different address (or clearing the address) now resets any previously fetched MLS photos and uploaded files so the photo gallery always matches the current property. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+
+### Fixed
+
+- **Photo upload reliability in the research flow.** Authenticated users who skipped the phone-verification step previously had their selected photos dropped before report generation. Photos are now uploaded on the completion step when needed, and the VisionAI report falls back to a neighborhood report only when no photos are available. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+
+### Removed
+
+- **Standalone "Review photos" step.** The separate **Review photos** step has been removed from the Getting Started intake. Photo review now happens inline on the **MLS Photos Selection** step, which also hosts the **Add more** upload tile. Funnels that used `showcalendar=false` or `hidePhotos` flags are unaffected. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+
+### Action required
+
+No action required. The intake URL parameters and `showcalendar` / photo-hiding flags continue to work as documented in [Intake URL parameters](/guides/intake-url-parameters).
+
+</Update>
+
 <Update label="April 28, 2026" description="v1.151.0" tags={["revive-dashboard"]}>
 
 ### New
@@ -54,7 +76,7 @@ No action required. Funnels that don't need the meeting steps can continue to sk
 
 ### New
 
-- **MLS photos in the Getting Started intake** — When a property has MLS imagery available, sellers can review and select which MLS photos to include in their report directly from the intake flow. A new **Additional photos** step lets sellers upload supplemental photos (JPG, PNG, HEIC, or WEBP), and a **Review photos** step shows the combined gallery before submission. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
+- **MLS photos in the Getting Started intake** — When a property has MLS imagery available, sellers can review and select which MLS photos to include in their report directly from the intake flow. A new **Additional photos** step lets sellers upload supplemental photos (JPG, PNG, HEIC, or WEBP) before submission. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
 - **Property advisor selection during intake** — A new **Select your property advisor** step appears in the Getting Started flow before scheduling. Sellers can pick a specific property advisor (sourced from HubSpot calendars and Firestore admins) or choose **Anyone available** to use the team's general availability. The selected advisor is then used to filter calendar slots on the **Schedule meeting** step. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
 - **Calendar integration on Schedule meeting** — The Schedule meeting step now reflects the seller's selected advisor when fetching available time slots, and falls back to the team-wide pool when **Anyone available** is chosen. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
 
