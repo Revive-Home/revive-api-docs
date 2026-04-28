@@ -70,6 +70,16 @@ When all five property parameters are provided, the **Property Details** step is
 | `researchGoal`     | string | Goal of the research         |
 | `researchTimeline` | string | Timeline for the research    |
 
+### Meeting and advisor selection
+
+By default, the intake flow ends with a **Select property advisor** step (where the user picks a specific Revive property advisor or chooses **Anyone**) followed by a **Schedule meeting** step. Use `showcalendar=false` to skip both steps for funnels that don't need an immediate meeting booking.
+
+| Parameter      | Type   | Description                                                                 | Accepted values |
+| -------------- | ------ | --------------------------------------------------------------------------- | --------------- |
+| `showcalendar` | string | Whether to show the property advisor selection and meeting scheduling steps | `false`         |
+
+<Note>The advisor list is merged from HubSpot meeting calendars and the Firestore `admins` collection (members with `position: "Property Advisor"`). If a user picks **Anyone**, the meeting step shows the default round-robin calendar.</Note>
+
 ### Other
 
 | Parameter   | Type   | Description                                 |
@@ -77,6 +87,8 @@ When all five property parameters are provided, the **Property Details** step is
 | `promoCode` | string | Promotional or referral code                |
 | `code`      | string | Alternative parameter name for promo code   |
 | `step`      | number | Starting step number (1-indexed)            |
+| `reportid`  | string | ID of the source VisionAI report when the intake was opened from a report CTA |
+| `hidephotos`| string | Set to `true` to skip the photo upload steps |
 
 ## Example URLs
 
@@ -102,6 +114,12 @@ Apply a promo code:
 
 ```text
 https://dashboard.revive.realestate/getting-started?address=123+Main+St&city=San+Jose&state=CA&zipCode=95123&promoCode=SAVE10
+```
+
+Skip the property advisor and meeting steps at the end of the flow:
+
+```text
+https://dashboard.revive.realestate/getting-started?address=123+Main+St&city=San+Jose&state=CA&zipCode=95123&showcalendar=false
 ```
 
 ## Behavior
