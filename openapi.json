@@ -15147,9 +15147,20 @@
         "tags": [
           "Meetings"
         ],
+        "parameters": [
+          {
+            "name": "isSeparateByGroup",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "When `true`, the response is split into `team` and `people` arrays so team calendars and individual advisor calendars can be rendered separately. When omitted or `false`, the response returns a flat list of calendars."
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Available calendars.",
+            "description": "Available calendars. Returns a flat list by default, or `{ team, people }` arrays when `isSeparateByGroup=true`.",
             "content": {
               "application/json": {
                 "example": {

@@ -50,6 +50,24 @@ No action required. Funnels that don't need the meeting steps can continue to sk
 
 </Update>
 
+<Update label="April 28, 2026" description="Dashboard v1.151.0" tags={["revive-dashboard"]}>
+
+### New
+
+- **MLS photos in the Getting Started intake** — When a property has MLS imagery available, sellers can review and select which MLS photos to include in their report directly from the intake flow. A new **Additional photos** step lets sellers upload supplemental photos (JPG, PNG, HEIC, or WEBP), and a **Review photos** step shows the combined gallery before submission. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
+- **Property advisor selection during intake** — A new **Select your property advisor** step appears in the Getting Started flow before scheduling. Sellers can pick a specific property advisor (sourced from HubSpot calendars and Firestore admins) or choose **Anyone available** to use the team's general availability. The selected advisor is then used to filter calendar slots on the **Schedule meeting** step. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
+- **Calendar integration on Schedule meeting** — The Schedule meeting step now reflects the seller's selected advisor when fetching available time slots, and falls back to the team-wide pool when **Anyone available** is chosen. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
+
+### Improved
+
+- **`GET /v1/meetings/available-calendars` grouping** — The endpoint now accepts an optional `isSeparateByGroup` query parameter. When `true`, the response is split into `team` and `people` arrays so the dashboard can render team calendars and individual advisor calendars separately. When omitted or `false`, the response keeps the existing combined shape. The change is backwards compatible — existing integrations that read the flat list continue to work.
+
+### Action required
+
+No action required for existing integrations. The new `isSeparateByGroup` query parameter on `GET /v1/meetings/available-calendars` is optional and the default response shape is unchanged.
+
+</Update>
+
 <Update label="April 23, 2026" description="v2.133.0" tags={["revive-admin"]}>
 
 ### New
