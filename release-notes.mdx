@@ -4,6 +4,20 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="April 29, 2026" description="Dashboard hotfix" tags={["revive-dashboard"]}>
+
+### Improved
+
+- **Earlier deal creation in the meeting flow.** When the intake includes the meeting steps, the deal is now created as soon as the seller enters the **Select property advisor** step (or immediately after phone verification when the user is signing up). This guarantees the deal exists before the **Schedule meeting** step books a meeting against it, eliminating a race condition where meetings could be created before the deal was associated. The completion step still creates the deal as a fallback for flows that skip the meeting steps entirely. ([#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
+- **More resilient photo upload on completion.** If selected MLS or uploaded photos haven't been pushed to Firebase by the time the seller reaches the completion step (for example, in flows that skip phone verification), the completion step now uploads them and writes the document records before generating the report. Previously these photos could be dropped silently. ([#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
+- **Default property-advisor calendar updated.** The fallback calendar used when no specific advisor is selected is now **Northern California** (previously **Property Assessment**), aligning the default round-robin behavior with the production HubSpot calendar layout. ([#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
+
+### Action required
+
+No action required. Existing intake URL parameters and the `showcalendar` flag continue to work as documented in [Intake URL parameters](/guides/intake-url-parameters).
+
+</Update>
+
 <Update label="April 28, 2026" description="Dashboard hotfix" tags={["revive-dashboard"]}>
 
 ### Improved
