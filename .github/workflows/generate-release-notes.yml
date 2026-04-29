@@ -89,12 +89,11 @@ jobs:
           [ -z "$REPO_LABEL" ] && REPO_LABEL="multiple repos"
           DOCS_URL="https://tech.revive.realestate/release-notes"
 
-          curl -sf -X POST "$SLACK_WEBHOOK" \
+          cat <<EOF | curl -sf -X POST "$SLACK_WEBHOOK" \
             -H "Content-Type: application/json" \
-            -d "$(cat <<EOF
+            -d @-
           {
-            "text": "<!channel> � *New tech release!* *${VERSION}* just shipped for *${REPO_LABEL}*\n\nTo see what's new, check out the release notes:\n<${DOCS_URL}|📋 View Release Notes>\n\nPassword: \`ChampionHomeowners\`",
+            "text": "<!channel> :rocket: *New tech release!* *${VERSION}* just shipped for *${REPO_LABEL}*\n\nTo see what's new, check out the release notes:\n<${DOCS_URL}|:clipboard: View Release Notes>\n\nPassword: \`ChampionHomeowners\`",
             "unfurl_links": false
           }
           EOF
-          )"
