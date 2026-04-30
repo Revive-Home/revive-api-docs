@@ -46,3 +46,27 @@ Code modules:
 
 - Webhook handlers typically update Firestore and may fan out internal notifications.
 - When changing HubSpot field mappings, treat it as a backwards-compatible contract change.
+
+## Admin tools
+
+### HubSpot phone cleanup
+
+`revive-admin` exposes a password-protected tool for finding and bulk-fixing HubSpot contacts whose `phone` property fails E.164 validation. Use it when phone-format issues are blocking workflows or transactional sends.
+
+**Where to find it**
+
+- Standalone page: `/webhooks/hubspot-broken-phones`
+- Metrics dashboard tab: **Metrics → HubSpot Phone Cleanup**
+
+**Workflow**
+
+1. Open the panel and authenticate with the admin password.
+2. The tool calls `GET /webhooks/hubspot/get-broken-phone-numbers` to load contacts with malformed phone values, along with a `suggestedFix` for each.
+3. Review the table, accept or edit the suggested fixes, and select the rows to update (single-select or bulk-select).
+4. Submit. The tool calls `POST /webhooks/hubspot/fix-broken-phone-numbers` with the selected `{ contactId, phone }` updates and reports `totalRequested`, `totalUpdated`, and any per-contact `failed` entries.
+
+**Notes**
+
+- The fetch endpoint uses an extended timeout (~120s) because it scans contact records.
+- Updates are written directly to HubSpot — there is no preview-only mode. Spot-check a few rows before running large batches.
+- Failures are returned per-contact rather than aborting the batch; review the `failed` list and retry as needed.
