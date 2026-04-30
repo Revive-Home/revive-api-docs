@@ -29326,6 +29326,213 @@
         "description": "`POST /v1/webhooks/hubspot/updateRealtorEdgeUrl`\n\nHandles HubSpot workflow to update a realtor's Edge URL."
       }
     },
+    "/v1/webhooks/hubspot/get-broken-phone-numbers": {
+      "get": {
+        "operationId": "get_v1_webhooks_hubspot_get_broken_phone_numbers",
+        "summary": "List HubSpot contacts with broken phone numbers",
+        "tags": [
+          "Webhooks"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "`GET /v1/webhooks/hubspot/get-broken-phone-numbers`\n\nScans HubSpot contacts and returns those whose `phone` property does not match Revive's canonical phone format (`+1(NPA) NXX-XXXX` or `+1NPANXXXXXX`). Each row includes a `suggestedFix` formatted into the canonical pattern. Admin-only — the caller must authenticate with a Firebase JWT that is mapped to an admin user.",
+        "responses": {
+          "200": {
+            "description": "List of HubSpot contacts whose phone number is not in canonical format.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "total": 2,
+                  "results": [
+                    {
+                      "contactId": "12345",
+                      "firstname": "Jane",
+                      "lastname": "Doe",
+                      "email": "jane@example.com",
+                      "phone": "(415) 555 1212",
+                      "suggestedFix": "+1(415) 555-1212"
+                    },
+                    {
+                      "contactId": "67890",
+                      "firstname": "John",
+                      "lastname": "Smith",
+                      "email": "john@example.com",
+                      "phone": "415.555.7878",
+                      "suggestedFix": "+1(415) 555-7878"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — caller is not an admin.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "No permissions"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/webhooks/hubspot/fix-broken-phone-numbers": {
+      "post": {
+        "operationId": "post_v1_webhooks_hubspot_fix_broken_phone_numbers",
+        "summary": "Apply canonical phone fixes to HubSpot contacts",
+        "tags": [
+          "Webhooks"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "`POST /v1/webhooks/hubspot/fix-broken-phone-numbers`\n\nBatch-updates HubSpot contacts with corrected phone numbers. Each `phone` value must already be in the canonical format `+1(NPA) NXX-XXXX` (typically the `suggestedFix` returned by `GET /v1/webhooks/hubspot/get-broken-phone-numbers`). Updates are applied in batches of 100; per-contact failures are reported in the `failed` array but do not abort the request. Admin-only — the caller must authenticate with a Firebase JWT that is mapped to an admin user.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "updates"
+                ],
+                "properties": {
+                  "updates": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 5000,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "contactId",
+                        "phone"
+                      ],
+                      "properties": {
+                        "contactId": {
+                          "type": "string",
+                          "description": "HubSpot contact ID."
+                        },
+                        "phone": {
+                          "type": "string",
+                          "pattern": "^\\+1\\(\\d{3}\\) \\d{3}-\\d{4}$",
+                          "description": "Phone number in canonical format `+1(NPA) NXX-XXXX`."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "example": {
+                "updates": [
+                  {
+                    "contactId": "12345",
+                    "phone": "+1(415) 555-1212"
+                  },
+                  {
+                    "contactId": "67890",
+                    "phone": "+1(415) 555-7878"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch update completed. `totalUpdated` is the number of contacts successfully written to HubSpot; `failed` lists per-contact errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "totalRequested": 2,
+                  "totalUpdated": 2,
+                  "failed": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request — payload failed validation (missing `updates`, malformed phone, or array out of bounds).",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Validation failed.",
+                  "errors": [
+                    {
+                      "field": "updates[0].phone",
+                      "message": "Phone must match +1(NPA) NXX-XXXX."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — caller is not an admin.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "No permissions"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/webhooks/pandadoc/linked-objects": {
       "post": {
         "operationId": "post_v1_webhooks_pandadoc_linked_objects",

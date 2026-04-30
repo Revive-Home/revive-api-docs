@@ -35,6 +35,11 @@ Webhook endpoints:
 - `/v1/webhooks/hubspot/revive-team`
 - `/v1/webhooks/hubspot/updateRealtorEdgeUrl`
 
+Admin tooling (Firebase JWT, admin only):
+
+- `GET /v1/webhooks/hubspot/get-broken-phone-numbers` — scan HubSpot contacts and return any whose `phone` property is not in canonical format, with a `suggestedFix` for each.
+- `POST /v1/webhooks/hubspot/fix-broken-phone-numbers` — batch-update HubSpot contacts with corrected, canonical phone numbers (`+1(NPA) NXX-XXXX`).
+
 Code modules:
 
 - `revive-api/src/utils/hubspotV2/hubspot.js`
@@ -46,3 +51,4 @@ Code modules:
 
 - Webhook handlers typically update Firestore and may fan out internal notifications.
 - When changing HubSpot field mappings, treat it as a backwards-compatible contract change.
+- **Canonical phone format.** Revive stores HubSpot contact phone numbers in `+1(NPA) NXX-XXXX` (or E.164 `+1NPANXXXXXX`). Use the broken-phone-numbers admin endpoints above to scan for and repair contacts that drift out of this format — for example, after a bulk import or a manual edit in HubSpot.

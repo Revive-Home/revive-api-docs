@@ -4,6 +4,23 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="April 30, 2026" description="API hotfix" tags={["revive-api"]}>
+
+### New
+
+- **Admin endpoints to repair HubSpot phone numbers.** `GET /v1/webhooks/hubspot/get-broken-phone-numbers` scans HubSpot contacts and returns any whose `phone` property is not in Revive's canonical format (`+1(NPA) NXX-XXXX`), along with a `suggestedFix` for each. `POST /v1/webhooks/hubspot/fix-broken-phone-numbers` accepts the corrected values and applies them in batches of 100, reporting per-contact failures without aborting the request. Both endpoints require a Firebase JWT mapped to an admin user. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+
+### Fixed
+
+- **Safer Vision AI condition handling.** `handleNullConditionScores` no longer mutates the condition objects passed in; it clones them before normalizing missing scores, eliminating a class of side-effect bugs in renovation and Vision AI flows. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+- **More useful error logs.** Failures in the Firestore `updateById` helper and in `completePropertyDashboard` now log the underlying error details, making production issues easier to triage. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+
+### Action required
+
+No action required. The new admin endpoints are additive and do not change existing webhook contracts.
+
+</Update>
+
 <Update label="April 29, 2026" description="Dashboard hotfix" tags={["revive-dashboard"]}>
 
 ### Improved
