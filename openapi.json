@@ -29368,6 +29368,23 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request — invalid or missing parameters.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Validation failed.",
+                  "errors": [
+                    {
+                      "field": "email",
+                      "message": "Email is required."
+                    }
+                  ]
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized — missing or invalid Bearer token.",
             "content": {
@@ -29515,6 +29532,23 @@
                 "example": {
                   "status": "error",
                   "message": "No permissions"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
                 }
               }
             }
