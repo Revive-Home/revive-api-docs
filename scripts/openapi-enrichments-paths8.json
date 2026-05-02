@@ -3,7 +3,7 @@
     "requestExample": { "type": "inspection", "createdBy": { "userId": "user_abc123", "role": "agent" } }
   },
   "POST /v1/predictions/": {
-    "requestExample": { "imageInput": "https://storage.revive.realty/photos/kitchen_01.jpg" }
+    "requestExample": { "imageInput": "https://storage.revive.realty/photos/kitchen_01.jpg", "roomType": "kitchen", "designStyle": "modern", "package": "premium", "reportId": "rpt_xyz789", "adminId": "fb_uid_admin123" }
   },
   "POST /v1/production/": {
     "requestExample": { "startDate": "2026-01-01", "ownersRep": [{ "userId": "user_abc123", "name": "Sarah Johnson" }] }
