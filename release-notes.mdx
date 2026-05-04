@@ -4,6 +4,18 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="May 2, 2026" description="API hotfix" tags={["revive-api"]}>
+
+### Improved
+
+- **Tag AI image render jobs with an `adminId`.** `POST /v1/predictions/` accepts a new optional `adminId` field (Firebase UID of the admin who initiated the render) alongside the existing optional `reportId`. The value is persisted on the AI image render job document so admin-initiated renders — for example, jobs started from the Renovision configurator in the admin app — can be filtered and listed per admin. Both `adminId` and `reportId` can be supplied together; if a job with the same `jobId` already exists, the new identifiers are merged onto the existing record. ([Revive-Home/revive-api#2006](https://github.com/Revive-Home/revive-api/pull/2006))
+
+### Action required
+
+No action required. `adminId` is optional and existing `POST /v1/predictions/` callers continue to work unchanged.
+
+</Update>
+
 <Update label="April 30, 2026" description="API hotfix" tags={["revive-api"]}>
 
 ### New

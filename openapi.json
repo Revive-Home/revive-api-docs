@@ -17398,23 +17398,58 @@
                 "properties": {
                   "imageInput": {
                     "type": "string",
+                    "description": "URL of the source image to renovate.",
                     "example": "https://storage.revive.realty/photos/kitchen_01.jpg"
                   },
+                  "jobId": {
+                    "type": "string",
+                    "description": "Optional client-provided job ID. When supplied and the job already exists, the request updates the existing job (merging `reportId`/`adminId`) instead of creating a new one."
+                  },
                   "roomType": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Room type for the render (for example, `kitchen`, `bathroom`, `living_room`).",
+                    "example": "kitchen"
+                  },
+                  "reportId": {
+                    "type": "string",
+                    "description": "Optional property report ID to associate this render with. Stored on the AI image render job document.",
+                    "example": "rpt_xyz789"
+                  },
+                  "adminId": {
+                    "type": "string",
+                    "description": "Optional Firebase UID of the admin user creating the render. Stored on the AI image render job document so admin-initiated jobs (for example, from the Renovision configurator) can be queried per admin.",
+                    "example": "fb_uid_admin123"
+                  },
+                  "designStyle": {
+                    "type": "string",
+                    "description": "Optional design style hint (for example, `modern`, `farmhouse`, `transitional`).",
+                    "example": "modern"
+                  },
+                  "package": {
+                    "type": "string",
+                    "enum": ["standard", "premium", "luxury"],
+                    "description": "Optional render tier.",
+                    "example": "premium"
                   },
                   "materials": {
-                    "type": "object"
+                    "type": "object",
+                    "description": "Optional materials selection (countertops, cabinets, flooring, etc.) used to drive the render."
                   }
-                }
+                },
+                "required": ["imageInput"]
               },
               "example": {
-                "imageInput": "https://storage.revive.realty/photos/kitchen_01.jpg"
+                "imageInput": "https://storage.revive.realty/photos/kitchen_01.jpg",
+                "roomType": "kitchen",
+                "designStyle": "modern",
+                "package": "premium",
+                "reportId": "rpt_xyz789",
+                "adminId": "fb_uid_admin123"
               }
             }
           }
         },
-        "description": "`POST /v1/predictions/`\n\nStarts an async AI image generation job. Returns a job ID to poll for completion."
+        "description": "`POST /v1/predictions/`\n\nStarts an async AI image generation job. Returns a job ID to poll for completion. Optionally tag the job with `reportId` (to associate the rendering with a property report) and/or `adminId` (Firebase UID of the admin user that initiated the render — used by the Renovision configurator in the admin app to filter their own jobs). Both `reportId` and `adminId` can be supplied together; when a job already exists for the given `jobId`, these fields are merged onto the existing record."
       }
     },
     "/v1/predictions/{id}": {
