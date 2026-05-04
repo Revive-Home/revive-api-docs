@@ -4,6 +4,18 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="May 4, 2026" description="API release" tags={["revive-api"]}>
+
+### New
+
+- **AI-generated weekly updates.** A new set of endpoints under `/v1/weekly-updates/ai-*` lets project managers draft homeowner-facing weekly renovation updates with Claude. `POST /v1/weekly-updates/ai-generate` produces a one-shot draft from contractor notes and photos. The conversation endpoints (`POST /v1/weekly-updates/ai-conversations`, `GET /v1/weekly-updates/ai-conversations`, `GET /v1/weekly-updates/ai-conversations/{conversationId}`, `POST /v1/weekly-updates/ai-conversations/{conversationId}/messages`, `POST /v1/weekly-updates/ai-conversations/{conversationId}/apply`) persist a per-deal, per-week chat thread so users can iterate on the draft and pin the version that was sent to the homeowner. The first message in a new conversation is automatically enriched with the previous week's applied update for continuity. All endpoints require a Firebase JWT. ([Revive-Home/revive-api#2009](https://github.com/Revive-Home/revive-api/pull/2009))
+
+### Action required
+
+No action required. The endpoints are additive. See [AI weekly updates](/guides/ai-weekly-updates) for usage and request/response shapes.
+
+</Update>
+
 <Update label="May 2, 2026" description="API hotfix" tags={["revive-api"]}>
 
 ### Improved

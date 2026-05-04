@@ -1,0 +1,245 @@
+---
+title: 'AI weekly updates'
+description: 'Draft homeowner-facing weekly renovation updates with Claude — one-shot generation and persisted chat conversations'
+---
+
+## Overview
+
+The AI weekly updates endpoints help project managers turn raw contractor notes, photos, and progress data into polished, homeowner-friendly weekly updates. The generated copy follows Revive's standard weekly update template (Progress Last Week, Upcoming Work This Week, Issues/Notes, Next Steps) and is tuned for a professional, friendly, reassuring tone.
+
+You can use the feature in two ways:
+
+- **One-shot generation** — send your inputs and get a single draft back. Best for quick drafts or stateless integrations.
+- **Conversations** — open a per-deal, per-week conversation, iterate on the draft with follow-up messages, and pin the version that was sent to the homeowner. Best for in-app editing experiences where users refine the draft before sending.
+
+All endpoints are mounted under `/v1/weekly-updates/` and require a Firebase JWT.
+
+<Info>
+  The AI assistant is configured to avoid blame, promises, percentages, em dashes, and construction jargon. It will not invent dates or milestones — provide every detail you want included in the update.
+</Info>
+
+---
+
+## When to use it
+
+| You want to… | Use |
+|---|---|
+| Generate a draft from contractor notes and photos in a single call | `POST /v1/weekly-updates/ai-generate` |
+| Create or fetch the conversation thread for a deal + week | `POST /v1/weekly-updates/ai-conversations`, `GET /v1/weekly-updates/ai-conversations` |
+| Load the full message history for a conversation | `GET /v1/weekly-updates/ai-conversations/{conversationId}` |
+| Add a user message and get the assistant's reply | `POST /v1/weekly-updates/ai-conversations/{conversationId}/messages` |
+| Mark a specific assistant draft as the version sent to the homeowner | `POST /v1/weekly-updates/ai-conversations/{conversationId}/apply` |
+
+---
+
+## Content blocks
+
+The `content` field on every user message is an array of blocks. Two block types are supported:
+
+```json
+[
+  { "type": "text", "text": "Contractor notes for the week..." },
+  { "type": "image", "source": { "type": "url", "url": "https://example.com/site-photo.jpg" } }
+]
+```
+
+- `text` blocks carry contractor notes, completion percentages, schedule data, or any structured prompt.
+- `image` blocks reference publicly accessible image URLs (site photos, before/after shots). The model fetches them at request time.
+
+At least one block is required.
+
+---
+
+## One-shot generation
+
+`POST /v1/weekly-updates/ai-generate` returns a draft without persisting anything. Use it for stateless workflows or when you don't need a chat history.
+
+### Request
+
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Project: 123 Main St. This week the kitchen demo finished and rough plumbing is 60% done. Next week: drywall on the main floor. Issue: tile delivery delayed by 3 days."
+    },
+    {
+      "type": "image",
+      "source": { "type": "url", "url": "https://cdn.example.com/photos/kitchen-demo.jpg" }
+    }
+  ]
+}
+```
+
+### Response
+
+```json
+{
+  "text": "Here's your weekly update for 123 Main St:\n\nProgress Last Week:\n- ...",
+  "id": "msg_01ABC...",
+  "usage": { "input_tokens": 1843, "output_tokens": 412 }
+}
+```
+
+`text` is the formatted update. `id` and `usage` are passed through from the underlying model response and are useful for telemetry.
+
+### Errors
+
+| Status | Meaning |
+|---|---|
+| `400` | The `content` array is missing, empty, or contains an unsupported block type. |
+| `401` | The Anthropic API key on the server is invalid or missing. |
+| `500` | Unexpected error generating the draft. |
+
+---
+
+## Conversations
+
+Conversations persist the user/assistant message history in Firestore, scoped by `dealId` and `weekId`. Creating a conversation is idempotent — calling `POST /ai-conversations` for the same deal and week returns the existing record.
+
+### Create or get a conversation
+
+`POST /v1/weekly-updates/ai-conversations`
+
+```json
+{
+  "dealId": "deal_xyz789",
+  "weekId": "week_2026_18"
+}
+```
+
+Response (`201`):
+
+```json
+{
+  "id": "aiwuc-aB3kP9q2x7Yz",
+  "dealId": "deal_xyz789",
+  "weekId": "week_2026_18",
+  "createdBy": { "uid": "...", "email": "..." },
+  "appliedAssistantMessageId": null,
+  "createdAt": null,
+  "updatedAt": null
+}
+```
+
+### List conversations for a deal
+
+`GET /v1/weekly-updates/ai-conversations?dealId=deal_xyz789`
+
+Returns up to 200 conversations ordered by `updatedAt` descending:
+
+```json
+{
+  "conversations": [
+    {
+      "id": "aiwuc-aB3kP9q2x7Yz",
+      "dealId": "deal_xyz789",
+      "weekId": "week_2026_18",
+      "appliedAssistantMessageId": "msg_abc123",
+      "createdAt": "2026-05-04T12:00:00Z",
+      "updatedAt": "2026-05-04T12:30:00Z"
+    }
+  ]
+}
+```
+
+### Get a conversation with messages
+
+`GET /v1/weekly-updates/ai-conversations/{conversationId}`
+
+```json
+{
+  "conversation": { "id": "aiwuc-...", "dealId": "...", "weekId": "...", "appliedAssistantMessageId": "msg_abc123" },
+  "messages": [
+    { "id": "msg_001", "role": "user", "content": [...], "createdAt": "..." },
+    { "id": "msg_002", "role": "assistant", "content": [{ "type": "text", "text": "Here's your weekly update..." }], "createdAt": "..." }
+  ]
+}
+```
+
+### Send a message and get a reply
+
+`POST /v1/weekly-updates/ai-conversations/{conversationId}/messages`
+
+```json
+{
+  "content": [
+    { "type": "text", "text": "Make the tone slightly warmer and shorten the Issues section." }
+  ]
+}
+```
+
+Response:
+
+```json
+{
+  "text": "Here's your weekly update for 123 Main St...",
+  "id": "msg_01XYZ...",
+  "usage": { "input_tokens": 2104, "output_tokens": 388 },
+  "conversationId": "aiwuc-aB3kP9q2x7Yz",
+  "assistantMessageId": "msg_abc456"
+}
+```
+
+The first user message in a conversation is automatically enriched with the previous week's **applied** update for the same deal, so the model can maintain continuity. If no previous applied update exists, the latest assistant draft from the prior week's conversation is used. If neither exists, no enrichment is applied.
+
+### Apply (pin) an assistant draft
+
+After the homeowner-facing email is sent, mark which assistant draft was used so future weeks can reference it.
+
+`POST /v1/weekly-updates/ai-conversations/{conversationId}/apply`
+
+```json
+{
+  "assistantMessageId": "msg_abc456"
+}
+```
+
+Response:
+
+```json
+{ "ok": true }
+```
+
+The conversation's `appliedAssistantMessageId` is updated. Only assistant messages can be applied; pointing at a user message returns `400`.
+
+---
+
+## End-to-end example
+
+```bash
+# 1. Open (or fetch) the conversation for this deal + week
+curl -X POST https://revive-api-v2-production.herokuapp.com/v1/weekly-updates/ai-conversations \
+  -H "Authorization: Bearer $JWT" \
+  -H "Content-Type: application/json" \
+  -d '{ "dealId": "deal_xyz789", "weekId": "week_2026_18" }'
+# → { "id": "aiwuc-aB3kP9q2x7Yz", ... }
+
+# 2. Send the contractor notes + photos
+curl -X POST https://revive-api-v2-production.herokuapp.com/v1/weekly-updates/ai-conversations/aiwuc-aB3kP9q2x7Yz/messages \
+  -H "Authorization: Bearer $JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": [
+      { "type": "text", "text": "Kitchen demo finished. Rough plumbing 60%. Tile delivery delayed 3 days." },
+      { "type": "image", "source": { "type": "url", "url": "https://cdn.example.com/photos/kitchen-demo.jpg" } }
+    ]
+  }'
+# → { "text": "Here's your weekly update...", "assistantMessageId": "msg_abc456", ... }
+
+# 3. After sending the email, pin the draft you used
+curl -X POST https://revive-api-v2-production.herokuapp.com/v1/weekly-updates/ai-conversations/aiwuc-aB3kP9q2x7Yz/apply \
+  -H "Authorization: Bearer $JWT" \
+  -H "Content-Type: application/json" \
+  -d '{ "assistantMessageId": "msg_abc456" }'
+# → { "ok": true }
+```
+
+---
+
+## Notes and limits
+
+- The static system prompt enforces tone, formatting, and the four-section template — you do not need to replicate it on the client.
+- Conversations are not pruned automatically. The `messages` collection is loaded with a 500-message cap, which is far above any expected weekly-update workflow.
+- Image URLs must be publicly fetchable. Signed URLs that expire before the request reaches the model will fail.
+- The `usage` object reports model token usage and can be aggregated for cost reporting.
