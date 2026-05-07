@@ -125,6 +125,48 @@ On RMA responses from `useRmas` (Admin), `opportunity.dealtype` is returned as t
 | `paid` | Funds released (was `released`) |
 | `hold` | Temporarily on hold |
 
+### RMA rush status (`rush_status`)
+
+Set when an RMA has been flagged as rush. Drives the rush request workflow on `/v1/rma/{rmaId}/rush`, `/rush/approve`, `/rush/decline`, and `/rush/remove`.
+
+| Value | Description |
+|-------|-------------|
+| `pending` | Rush has been requested and is awaiting an admin decision |
+| `approved` | Admin approved the rush request; `is_rush` is `true` |
+| `declined` | Admin declined the rush request; `rush_reason` captures the decline reason |
+
+Related fields on the RMA object:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `is_rush` | boolean | `true` once a rush request has been approved |
+| `rush_reason` | string | Reason supplied with the rush request or decline |
+| `rush_requested_by` | object | Admin or user who submitted the rush request |
+| `rush_requested_at` | ISO 8601 | Timestamp of the rush request |
+
+### RMA activity actions (`RmaActivityLog.action`)
+
+Each entry in an RMA's activity log uses one of the following action values.
+
+| Value | Description |
+|-------|-------------|
+| `submitted` | RMA was created and submitted |
+| `received` | RMA was received and acknowledged |
+| `approved` | RMA was approved |
+| `rejected` | RMA was rejected |
+| `payment_released` | A payment was released against the RMA |
+| `note_created` | An internal note was added |
+| `note_deleted` | An internal note was removed |
+| `note_updated` | An internal note was edited |
+| `hold_status_changed` | Hold flag was toggled on the RMA |
+| `approved_amount_updated` | Approved amount changed |
+| `material_advance_updated` | Material advance amount changed |
+| `final_payment_updated` | Final payment amount changed |
+| `rush_requested` | Rush processing was requested |
+| `rush_approved` | Admin approved the rush request |
+| `rush_declined` | Admin declined the rush request |
+| `rush_removed` | Rush flag was removed from the RMA |
+
 ### Onsite visit status (`sessionStatus`)
 
 | Value | Description |
