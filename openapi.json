@@ -26185,6 +26185,441 @@
         "description": "`GET /v1/rma/{rmaId}/notes`\n\nRetrieves all notes for an RMA in chronological order."
       }
     },
+    "/v1/rma/{rmaId}/rush": {
+      "post": {
+        "operationId": "post_v1_rma_rmaId_rush",
+        "summary": "Request rush for RMA",
+        "tags": [
+          "Rma"
+        ],
+        "responses": {
+          "200": {
+            "description": "Rush requested. Returns the updated RMA.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "rma_001",
+                  "name": "RMA #1",
+                  "status": "executed",
+                  "is_rush": false,
+                  "rush_status": "pending",
+                  "rush_reason": "Homeowner moving in next week — materials need to ship Monday.",
+                  "rush_requested_by": {
+                    "adminId": "admin_abc",
+                    "contact_id": "contact_xyz",
+                    "firstName": "Jane",
+                    "lastName": "Doe"
+                  },
+                  "rush_requested_at": "2026-05-07T14:00:00.000Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request — RMA not in `executed` status or rush is already pending/approved.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "RMA must be in executed status to request a rush"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the RMA does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "RMA not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "rmaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique RMA identifier."
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "description": "Why the RMA needs to be rushed. Surfaced in the activity log, the auto-generated note, and the Slack notification.",
+                    "example": "Homeowner moving in next week — materials need to ship Monday."
+                  }
+                },
+                "required": [
+                  "reason"
+                ]
+              },
+              "example": {
+                "reason": "Homeowner moving in next week — materials need to ship Monday."
+              }
+            }
+          }
+        },
+        "description": "`POST /v1/rma/{rmaId}/rush`\n\nRaises a rush request for an RMA. The RMA must be in `executed` status and must not already have a `pending` or `approved` rush. Adds a `rush_requested` activity log entry, an auto-generated note, and posts a Slack notification."
+      }
+    },
+    "/v1/rma/{rmaId}/rush/approve": {
+      "post": {
+        "operationId": "post_v1_rma_rmaId_rush_approve",
+        "summary": "Approve rush request",
+        "tags": [
+          "Rma"
+        ],
+        "responses": {
+          "200": {
+            "description": "Rush approved. Returns the updated RMA with `is_rush: true` and `rush_status: \"approved\"`.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "rma_001",
+                  "name": "RMA #1",
+                  "status": "executed",
+                  "is_rush": true,
+                  "rush_status": "approved",
+                  "rush_reason": "Homeowner moving in next week — materials need to ship Monday.",
+                  "rush_requested_by": {
+                    "adminId": "admin_abc",
+                    "contact_id": "contact_xyz",
+                    "firstName": "Jane",
+                    "lastName": "Doe"
+                  },
+                  "rush_requested_at": "2026-05-07T14:00:00.000Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request — there is no pending rush request to approve.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "No pending rush request to approve"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — the caller does not have the `rmaAdmin` permission.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "You do not have permission to approve rush requests"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the RMA does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "RMA not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "rmaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique RMA identifier."
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "`POST /v1/rma/{rmaId}/rush/approve`\n\nApproves a pending rush request. Requires the `rmaAdmin` permission. Sets `is_rush: true`, flips `rush_status` to `approved`, adds a `rush_approved` activity log entry, and posts a Slack notification."
+      }
+    },
+    "/v1/rma/{rmaId}/rush/decline": {
+      "post": {
+        "operationId": "post_v1_rma_rmaId_rush_decline",
+        "summary": "Decline rush request",
+        "tags": [
+          "Rma"
+        ],
+        "responses": {
+          "200": {
+            "description": "Rush declined. Returns the updated RMA with `rush_status: \"declined\"` and `is_rush: false`.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "rma_001",
+                  "name": "RMA #1",
+                  "status": "executed",
+                  "is_rush": false,
+                  "rush_status": "declined"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request — there is no pending rush request to decline.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "No pending rush request to decline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — the caller does not have the `rmaAdmin` permission.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "You do not have permission to decline rush requests"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the RMA does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "RMA not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "rmaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique RMA identifier."
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "description": "Optional reason for declining. Defaults to `\"No reason provided\"` if omitted or blank.",
+                    "example": "Project not on the rush-approved list this week."
+                  }
+                }
+              },
+              "example": {
+                "reason": "Project not on the rush-approved list this week."
+              }
+            }
+          }
+        },
+        "description": "`POST /v1/rma/{rmaId}/rush/decline`\n\nDeclines a pending rush request. Requires the `rmaAdmin` permission. The optional `reason` is included in the activity log, auto-generated note, and Slack notification."
+      }
+    },
+    "/v1/rma/{rmaId}/rush/remove": {
+      "post": {
+        "operationId": "post_v1_rma_rmaId_rush_remove",
+        "summary": "Remove rush from RMA",
+        "tags": [
+          "Rma"
+        ],
+        "responses": {
+          "200": {
+            "description": "Rush removed. Returns the updated RMA with `is_rush: false` and rush metadata cleared.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "rma_001",
+                  "name": "RMA #1",
+                  "status": "executed",
+                  "is_rush": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request — the RMA is not currently marked as rush.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "RMA is not marked as rush"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — the caller does not have the `rmaAdmin` permission.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "You do not have permission to remove rush"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the RMA does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "RMA not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "rmaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique RMA identifier."
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "`POST /v1/rma/{rmaId}/rush/remove`\n\nClears the rush flag and rush metadata from a previously approved RMA. Requires the `rmaAdmin` permission. Adds a `rush_removed` activity log entry and posts a Slack notification."
+      }
+    },
     "/v1/support/": {
       "post": {
         "operationId": "post_v1_support_",
