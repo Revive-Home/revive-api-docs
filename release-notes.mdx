@@ -4,6 +4,59 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="May 7, 2026" description="v2.156.0" tags={["revive-api"]}>
+
+### New
+
+- AI Weekly Updates: generate weekly summaries, create/list conversations, send messages, and apply assistant suggestions. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
+- Anthropic-backed generation with clearer unauthorized error responses. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
+- New Features (Predictions). ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
+- Prediction requests and image render jobs can include optional admin identifiers to track administrative context. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
+- Validation & Routes. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
+- Added request validation and new API routes for weekly updates. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
+- Refactor / Bug Fixes. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
+- Safer null handling, improved logging, corrected RMA counting, and expanded contractor/association data in responses. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
+- Admin tool to scan, preview, and bulk-fix malformed HubSpot phone numbers with a dedicated admin UI. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+- Endpoints for listing broken numbers and submitting chunked, throttled batch fixes with strict canonical phone validation. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+- RMA rush workflow: request expedited processing; admins can approve, decline (with reason), or remove rush requests via new API endpoints. ([#2005](https://github.com/Revive-Home/revive-api/pull/2005))
+- RMA notifications updated to report rush events (requested, approved, declined) and optionally mention admins. ([#2005](https://github.com/Revive-Home/revive-api/pull/2005))
+- Review-app deployment automation enhanced: Vercel env updates, redeploy triggering with deploy URL output, and tighter Heroku review-app lifecycle handling and summaries. ([#2005](https://github.com/Revive-Home/revive-api/pull/2005))
+- Room-type taxonomy and standardized mappings for interior/exterior/kitchen/bathroom/bedroom/living classifications. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- Utilities to aggregate and surface top features per room across comparable properties. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- Automatic background feature extraction and saving when creating or updating property dashboards. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- AI-generated, human-readable per-room summaries of detected features added to reports. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- Feat/mintlify openapi docs. ([#1985](https://github.com/Revive-Home/revive-api/pull/1985))
+- Persistent job tracking for AI image renders (Firestore-backed) and improved prediction lifecycle. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
+- Live HubSpot pipeline stage shown in RMA details; executed timestamps included. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
+- Automated RMA notifications for pending signatures and payments. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
+
+### Improved
+
+- Safer data handling to avoid mutating input objects during condition/score processing. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+- Migrated to an updated external scheduling client to improve reliability of meeting flows. ([#1989](https://github.com/Revive-Home/revive-api/pull/1989))
+- Enhanced internal error handling and improved code compatibility in the meetings service. ([#1987](https://github.com/Revive-Home/revive-api/pull/1987))
+- Prediction system migrated from in-memory to persistent storage. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
+- Meetings now use HubSpot scheduler API. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
+
+### Fixed
+
+- Improved error logging and clearer error messages for failing flows and batch operations. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+- Fix RMA Contractor Selection. ([#2008](https://github.com/Revive-Home/revive-api/pull/2008))
+- Fixed RMA auto-numbering to exclude rejected RMAs when assigning sequential numbers, ensuring cleaner and more consistent numbering sequences. ([#2002](https://github.com/Revive-Home/revive-api/pull/2002))
+- Standardized contractor creation to consistently use production HubSpot pipeline and stage identifiers across all environments, ensuring consistent data handling regardless of deployment context. ([#1991](https://github.com/Revive-Home/revive-api/pull/1991))
+- Improved consistency of meeting booking responses and availability checks. ([#1989](https://github.com/Revive-Home/revive-api/pull/1989))
+- Stopped redundant external CRM sync for analysis reports. ([#1963](https://github.com/Revive-Home/revive-api/pull/1963))
+- Removed several unavailable deal stages from pipeline data. ([#1963](https://github.com/Revive-Home/revive-api/pull/1963))
+- More reliable file downloads with redirect handling and safer header behavior. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
+- Improved brokerage logo handling with automatic resizing. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="May 4, 2026" description="API release" tags={["revive-api"]}>
 
 ### New
