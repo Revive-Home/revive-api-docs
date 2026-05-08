@@ -4,6 +4,19 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="May 8, 2026" description="Sprint 8" tags={["revive-dashboard"]}>
+
+### Changed
+
+- **Getting Started GTM event simplified.** The Getting Started intake on production now pushes a `hubspot-form-success` event to the Google Tag Manager `dataLayer` with plain (non-hashed) form fields — `hsFormEmail`, `hsFormFirstName`, `hsFormLastName`, `hsFormPhone`, `hsFormName: "Revive Intake Form"`, plus `address`, `city`, and `postal_code` — so HubSpot and downstream tooling can attribute Revive AI report submissions without needing to match on hashed values. The event still fires only in production and failures are logged without blocking sign-up. ([Revive-Home/revive-dashboard#2417](https://github.com/Revive-Home/revive-dashboard/pull/2417))
+- **Intake confirmation step no longer fires a duplicate GTM event.** The phone-verification confirmation step in the standalone Intake flow no longer pushes its own `hubspot-form-success` event, eliminating duplicate submissions in HubSpot. The Getting Started event above remains the single source of truth for intake attribution. ([Revive-Home/revive-dashboard#2417](https://github.com/Revive-Home/revive-dashboard/pull/2417))
+
+### Action required
+
+If you have GTM tags or HubSpot workflows that consume the Getting Started `hubspot-form-success` event, update them to read the plain `hsFormEmail`, `hsFormFirstName`, `hsFormLastName`, and `hsFormPhone` fields instead of the previous SHA-256 hashed `user_data` payload. Tags listening for the old `gettingStartedSubmission` event name should be retargeted to `hubspot-form-success`.
+
+</Update>
+
 <Update label="May 7, 2026" description="Sprint 8" tags={["revive-dashboard"]}>
 
 ### Improved
