@@ -17,6 +17,27 @@ If you have GTM tags or HubSpot workflows that consume the Getting Started `hubs
 
 </Update>
 
+<Update label="May 7, 2026" description="API release — Sprint 8" tags={["revive-api"]}>
+
+### New
+
+- **Rush requests for RMAs.** Four new endpoints let project managers flag an executed RMA as time-sensitive and route it through an approval workflow. `POST /v1/rma/{rmaId}/rush` raises a request with a required `reason` (the RMA must be in `executed` status and not already pending/approved). `POST /v1/rma/{rmaId}/rush/approve` and `POST /v1/rma/{rmaId}/rush/decline` resolve the request and require the `rmaAdmin` permission; the decline endpoint accepts an optional `reason`. `POST /v1/rma/{rmaId}/rush/remove` clears the rush flag from a previously approved RMA and also requires `rmaAdmin`. Each transition adds a note plus an activity log entry (`rush_requested`, `rush_approved`, `rush_declined`, `rush_removed`) and posts a Slack notification to the RMA channel. The RMA payload now includes `is_rush`, `rush_status` (`pending` / `approved` / `declined`), `rush_reason`, `rush_requested_by`, and `rush_requested_at`. ([Revive-Home/revive-api#2005](https://github.com/Revive-Home/revive-api/pull/2005))
+
+### Improved
+
+- **All HubSpot-linked contractors are returned on opportunity reads.** `GET /v1/opportunities/{id}` now resolves every contractor associated with the deal in HubSpot and returns them on a new `contractors` array. The existing `contractor` field is preserved for backwards compatibility and contains the first entry from `contractors` (or `null` if none are linked). Use `contractors` when a project has multiple contractors; continue to use `contractor` for single-contractor flows. ([Revive-Home/revive-api#2008](https://github.com/Revive-Home/revive-api/pull/2008))
+- **`is_home_prep` exposed on contractor records.** The HubSpot contractor properties returned by opportunity and contractor endpoints now include `is_home_prep`, identifying contractors approved for home-prep work. The field is read directly from HubSpot — no migration required. ([Revive-Home/revive-api#2008](https://github.com/Revive-Home/revive-api/pull/2008))
+
+### Fixed
+
+- **RMA naming sequence skips rejected drafts.** `POST /v1/rma/` now derives the auto-generated `RMA #N` name from the count of non-rejected RMAs on the deal. RMAs with status `not_approved` no longer increment the counter, so a deal with three drafts (one rejected, two active) ends up with `RMA #1` and `RMA #2` instead of skipping a number. ([Revive-Home/revive-api#2002](https://github.com/Revive-Home/revive-api/pull/2002))
+
+### Action required
+
+No action required. The new rush endpoints and the `contractors` array are additive. Existing integrations that read `opportunity.contractor` continue to work unchanged.
+
+</Update>
+
 <Update label="May 7, 2026" description="Sprint 8" tags={["revive-dashboard"]}>
 
 ### Improved
@@ -87,8 +108,6 @@ No action required for existing integrations.
 No action required for existing integrations.
 
 </Update>
-
-
 <Update label="May 4, 2026" description="API release" tags={["revive-api"]}>
 
 ### New
