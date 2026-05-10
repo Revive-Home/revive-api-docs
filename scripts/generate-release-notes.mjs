@@ -52,7 +52,7 @@ function requiredEnv(name) {
 
 const token   = requiredEnv('GITHUB_TOKEN');
 const version = requiredEnv('RELEASE_VERSION');
-const since   = requiredEnv('RELEASE_SINCE');
+const since   = process.env.RELEASE_SINCE || '';
 const label   = process.env.RELEASE_LABEL || 'released';
 
 // Which repo triggered this run — if set, only generate notes for that repo
@@ -76,13 +76,39 @@ async function ghJson(url) {
   return res.json();
 }
 
-async function searchMergedPRs(repos) {
+async function getPreviousReleaseDate(repo) {
+  const url = `https://api.github.com/repos/${ORG}/${repo}/releases?per_page=5`;
+  const releases = await ghJson(url);
+  const published = releases.filter((r) => !r.draft && !r.prerelease);
+  // The first is the current release (just published), the second is the previous one
+  const prev = published.length > 1 ? published[1] : published[0];
+  if (!prev) return null;
+  return (prev.published_at || prev.created_at || '').slice(0, 10);
+}
+
+async function searchMergedPRs(repos, sinceDate) {
   const repoQuery = repos.map((r) => `repo:${ORG}/${r}`).join(' ');
-  const sinceDate = since.length > 10 ? since.slice(0, 10) : since;
-  const q = [repoQuery, 'is:pr', 'is:merged', `label:${label}`, `merged:>=${sinceDate}`].join(' ');
+  const parts = [repoQuery, 'is:pr', 'is:merged'];
+  if (label) parts.push(`label:${label}`);
+  if (sinceDate) parts.push(`merged:>=${sinceDate}`);
+  const q = parts.join(' ');
   const url = `https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=100`;
   console.log(`  Search query: ${q}`);
   const data = await ghJson(url);
+
+  // If label filter returned 0 results and a label was specified, retry without it
+  if (data.total_count === 0 && label) {
+    console.log(`  No PRs found with label "${label}", retrying without label filter...`);
+    const fallbackParts = [repoQuery, 'is:pr', 'is:merged'];
+    if (sinceDate) fallbackParts.push(`merged:>=${sinceDate}`);
+    const fallbackQ = fallbackParts.join(' ');
+    const fallbackUrl = `https://api.github.com/search/issues?q=${encodeURIComponent(fallbackQ)}&per_page=100`;
+    console.log(`  Fallback query: ${fallbackQ}`);
+    const fallbackData = await ghJson(fallbackUrl);
+    console.log(`  Found ${fallbackData.total_count} PR(s)`);
+    return fallbackData.items || [];
+  }
+
   console.log(`  Found ${data.total_count} PR(s)`);
   return data.items || [];
 }
@@ -274,12 +300,20 @@ function prependUpdateToReleaseNotes(releaseNotesPath, blocks) {
 async function main() {
   // Determine which repos to search
   const targetRepos = sourceRepo && REPOS.includes(sourceRepo) ? [sourceRepo] : REPOS;
+
+  // Resolve since date: use env var if provided, otherwise auto-detect from previous release
+  let sinceDate = since.length > 0 ? (since.length > 10 ? since.slice(0, 10) : since) : '';
+  if (!sinceDate && sourceRepo) {
+    sinceDate = await getPreviousReleaseDate(sourceRepo) || '';
+    if (sinceDate) console.log(`  Auto-detected since date from previous release: ${sinceDate}`);
+  }
+
   console.log(`\nGenerating release notes for ${version}`);
   console.log(`  Source repo: ${sourceRepo || '(all repos)'}`);
   console.log(`  Target repos: ${targetRepos.join(', ')}`);
-  console.log(`  Label: ${label} | Since: ${since}\n`);
+  console.log(`  Label: ${label} | Since: ${sinceDate || '(all time)'}\n`);
 
-  const items = await searchMergedPRs(targetRepos);
+  const items = await searchMergedPRs(targetRepos, sinceDate);
 
   // Group PRs by repo and process each
   const grouped = Object.fromEntries(targetRepos.map((r) => [r, []]));

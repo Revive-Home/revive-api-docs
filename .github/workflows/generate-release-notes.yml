@@ -13,8 +13,8 @@ on:
         default: false
         type: boolean
       since:
-        description: "Only include PRs merged on/after this date (YYYY-MM-DD)"
-        required: true
+        description: "Only include PRs merged on/after this date (YYYY-MM-DD). Auto-detected from previous release if omitted."
+        required: false
         type: string
       label:
         description: "PR label that indicates the change shipped to production"
