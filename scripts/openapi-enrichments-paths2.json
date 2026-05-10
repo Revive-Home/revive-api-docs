@@ -248,7 +248,7 @@
   },
   "POST /v1/predictions/": {
     "summary": "Create prediction job",
-    "description": "Starts an async AI image generation job. Returns a job ID to poll for completion. Optionally tag the job with `reportId` (to associate the rendering with a property report) and/or `adminId` (Firebase UID of the admin user that initiated the render — used by the Renovision configurator in the admin app to filter their own jobs). Both `reportId` and `adminId` can be supplied together; when a job already exists for the given `jobId`, these fields are merged onto the existing record.",
+    "description": "Starts an async AI image generation job. Returns a job ID to poll for completion. Optionally tag the job with `reportId` (to associate the rendering with a property report) and/or `adminId` (Firebase UID of the admin user that initiated the render — used by the Renovision configurator in the admin app to filter their own jobs). Both `reportId` and `adminId` can be supplied together; when a job already exists for the given `jobId`, these fields are merged onto the existing record. When `adminId` is supplied without a `reportId`, the job is treated as an admin-only Renovision Configurator render and `contactId` is explicitly stored as `null` on the AI image render job document so downstream consumers do not associate the render with a homeowner contact.",
     "parameters": {
       "imageInput": "URL of the source image to renovate.",
       "jobId": "Optional client-provided job ID. When supplied and the job already exists, the request updates the existing job (merging `reportId`/`adminId`) instead of creating a new one.",

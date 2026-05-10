@@ -4,6 +4,18 @@ description: "What's new across the Revive platform — features, improvements, 
 mode: wide
 ---
 
+<Update label="May 9, 2026" description="API hotfix" tags={["revive-api"]}>
+
+### Fixed
+
+- **Admin-only Renovision renders no longer carry a homeowner `contactId`.** When `POST /v1/predictions/` is called with an `adminId` but no `reportId` — the signature of a render started from the Renovision configurator in the admin app — the AI image render job document now explicitly stores `contactId: null`. This prevents downstream consumers that read the job from associating the render with a homeowner contact. Calls that include a `reportId` (alone or alongside `adminId`) are unaffected. ([Revive-Home/revive-api#2020](https://github.com/Revive-Home/revive-api/pull/2020))
+
+### Action required
+
+No action required. Existing `POST /v1/predictions/` callers continue to work unchanged.
+
+</Update>
+
 <Update label="May 8, 2026" description="Sprint 8" tags={["revive-dashboard"]}>
 
 ### Changed
