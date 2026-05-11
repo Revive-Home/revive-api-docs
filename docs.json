@@ -42,7 +42,11 @@
           {
             "group": "Release Notes",
             "pages": [
-              "release-notes"
+              "release-notes",
+              "release-notes/may-2026",
+              "release-notes/april-2026",
+              "release-notes/march-2026",
+              "release-notes/december-2025"
             ]
           }
         ]
