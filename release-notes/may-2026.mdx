@@ -354,7 +354,6 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 
 ### Action required
 
-None. The new `/v1/utility/*` endpoints and the new `source` and room-type fields on existing responses are additive. Existing integrations continue to work unchanged.
 None. The new `/v1/utility/*` endpoints are additive, and the new `source` and room-type fields on existing responses are additive. Existing integrations continue to work unchanged. If you have GTM tags or HubSpot workflows that consumed the previous `gettingStartedSubmission` event with SHA-256 hashed user data, retarget them to the `hubspot-form-success` event and the plain `hsFormEmail`, `hsFormFirstName`, `hsFormLastName`, and `hsFormPhone` fields.
 
 </Update>
