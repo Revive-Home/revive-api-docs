@@ -57,6 +57,7 @@ None. All changes are additive or transparent to existing integrations. See [Pro
 
 ### Fixed
 
+- **`POST /v1/property/` rejects insufficient-comparable addresses.** Restored the rejection that returns `400 Bad Request` with `Not enough comparables to make accurate prediction` when fewer than two usable comparables are found for the subject property. Previously, the request proceeded with too little data, producing unreliable valuations.
 - **Cents rounding** on monetary totals to eliminate fractional drift.
 - Various lint and stability cleanups.
 
