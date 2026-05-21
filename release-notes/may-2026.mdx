@@ -3,6 +3,36 @@ title: "May 2026"
 description: "May 2026 Revive release notes: Revive AI Report v4, AnyProp data, AI weekly updates, RMA rush workflow, and RenoVision and Comparables slides."
 ---
 
+<Update label="May 21, 2026" description="dashboard-v2.4.0 / admin-v3.4.0" tags={["revive-dashboard", "revive-admin"]}>
+
+### New
+
+- **Revive AI Report v4 on the homeowner dashboard and admin panel.** The full v4 experience is now live end-to-end: AnyProp-sourced comparables, room-aware photo grouping, the refreshed renovation estimate flow, and the new RenoVision and Comparables slides. Existing report URLs continue to work — v4 is served automatically.
+- **Faster comparable analysis.** Comparable analysis on the Revive AI Report runs noticeably faster, with grade badges on each comp, a tighter mobile layout, and smoother progress messaging while results are loading.
+- **Mobile layouts for Home Condition and Mortgage sections.** The Home Condition Summary now uses connector lines on mobile, and the Mortgage section has a dedicated mobile layout for easier scrolling and editing on phones.
+- **Refined sharing and filtering on the report.** Share options on the report's top menu now open in a single popover, and the report dashboard filter modal uses a popover-based date picker with cleaner service options.
+
+### Improved
+
+- **Correct PDF view and address-based filename in admin estimates.** Admin estimate PDFs now render the right view and use an address-based filename, so saved PDFs are easier to identify.
+- **Best-selling condition shown reliably.** The "best-selling condition" indicator on the report now renders consistently where it was previously missing in some scenarios.
+- **Report header back navigation.** The report header now respects a back route when present, so exiting the report returns you to the place you came from instead of a default landing page.
+- **Sharper rejection flow.** The report rejection modal now surfaces relevant selling options, helping homeowners pick a next step in the same view.
+- **Activity logging for room-type comparisons.** Room-type comparison actions on the report are now captured in the activity log alongside other report interactions.
+
+### Fixed
+
+- **RenoVision configurator stability.** Resolved an issue that could cause the RenoVision configurator to get stuck loading or re-render in a loop, plus a hover-state UI glitch on the design style buttons. Switching design packages no longer surfaces a stray "Apply Changes" prompt, and changing one material no longer resets the others.
+- **Safer report data handling.** Hardened the report against missing fields with additional null checks and optional chaining, eliminating a class of rendering errors when partial data is loaded.
+- **No more duplicate sound chimes.** Removed a case where the analysis flow could play the completion chime multiple times.
+- **Subject property persists after analysis.** The subject property entered during a Revive AI analysis is no longer cleared from the form once results come back.
+
+### Action required
+
+None. All changes are additive or transparent to existing integrations.
+
+</Update>
+
 <Update label="Week of May 21, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard", "revive-admin"]}>
 
 A skim-friendly recap of what shipped this week across the API, dashboard, and admin app. See the dated entries below for full per-release detail.
