@@ -3,6 +3,41 @@ title: "May 2026"
 description: "May 2026 Revive platform release notes: Revive AI Report v4, AnyProp property data, AI weekly updates, RMA rush workflow, and meeting scheduler updates."
 ---
 
+<Update label="May 21, 2026" description="Sprint 9 release" tags={["revive-api", "revive-dashboard", "revive-admin"]}>
+
+### New
+
+- **RenoVision slide in the homeowner report.** A new RenoVision slide is now part of the Revive AI Report on the homeowner dashboard, surfacing the AI-rendered "after" view of the home alongside existing report sections.
+- **Comparables slide in the homeowner report.** A new comparables slide gives homeowners a focused, swipeable view of comparable properties from inside the report flow. Public report URLs work without sign-in.
+- **PDF download for preliminary estimates.** Preliminary estimates (RTStay pre-estimate) now offer a one-click PDF download from the dashboard, with wider pricing columns and clearer totals on the export.
+- **RTStay sharing without ARV / as-is inputs.** Sharing an RTStay project from the admin tools no longer requires the ARV and as-is values to be filled in, removing a blocker when those numbers aren't known yet.
+- **Auto-fill RMA material advance from the PO sheet.** When creating or editing an RMA, the material advance amount is now populated automatically from the linked purchase-order sheet, so project managers no longer have to copy the number by hand.
+- **Scope item labels in weekly updates.** Custom scope-item labels now appear in the weekly update scope picker and in the published weekly update view, so homeowners see the same item names project managers use internally.
+- **RMA rush access widened.** All admins can now request and remove rush on an RMA from the RMA list. Approve and decline still require the `rmaAdmin` permission. See the underlying endpoints in the May 7 entry below.
+
+### Improved
+
+- **Live HubSpot pipeline stage on RMAs.** RMA detail responses now fetch the pipeline stage label live from HubSpot instead of relying on a cached value, so the displayed stage always matches what's in HubSpot.
+- **TBD on parent items when all sub-items are TBD.** Renovation Estimate items now show the `TBD` badge automatically when every sub-item is flagged TBD, matching the existing per-item behavior.
+- **Owner's rep "Select All" persists across navigation.** The owner's rep filter on the admin RMA list keeps its "Select All" state when you navigate between pages.
+- **Revive owner deal check.** The "is this a Revive-owned deal?" check now applies regardless of HIC availability and includes the Sell 360 mapped deal name, reducing false negatives on Sell 360 transactions.
+
+### Fixed
+
+- **Editing Revive AI reports saves correctly.** Edits made to a Revive AI Report from the dashboard now save reliably; a regression that caused some edits to be silently dropped has been resolved.
+- **Apply Changes button no longer appears when only the package changes.** Switching the package on a Renovision configuration without picking new materials no longer shows a stale "Apply Changes" prompt.
+- **Material selection no longer resets other materials.** Changing one material in the Renovision configurator keeps your other selections intact instead of resetting them.
+- **RMA check-run cutoff respects timezone.** The check-run cutoff time for RMAs is now evaluated in the correct timezone, so RMAs near the cutoff are categorized consistently.
+- **Rounded cents on financial totals.** Internal rounding on transaction totals now rounds to the nearest cent, eliminating sub-cent drift in derived figures.
+- **Sidebar label and marker styling on comparables.** Renamed a comparables sidebar label and removed an unintended active-pill highlight on comparable markers in the report map.
+- **Concierge ID resolution.** Corrected the Revive Concierge identifiers used in opportunity routing so concierge assignments resolve to the right user.
+
+### Action required
+
+No action required for existing integrations. New report slides and RMA fields are additive.
+
+</Update>
+
 <Update label="May 20, 2026" description="v2.2.0" tags={["revive-dashboard"]}>
 
 ### New
@@ -71,14 +106,25 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 - **AnyProp as a property data and imagery provider.** Comparables, property records, and home photos can now be sourced from AnyProp alongside existing providers (RestB, Zillow), with results normalized into the same response shape. For users: more reliable property coverage and better fallback when one provider is missing data. See [Property data providers](/third-party-integrations/property-data).
 - **Home-imagery utility endpoints.** `POST /v1/utility/get-home-images` returns home photos for an address with automatic provider fallback, or you can pin a provider with `source`. `POST /v1/utility/deduplicate-images` removes exact and visually-similar duplicates from a set of image URLs using perceptual hashing. For users: easier to confirm a property has usable imagery before kicking off a report, and cleaner photo sets when combining sources.
 - **Room-type classification on comparable photos.** Comparable images now carry per-image room types (kitchen, bathroom, bedroom, living, exterior, etc.) plus an aggregated `roomTypes` list per comparable. Results are cached after the first request, so reopening a comp is instant. For users: faster, more accurate side-by-side room comparisons in the report.
+- **RenoVision and comparables slides in the homeowner report.** Two new slides surface the AI-rendered "after" view and a focused comparables view inside the Revive AI Report flow, with public report URLs accessible without sign-in. For users: a more guided way to walk through the report on phone and desktop.
+- **PDF download for preliminary estimates.** RTStay preliminary estimates can now be exported as a PDF from the dashboard, with wider pricing columns and clearer totals. For users: a shareable artifact homeowners and reps can hand off without a screenshot.
+- **Auto-fill RMA material advance from the PO sheet.** Material advance on an RMA is now populated automatically from the linked purchase-order sheet. For users: fewer manual copies between sheets and the RMA form.
+- **Scope item labels in weekly updates.** Custom scope-item labels now appear in the weekly update scope picker and the homeowner-facing weekly update view. For users: homeowners see the same item names project managers use.
 
 ### Updates
 
 - **Meeting scheduling polish.** The Getting Started meeting scheduler has tighter dropdown behavior, cleaner advisor selection, and fewer redundant components in the booking flow. For users: a smoother, less cluttered path to booking an advisor call. Funnels using `showcalendar=false` are unaffected — see [Intake URL parameters](/guides/intake-url-parameters#meeting-and-advisor-selection).
+- **RTStay sharing no longer blocks on ARV / as-is.** Admins can now share an RTStay project without filling in the ARV and as-is values. For users: project managers can share earlier in the process.
+- **RMA rush is available to all admins.** Any admin can now request or remove rush on an RMA from the list view; approve and decline remain gated on the `rmaAdmin` permission.
+- **Live HubSpot pipeline stage on RMAs.** RMA detail responses fetch the pipeline stage label live from HubSpot. For users: the displayed stage always matches HubSpot.
 
 ### Bug fixes
 
 - **Vercel build stability.** Resolved module-resolution issues that intermittently broke dashboard and admin deployments on Vercel. For users: more reliable production releases with fewer deploy-time hiccups.
+- **Editing Revive AI reports saves correctly.** Fixed a regression where some edits to a report were silently dropped on save.
+- **Renovation configurator selections preserved.** Switching packages no longer shows a stale "Apply Changes" prompt, and changing one material no longer resets the others.
+- **RMA check-run cutoff respects timezone.** RMAs near the daily cutoff are now categorized consistently across timezones.
+- **Owner's rep "Select All" persists.** The owner's rep filter on the admin RMA list keeps "Select All" while navigating between pages.
 
 ### Action required
 
