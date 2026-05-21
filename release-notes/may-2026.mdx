@@ -15,11 +15,11 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 - **Room-type classification on comparables.** Comparable images now include per-image room types (kitchen, bathroom, bedroom, living, exterior, etc.) plus an aggregated `roomTypes` list. Results are cached, so reopening a comp is instant.
 - **AI weekly updates.** Project managers can draft homeowner-facing weekly renovation updates with Claude through a conversational `/v1/weekly-updates/ai-*` API that persists per-deal, per-week threads. See [AI weekly updates](/guides/ai-weekly-updates).
 - **RenoVision and Comparables slides in the report.** Two new slides surface the AI-rendered "after" view and a focused comparables view inside the Revive AI Report flow. Public report URLs work without sign-in.
-- **Preliminary estimate enhancements.** The RTStay preliminary estimate now includes RenoVision and Comparables slides and supports one-click PDF download from the dashboard.
+- **Preliminary estimate enhancements.** The Renovate to Stay preliminary estimate now includes RenoVision and Comparables slides and supports one-click PDF download from the dashboard.
 - **RMA rush workflow.** Any admin can now request or remove rush on an RMA from the list view. Approve and decline still require the `rmaAdmin` permission. New rush fields (`is_rush`, `rush_status`, `rush_reason`, `rush_requested_by`, `rush_requested_at`) are returned on RMA payloads.
 - **Auto-filled RMA material advance.** When creating an RMA, the material advance is now populated from the linked PO sheet — no manual copy needed.
 - **Scope item labels in weekly updates.** Custom scope-item labels now appear in the weekly update scope picker and in the homeowner-facing update view, so homeowners see the same item names project managers use.
-- **RTStay sharing without ARV / as-is.** Admins can now share a Renovate-to-Stay project without filling in ARV or as-is values, removing a blocker when those numbers aren't known yet.
+- **Renovate to Stay sharing without ARV / as-is.** Admins can now share a Renovate to Stay project without filling in ARV or as-is values, removing a blocker when those numbers aren't known yet.
 - **GTM event for AI report submissions.** The dashboard fires a `hubspot-form-success` Google Tag Manager event with plain form fields when a homeowner submits a Revive AI report, so submissions attribute correctly in HubSpot and downstream marketing tools.
 
 ### Updates
