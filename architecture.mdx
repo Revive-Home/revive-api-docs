@@ -37,13 +37,13 @@ Revive is a multi-service platform connecting homeowners, real estate agents, an
 
 ## Repositories
 
-| Repo | Purpose | Stack | Deploys to |
-|------|---------|-------|-----------|
-| [revive-api](https://github.com/Revive-Home/revive-api) | Backend API | Node.js, Express, PostgreSQL | Heroku (production + staging) |
-| [revive-dashboard](https://github.com/Revive-Home/revive-dashboard) | Homeowner & agent web app | React, Next.js | Vercel |
-| [revive-admin](https://github.com/Revive-Home/revive-admin) | Internal admin tools | React, Next.js | Vercel |
+| Repo | Contains | Stack | Deploys to |
+|------|----------|-------|----------|
+| [revive-apps](https://github.com/Revive-Home/revive-apps) | `revive-api`, `revive-dashboard`, `revive-admin` | Node.js, Express, React, Next.js | Heroku (API) + Vercel (web apps) |
 | [revive-mobile](https://github.com/Revive-Home/revive-mobile) | Mobile app | React Native | App Store / Google Play |
 | [revive-api-docs](https://github.com/Revive-Home/revive-api-docs) | This documentation site | Mintlify (MDX) | Mintlify hosting |
+
+Releases use scoped tags: `revive-api@2.157.0`, `revive-dashboard@1.152.0`, `revive-admin@2.134.0`.
 
 ---
 
@@ -54,7 +54,7 @@ Revive is a multi-service platform connecting homeowners, real estate agents, an
 1. User signs in via Firebase Auth (dashboard, admin, or mobile)
 2. Client receives a Firebase JWT
 3. Every API request includes `Authorization: Bearer <jwt>`
-4. `revive-api` verifies the JWT via Firebase Admin SDK
+4. The API (`apps/api`) verifies the JWT via Firebase Admin SDK
 5. User role (`admin`, `agent`, `contractor`, `homeowner`) determines access
 
 ### Deal lifecycle
@@ -107,9 +107,9 @@ See the [API changelog](/guides/changelog) for details on what moved to v2 and m
 ## Deployment pipeline
 
 ```
-Developer pushes to main
+Developer pushes to main in revive-apps
   → GitHub Actions run tests
-    → Heroku auto-deploys revive-api
+    → Heroku auto-deploys API / Vercel auto-deploys web apps
       → Bot pushes updated openapi.json to revive-api-docs
         → GitHub Action enriches spec + updates banner
           → Mintlify auto-deploys docs
@@ -119,14 +119,25 @@ Release notes are auto-generated from merged PRs using the `generate-release-not
 
 ---
 
-## Key directories in revive-api
+## Key directories in revive-apps
+
+All apps live under `apps/` with Turborepo managing the workspace.
+
+### API (`apps/api/src/`)
+
+The API uses domain-based organization — each domain has its own directory with routes, services, and models co-located.
 
 | Directory | Purpose |
 |-----------|---------|
-| `src/routes/` | Express route handlers (maps to API endpoints) |
-| `src/services/` | Business logic layer |
-| `src/models/` | Database models (Sequelize/PostgreSQL) |
-| `src/middleware/` | Auth, rate limiting, error handling |
-| `src/integrations/` | Third-party API clients (HubSpot, PandaDoc, Stripe, etc.) |
-| `src/utils/` | Shared utilities |
-| `migrations/` | Database migration files |
+| `deals/` | Deal CRUD, lifecycle, and deal-related workflows |
+| `contacts/` | Contact management and sync |
+| `webhooks/` | Inbound webhook handlers (HubSpot, PandaDoc, etc.) |
+| `payments/` | Stripe payment intents and billing |
+| `lib/` | Third-party API clients (HubSpot, PandaDoc, Stripe, Firebase, etc.) |
+| `auth/` | Authentication and authorization middleware |
+| `utils/` | Shared utilities |
+| `config/` | App configuration |
+
+### Dashboard (`apps/dashboard/`) and Admin (`apps/admin/`)
+
+Both are Next.js apps with `src/`, `pages/`, `hooks/`, `utils/`, and `config/` directories.

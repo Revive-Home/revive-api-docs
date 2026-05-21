@@ -13,11 +13,11 @@ Webhooks provide near real-time event ingestion without polling.
 
 ## Data flow
 
-- Third parties send events into `revive-api` endpoints under `/v1/webhooks/*`.
+- Third parties send events into API endpoints under `/v1/webhooks/*`.
 
-## Owner repo(s)
+## Owner app(s)
 
-- `revive-api`
+- `api` (in `revive-apps`)
 
 ## Relevant modules/endpoints
 
@@ -31,8 +31,8 @@ HubSpot and PandaDoc webhook endpoints are documented on their respective pages.
 
 Code modules:
 
-- `revive-api/src/webhooks/webhooks.routes.js`
-- `revive-api/src/webhooks/webhooks.service.js`
+- `apps/api/src/webhooks/webhooks.routes.js`
+- `apps/api/src/webhooks/webhooks.service.js`
 
 ## Operational notes
 

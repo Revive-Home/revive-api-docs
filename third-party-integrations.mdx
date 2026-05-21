@@ -8,14 +8,16 @@ Use this page to understand which third-party systems Revive integrates with, wh
 ## Architecture overview
 
 - **Core system of record**
-  - `revive-api` uses Firebase Admin (`firebase-admin`) for Firestore and Cloud Storage.
-  - `revive-admin`, `revive-dashboard`, and `revive-mobile` use Firebase client SDKs for auth + Firestore + storage access.
+  - The API (`apps/api`) uses Firebase Admin (`firebase-admin`) for Firestore and Cloud Storage.
+  - Admin, dashboard, and mobile use Firebase client SDKs for auth + Firestore + storage access.
 - **External system of record (CRM)**
   - HubSpot is used for CRM objects and workflows (contacts, deals, custom objects).
 - **Common data flows**
-  - Webhook-driven: third parties send events into `revive-api` endpoints under `/v1/webhooks/*`.
-  - API pull: `revive-api` fetches property/valuation data from external providers on demand.
+  - Webhook-driven: third parties send events into API endpoints under `/v1/webhooks/*`.
+  - API pull: the API fetches property/valuation data from external providers on demand.
   - Client analytics/monitoring: frontends initialize analytics/monitoring vendors in their app roots.
+
+All code paths below are relative to `revive-apps/` unless noted otherwise (e.g. `revive-mobile`).
 
 ## Pages
 

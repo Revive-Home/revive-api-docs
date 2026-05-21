@@ -18,25 +18,25 @@ Firebase is the primary system of record for the Revive platform and enables rea
 
 ## Data flow
 
-- `revive-api` uses the Firebase Admin SDK for privileged access.
-- `revive-admin`, `revive-dashboard`, and `revive-mobile` use Firebase client SDKs.
+- The API uses the Firebase Admin SDK for privileged access.
+- Admin, dashboard, and mobile use Firebase client SDKs.
 
-## Owner repo(s)
+## Owner app(s)
 
-- `revive-api`
-- `revive-admin`
-- `revive-dashboard`
-- `revive-mobile`
+- `api` (in `revive-apps`)
+- `admin` (in `revive-apps`)
+- `dashboard` (in `revive-apps`)
+- `revive-mobile` (standalone)
 
 ## Relevant modules/endpoints
 
-- `revive-api/src/lib/firebase/index.js`
-- `revive-api/src/utils/push-notifications.js`
-- `revive-api/src/media/media.service.js`
-- `revive-admin/utils/firebase.ts`
-- `revive-dashboard/src/utils/firebase.ts`
+- `apps/api/src/lib/firebase/index.js`
+- `apps/api/src/utils/push-notifications.js`
+- `apps/api/src/media/media.service.js`
+- `apps/admin/utils/firebase.ts`
+- `apps/dashboard/src/utils/firebase.ts`
 
 ## Operational notes
 
 - Treat Firestore schemas as shared contracts across all clients.
-- Keep migrations and backfills in `revive-api` when possible so all clients converge on the same data model.
+- Keep migrations and backfills in the API app when possible so all clients converge on the same data model.

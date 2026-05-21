@@ -13,14 +13,14 @@ HubSpot owns CRM objects (contacts, deals, and custom objects) and runs workflow
 
 ## Data flow
 
-- Inbound: HubSpot workflows/webhooks call `revive-api`.
-- Outbound: `revive-api` calls HubSpot APIs for CRM reads/writes and transactional email workflows.
+- Inbound: HubSpot workflows/webhooks call the API.
+- Outbound: the API calls HubSpot APIs for CRM reads/writes and transactional email workflows.
 
-## Owner repo(s)
+## Owner app(s)
 
-- `revive-api`
-- `revive-admin`
-- `revive-dashboard`
+- `api` (in `revive-apps`)
+- `admin` (in `revive-apps`)
+- `dashboard` (in `revive-apps`)
 
 ## Relevant modules/endpoints
 
@@ -42,10 +42,10 @@ Admin tooling (Firebase JWT, admin only):
 
 Code modules:
 
-- `revive-api/src/utils/hubspotV2/hubspot.js`
-- `revive-api/src/utils/hubspot.js`
-- `revive-api/src/utils/transactional-emails.js`
-- `revive-api/src/webhooks/webhooks.routes.js`
+- `apps/api/src/utils/hubspotV2/hubspot.js`
+- `apps/api/src/utils/hubspot.js`
+- `apps/api/src/utils/transactional-emails.js`
+- `apps/api/src/webhooks/webhooks.routes.js`
 
 ## Operational notes
 
@@ -57,7 +57,7 @@ Code modules:
 
 ### HubSpot phone cleanup
 
-`revive-admin` exposes a password-protected tool for finding and bulk-fixing HubSpot contacts whose `phone` property fails E.164 validation. Use it when phone-format issues are blocking workflows or transactional sends.
+The admin app exposes a password-protected tool for finding and bulk-fixing HubSpot contacts whose `phone` property fails E.164 validation. Use it when phone-format issues are blocking workflows or transactional sends.
 
 **Where to find it**
 

@@ -142,7 +142,7 @@ async function main() {
   if (dates.apiRef) {
     introContent = introContent.replace(
       /\*\*API spec version:\*\* .+/,
-      `**API spec version:** ${dates.apiVersion} — auto-synced from \`revive-api\` on every production release. Last updated ${dates.apiRef}.`
+      `**API spec version:** ${dates.apiVersion} — auto-synced from \`revive-apps\` on every production release. Last updated ${dates.apiRef}.`
     );
   }
 

@@ -16,18 +16,18 @@ Analytics and monitoring integrations capture product usage and help diagnose pr
 
 - Frontends initialize analytics/monitoring vendors in their app roots.
 
-## Owner repo(s)
+## Owner app(s)
 
-- `revive-admin`
-- `revive-dashboard`
-- `revive-mobile`
+- `admin` (in `revive-apps`)
+- `dashboard` (in `revive-apps`)
+- `revive-mobile` (standalone)
 
 ## Relevant modules/endpoints
 
-- `revive-admin/utils/mixPanel.utils.ts`
-- `revive-dashboard/src/utils/mixPanel.utils.ts`
+- `apps/admin/utils/mixPanel.utils.ts`
+- `apps/dashboard/src/utils/mixPanel.utils.ts`
 - `revive-mobile/src/Helper/mixPanel.utils.ts`
-- `revive-admin/src/components/common/ErrorBoundary.tsx`
-- `revive-dashboard/src/components/common/ErrorBoundary.tsx`
-- `revive-admin/pages/_app.tsx`
-- `revive-dashboard/src/pages/_app.tsx`
+- `apps/admin/src/components/common/ErrorBoundary.tsx`
+- `apps/dashboard/src/components/common/ErrorBoundary.tsx`
+- `apps/admin/pages/_app.tsx`
+- `apps/dashboard/src/pages/_app.tsx`

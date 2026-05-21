@@ -13,22 +13,22 @@ Using multiple providers improves coverage and allows Revive to generate valuati
 
 ## Data flow
 
-- `revive-api` fetches provider data on demand.
+- The API fetches provider data on demand.
 - Results are stored in Firestore for caching.
 
-## Owner repo(s)
+## Owner app(s)
 
-- `revive-api`
+- `api` (in `revive-apps`)
 
 ## Relevant modules/endpoints
 
 - `POST /v1/avm/` — Trigger an AVM lookup for an address. Pass `withMortgageData: true` to also populate mortgage, ownership, and tax fields on the cached AVM record.
 - `POST /v1/avm/mortgage` — Synchronously fetch standardized mortgage and ownership data across all providers (Estated, House Canary, Zillow, Redfin, RentCast). Each provider's response is normalized to the same shape, so consumers can pick the best available value per field.
-- `revive-api/src/automated-valuation-models/avm.service.ts`
-- `revive-api/src/utils/estated/index.js`
-- `revive-api/src/lib/houseCanary/index.js`
-- `revive-api/src/lib/rentcast/index.ts`
-- `revive-api/src/lib/apify/index.ts`
+- `apps/api/src/automated-valuation-models/avm.service.ts`
+- `apps/api/src/utils/estated/index.js`
+- `apps/api/src/lib/houseCanary/index.js`
+- `apps/api/src/lib/rentcast/index.ts`
+- `apps/api/src/lib/apify/index.ts`
 
 ## Mortgage data shape
 

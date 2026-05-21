@@ -16,7 +16,7 @@ Before writing code, make sure you have:
 <Steps>
 <Step title="GitHub org access">
 
-Request access to [Revive-Home](https://github.com/Revive-Home) from your team lead. You'll need access to at least `revive-api` and the repo you're working on.
+Request access to [Revive-Home](https://github.com/Revive-Home) from your team lead. You'll need access to at least `revive-apps` (the monorepo containing the API, dashboard, and admin).
 
 </Step>
 
@@ -44,11 +44,11 @@ Join `#team-tech` (everyday engineering chat) and `#_request-tech` (requests for
 ## Step 2: Run the API locally
 
 ```bash
-git clone git@github.com:Revive-Home/revive-api.git
-cd revive-api
+git clone git@github.com:Revive-Home/revive-apps.git
+cd revive-apps
 npm install
 cp .env.example .env       # fill in keys from your team lead
-npm run dev                 # starts on http://localhost:3001
+npm run dev:api             # starts on http://localhost:3001
 ```
 
 Verify it's running:
@@ -98,11 +98,11 @@ You should see a list of users. If you get a `401`, check that your token is fre
 
 Depending on what you're working on, clone and run the relevant frontend:
 
-| What you're building | Repo | Command | Port |
-|---------------------|------|---------|------|
-| Homeowner/agent web app | `revive-dashboard` | `npm run dev` | 3000 |
-| Internal admin tools | `revive-admin` | `npm run dev` | 3002 |
-| Mobile app | `revive-mobile` | `npm run ios` / `npm run android` | — |
+| What you're building | App | Command (from `revive-apps`) | Port |
+|---------------------|-----|-------------------------------|------|
+| Homeowner/agent web app | `revive-dashboard` | `npm run dev:dashboard` | 3000 |
+| Internal admin tools | `revive-admin` | `npm run dev:admin` | 3002 |
+| Mobile app | `revive-mobile` | `npm run ios` / `npm run android` (separate repo) | — |
 
 See the [Local development](/development) guide for full setup details and environment variables.
 
