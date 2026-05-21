@@ -30,18 +30,18 @@ No action required for existing integrations.
 
 A skim-friendly recap of what shipped this week. See the dated entries below for full details.
 
-### New features
+### New
 
 - **Revive AI Report v4.** The next-generation Vision AI Report is live across the homeowner dashboard and admin tools. v4 brings AnyProp-sourced comparables, room-aware photo grouping, and a refreshed renovation estimate flow end-to-end. For users: richer, faster reports with better comparable matches and clearer room-by-room visuals. Existing report URLs continue to work — v4 is served automatically.
 - **AnyProp as a property data and imagery provider.** Comparables, property records, and home photos can now be sourced from AnyProp alongside existing providers (RestB, Zillow), with results normalized into the same response shape. For users: more reliable property coverage and better fallback when one provider is missing data. See [Property data providers](/third-party-integrations/property-data).
 - **Home-imagery utility endpoints.** `POST /v1/utility/get-home-images` returns home photos for an address with automatic provider fallback, or you can pin a provider with `source`. `POST /v1/utility/deduplicate-images` removes exact and visually-similar duplicates from a set of image URLs using perceptual hashing. For users: easier to confirm a property has usable imagery before kicking off a report, and cleaner photo sets when combining sources.
 - **Room-type classification on comparable photos.** Comparable images now carry per-image room types (kitchen, bathroom, bedroom, living, exterior, etc.) plus an aggregated `roomTypes` list per comparable. Results are cached after the first request, so reopening a comp is instant. For users: faster, more accurate side-by-side room comparisons in the report.
 
-### Updates
+### Improved
 
 - **Meeting scheduling polish.** The Getting Started meeting scheduler has tighter dropdown behavior, cleaner advisor selection, and fewer redundant components in the booking flow. For users: a smoother, less cluttered path to booking an advisor call. Funnels using `showcalendar=false` are unaffected — see [Intake URL parameters](/guides/intake-url-parameters#meeting-and-advisor-selection).
 
-### Bug fixes
+### Fixed
 
 - **Vercel build stability.** Resolved module-resolution issues that intermittently broke dashboard and admin deployments on Vercel. For users: more reliable production releases with fewer deploy-time hiccups.
 
