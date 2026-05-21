@@ -36,7 +36,7 @@ A skim-friendly recap of what shipped this week across the API, dashboard, and a
 - **RenoVision configurator stability.** Switching design packages no longer surfaces a stray "Apply Changes" prompt, changing one material no longer resets the others, and the configurator no longer gets stuck loading or re-renders in a loop.
 - **Best-selling condition display.** The best-selling condition now renders correctly on the report when it previously failed to appear.
 - **Subject property persistence.** The subject property is no longer cleared after analysis completes, so users keep the property they were comparing against in view.
-- **Comparables analysis polish.** Duplicate refresh attempts are deduplicated, status messages no longer loop, and multiple notification chimes have been silenced.
+- **Comparables analysis polish.** Concurrent refresh attempts are now collapsed into one, status messages no longer loop, and repeated notification chimes have been silenced.
 - **RMA check-run cutoff respects timezone.** RMAs submitted near the daily cutoff are now categorized into the correct week across timezones.
 - **Cents rounding on monetary totals** eliminates sub-cent drift in derived figures.
 - **Concierge ID resolution.** Corrected the Revive Concierge identifiers used in opportunity routing so concierge assignments resolve to the right user.
@@ -101,7 +101,7 @@ No action required for existing integrations.
 
 - **Renovision configurator stability.** Fixed infinite re-rendering and stuck-loading states in the Renovision configurator, and resolved a hover bug on the design-style button.
 - **Subject property no longer cleared after analysis.** The subject property stays selected after an analysis run completes, so users don't lose their place.
-- **Deduplicated refresh attempts.** Concurrent refresh attempts are now deduplicated, avoiding redundant network calls and flickering UI.
+- **Deduplicated refresh attempts.** Concurrent refresh attempts are now collapsed into a single request, avoiding redundant network calls and flickering UI.
 - **Status messages no longer loop.** Status messages no longer repeat indefinitely during long-running steps.
 - **Multiple chimes silenced.** The notification chime no longer fires multiple times for a single event.
 - **Hydration errors resolved** across the Renovision configurator and the comparables flow.
