@@ -3,33 +3,52 @@ title: "May 2026"
 description: "May 2026 Revive release notes: Revive AI Report v4, AnyProp property data, AI weekly updates, RMA rush workflow, RenoVision and comparables slides."
 ---
 
-<Update label="Week of May 21, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard"]}>
+<Update label="Week of May 21, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard", "revive-admin"]}>
 
 A skim-friendly recap of what shipped this week. See the dated entries below for full details.
 
 ### New features
 
-- **Preliminary estimate slides.** Two new content blocks — RenoVision and Comparables — can now be embedded into the preliminary estimate flow, with matching API support to power them. For users: preliminary estimates now include richer visual context (renovation concepts and comparable homes) before a full estimate is generated.
-- **PDF download from the preliminary estimate.** Homeowners and advisors can now download the preliminary estimate as a PDF directly from the dashboard. For users: easier sharing and offline review without needing a full estimate.
-- **Live RMA pipeline stage labels.** RMA detail views now read the current pipeline stage label directly from HubSpot. For users: project managers always see the up-to-date stage name, even after pipeline edits.
-- **Auto-filled RMA material advance.** When creating an RMA, the material advance is now auto-populated from the linked PO sheet. For users: less manual data entry and fewer mismatches between PO and RMA totals.
+- **Revive AI Report v4.** The next-generation Vision AI Report is live across the homeowner dashboard and admin tools, with AnyProp-sourced comparables, room-aware photo grouping, and a refreshed renovation estimate flow. Existing report URLs continue to work — v4 is served automatically.
+- **AnyProp as a property data provider.** Comparables, property records, and home photos can now be sourced from AnyProp alongside RestB and Zillow, normalized into the same response shape. See [Property data providers](/third-party-integrations/property-data).
+- **Home-imagery utility endpoints.** Two new endpoints help confirm a property has usable imagery before kicking off a report. `POST /v1/utility/get-home-images` returns home photos for an address with automatic provider fallback (or pin a provider via `source`). `POST /v1/utility/deduplicate-images` removes exact and visually-similar duplicates using perceptual hashing.
+- **Room-type classification on comparables.** Comparable images now include per-image room types (kitchen, bathroom, bedroom, living, exterior, etc.) plus an aggregated `roomTypes` list. Results are cached, so reopening a comp is instant.
+- **AI weekly updates.** Project managers can draft homeowner-facing weekly renovation updates with Claude through a conversational `/v1/weekly-updates/ai-*` API that persists per-deal, per-week threads. See [AI weekly updates](/guides/ai-weekly-updates).
+- **RenoVision and Comparables slides in the report.** Two new slides surface the AI-rendered "after" view and a focused comparables view inside the Revive AI Report flow. Public report URLs work without sign-in.
+- **Preliminary estimate enhancements.** The RTStay preliminary estimate now includes RenoVision and Comparables slides and supports one-click PDF download from the dashboard.
+- **RMA rush workflow.** Any admin can now request or remove rush on an RMA from the list view. Approve and decline still require the `rmaAdmin` permission. New rush fields (`is_rush`, `rush_status`, `rush_reason`, `rush_requested_by`, `rush_requested_at`) are returned on RMA payloads.
+- **Auto-filled RMA material advance.** When creating an RMA, the material advance is now populated from the linked PO sheet — no manual copy needed.
+- **Scope item labels in weekly updates.** Custom scope-item labels now appear in the weekly update scope picker and in the homeowner-facing update view, so homeowners see the same item names project managers use.
+- **RTStay sharing without ARV / as-is.** Admins can now share a Renovate-to-Stay project without filling in ARV or as-is values, removing a blocker when those numbers aren't known yet.
+- **GTM event for AI report submissions.** The dashboard fires a `hubspot-form-success` Google Tag Manager event with plain form fields when a homeowner submits a Revive AI report, so submissions attribute correctly in HubSpot and downstream marketing tools.
 
 ### Updates
 
-- **Cleaner preliminary estimate UI.** Pricing columns are wider (120px), and items show a `TBD` badge when all of their sub-items are marked TBD. The Renovate to Stay slide also picked up layout polish and a simpler comparable-marker active state. For users: more readable estimates and a cleaner preestimate view.
-- **Scope item labels in weekly update picker.** The scope picker in the weekly update flow now shows the scope item label alongside the scope name. For users: faster, less ambiguous scope selection when drafting a weekly update.
-- **Admin-only AI renders no longer carry a homeowner contact.** AI image render jobs initiated by admins (without a `reportId`) now store `contactId: null`. For users: admin-initiated renders no longer get attributed to a homeowner contact downstream.
-- **Public access for select report routes.** A small set of routes intended to be publicly accessible no longer require auth. For users: shareable report links work without sign-in where expected.
+- **Live HubSpot pipeline stage on RMAs.** RMA detail views now read the current pipeline stage label directly from HubSpot at read time, so the displayed stage always matches HubSpot.
+- **Meeting scheduling polish.** The Getting Started scheduler has tighter dropdown behavior, cleaner advisor selection, and fewer redundant components. Funnels using `showcalendar=false` are unaffected — see [Intake URL parameters](/guides/intake-url-parameters#meeting-and-advisor-selection).
+- **Verified end dates across project surfaces.** Project scope pages, public property pages, weekly update logs, and the progress report now display the end date verified during a weekly update when available, falling back to the standard end date.
+- **Estimate display polish.** Pricing columns widened to 120px for readability, and items show a single `TBD` badge on the parent when every sub-item is TBD.
+- **Owner's rep "Select All" persists.** The owner's rep filter on the admin RMA list keeps "Select All" while navigating between pages.
+- **Revive-owned deal check.** Now applies regardless of HIC availability and recognizes the Sell 360 mapped name, fixing mis-flagged deals.
+- **Admin-only AI renders skip homeowner contact.** AI image render jobs started by admins without a `reportId` now store `contactId: null` so renders aren't attributed to a homeowner downstream.
+- **Public access for select report routes.** Routes intended to be publicly shareable no longer require auth, so unauthenticated viewers can load them as designed.
 
 ### Bug fixes
 
-- **Save Changes in edit value modal.** Fixed the Save Changes button in the home value edit modal so updates persist correctly.
-- **Cents rounding.** Resolved a rounding edge case affecting monetary totals.
-- **Revive owner deal check.** The "Revive-owned" deal check now applies regardless of HIC availability and recognizes the Sell 360 mapped name, fixing a few mis-flagged deals.
+- **Editing Revive AI reports saves correctly.** Fixed a regression where some edits to a report were silently dropped on save.
+- **Comparables modal opens without preset filters.** The Vision AI Report comparables modal now opens showing the full comparable set; users opt into status, list date, or similarity filters themselves.
+- **Sell 360 "Initial payment made" matches the gross initial check.** Deductions in the **02 Resale transaction** section now correctly sum to the resale transaction proceeds shown in section 01.
+- **RenoVision configurator selections preserved.** Switching design packages no longer surfaces a stray "Apply Changes" prompt, and changing one material no longer resets the others.
+- **RMA check-run cutoff respects timezone.** RMAs near the daily cutoff are now categorized consistently across timezones.
+- **Edit-value modal Save button.** The "Save changes" button in the report's edit-value modal now activates correctly after edits.
+- **Cents rounding on monetary totals** to eliminate sub-cent drift.
+- **Potential score submissions** no longer blocked when no prior current value exists.
+- **Report submissions** no longer overwrite predictions with stale current-value data when it doesn't apply.
+- **Vercel build stability.** Resolved module-resolution issues that intermittently broke dashboard and admin deployments.
 
 ### Action required
 
-None. All API additions are additive; existing integrations continue to work unchanged.
+None. New `/v1/utility/*` endpoints, AI weekly update endpoints, RMA rush endpoints, and added fields (`source`, room types, rush fields) are all additive. Existing integrations continue to work unchanged. If you have GTM tags or HubSpot workflows that consumed the previous `gettingStartedSubmission` event with SHA-256 hashed user data, retarget them to the `hubspot-form-success` event and the plain `hsFormEmail`, `hsFormFirstName`, `hsFormLastName`, and `hsFormPhone` fields.
 
 </Update>
 
@@ -77,6 +96,9 @@ No action required. All changes are additive or transparent to existing integrat
 
 - **Save Changes button in the edit value modal** now persists changes as expected.
 - Various lint, layout, and merge-conflict cleanups.
+
+</Update>
+
 <Update label="May 21, 2026" description="Sprint 9 release" tags={["revive-api", "revive-dashboard", "revive-admin"]}>
 
 ### New
