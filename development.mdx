@@ -87,11 +87,11 @@ Each repo uses a `.env` or `.env.local` file. Key variables shared across repos:
 
 For end-to-end development, you'll typically run:
 
-| Service | Command | Port |
-|---------|---------|------|
-| `revive-api` | `npm run dev` | 3001 |
-| `revive-dashboard` | `npm run dev` | 3000 |
-| `revive-admin` | `npm run dev` | 3002 |
+| Service | Command (from `revive-apps`) | Port |
+|---------|-------------------------------|------|
+| API | `npm run dev:api` | 3001 |
+| Dashboard | `npm run dev:dashboard` | 3000 |
+| Admin | `npm run dev:admin` | 3002 |
 
 The dashboard and admin connect to the API at `http://localhost:3001` by default (configured in `.env.local`).
 

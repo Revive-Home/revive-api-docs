@@ -54,7 +54,7 @@ Releases use scoped tags: `revive-api@2.157.0`, `revive-dashboard@1.152.0`, `rev
 1. User signs in via Firebase Auth (dashboard, admin, or mobile)
 2. Client receives a Firebase JWT
 3. Every API request includes `Authorization: Bearer <jwt>`
-4. `revive-api` verifies the JWT via Firebase Admin SDK
+4. The API (`apps/api`) verifies the JWT via Firebase Admin SDK
 5. User role (`admin`, `agent`, `contractor`, `homeowner`) determines access
 
 ### Deal lifecycle
@@ -119,14 +119,25 @@ Release notes are auto-generated from merged PRs using the `generate-release-not
 
 ---
 
-## Key directories in revive-apps (API)
+## Key directories in revive-apps
+
+All apps live under `apps/` with Turborepo managing the workspace.
+
+### API (`apps/api/src/`)
+
+The API uses domain-based organization — each domain has its own directory with routes, services, and models co-located.
 
 | Directory | Purpose |
 |-----------|---------|
-| `src/routes/` | Express route handlers (maps to API endpoints) |
-| `src/services/` | Business logic layer |
-| `src/models/` | Database models (Sequelize/PostgreSQL) |
-| `src/middleware/` | Auth, rate limiting, error handling |
-| `src/integrations/` | Third-party API clients (HubSpot, PandaDoc, Stripe, etc.) |
-| `src/utils/` | Shared utilities |
-| `migrations/` | Database migration files |
+| `deals/` | Deal CRUD, lifecycle, and deal-related workflows |
+| `contacts/` | Contact management and sync |
+| `webhooks/` | Inbound webhook handlers (HubSpot, PandaDoc, etc.) |
+| `payments/` | Stripe payment intents and billing |
+| `lib/` | Third-party API clients (HubSpot, PandaDoc, Stripe, Firebase, etc.) |
+| `auth/` | Authentication and authorization middleware |
+| `utils/` | Shared utilities |
+| `config/` | App configuration |
+
+### Dashboard (`apps/dashboard/`) and Admin (`apps/admin/`)
+
+Both are Next.js apps with `src/`, `pages/`, `hooks/`, `utils/`, and `config/` directories.
