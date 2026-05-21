@@ -16,6 +16,9 @@ const EXCLUDE_TITLE_PATTERNS = [
   /^update staging\b/i,
   /^staging\b/i,
   /^merge\b/i,
+  /^chore\(release\)/i,
+  /^ci[:(]/i,
+  /^build[:(]/i,
 ];
 
 // CodeRabbit "Summary by CodeRabbit" marker
@@ -95,6 +98,65 @@ async function getPreviousReleaseDate(appName) {
   const prev = published.length > 1 ? published[1] : published[0];
   if (!prev) return null;
   return (prev.published_at || prev.created_at || '').slice(0, 10);
+}
+
+// For monorepo apps: use the GitHub compare API to find PRs between two release tags
+async function getMonorepoPRsBetweenTags(appName, currentTag) {
+  // Find the previous release tag for this app
+  const url = `https://api.github.com/repos/${ORG}/${MONOREPO}/releases?per_page=30`;
+  const releases = await ghJson(url);
+  const appReleases = releases.filter((r) => {
+    if (r.draft || r.prerelease) return false;
+    return r.tag_name?.startsWith(`${appName}-v`);
+  });
+
+  // Find the current and previous tags
+  const currentIdx = appReleases.findIndex((r) => r.tag_name === currentTag);
+  const prevTag = currentIdx >= 0 && currentIdx < appReleases.length - 1
+    ? appReleases[currentIdx + 1].tag_name
+    : null;
+
+  if (!prevTag) {
+    console.log(`  No previous tag found for ${appName} before ${currentTag}, using all commits`);
+  }
+
+  // Get commits between tags (or all commits up to current tag)
+  let compareUrl;
+  if (prevTag) {
+    compareUrl = `https://api.github.com/repos/${ORG}/${MONOREPO}/compare/${prevTag}...${currentTag}`;
+    console.log(`  Comparing ${prevTag}...${currentTag}`);
+  } else {
+    // Fallback: get commits for the current tag
+    compareUrl = `https://api.github.com/repos/${ORG}/${MONOREPO}/commits?sha=${currentTag}&per_page=100`;
+  }
+
+  const data = await ghJson(compareUrl);
+  const commits = data.commits || data;
+
+  // Extract PR numbers from merge commit messages
+  const prNumbers = new Set();
+  for (const commit of commits) {
+    const msg = commit.commit?.message || '';
+    // Match "Merge pull request #N" or "(#N)" patterns
+    const mergeMatch = msg.match(/Merge pull request #(\d+)/);
+    if (mergeMatch) prNumbers.add(parseInt(mergeMatch[1]));
+    const inlineMatch = msg.match(/\(#(\d+)\)/);
+    if (inlineMatch) prNumbers.add(parseInt(inlineMatch[1]));
+  }
+
+  console.log(`  Found ${prNumbers.size} PR(s) between ${prevTag || 'start'}...${currentTag}`);
+
+  // Fetch full PR details
+  const prs = [];
+  for (const num of prNumbers) {
+    try {
+      const pr = await fetchPull(MONOREPO, num);
+      if (pr.merged_at) prs.push(pr);
+    } catch (e) {
+      console.warn(`  ⚠ Could not fetch PR #${num}: ${e.message}`);
+    }
+  }
+  return prs;
 }
 
 async function searchMergedPRs(targetApps, sinceDate) {
@@ -228,6 +290,8 @@ function parseCodeRabbitSummary(body) {
       .replace(/^[\s*_-]+/, '')   // strip leading bullet/bold markers
       .replace(/[\s*_]+$/, '')    // strip trailing
       .replace(/<\/?[^>]+>/g, '') // strip HTML tags
+      .replace(/!?\[!?\[[^\]]*\]\([^)]*\)\]\([^)]*\)/g, '') // strip nested markdown image/badge links
+      .replace(/!?\[[^\]]*\]\([^)]*\)/g, '') // strip markdown images/links
       .trim();
 
     if (!text) continue;
@@ -377,12 +441,29 @@ async function main() {
   console.log(`  Target apps: ${targetApps.join(', ')}`);
   console.log(`  Label: ${label} | Since: ${sinceDate || '(all time)'}\n`);
 
-  const items = await searchMergedPRs(targetApps, sinceDate);
-
   // Group PRs by app and process each
   const grouped = Object.fromEntries(targetApps.map((r) => [r, []]));
 
-  for (const item of items) {
+  // For monorepo apps: use tag comparison to find PRs (much more accurate)
+  const monorepoApps = targetApps.filter((a) => APPS.includes(a));
+  const standaloneApps = targetApps.filter((a) => !APPS.includes(a));
+
+  // Fetch monorepo PRs via tag comparison
+  for (const app of monorepoApps) {
+    const prs = await getMonorepoPRsBetweenTags(app, version);
+    for (const pr of prs) {
+      grouped[app].push(pr);
+    }
+  }
+
+  // Fetch standalone PRs via search (existing logic)
+  let standaloneItems = [];
+  if (standaloneApps.length > 0) {
+    standaloneItems = await searchMergedPRs(standaloneApps, sinceDate);
+  }
+
+  // Process standalone items
+  for (const item of standaloneItems) {
     const fullRepo = item.repository_url?.split('/repos/')[1];
     if (!fullRepo) continue;
     const [org, repoSlug] = fullRepo.split('/');
@@ -390,64 +471,59 @@ async function main() {
 
     const pr = await fetchPull(repoSlug, item.number);
     if (!pr.merged_at) continue;
+    const app = repoSlug;
+    if (!grouped[app]) continue;
+    grouped[app].push(pr);
+  }
 
-    // Determine which app this PR belongs to
-    let app;
-    if (repoSlug === MONOREPO) {
-      // For monorepo PRs: use source_repo if set, otherwise classify from labels/title
-      app = sourceRepo && APPS.includes(sourceRepo) ? sourceRepo : classifyMonorepoPR(pr);
-      if (!app || !grouped[app]) {
-        console.log(`  Skipping PR #${pr.number}: could not classify to an app`);
+  // Now process all collected PRs into release note entries
+  const processed = Object.fromEntries(targetApps.map((r) => [r, []]));
+
+  for (const app of targetApps) {
+    for (const pr of grouped[app]) {
+      const title = pr.title || '';
+      if (EXCLUDE_TITLE_PATTERNS.some((re) => re.test(title))) {
+        console.log(`  Skipping PR #${pr.number}: "${title}" (excluded pattern)`);
         continue;
       }
-    } else {
-      // Standalone repo (e.g. revive-mobile)
-      app = repoSlug;
-      if (!grouped[app]) continue;
-    }
 
-    const title = pr.title || '';
-    if (EXCLUDE_TITLE_PATTERNS.some((re) => re.test(title))) {
-      console.log(`  Skipping PR #${pr.number}: "${title}" (excluded pattern)`);
-      continue;
-    }
+      // Try CodeRabbit structured summary first
+      const codeRabbit = parseCodeRabbitSummary(pr.body);
+      const link = `([#${pr.number}](${pr.html_url}))`;
 
-    // Try CodeRabbit structured summary first
-    const codeRabbit = parseCodeRabbitSummary(pr.body);
-    const link = `([#${pr.number}](${pr.html_url}))`;
+      if (codeRabbit) {
+        // Each CodeRabbit bullet is already categorized
+        console.log(`  PR #${pr.number} → ${app}: ${codeRabbit.new.length} new, ${codeRabbit.improved.length} improved, ${codeRabbit.fixed.length} fixed, ${codeRabbit.action.length} action`);
+        processed[app].push({ ...codeRabbit, link, mergedAt: pr.merged_at });
+      } else {
+        // Fallback: use cleaned title as a single entry
+        const cleaned = cleanPRTitle(title);
+        let text = cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+        if (!/[.!?]$/.test(text)) text += '.';
 
-    if (codeRabbit) {
-      // Each CodeRabbit bullet is already categorized
-      console.log(`  PR #${pr.number} → ${app}: ${codeRabbit.new.length} new, ${codeRabbit.improved.length} improved, ${codeRabbit.fixed.length} fixed, ${codeRabbit.action.length} action`);
-      grouped[app].push({ ...codeRabbit, link, mergedAt: pr.merged_at });
-    } else {
-      // Fallback: use cleaned title as a single entry
-      const cleaned = cleanPRTitle(title);
-      let text = cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-      if (!/[.!?]$/.test(text)) text += '.';
+        // Categorize from title keywords
+        const bucket =
+          /^fix/i.test(title) || /\bfix(es|ed)?\b/i.test(title) ? 'fixed' :
+          /\bbreaking\b/i.test(title) ? 'action' :
+          /^(refactor|improve|perf|chore|update|bump)/i.test(title) ? 'improved' :
+          'new';
 
-      // Categorize from title keywords
-      const bucket =
-        /^fix/i.test(title) || /\bfix(es|ed)?\b/i.test(title) ? 'fixed' :
-        /\bbreaking\b/i.test(title) ? 'action' :
-        /^(refactor|improve|perf|chore|update|bump)/i.test(title) ? 'improved' :
-        'new';
-
-      console.log(`  PR #${pr.number} → ${app}: "${text}" → ${bucket} (no CodeRabbit)`);
-      grouped[app].push({
-        new: bucket === 'new' ? [text] : [],
-        improved: bucket === 'improved' ? [text] : [],
-        fixed: bucket === 'fixed' ? [text] : [],
-        action: bucket === 'action' ? [text] : [],
-        link,
-        mergedAt: pr.merged_at,
-      });
+        console.log(`  PR #${pr.number} → ${app}: "${text}" → ${bucket} (no CodeRabbit)`);
+        processed[app].push({
+          new: bucket === 'new' ? [text] : [],
+          improved: bucket === 'improved' ? [text] : [],
+          fixed: bucket === 'fixed' ? [text] : [],
+          action: bucket === 'action' ? [text] : [],
+          link,
+          mergedAt: pr.merged_at,
+        });
+      }
     }
   }
 
   // Sort entries within each app by merge date (newest first)
   for (const app of targetApps) {
-    grouped[app].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt));
+    processed[app].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt));
   }
 
   // Build blocks
@@ -456,7 +532,7 @@ async function main() {
 
   const blocks = [];
   for (const app of targetApps) {
-    const entries = grouped[app];
+    const entries = processed[app];
     if (entries.length === 0) continue;
     blocks.push(buildUpdateBlock(app, entries, dateLabel, version));
   }
