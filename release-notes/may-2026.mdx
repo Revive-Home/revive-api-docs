@@ -3,6 +3,87 @@ title: "May 2026"
 description: "May 2026 Revive platform release notes: Revive AI Report v4, AnyProp property data, AI weekly updates, RMA rush workflow, and meeting scheduler updates."
 ---
 
+<Update label="Week of May 21, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard"]}>
+
+A skim-friendly recap of what shipped this week. See the dated entries below for full details.
+
+### New features
+
+- **Preliminary estimate slides.** Two new content blocks — RenoVision and Comparables — can now be embedded into the preliminary estimate flow, with matching API support to power them. For users: preliminary estimates now include richer visual context (renovation concepts and comparable homes) before a full estimate is generated.
+- **PDF download from the preliminary estimate.** Homeowners and advisors can now download the preliminary estimate as a PDF directly from the dashboard. For users: easier sharing and offline review without needing a full estimate.
+- **Live RMA pipeline stage labels.** RMA detail views now read the current pipeline stage label directly from HubSpot. For users: project managers always see the up-to-date stage name, even after pipeline edits.
+- **Auto-filled RMA material advance.** When creating an RMA, the material advance is now auto-populated from the linked PO sheet. For users: less manual data entry and fewer mismatches between PO and RMA totals.
+
+### Updates
+
+- **Cleaner preliminary estimate UI.** Pricing columns are wider (120px), and items show a `TBD` badge when all of their sub-items are marked TBD. The Renovate to Stay preestimate slide has updated layout polish, and the comparable-marker active state was simplified for clarity. For users: more readable estimates and a cleaner preestimate view.
+- **Scope item labels in weekly update picker.** The scope picker in the weekly update flow now shows the scope item label alongside the scope name. For users: faster, less ambiguous scope selection when drafting a weekly update.
+- **Admin-only AI renders no longer carry a homeowner contact.** AI image render jobs initiated by admins (without a `reportId`) now store `contactId: null`. For users: admin-initiated renders no longer get attributed to a homeowner contact downstream.
+- **Public access for select report routes.** Auth was removed on a small set of routes that are intended to be publicly accessible. For users: shareable report links work without sign-in where expected.
+
+### Bug fixes
+
+- **Save Changes in edit value modal.** Fixed the Save Changes button in the home value edit modal so updates persist correctly.
+- **Cents rounding.** Resolved a rounding edge case affecting monetary totals.
+- **Revive owner deal check.** The "Revive-owned" deal check now applies regardless of HIC availability and recognizes the Sell 360 mapped name, fixing a few mis-flagged deals.
+
+### Action required
+
+None. All API additions are additive; existing integrations continue to work unchanged.
+
+</Update>
+
+<Update label="May 21, 2026" description="api-v3.3.0" tags={["revive-api"]}>
+
+### New
+
+- **Preliminary estimate slide endpoints.** New API support powers the RenoVision and Comparables blocks in the preliminary estimate view, returning the data needed to render each slide end-to-end.
+- **Auto-fill RMA material advance from PO sheet.** When an RMA is created against a deal with an existing PO sheet, the material advance is populated automatically from PO totals, eliminating a manual step for project managers.
+
+### Improved
+
+- **Live RMA pipeline stage labels from HubSpot.** RMA detail responses now resolve the current pipeline stage label directly from HubSpot at read time, so the displayed stage name always matches the latest HubSpot configuration.
+- **Admin-only AI image renders store `contactId: null`.** When `POST /v1/predictions/` is called with an `adminId` and no `reportId`, the AI image render job document explicitly stores `contactId: null` so downstream consumers don't associate the render with a homeowner.
+- **Public access on select report routes.** Auth was removed from a small set of routes intended to be publicly shareable, so unauthenticated viewers can load them as designed.
+- **Revive-owner deal check.** The Revive-owned deal check now applies regardless of HIC availability and recognizes the Sell 360 mapped name.
+
+### Fixed
+
+- **Cents rounding** on monetary totals to eliminate fractional drift.
+- Various lint and stability cleanups.
+
+### Action required
+
+No action required. All changes are additive or transparent to existing integrations.
+
+</Update>
+
+<Update label="May 21, 2026" description="dashboard-v2.3.0 / v2.3.1" tags={["revive-dashboard"]}>
+
+### New
+
+- **RenoVision and Comparables slides in the preliminary estimate.** The preliminary estimate view now includes RenoVision and Comparables content blocks, giving homeowners renovation concepts and comparable-home context before a full estimate is generated.
+- **PDF download from the preliminary estimate.** A new PDF download action is available directly from the preliminary estimate view. The PDF respects the wider pricing column layout and current TBD state.
+- **Scope item label in the weekly update scope picker.** When choosing a scope during weekly update creation, the picker now shows the scope item label next to the scope name to disambiguate similar entries.
+
+### Improved
+
+- **Preliminary estimate layout.** Pricing columns widened to 120px for readability, and parent items now display a `TBD` badge when all of their sub-items are TBD.
+- **Renovate to Stay preestimate slide polish.** Layout and spacing refinements across the RTStay slide.
+- **Comparable map markers.** Removed the redundant active state on comparable markers and renamed the sidebar label for clarity.
+- **FontAwesome upgraded to 7.0.1** for updated brand icons.
+
+### Fixed
+
+- **Save Changes button in the edit value modal** now persists changes as expected. ([TEC-7813](https://github.com/Revive-Home/revive-apps))
+- Various lint, layout, and merge-conflict cleanups.
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
 <Update label="May 21, 2026" description="dashboard-v2.2.0" tags={["dashboard"]}>
 
 ### New
