@@ -16,22 +16,20 @@ Before you begin, make sure you have:
 
 ## Repository setup
 
-Clone the repo you're working on:
+Clone the repos you need:
 
 ```bash
-git clone git@github.com:Revive-Home/revive-api.git
-git clone git@github.com:Revive-Home/revive-dashboard.git
-git clone git@github.com:Revive-Home/revive-admin.git
-git clone git@github.com:Revive-Home/revive-mobile.git
+git clone git@github.com:Revive-Home/revive-apps.git   # API + dashboard + admin
+git clone git@github.com:Revive-Home/revive-mobile.git  # mobile app (standalone)
 ```
 
 ### revive-api (backend)
 
 ```bash
-cd revive-api
+cd revive-apps
 npm install
 cp .env.example .env    # fill in Firebase, HubSpot, Stripe keys
-npm run dev              # starts on http://localhost:3001
+npm run dev:api          # starts on http://localhost:3001
 ```
 
 The API runs on port **3001** by default. Health check: `curl http://localhost:3001/health`
@@ -39,19 +37,19 @@ The API runs on port **3001** by default. Health check: `curl http://localhost:3
 ### revive-dashboard (web app)
 
 ```bash
-cd revive-dashboard
+cd revive-apps
 npm install
 cp .env.example .env.local
-npm run dev              # starts on http://localhost:3000
+npm run dev:dashboard    # starts on http://localhost:3000
 ```
 
 ### revive-admin (internal tools)
 
 ```bash
-cd revive-admin
+cd revive-apps
 npm install
 cp .env.example .env.local
-npm run dev              # starts on http://localhost:3002
+npm run dev:admin        # starts on http://localhost:3002
 ```
 
 ### revive-mobile (React Native)

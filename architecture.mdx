@@ -37,13 +37,13 @@ Revive is a multi-service platform connecting homeowners, real estate agents, an
 
 ## Repositories
 
-| Repo | Purpose | Stack | Deploys to |
-|------|---------|-------|-----------|
-| [revive-api](https://github.com/Revive-Home/revive-api) | Backend API | Node.js, Express, PostgreSQL | Heroku (production + staging) |
-| [revive-dashboard](https://github.com/Revive-Home/revive-dashboard) | Homeowner & agent web app | React, Next.js | Vercel |
-| [revive-admin](https://github.com/Revive-Home/revive-admin) | Internal admin tools | React, Next.js | Vercel |
+| Repo | Contains | Stack | Deploys to |
+|------|----------|-------|----------|
+| [revive-apps](https://github.com/Revive-Home/revive-apps) | `revive-api`, `revive-dashboard`, `revive-admin` | Node.js, Express, React, Next.js | Heroku (API) + Vercel (web apps) |
 | [revive-mobile](https://github.com/Revive-Home/revive-mobile) | Mobile app | React Native | App Store / Google Play |
 | [revive-api-docs](https://github.com/Revive-Home/revive-api-docs) | This documentation site | Mintlify (MDX) | Mintlify hosting |
+
+Releases use scoped tags: `revive-api@2.157.0`, `revive-dashboard@1.152.0`, `revive-admin@2.134.0`.
 
 ---
 
@@ -107,9 +107,9 @@ See the [API changelog](/guides/changelog) for details on what moved to v2 and m
 ## Deployment pipeline
 
 ```
-Developer pushes to main
+Developer pushes to main in revive-apps
   → GitHub Actions run tests
-    → Heroku auto-deploys revive-api
+    → Heroku auto-deploys API / Vercel auto-deploys web apps
       → Bot pushes updated openapi.json to revive-api-docs
         → GitHub Action enriches spec + updates banner
           → Mintlify auto-deploys docs
@@ -119,7 +119,7 @@ Release notes are auto-generated from merged PRs using the `generate-release-not
 
 ---
 
-## Key directories in revive-api
+## Key directories in revive-apps (API)
 
 | Directory | Purpose |
 |-----------|---------|
