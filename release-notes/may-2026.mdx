@@ -3,6 +3,30 @@ title: "May 2026"
 description: "Release notes for May 2026"
 ---
 
+<Update label="May 21, 2026" description="Revive AI Report v4" tags={["revive-api", "revive-dashboard", "revive-admin"]}>
+
+### New
+
+- **AnyProp as a property data and imagery provider.** The platform now sources comparable listings, property records, and home photos from AnyProp in addition to existing providers. AnyProp comps are normalized into the same shape as other sources, so reports, comparables, and renovation estimates work the same way regardless of where the underlying data came from.
+- **`POST /v1/utility/get-home-images`.** A new endpoint returns home photos for an address. With no `source` specified it falls back across providers (RestB → AnyProp → Zillow) and returns the first successful, deduplicated set. Pass `source: "restb" | "anyprop" | "zillow"` to pin a specific provider. Used during intake to confirm a property has usable imagery before kicking off a report.
+- **`POST /v1/utility/deduplicate-images`.** A new endpoint accepts an array of image URLs and returns the set with exact and visually-similar duplicates removed via perceptual hashing. Useful when combining photos from multiple sources before sending them into a render or report.
+- **Room-type classification on comparable photos.** Comparable images returned by report endpoints now include per-image room types (kitchen, bathroom, bedroom, living, exterior, etc.) and an aggregated `roomTypes` list per comparable. Results are cached after the first request, so reopening a comp is instant.
+
+### Improved
+
+- **Revive AI Report v4.** Reports now include AnyProp-sourced comparables, room-aware photo grouping, and the updated renovation estimate flow end-to-end across the homeowner dashboard and admin tools. Existing report URLs continue to work — v4 is served automatically.
+- **Meeting scheduling polish.** The Getting Started meeting scheduler has tighter dropdown behavior, cleaner advisor selection, and fewer redundant components in the booking flow.
+
+### Fixed
+
+- **Vercel build stability.** Resolved module-resolution issues that intermittently broke dashboard and admin deployments on Vercel.
+
+### Action required
+
+No action required. The new `/v1/utility/*` endpoints are additive, and the new `source` and room-type fields on existing responses are additive. Existing integrations continue to work unchanged.
+
+</Update>
+
 <Update label="May 9, 2026" description="API hotfix" tags={["revive-api"]}>
 
 ### Fixed
