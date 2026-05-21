@@ -329,6 +329,36 @@ function prependUpdateToReleaseNotes(releaseNotesPath, blocks) {
 }
 
 // ---------------------------------------------------------------------------
+// Prepend to monthly release-notes file (e.g. release-notes/may-2026.mdx)
+// ---------------------------------------------------------------------------
+function prependToMonthlyFile(blocks) {
+  const now = new Date();
+  const monthName = now.toLocaleDateString('en-US', { month: 'long' }).toLowerCase();
+  const year = now.getFullYear();
+  const fileName = `${monthName}-${year}.mdx`;
+  const monthlyDir = path.join(process.cwd(), 'release-notes');
+  const monthlyPath = path.join(monthlyDir, fileName);
+
+  if (!fs.existsSync(monthlyDir)) {
+    fs.mkdirSync(monthlyDir, { recursive: true });
+  }
+
+  const titleCase = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+  const frontmatter = `---\ntitle: "${titleCase} ${year}"\ndescription: "${titleCase} ${year} release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."\n---\n`;
+
+  if (!fs.existsSync(monthlyPath)) {
+    fs.writeFileSync(monthlyPath, frontmatter + '\n' + blocks.join('\n\n') + '\n');
+    console.log(`Created ${fileName} with ${blocks.length} block(s).`);
+    return fileName;
+  }
+
+  // File exists — prepend after frontmatter (reuse same logic)
+  prependUpdateToReleaseNotes(monthlyPath, blocks);
+  console.log(`Prepended ${blocks.length} block(s) to ${fileName}.`);
+  return fileName;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 async function main() {
@@ -443,6 +473,10 @@ async function main() {
 
   prependUpdateToReleaseNotes(releaseNotesPath, blocks);
   console.log(`\nPrepended ${blocks.length} block(s) for ${version} to release-notes.mdx`);
+
+  // Also write to the monthly file (e.g. release-notes/may-2026.mdx)
+  const monthlyFileName = prependToMonthlyFile(blocks);
+  console.log(`Monthly file: release-notes/${monthlyFileName}`);
 }
 
 main().catch((err) => {
