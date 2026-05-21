@@ -34,23 +34,36 @@ function formatDate(isoDate) {
 }
 
 async function getLatestPush(owner, repo) {
-  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
+  // Use latest commit on the default branch (not pushed_at which fires on any branch)
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=1`, { headers });
   if (!res.ok) {
-    console.warn(`  ⚠ Could not fetch ${owner}/${repo}: ${res.status}`);
+    console.warn(`  ⚠ Could not fetch commits for ${owner}/${repo}: ${res.status}`);
     return null;
   }
   const data = await res.json();
-  return data.pushed_at;
+  if (!data.length) return null;
+  return data[0].commit.committer.date;
 }
 
-async function getLatestRelease(owner, repo) {
-  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`, { headers });
+async function getLatestRelease(owner, repo, tagPrefix) {
+  // Fetch recent releases and find the first that is published (non-draft, non-prerelease)
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases?per_page=20`, { headers });
   if (!res.ok) {
-    // Fall back to latest push if no releases
-    return getLatestPush(owner, repo);
+    console.warn(`  ⚠ Could not fetch releases for ${owner}/${repo}: ${res.status}`);
+    return null;
   }
-  const data = await res.json();
-  return data.published_at || data.created_at;
+  const releases = await res.json();
+  const published = releases.find((r) => {
+    if (r.draft || r.prerelease) return false;
+    // If a tag prefix is specified, only match releases for that app (e.g. revive-api@)
+    if (tagPrefix && !r.tag_name?.startsWith(tagPrefix)) return false;
+    return true;
+  });
+  if (!published) {
+    console.warn(`  ⚠ No published release found for ${owner}/${repo}${tagPrefix ? ` (prefix: ${tagPrefix})` : ''}`);
+    return null;
+  }
+  return published.published_at || published.created_at;
 }
 
 async function main() {
@@ -61,20 +74,20 @@ async function main() {
   const apiVersion = spec.info?.version || 'unknown';
 
   const [apiDate, dashboardDate, adminDate, mobileDate, docsDate] = await Promise.all([
-    getLatestRelease('Revive-Home', 'revive-api'),
-    getLatestRelease('Revive-Home', 'revive-dashboard'),
-    getLatestRelease('Revive-Home', 'revive-admin'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'revive-api@'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'revive-dashboard@'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'revive-admin@'),
     getLatestRelease('Revive-Home', 'revive-mobile'),
     getLatestPush('Revive-Home', 'revive-api-docs'),
   ]);
 
   const dates = {
-    apiRef: formatDate(apiDate || new Date().toISOString()),
+    apiRef: apiDate ? formatDate(apiDate) : null,
     apiVersion,
-    dashboard: formatDate(dashboardDate || new Date().toISOString()),
-    admin: formatDate(adminDate || new Date().toISOString()),
-    mobile: formatDate(mobileDate || new Date().toISOString()),
-    docs: formatDate(docsDate || new Date().toISOString()),
+    dashboard: dashboardDate ? formatDate(dashboardDate) : null,
+    admin: adminDate ? formatDate(adminDate) : null,
+    mobile: mobileDate ? formatDate(mobileDate) : null,
+    docs: docsDate ? formatDate(docsDate) : null,
   };
 
   console.log('  API Reference:', dates.apiVersion, '—', dates.apiRef);
@@ -87,39 +100,51 @@ async function main() {
   const indexPath = path.join(ROOT, 'index.mdx');
   let content = fs.readFileSync(indexPath, 'utf8');
 
-  // Replace each card's date line using sed-style replacements
-  content = content.replace(
-    /(<Card title="API Reference" icon="terminal">\n\s+)\*\*.*?\*\* — updated .+/,
-    `$1**${dates.apiVersion}** — updated ${dates.apiRef}`
-  );
-  content = content.replace(
-    /(<Card title="revive-api" icon="server">\n\s+)Last deploy: \*\*.+?\*\*/,
-    `$1Last deploy: **${dates.apiRef}**`
-  );
-  content = content.replace(
-    /(<Card title="revive-dashboard" icon="browser">\n\s+)Last deploy: \*\*.+?\*\*/,
-    `$1Last deploy: **${dates.dashboard}**`
-  );
-  content = content.replace(
-    /(<Card title="revive-admin" icon="shield">\n\s+)Last deploy: \*\*.+?\*\*/,
-    `$1Last deploy: **${dates.admin}**`
-  );
-  content = content.replace(
-    /(<Card title="revive-mobile" icon="mobile">\n\s+)Last deploy: \*\*.+?\*\*/,
-    `$1Last deploy: **${dates.mobile}**`
-  );
-  content = content.replace(
-    /(<Card title="This docs site" icon="book">\n\s+)Last updated: \*\*.+?\*\*/,
-    `$1Last updated: **${dates.docs}**`
-  );
+  // Replace each card's date line — only update if we got a valid date
+  if (dates.apiRef) {
+    content = content.replace(
+      /(<Card title="API Reference" icon="terminal">\n\s+)\*\*.*?\*\* — updated .+/,
+      `$1**${dates.apiVersion}** — updated ${dates.apiRef}`
+    );
+    content = content.replace(
+      /(<Card title="revive-api" icon="server">\n\s+)Last deploy: \*\*.+?\*\*/,
+      `$1Last deploy: **${dates.apiRef}**`
+    );
+  }
+  if (dates.dashboard) {
+    content = content.replace(
+      /(<Card title="revive-dashboard" icon="browser">\n\s+)Last deploy: \*\*.+?\*\*/,
+      `$1Last deploy: **${dates.dashboard}**`
+    );
+  }
+  if (dates.admin) {
+    content = content.replace(
+      /(<Card title="revive-admin" icon="shield">\n\s+)Last deploy: \*\*.+?\*\*/,
+      `$1Last deploy: **${dates.admin}**`
+    );
+  }
+  if (dates.mobile) {
+    content = content.replace(
+      /(<Card title="revive-mobile" icon="mobile">\n\s+)Last deploy: \*\*.+?\*\*/,
+      `$1Last deploy: **${dates.mobile}**`
+    );
+  }
+  if (dates.docs) {
+    content = content.replace(
+      /(<Card title="This docs site" icon="book">\n\s+)Last updated: \*\*.+?\*\*/,
+      `$1Last updated: **${dates.docs}**`
+    );
+  }
 
   // Also update the api-reference/introduction.mdx banner
   const introPath = path.join(ROOT, 'api-reference', 'introduction.mdx');
   let introContent = fs.readFileSync(introPath, 'utf8');
-  introContent = introContent.replace(
-    /\*\*API spec version:\*\* .+/,
-    `**API spec version:** ${dates.apiVersion} — auto-synced from \`revive-api\` on every production release. Last updated ${dates.apiRef}.`
-  );
+  if (dates.apiRef) {
+    introContent = introContent.replace(
+      /\*\*API spec version:\*\* .+/,
+      `**API spec version:** ${dates.apiVersion} — auto-synced from \`revive-api\` on every production release. Last updated ${dates.apiRef}.`
+    );
+  }
 
   fs.writeFileSync(indexPath, content);
   fs.writeFileSync(introPath, introContent);

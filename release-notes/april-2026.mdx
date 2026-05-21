@@ -1,207 +1,7 @@
 ---
-title: "Release Notes"
-description: "What's new across the Revive platform — features, improvements, fixes, and breaking changes"
+title: "April 2026"
+description: "Release notes for April 2026"
 ---
-
-<Update label="May 20, 2026" description="v2.2.0" tags={["revive-dashboard"]}>
-
-### New
-
-- Fire Google Tag event when submitting Revive AI reports from Dashboard. ([#2417](https://github.com/Revive-Home/revive-dashboard/pull/2417))
-- Enhanced sign-up flow with improved data tracking and analytics capabilities. ([#2405](https://github.com/Revive-Home/revive-dashboard/pull/2405))
-- Redesigned meeting scheduler UI: week strip, timezone picker, responsive time-slot grid, and property-advisor selector. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-- "Anyone available" option for selecting any advisor. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-
-### Improved
-
-- Removed and consolidated many legacy UI components, icons, utilities, hooks, types and modal/report flows; reduced public exports. ([#2382](https://github.com/Revive-Home/revive-dashboard/pull/2382))
-- End date displays across project scope pages, public property pages, weekly update logs, and progress report components have been updated. Verified end dates are now prioritized when available, with standard dates as fallback. Updates affect estimated completion dates and ensure consistent date handling throughout the application. ([#2407](https://github.com/Revive-Home/revive-dashboard/pull/2407))
-- Homeowners see in‑home visit messaging and advisor selection hidden. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-- Improved slot filtering, clearer selected‑slot highlighting, simplified scheduling footer, and removal of the back/clear action. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-- Completion step shows scheduled‑meeting banner and "Go to my project" navigation when ready. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-
-### Fixed
-
-- Sync yarn.lock with package.json. ([#2421](https://github.com/Revive-Home/revive-dashboard/pull/2421))
-- Minor UI/data fixes: preferred verified end dates in displays and adjusted a transaction line item display. ([#2382](https://github.com/Revive-Home/revive-dashboard/pull/2382))
-
-### Action required
-
-No action required for existing integrations.
-
-</Update>
-
-
-<Update label="May 18, 2026" description="v2.1.2" tags={["revive-dashboard"]}>
-
-### New
-
-- Fire Google Tag event when submitting Revive AI reports from Dashboard. ([#2417](https://github.com/Revive-Home/revive-dashboard/pull/2417))
-- Enhanced sign-up flow with improved data tracking and analytics capabilities. ([#2405](https://github.com/Revive-Home/revive-dashboard/pull/2405))
-- Redesigned meeting scheduler UI: week strip, timezone picker, responsive time-slot grid, and property-advisor selector. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-- "Anyone available" option for selecting any advisor. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-
-### Improved
-
-- Removed and consolidated many legacy UI components, icons, utilities, hooks, types and modal/report flows; reduced public exports. ([#2382](https://github.com/Revive-Home/revive-dashboard/pull/2382))
-- End date displays across project scope pages, public property pages, weekly update logs, and progress report components have been updated. Verified end dates are now prioritized when available, with standard dates as fallback. Updates affect estimated completion dates and ensure consistent date handling throughout the application. ([#2407](https://github.com/Revive-Home/revive-dashboard/pull/2407))
-- Homeowners see in‑home visit messaging and advisor selection hidden. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-- Improved slot filtering, clearer selected‑slot highlighting, simplified scheduling footer, and removal of the back/clear action. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-- Completion step shows scheduled‑meeting banner and "Go to my project" navigation when ready. ([#2399](https://github.com/Revive-Home/revive-dashboard/pull/2399))
-
-### Fixed
-
-- Sync yarn.lock with package.json. ([#2421](https://github.com/Revive-Home/revive-dashboard/pull/2421))
-- Minor UI/data fixes: preferred verified end dates in displays and adjusted a transaction line item display. ([#2382](https://github.com/Revive-Home/revive-dashboard/pull/2382))
-- Fixed filter default behavior in the Comparables view to improve initialization accuracy. ([#2391](https://github.com/Revive-Home/revive-dashboard/pull/2391))
-- Corrected the "Initial payment made" amount shown in the Sell360 resale transaction summary so the displayed value now reflects the correct initial payment. This fixes a discrepancy in the transaction summary row without altering labels or layout. ([#2402](https://github.com/Revive-Home/revive-dashboard/pull/2402))
-
-### Action required
-
-No action required for existing integrations.
-
-</Update>
-
-
-<Update label="May 9, 2026" description="API hotfix" tags={["revive-api"]}>
-
-### Fixed
-
-- **Admin-only Renovision renders no longer carry a homeowner `contactId`.** When `POST /v1/predictions/` is called with an `adminId` but no `reportId` — the signature of a render started from the Renovision configurator in the admin app — the AI image render job document now explicitly stores `contactId: null`. This prevents downstream consumers that read the job from associating the render with a homeowner contact. Calls that include a `reportId` (alone or alongside `adminId`) are unaffected. ([Revive-Home/revive-api#2020](https://github.com/Revive-Home/revive-api/pull/2020))
-
-### Action required
-
-No action required. Existing `POST /v1/predictions/` callers continue to work unchanged.
-
-</Update>
-
-<Update label="May 8, 2026" description="Sprint 8" tags={["revive-dashboard"]}>
-
-### Changed
-
-- **Getting Started GTM event simplified.** The Getting Started intake on production now pushes a `hubspot-form-success` event to the Google Tag Manager `dataLayer` with plain (non-hashed) form fields — `hsFormEmail`, `hsFormFirstName`, `hsFormLastName`, `hsFormPhone`, `hsFormName: "Revive Intake Form"`, plus `address`, `city`, and `postal_code` — so HubSpot and downstream tooling can attribute Revive AI report submissions without needing to match on hashed values. The event still fires only in production and failures are logged without blocking sign-up. ([Revive-Home/revive-dashboard#2417](https://github.com/Revive-Home/revive-dashboard/pull/2417))
-- **Intake confirmation step no longer fires a duplicate GTM event.** The phone-verification confirmation step in the standalone Intake flow no longer pushes its own `hubspot-form-success` event, eliminating duplicate submissions in HubSpot. The Getting Started event above remains the single source of truth for intake attribution. ([Revive-Home/revive-dashboard#2417](https://github.com/Revive-Home/revive-dashboard/pull/2417))
-
-### Action required
-
-If you have GTM tags or HubSpot workflows that consume the Getting Started `hubspot-form-success` event, update them to read the plain `hsFormEmail`, `hsFormFirstName`, `hsFormLastName`, and `hsFormPhone` fields instead of the previous SHA-256 hashed `user_data` payload. Tags listening for the old `gettingStartedSubmission` event name should be retargeted to `hubspot-form-success`.
-
-</Update>
-
-<Update label="May 7, 2026" description="API release — Sprint 8" tags={["revive-api"]}>
-
-### New
-
-- **Rush requests for RMAs.** Four new endpoints let project managers flag an executed RMA as time-sensitive and route it through an approval workflow. `POST /v1/rma/{rmaId}/rush` raises a request with a required `reason` (the RMA must be in `executed` status and not already pending/approved). `POST /v1/rma/{rmaId}/rush/approve` and `POST /v1/rma/{rmaId}/rush/decline` resolve the request and require the `rmaAdmin` permission; the decline endpoint accepts an optional `reason`. `POST /v1/rma/{rmaId}/rush/remove` clears the rush flag from a previously approved RMA and also requires `rmaAdmin`. Each transition adds a note plus an activity log entry (`rush_requested`, `rush_approved`, `rush_declined`, `rush_removed`) and posts a Slack notification to the RMA channel. The RMA payload now includes `is_rush`, `rush_status` (`pending` / `approved` / `declined`), `rush_reason`, `rush_requested_by`, and `rush_requested_at`. ([Revive-Home/revive-api#2005](https://github.com/Revive-Home/revive-api/pull/2005))
-
-### Improved
-
-- **All HubSpot-linked contractors are returned on opportunity reads.** `GET /v1/opportunities/{id}` now resolves every contractor associated with the deal in HubSpot and returns them on a new `contractors` array. The existing `contractor` field is preserved for backwards compatibility and contains the first entry from `contractors` (or `null` if none are linked). Use `contractors` when a project has multiple contractors; continue to use `contractor` for single-contractor flows. ([Revive-Home/revive-api#2008](https://github.com/Revive-Home/revive-api/pull/2008))
-- **`is_home_prep` exposed on contractor records.** The HubSpot contractor properties returned by opportunity and contractor endpoints now include `is_home_prep`, identifying contractors approved for home-prep work. The field is read directly from HubSpot — no migration required. ([Revive-Home/revive-api#2008](https://github.com/Revive-Home/revive-api/pull/2008))
-
-### Fixed
-
-- **RMA naming sequence skips rejected drafts.** `POST /v1/rma/` now derives the auto-generated `RMA #N` name from the count of non-rejected RMAs on the deal. RMAs with status `not_approved` no longer increment the counter, so a deal with three drafts (one rejected, two active) ends up with `RMA #1` and `RMA #2` instead of skipping a number. ([Revive-Home/revive-api#2002](https://github.com/Revive-Home/revive-api/pull/2002))
-
-### Action required
-
-No action required. The new rush endpoints and the `contractors` array are additive. Existing integrations that read `opportunity.contractor` continue to work unchanged.
-
-</Update>
-
-<Update label="May 7, 2026" description="Sprint 8" tags={["revive-dashboard"]}>
-
-### Improved
-
-- **GTM tracking on intake sign-up.** When a new user completes phone verification during the Getting Started intake on production, the dashboard now fires a `hubspot-form-success` event to Google Tag Manager with hashed user data (email, first name, last name, phone) so Revive AI report submissions are attributed in HubSpot and downstream marketing tooling. The event is only sent in production and failures are logged without blocking the sign-up flow. ([Revive-Home/revive-dashboard#2405](https://github.com/Revive-Home/revive-dashboard/pull/2405))
-- **Project end date reflects weekly-update adjustments.** Project Scope, Public Property Page, weekly update logs, and the Progress Report flow now display `verifiedEndDate` (the date confirmed during a weekly update) when present, falling back to `endDate` otherwise. This keeps the homeowner-facing completion date in sync with the latest schedule confirmed by the project manager. ([Revive-Home/revive-dashboard#2407](https://github.com/Revive-Home/revive-dashboard/pull/2407))
-
-### Fixed
-
-- **Comparables modal no longer auto-applies filters.** The Vision AI Report comparables modal opens with no preset filters, so users see the full comparable set and can opt into status, list date, or similarity filters themselves. ([Revive-Home/revive-dashboard#2391](https://github.com/Revive-Home/revive-dashboard/pull/2391))
-- **Sell 360 "Initial payment made" matches the gross initial check.** The deduction in the **02 Resale transaction** section of the Sell 360 transaction summary now uses `shared.initialPayment` instead of `shared.firstCheckNet`, so deductions in section 02 correctly sum to the resale transaction proceeds shown in section 01. ([Revive-Home/revive-dashboard#2402](https://github.com/Revive-Home/revive-dashboard/pull/2402))
-- **TBD label preserved on custom estimate items.** The Renovation Estimate **Product** modal now propagates the `isTBD` flag from custom items, so items flagged as TBD continue to show the red `TBD` badge in the proposal view, side menu, and products list after editing. ([Revive-Home/revive-dashboard#2389](https://github.com/Revive-Home/revive-dashboard/pull/2389))
-
-### Action required
-
-No action required for existing integrations.
-
-</Update>
-
-<Update label="May 7, 2026" description="v2.156.0" tags={["revive-api"]}>
-
-### New
-
-- AI Weekly Updates: generate weekly summaries, create/list conversations, send messages, and apply assistant suggestions. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
-- Anthropic-backed generation with clearer unauthorized error responses. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
-- New Features (Predictions). ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
-- Prediction requests and image render jobs can include optional admin identifiers to track administrative context. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
-- Validation & Routes. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
-- Added request validation and new API routes for weekly updates. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
-- Refactor / Bug Fixes. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
-- Safer null handling, improved logging, corrected RMA counting, and expanded contractor/association data in responses. ([#1986](https://github.com/Revive-Home/revive-api/pull/1986))
-- Admin tool to scan, preview, and bulk-fix malformed HubSpot phone numbers with a dedicated admin UI. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
-- Endpoints for listing broken numbers and submitting chunked, throttled batch fixes with strict canonical phone validation. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
-- RMA rush workflow: request expedited processing; admins can approve, decline (with reason), or remove rush requests via new API endpoints. ([#2005](https://github.com/Revive-Home/revive-api/pull/2005))
-- RMA notifications updated to report rush events (requested, approved, declined) and optionally mention admins. ([#2005](https://github.com/Revive-Home/revive-api/pull/2005))
-- Review-app deployment automation enhanced: Vercel env updates, redeploy triggering with deploy URL output, and tighter Heroku review-app lifecycle handling and summaries. ([#2005](https://github.com/Revive-Home/revive-api/pull/2005))
-- Room-type taxonomy and standardized mappings for interior/exterior/kitchen/bathroom/bedroom/living classifications. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- Utilities to aggregate and surface top features per room across comparable properties. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- Automatic background feature extraction and saving when creating or updating property dashboards. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- AI-generated, human-readable per-room summaries of detected features added to reports. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- Feat/mintlify openapi docs. ([#1985](https://github.com/Revive-Home/revive-api/pull/1985))
-- Persistent job tracking for AI image renders (Firestore-backed) and improved prediction lifecycle. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
-- Live HubSpot pipeline stage shown in RMA details; executed timestamps included. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
-- Automated RMA notifications for pending signatures and payments. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
-
-### Improved
-
-- Safer data handling to avoid mutating input objects during condition/score processing. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
-- Migrated to an updated external scheduling client to improve reliability of meeting flows. ([#1989](https://github.com/Revive-Home/revive-api/pull/1989))
-- Enhanced internal error handling and improved code compatibility in the meetings service. ([#1987](https://github.com/Revive-Home/revive-api/pull/1987))
-- Prediction system migrated from in-memory to persistent storage. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
-- Meetings now use HubSpot scheduler API. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
-
-### Fixed
-
-- Improved error logging and clearer error messages for failing flows and batch operations. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
-- Fix RMA Contractor Selection. ([#2008](https://github.com/Revive-Home/revive-api/pull/2008))
-- Fixed RMA auto-numbering to exclude rejected RMAs when assigning sequential numbers, ensuring cleaner and more consistent numbering sequences. ([#2002](https://github.com/Revive-Home/revive-api/pull/2002))
-- Standardized contractor creation to consistently use production HubSpot pipeline and stage identifiers across all environments, ensuring consistent data handling regardless of deployment context. ([#1991](https://github.com/Revive-Home/revive-api/pull/1991))
-- Improved consistency of meeting booking responses and availability checks. ([#1989](https://github.com/Revive-Home/revive-api/pull/1989))
-- Stopped redundant external CRM sync for analysis reports. ([#1963](https://github.com/Revive-Home/revive-api/pull/1963))
-- Removed several unavailable deal stages from pipeline data. ([#1963](https://github.com/Revive-Home/revive-api/pull/1963))
-- More reliable file downloads with redirect handling and safer header behavior. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
-- Improved brokerage logo handling with automatic resizing. ([#1934](https://github.com/Revive-Home/revive-api/pull/1934))
-
-### Action required
-
-No action required for existing integrations.
-
-</Update>
-<Update label="May 4, 2026" description="API release" tags={["revive-api"]}>
-
-### New
-
-- **AI-generated weekly updates.** A new set of endpoints under `/v1/weekly-updates/ai-*` lets project managers draft homeowner-facing weekly renovation updates with Claude. `POST /v1/weekly-updates/ai-generate` produces a one-shot draft from contractor notes and photos. The conversation endpoints (`POST /v1/weekly-updates/ai-conversations`, `GET /v1/weekly-updates/ai-conversations`, `GET /v1/weekly-updates/ai-conversations/{conversationId}`, `POST /v1/weekly-updates/ai-conversations/{conversationId}/messages`, `POST /v1/weekly-updates/ai-conversations/{conversationId}/apply`) persist a per-deal, per-week chat thread so users can iterate on the draft and pin the version that was sent to the homeowner. The first message in a new conversation is automatically enriched with the previous week's applied update for continuity. All endpoints require a Firebase JWT. ([Revive-Home/revive-api#2009](https://github.com/Revive-Home/revive-api/pull/2009))
-
-### Action required
-
-No action required. The endpoints are additive. See [AI weekly updates](/guides/ai-weekly-updates) for usage and request/response shapes.
-
-</Update>
-
-<Update label="May 2, 2026" description="API hotfix" tags={["revive-api"]}>
-
-### Improved
-
-- **Tag AI image render jobs with an `adminId`.** `POST /v1/predictions/` accepts a new optional `adminId` field (Firebase UID of the admin who initiated the render) alongside the existing optional `reportId`. The value is persisted on the AI image render job document so admin-initiated renders — for example, jobs started from the Renovision configurator in the admin app — can be filtered and listed per admin. Both `adminId` and `reportId` can be supplied together; if a job with the same `jobId` already exists, the new identifiers are merged onto the existing record. ([Revive-Home/revive-api#2006](https://github.com/Revive-Home/revive-api/pull/2006))
-
-### Action required
-
-No action required. `adminId` is optional and existing `POST /v1/predictions/` callers continue to work unchanged.
-
-</Update>
 
 <Update label="April 30, 2026" description="API hotfix" tags={["revive-api"]}>
 
@@ -284,8 +84,6 @@ No action required for existing integrations.
 
 </Update>
 
-
-
 <Update label="April 28, 2026" description="Dashboard v1.151.0" tags={["revive-dashboard"]}>
 
 ### New
@@ -317,6 +115,27 @@ No action required. Funnels that don't need the meeting steps can continue to sk
 ### Action required
 
 No action required for existing integrations. The new `isSeparateByGroup` query parameter on `GET /v1/meetings/available-calendars` is optional and the default response shape is unchanged.
+
+</Update>
+
+<Update label="April 27, 2026" description="Report V4" tags={["revive-api"]}>
+
+### New
+
+- **Mortgage data endpoint** — New `POST /v1/avm/mortgage` returns standardized mortgage and ownership data (loan amount, lender, interest rate, term, recording date, equity, owner name, tax amount, monthly HOA, annual insurance, price history) from five providers (Estated, House Canary, Zillow, Redfin, RentCast). Each provider response is normalized into the same shape so consumers can pick the best available value across sources. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- **Mortgage data on AVM lookup** — `POST /v1/avm/` accepts a new optional `withMortgageData` boolean. When `true`, the AVM cache is populated with mortgage and ownership fields alongside valuation data, enabling downstream reports to display mortgage context without an extra round trip. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- **Readable property features endpoint** — New `POST /v1/property/{reportId}/generate-readable-features` analyzes a report's media, comparables, and condition ratings to generate AI-written renovation insights per room type (`kitchen`, `bathroom`, `interior`, `exterior`, `other`). The response groups insights into `short`, `afterRenovationCondition`, `valueImpact`, and `buyerAppealScore` blocks suitable for direct display in a report UI. Property dashboard creation also runs this in the background and saves the result to the report. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- **Reimagine V2 (material-based renderings)** — `POST /v1/reimagine/create-image` accepts a new `version: "v2"` flag and a `materials` object. When V2 is selected, the API uses Google Gemini and the supplied materials (countertops, backsplash, cabinets, hardware, faucet, sink, flooring, paint, appliances) — including reference images — to generate a photorealistic renovation of the source photo. `roomType` and `roomStyle` become optional in V2 (`materials` drives the prompt instead). The legacy V1 prompt-based flow is unchanged when `version` is omitted. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+
+### Improved
+
+- **Property dashboard responses include mortgage context** — `POST /v1/property/dashboard` and `POST /v1/property/neighborhood-dashboard` now request mortgage data from the AVM service automatically, so the cached AVM record exposes lender, loan, equity, and ownership fields when downstream consumers fetch it.
+- **Multi-source home image lookup** — `POST /v1/utility/get-home-images` accepts an optional `source` (`"restb"`, `"anyprop"`, or `"zillow"`). When `source` is omitted, the endpoint waterfalls through AnyProp → RestB → Zillow and returns the first non-empty deduplicated result, increasing image coverage during intake.
+
+### Action required
+
+- **`/v1/utility/check-home-images` renamed to `/v1/utility/get-home-images`** — The public intake-flow endpoint has been renamed. Update any direct callers from `POST /v1/utility/check-home-images` to `POST /v1/utility/get-home-images`. The request body now expects `streetAddress`, `city`, `state`, and `postalCode` (all required), plus an optional `source`. The response shape (`{ images: string[] }`) is unchanged.
+- **Reimagine V1 callers — no action needed** — Existing `POST /v1/reimagine/create-image` requests without a `version` field continue to use the legacy prompt-based flow. Adopt `version: "v2"` only when you are ready to send a `materials` object.
 
 </Update>
 
@@ -394,27 +213,6 @@ No action required for existing integrations. The `POST /v1/brokerages/` request
 ### Action required
 
 No action required for existing integrations. The new `email` and `phone` fields on `POST /v1/brokerages/` are optional and backwards compatible.
-
-</Update>
-
-<Update label="April 27, 2026" description="Report V4" tags={["revive-api"]}>
-
-### New
-
-- **Mortgage data endpoint** — New `POST /v1/avm/mortgage` returns standardized mortgage and ownership data (loan amount, lender, interest rate, term, recording date, equity, owner name, tax amount, monthly HOA, annual insurance, price history) from five providers (Estated, House Canary, Zillow, Redfin, RentCast). Each provider response is normalized into the same shape so consumers can pick the best available value across sources. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- **Mortgage data on AVM lookup** — `POST /v1/avm/` accepts a new optional `withMortgageData` boolean. When `true`, the AVM cache is populated with mortgage and ownership fields alongside valuation data, enabling downstream reports to display mortgage context without an extra round trip. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- **Readable property features endpoint** — New `POST /v1/property/{reportId}/generate-readable-features` analyzes a report's media, comparables, and condition ratings to generate AI-written renovation insights per room type (`kitchen`, `bathroom`, `interior`, `exterior`, `other`). The response groups insights into `short`, `afterRenovationCondition`, `valueImpact`, and `buyerAppealScore` blocks suitable for direct display in a report UI. Property dashboard creation also runs this in the background and saves the result to the report. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- **Reimagine V2 (material-based renderings)** — `POST /v1/reimagine/create-image` accepts a new `version: "v2"` flag and a `materials` object. When V2 is selected, the API uses Google Gemini and the supplied materials (countertops, backsplash, cabinets, hardware, faucet, sink, flooring, paint, appliances) — including reference images — to generate a photorealistic renovation of the source photo. `roomType` and `roomStyle` become optional in V2 (`materials` drives the prompt instead). The legacy V1 prompt-based flow is unchanged when `version` is omitted. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-
-### Improved
-
-- **Property dashboard responses include mortgage context** — `POST /v1/property/dashboard` and `POST /v1/property/neighborhood-dashboard` now request mortgage data from the AVM service automatically, so the cached AVM record exposes lender, loan, equity, and ownership fields when downstream consumers fetch it.
-- **Multi-source home image lookup** — `POST /v1/utility/get-home-images` accepts an optional `source` (`"restb"`, `"anyprop"`, or `"zillow"`). When `source` is omitted, the endpoint waterfalls through AnyProp → RestB → Zillow and returns the first non-empty deduplicated result, increasing image coverage during intake.
-
-### Action required
-
-- **`/v1/utility/check-home-images` renamed to `/v1/utility/get-home-images`** — The public intake-flow endpoint has been renamed. Update any direct callers from `POST /v1/utility/check-home-images` to `POST /v1/utility/get-home-images`. The request body now expects `streetAddress`, `city`, `state`, and `postalCode` (all required), plus an optional `source`. The response shape (`{ images: string[] }`) is unchanged.
-- **Reimagine V1 callers — no action needed** — Existing `POST /v1/reimagine/create-image` requests without a `version` field continue to use the legacy prompt-based flow. Adopt `version: "v2"` only when you are ready to send a `materials` object.
 
 </Update>
 
@@ -590,48 +388,5 @@ No bug fixes in this release.
 
 - **RMA status values changed** — Update any code that filters or updates RMAs by status. See the mapping: `drafting` → `preparing`, `sent` → `pending_signatures`, `review` → `executed`, `rejected` → `not_approved`, `released` → `paid`.
 - **Estimate proposal response shape changed** — Fields renamed: `slide1` → `coverSlide`, `slide2` → `neighborhoodComparables`, `slide3` → `valueOpportunity`, `slide4` → `comparisonChart`, `slide9` → `caseStudies`, `slide10` → `advisorNextSteps`. A new `sell360TransactionSummary` object is included when applicable.
-
-</Update>
-
-<Update label="March 26, 2026" description="v2.149.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
-
-### New
-
-- Predictions API: create and poll async image-generation jobs with a new admin endpoint for contract signing links. ([#1897](https://github.com/Revive-Home/revive-api/pull/1897))
-- Copy signing links for contract recipients and estimates in Admin. ([#1723](https://github.com/Revive-Home/revive-admin/pull/1723))
-- Document status sync to HubSpot with mapped property translations. ([#1913](https://github.com/Revive-Home/revive-api/pull/1913))
-
-### Improved
-
-- Smarter renovation update selection and optimistic weekly-update handling in Admin. ([#1723](https://github.com/Revive-Home/revive-admin/pull/1723))
-- Pre-estimate analytics: page views, time-on-page, per-section tracking in Dashboard. ([#2327](https://github.com/Revive-Home/revive-dashboard/pull/2327))
-
-### Fixed
-
-- Fixed a condition that determines when the V2-specific edit modal is displayed in Admin. ([#1735](https://github.com/Revive-Home/revive-admin/pull/1735))
-
-### Action required
-
-No action required for existing integrations.
-
-</Update>
-
-<Update label="December 23, 2025" description="v1.78.0" tags={["revive-mobile"]}>
-
-### New
-
-- **Revive Wrapped video.** The mobile app now supports an in-app Revive Wrapped experience — a personalized year-in-review video that contractors can view directly from the app. ([#503](https://github.com/Revive-Home/revive-mobile/pull/503))
-
-### Improved
-
-No improvements in this release.
-
-### Fixed
-
-No bug fixes in this release.
-
-### Action required
-
-No action required for existing integrations.
 
 </Update>
