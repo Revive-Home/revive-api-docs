@@ -249,6 +249,7 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 - **AnyProp as a property data and imagery provider.** Comparables, property records, and home photos can now be sourced from AnyProp alongside existing providers (RestB, Zillow), with results normalized into the same response shape. For users: more reliable property coverage and better fallback when one provider is missing data. See [Property data providers](/third-party-integrations/property-data).
 - **Home-imagery utility endpoints.** `POST /v1/utility/get-home-images` returns home photos for an address with automatic provider fallback, or you can pin a provider with `source`. `POST /v1/utility/deduplicate-images` removes exact and visually-similar duplicates from a set of image URLs using perceptual hashing. For users: easier to confirm a property has usable imagery before kicking off a report, and cleaner photo sets when combining sources.
 - **Room-type classification on comparable photos.** Comparable images now carry per-image room types (kitchen, bathroom, bedroom, living, exterior, etc.) plus an aggregated `roomTypes` list per comparable. Results are cached after the first request, so reopening a comp is instant. For users: faster, more accurate side-by-side room comparisons in the report.
+- **GTM event for AI report submissions.** The dashboard now fires a `hubspot-form-success` Google Tag Manager event when a homeowner submits a Revive AI report from the Getting Started intake. For users: report submissions are attributed in HubSpot and downstream marketing tooling without manual reconciliation.
 - **RenoVision and comparables slides in the homeowner report.** Two new slides surface the AI-rendered "after" view and a focused comparables view inside the Revive AI Report flow, with public report URLs accessible without sign-in. For users: a more guided way to walk through the report on phone and desktop.
 - **PDF download for preliminary estimates.** RTStay preliminary estimates can now be exported as a PDF from the dashboard, with wider pricing columns and clearer totals. For users: a shareable artifact homeowners and reps can hand off without a screenshot.
 - **Auto-fill RMA material advance from the PO sheet.** Material advance on an RMA is now populated automatically from the linked purchase-order sheet. For users: fewer manual copies between sheets and the RMA form.
@@ -259,6 +260,7 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 ### Improved
 
 - **Meeting scheduling polish.** The Getting Started meeting scheduler has tighter dropdown behavior, cleaner advisor selection, and fewer redundant components in the booking flow. For users: a smoother, less cluttered path to booking an advisor call. Funnels using `showcalendar=false` are unaffected — see [Intake URL parameters](/guides/intake-url-parameters#meeting-and-advisor-selection).
+- **Verified end dates shown across project surfaces.** Project scope pages, public property pages, weekly update logs, and the progress report now display the end date verified during a weekly update when available, falling back to the standard end date otherwise. For users: the completion date homeowners see stays in sync with the latest schedule confirmed by their project manager.
 - **RTStay sharing no longer blocks on ARV / as-is.** Admins can now share an RTStay project without filling in the ARV and as-is values. For users: project managers can share earlier in the process.
 - **RMA rush is available to all admins.** Any admin can now request or remove rush on an RMA from the list view; approve and decline remain gated on the `rmaAdmin` permission.
 - **Live HubSpot pipeline stage on RMAs.** RMA detail responses fetch the pipeline stage label live from HubSpot. For users: the displayed stage always matches HubSpot.
@@ -271,6 +273,10 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 ### Fixed
 
 - **Vercel build stability.** Resolved module-resolution issues that intermittently broke dashboard and admin deployments on Vercel. For users: more reliable production releases with fewer deploy-time hiccups.
+- **Potential score submissions no longer blocked on first entry.** Validation on Vision AI potential score submissions accepts valid entries when no prior current value exists. For users: scoring a property for the first time works without spurious validation errors.
+- **Report submissions no longer overwrite predictions with stale data.** Report submission now omits current-value data when it doesn't apply, preventing predictions from being incorrectly overwritten. For users: predicted values stay intact across edits.
+- **Comparables modal opens without preset filters.** The Vision AI Report comparables modal opens showing the full comparable set, letting users opt into status, list date, or similarity filters themselves.
+- **Sell 360 "Initial payment made" matches the gross initial check.** The deduction in the **02 Resale transaction** section of the Sell 360 transaction summary uses the gross initial payment, so deductions correctly sum to the resale transaction proceeds shown in section 01.
 - **Editing Revive AI reports saves correctly.** Fixed a regression where some edits to a report were silently dropped on save.
 - **Renovation configurator selections preserved.** Switching packages no longer shows a stale "Apply Changes" prompt, and changing one material no longer resets the others.
 - **RMA check-run cutoff respects timezone.** RMAs near the daily cutoff are now categorized consistently across timezones.
@@ -281,7 +287,7 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 
 ### Action required
 
-None. The new `/v1/utility/*` endpoints are additive, and the new `source` and room-type fields on existing responses are additive. Existing integrations continue to work unchanged.
+None. The new `/v1/utility/*` endpoints are additive, and the new `source` and room-type fields on existing responses are additive. Existing integrations continue to work unchanged. If you have GTM tags or HubSpot workflows that consumed the previous `gettingStartedSubmission` event with SHA-256 hashed user data, retarget them to the `hubspot-form-success` event and the plain `hsFormEmail`, `hsFormFirstName`, `hsFormLastName`, and `hsFormPhone` fields.
 
 </Update>
 
