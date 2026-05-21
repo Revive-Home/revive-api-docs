@@ -6,7 +6,7 @@ import path from 'node:path';
 // ---------------------------------------------------------------------------
 const ORG = 'Revive-Home';
 const MONOREPO = 'revive-apps';
-const APPS = ['revive-dashboard', 'revive-admin', 'revive-api'];
+const APPS = ['dashboard', 'admin', 'api'];
 const STANDALONE_REPOS = ['revive-mobile'];
 const ALL_APPS = [...APPS, ...STANDALONE_REPOS];
 
@@ -80,15 +80,15 @@ async function ghJson(url) {
 }
 
 async function getPreviousReleaseDate(appName) {
-  // For monorepo apps, releases are scoped tags like revive-api@2.157.0
+  // For monorepo apps, releases use tags like api-v3.2.0, dashboard-v2.2.0
   const isMonorepo = APPS.includes(appName);
   const repoName = isMonorepo ? MONOREPO : appName;
   const url = `https://api.github.com/repos/${ORG}/${repoName}/releases?per_page=20`;
   const releases = await ghJson(url);
   const published = releases.filter((r) => {
     if (r.draft || r.prerelease) return false;
-    // For monorepo, only match releases tagged for this app
-    if (isMonorepo) return r.tag_name?.startsWith(`${appName}@`);
+    // For monorepo, only match releases tagged for this app (e.g. api-v)
+    if (isMonorepo) return r.tag_name?.startsWith(`${appName}-v`);
     return true;
   });
   // The first is the current release (just published), the second is the previous one

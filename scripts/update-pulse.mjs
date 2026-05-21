@@ -74,9 +74,9 @@ async function main() {
   const apiVersion = spec.info?.version || 'unknown';
 
   const [apiDate, dashboardDate, adminDate, mobileDate, docsDate] = await Promise.all([
-    getLatestRelease('Revive-Home', 'revive-apps', 'revive-api@'),
-    getLatestRelease('Revive-Home', 'revive-apps', 'revive-dashboard@'),
-    getLatestRelease('Revive-Home', 'revive-apps', 'revive-admin@'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'api-v'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'dashboard-v'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'admin-v'),
     getLatestRelease('Revive-Home', 'revive-mobile'),
     getLatestPush('Revive-Home', 'revive-api-docs'),
   ]);
