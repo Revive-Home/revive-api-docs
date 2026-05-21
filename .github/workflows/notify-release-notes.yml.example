@@ -1,9 +1,12 @@
-# Copy this file to each source repo (revive-api, revive-admin, revive-dashboard, revive-mobile)
-# as .github/workflows/notify-release-notes.yml
+# Install this in revive-apps (monorepo) as .github/workflows/notify-release-notes.yml
+# For revive-mobile (standalone), use the same file but source_repo will be "revive-mobile".
+#
+# Monorepo releases use scoped tags like revive-api@2.157.0.
+# This workflow extracts the app name (e.g. "revive-api") from the tag.
 #
 # Prerequisites:
 #   1. Create a personal access token (PAT) with "repo" scope that can access revive-api-docs.
-#   2. Add it as a repository secret named DOCS_DISPATCH_TOKEN in each source repo.
+#   2. Add it as a repository secret named DOCS_DISPATCH_TOKEN in the source repo.
 
 name: Trigger release notes generation
 
@@ -15,10 +18,24 @@ jobs:
   notify-docs:
     runs-on: ubuntu-latest
     steps:
+      - name: Extract app name from tag
+        id: meta
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          # For scoped tags like "revive-api@2.157.0", extract the app name
+          if [[ "$TAG" == *"@"* ]]; then
+            APP_NAME="${TAG%%@*}"
+          else
+            # Standalone repo — use the repo name directly
+            APP_NAME="${{ github.event.repository.name }}"
+          fi
+          echo "app_name=$APP_NAME" >> "$GITHUB_OUTPUT"
+          echo "Detected app: $APP_NAME from tag: $TAG"
+
       - name: Dispatch to revive-api-docs
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.DOCS_DISPATCH_TOKEN }}
           repository: Revive-Home/revive-api-docs
           event-type: generate-release-notes
-          client-payload: '{"release_version": "${{ github.event.release.tag_name }}", "source_repo": "${{ github.event.repository.name }}"}'
+          client-payload: '{"release_version": "${{ github.event.release.tag_name }}", "source_repo": "${{ steps.meta.outputs.app_name }}"}'

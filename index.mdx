@@ -63,26 +63,20 @@ Use this site if you’re:
 
 ## Repositories
 
-Revive is split across multiple repositories. Start with these:
+The core platform lives in a single monorepo, with mobile as a standalone repo:
+
+<Card title="revive-apps" icon="layer-group" href="https://github.com/Revive-Home/revive-apps">
+  Monorepo containing **revive-api** (backend), **revive-dashboard** (consumer web app), and **revive-admin** (internal admin tool). Scoped releases use tags like `revive-api@2.157.0`.
+</Card>
 
 <Columns cols={2}>
-  <Card title="revive-dashboard" icon="code" href="https://github.com/Revive-Home/revive-dashboard">
-    Consumer-facing web app for homeowners and agents. Use this repo when you’re working on Revive’s customer experience, flows, and web UI.
-  </Card>
   <Card title="revive-mobile" icon="mobile" href="https://github.com/Revive-Home/revive-mobile">
     React Native mobile application. Use this repo for mobile-specific UI, navigation, and native integrations.
   </Card>
-  <Card title="revive-admin" icon="shield" href="https://github.com/Revive-Home/revive-admin">
-    Internal admin tool for Revive employees. Use this repo for business operations workflows, internal tooling, and data management.
-  </Card>
-  <Card title="revive-api" icon="server" href="https://github.com/Revive-Home/revive-api">
-    Backend API layer that connects the platform. Revive operates separate production and admin API environments to support different access patterns and operational needs.
+  <Card title="revive-api-docs" icon="book" href="https://github.com/Revive-Home/revive-api-docs">
+    This documentation site (Mintlify). Update guides, navigation, and the OpenAPI spec used to generate the API reference.
   </Card>
 </Columns>
-
-<Card title="revive-api-docs" icon="book" href="https://github.com/Revive-Home/revive-api-docs">
-  This documentation site (Mintlify). Update guides, navigation, and the OpenAPI spec used to generate the API reference.
-</Card>
 
 If you’re looking for other services, clients, or infrastructure repos, use the **GitHub** link above to browse the full Revive-Home organization.
 

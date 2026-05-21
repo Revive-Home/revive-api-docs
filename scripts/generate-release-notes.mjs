@@ -5,7 +5,10 @@ import path from 'node:path';
 // Config
 // ---------------------------------------------------------------------------
 const ORG = 'Revive-Home';
-const REPOS = ['revive-dashboard', 'revive-admin', 'revive-mobile', 'revive-api'];
+const MONOREPO = 'revive-apps';
+const APPS = ['revive-dashboard', 'revive-admin', 'revive-api'];
+const STANDALONE_REPOS = ['revive-mobile'];
+const ALL_APPS = [...APPS, ...STANDALONE_REPOS];
 
 // PRs whose title matches any of these are silently skipped
 const EXCLUDE_TITLE_PATTERNS = [
@@ -76,18 +79,32 @@ async function ghJson(url) {
   return res.json();
 }
 
-async function getPreviousReleaseDate(repo) {
-  const url = `https://api.github.com/repos/${ORG}/${repo}/releases?per_page=5`;
+async function getPreviousReleaseDate(appName) {
+  // For monorepo apps, releases are scoped tags like revive-api@2.157.0
+  const isMonorepo = APPS.includes(appName);
+  const repoName = isMonorepo ? MONOREPO : appName;
+  const url = `https://api.github.com/repos/${ORG}/${repoName}/releases?per_page=20`;
   const releases = await ghJson(url);
-  const published = releases.filter((r) => !r.draft && !r.prerelease);
+  const published = releases.filter((r) => {
+    if (r.draft || r.prerelease) return false;
+    // For monorepo, only match releases tagged for this app
+    if (isMonorepo) return r.tag_name?.startsWith(`${appName}@`);
+    return true;
+  });
   // The first is the current release (just published), the second is the previous one
   const prev = published.length > 1 ? published[1] : published[0];
   if (!prev) return null;
   return (prev.published_at || prev.created_at || '').slice(0, 10);
 }
 
-async function searchMergedPRs(repos, sinceDate) {
-  const repoQuery = repos.map((r) => `repo:${ORG}/${r}`).join(' ');
+async function searchMergedPRs(targetApps, sinceDate) {
+  // Determine which GitHub repos to search
+  const searchRepos = new Set();
+  for (const app of targetApps) {
+    if (APPS.includes(app)) searchRepos.add(MONOREPO);
+    else searchRepos.add(app); // standalone repos like revive-mobile
+  }
+  const repoQuery = [...searchRepos].map((r) => `repo:${ORG}/${r}`).join(' ');
   const parts = [repoQuery, 'is:pr', 'is:merged'];
   if (label) parts.push(`label:${label}`);
   if (sinceDate) parts.push(`merged:>=${sinceDate}`);
@@ -113,8 +130,25 @@ async function searchMergedPRs(repos, sinceDate) {
   return data.items || [];
 }
 
-async function fetchPull(repo, number) {
-  return ghJson(`https://api.github.com/repos/${ORG}/${repo}/pulls/${number}`);
+async function fetchPull(repoSlug, number) {
+  return ghJson(`https://api.github.com/repos/${ORG}/${repoSlug}/pulls/${number}`);
+}
+
+// Determine which app a monorepo PR belongs to based on labels or file paths
+function classifyMonorepoPR(pr) {
+  const labels = (pr.labels || []).map((l) => l.name.toLowerCase());
+  for (const app of APPS) {
+    // Check for labels like "revive-api", "revive-dashboard", "api", "dashboard"
+    const short = app.replace('revive-', '');
+    if (labels.includes(app) || labels.includes(short)) return app;
+  }
+  // Fallback: check PR title for app hints
+  const title = (pr.title || '').toLowerCase();
+  for (const app of APPS) {
+    const short = app.replace('revive-', '');
+    if (title.includes(`(${short})`) || title.includes(`[${short}]`)) return app;
+  }
+  return null; // could not classify
 }
 
 // ---------------------------------------------------------------------------
@@ -298,8 +332,8 @@ function prependUpdateToReleaseNotes(releaseNotesPath, blocks) {
 // Main
 // ---------------------------------------------------------------------------
 async function main() {
-  // Determine which repos to search
-  const targetRepos = sourceRepo && REPOS.includes(sourceRepo) ? [sourceRepo] : REPOS;
+  // Determine which apps to search
+  const targetApps = sourceRepo && ALL_APPS.includes(sourceRepo) ? [sourceRepo] : ALL_APPS;
 
   // Resolve since date: use env var if provided, otherwise auto-detect from previous release
   let sinceDate = since.length > 0 ? (since.length > 10 ? since.slice(0, 10) : since) : '';
@@ -309,23 +343,38 @@ async function main() {
   }
 
   console.log(`\nGenerating release notes for ${version}`);
-  console.log(`  Source repo: ${sourceRepo || '(all repos)'}`);
-  console.log(`  Target repos: ${targetRepos.join(', ')}`);
+  console.log(`  Source app: ${sourceRepo || '(all apps)'}`);
+  console.log(`  Target apps: ${targetApps.join(', ')}`);
   console.log(`  Label: ${label} | Since: ${sinceDate || '(all time)'}\n`);
 
-  const items = await searchMergedPRs(targetRepos, sinceDate);
+  const items = await searchMergedPRs(targetApps, sinceDate);
 
-  // Group PRs by repo and process each
-  const grouped = Object.fromEntries(targetRepos.map((r) => [r, []]));
+  // Group PRs by app and process each
+  const grouped = Object.fromEntries(targetApps.map((r) => [r, []]));
 
   for (const item of items) {
     const fullRepo = item.repository_url?.split('/repos/')[1];
     if (!fullRepo) continue;
-    const [org, repo] = fullRepo.split('/');
-    if (org !== ORG || !grouped[repo]) continue;
+    const [org, repoSlug] = fullRepo.split('/');
+    if (org !== ORG) continue;
 
-    const pr = await fetchPull(repo, item.number);
+    const pr = await fetchPull(repoSlug, item.number);
     if (!pr.merged_at) continue;
+
+    // Determine which app this PR belongs to
+    let app;
+    if (repoSlug === MONOREPO) {
+      // For monorepo PRs: use source_repo if set, otherwise classify from labels/title
+      app = sourceRepo && APPS.includes(sourceRepo) ? sourceRepo : classifyMonorepoPR(pr);
+      if (!app || !grouped[app]) {
+        console.log(`  Skipping PR #${pr.number}: could not classify to an app`);
+        continue;
+      }
+    } else {
+      // Standalone repo (e.g. revive-mobile)
+      app = repoSlug;
+      if (!grouped[app]) continue;
+    }
 
     const title = pr.title || '';
     if (EXCLUDE_TITLE_PATTERNS.some((re) => re.test(title))) {
@@ -339,8 +388,8 @@ async function main() {
 
     if (codeRabbit) {
       // Each CodeRabbit bullet is already categorized
-      console.log(`  PR #${pr.number}: ${codeRabbit.new.length} new, ${codeRabbit.improved.length} improved, ${codeRabbit.fixed.length} fixed, ${codeRabbit.action.length} action`);
-      grouped[repo].push({ ...codeRabbit, link, mergedAt: pr.merged_at });
+      console.log(`  PR #${pr.number} → ${app}: ${codeRabbit.new.length} new, ${codeRabbit.improved.length} improved, ${codeRabbit.fixed.length} fixed, ${codeRabbit.action.length} action`);
+      grouped[app].push({ ...codeRabbit, link, mergedAt: pr.merged_at });
     } else {
       // Fallback: use cleaned title as a single entry
       const cleaned = cleanPRTitle(title);
@@ -354,8 +403,8 @@ async function main() {
         /^(refactor|improve|perf|chore|update|bump)/i.test(title) ? 'improved' :
         'new';
 
-      console.log(`  PR #${pr.number}: "${text}" → ${bucket} (no CodeRabbit)`);
-      grouped[repo].push({
+      console.log(`  PR #${pr.number} → ${app}: "${text}" → ${bucket} (no CodeRabbit)`);
+      grouped[app].push({
         new: bucket === 'new' ? [text] : [],
         improved: bucket === 'improved' ? [text] : [],
         fixed: bucket === 'fixed' ? [text] : [],
@@ -366,9 +415,9 @@ async function main() {
     }
   }
 
-  // Sort entries within each repo by merge date (newest first)
-  for (const repo of targetRepos) {
-    grouped[repo].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt));
+  // Sort entries within each app by merge date (newest first)
+  for (const app of targetApps) {
+    grouped[app].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt));
   }
 
   // Build blocks
@@ -376,10 +425,10 @@ async function main() {
   const dateLabel = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   const blocks = [];
-  for (const repo of targetRepos) {
-    const entries = grouped[repo];
+  for (const app of targetApps) {
+    const entries = grouped[app];
     if (entries.length === 0) continue;
-    blocks.push(buildUpdateBlock(repo, entries, dateLabel, version));
+    blocks.push(buildUpdateBlock(app, entries, dateLabel, version));
   }
 
   if (blocks.length === 0) {

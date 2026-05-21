@@ -45,17 +45,22 @@ async function getLatestPush(owner, repo) {
   return data[0].commit.committer.date;
 }
 
-async function getLatestRelease(owner, repo) {
+async function getLatestRelease(owner, repo, tagPrefix) {
   // Fetch recent releases and find the first that is published (non-draft, non-prerelease)
-  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases?per_page=10`, { headers });
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases?per_page=20`, { headers });
   if (!res.ok) {
     console.warn(`  ⚠ Could not fetch releases for ${owner}/${repo}: ${res.status}`);
     return null;
   }
   const releases = await res.json();
-  const published = releases.find((r) => !r.draft && !r.prerelease);
+  const published = releases.find((r) => {
+    if (r.draft || r.prerelease) return false;
+    // If a tag prefix is specified, only match releases for that app (e.g. revive-api@)
+    if (tagPrefix && !r.tag_name?.startsWith(tagPrefix)) return false;
+    return true;
+  });
   if (!published) {
-    console.warn(`  ⚠ No published release found for ${owner}/${repo}`);
+    console.warn(`  ⚠ No published release found for ${owner}/${repo}${tagPrefix ? ` (prefix: ${tagPrefix})` : ''}`);
     return null;
   }
   return published.published_at || published.created_at;
@@ -69,9 +74,9 @@ async function main() {
   const apiVersion = spec.info?.version || 'unknown';
 
   const [apiDate, dashboardDate, adminDate, mobileDate, docsDate] = await Promise.all([
-    getLatestRelease('Revive-Home', 'revive-api'),
-    getLatestRelease('Revive-Home', 'revive-dashboard'),
-    getLatestRelease('Revive-Home', 'revive-admin'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'revive-api@'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'revive-dashboard@'),
+    getLatestRelease('Revive-Home', 'revive-apps', 'revive-admin@'),
     getLatestRelease('Revive-Home', 'revive-mobile'),
     getLatestPush('Revive-Home', 'revive-api-docs'),
   ]);
