@@ -113,11 +113,22 @@ data = resp.json()
 
 ## Where to go next
 
-Jump to common resource groups:
+Jump to common resource groups in the sidebar:
+
+{/*
+  TODO: Restore direct endpoint links once the generated URLs from `openapi.json`
+  are verified with `mint dev`. The previous hrefs (e.g. `/api-reference/post-v1-auth-login`)
+  did not match the URLs Mintlify generates from this spec and produced broken links.
+  Intended targets:
+    - Auth → POST /v1/auth/login ("Log in")
+    - Admins → PATCH /v1/admins/{uid} ("Update admin profile")
+    - Agents → POST /v1/agents/search ("Search agents")
+    - Automated valuation models → POST /v1/avm/ ("Run automated valuation")
+*/}
 
 <CardGroup cols={2}>
-  <Card title="Auth" icon="key" href="/api-reference/post-v1-auth-login" />
-  <Card title="Admins" icon="shield" href="/api-reference/patch-v1-admins-uid" />
-  <Card title="Agents" icon="users" href="/api-reference/post-v1-agents-search" />
-  <Card title="Automated valuation models" icon="sparkles" href="/api-reference/post-v1-avm" />
+  <Card title="Auth" icon="key" />
+  <Card title="Admins" icon="shield" />
+  <Card title="Agents" icon="users" />
+  <Card title="Automated valuation models" icon="sparkles" />
 </CardGroup>
