@@ -252,6 +252,27 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 
 ### New
 
+- **Revive AI Report v4.** The next-generation report is live across the homeowner dashboard and admin tools, with AnyProp-sourced comparables, room-aware photo grouping, and a refreshed renovation estimate flow. Existing report URLs continue to work — v4 is served automatically.
+- **AnyProp property data and imagery.** Comparables, property records, and home photos can now be sourced from AnyProp alongside RestB and Zillow, normalized into the same response shape. See [Property data providers](/third-party-integrations/property-data).
+- **Home-imagery utility endpoints.** `POST /v1/utility/get-home-images` returns home photos for an address with automatic provider fallback (or pin one with `source`). `POST /v1/utility/deduplicate-images` removes exact and visually-similar duplicates via perceptual hashing.
+- **Room-type classification on comparable photos.** Comparable images now carry per-image room types (kitchen, bathroom, bedroom, living, exterior, etc.) plus an aggregated `roomTypes` list per comparable. Results are cached after the first request.
+- **RenoVision and Comparables slides in the report.** Two new slides surface the AI-rendered "after" view and a focused comparables view inside the Revive AI Report. Public report URLs work without sign-in.
+- **Pre-estimate RenoVision and Comparables slides.** The shareable Renovate-to-Stay pre-estimate now includes a RenoVision design slide and a neighborhood comparables slide alongside the renovation breakdown.
+- **PDF download for preliminary estimates.** RTStay preliminary estimates can now be exported as a one-click PDF from the dashboard, with wider pricing columns and clearer totals.
+- **Auto-filled RMA material advance.** Material advance on a new RMA is now populated automatically from the linked PO sheet instead of being entered by hand.
+- **Scope item labels in weekly updates.** Custom scope-item labels now appear in the weekly update scope picker and the homeowner-facing weekly update view.
+
+### Improved
+
+- **Meeting scheduling polish.** The Getting Started meeting scheduler has tighter dropdown behavior, cleaner advisor selection, and a less cluttered booking flow. Funnels using `showcalendar=false` are unaffected — see [Intake URL parameters](/guides/intake-url-parameters#meeting-and-advisor-selection).
+- **RTStay sharing no longer blocks on ARV / as-is.** Admins can share an RTStay project without filling in ARV and as-is values; those fields stay scoped to sale-oriented flows.
+- **RMA rush available to all admins.** Any admin can request or remove a rush on an RMA from the list view; approve and decline still require the `rmaAdmin` permission. Owner's-rep "Select All" filter selections also persist across navigation.
+- **Live HubSpot pipeline stage on RMAs.** RMA detail responses fetch the pipeline stage label live from HubSpot, so the displayed stage always matches.
+- **Estimate display polish.** Pricing columns widened to 120px, and items where every sub-item is TBD now show a single TBD badge on the parent.
+
+### Fixed
+
+- **Vercel build stability.** Resolved module-resolution issues that intermittently broke dashboard and admin deployments.
 - **Revive AI Report v4.** The next-generation Vision AI Report is live across the homeowner dashboard and admin tools. v4 brings AnyProp-sourced comparables, room-aware photo grouping, and a refreshed renovation estimate flow end-to-end. For users: richer, faster reports with better comparable matches and clearer room-by-room visuals. Existing report URLs continue to work — v4 is served automatically.
 - **AnyProp as a property data and imagery provider.** Comparables, property records, and home photos can now be sourced from AnyProp alongside existing providers (RestB, Zillow), with results normalized into the same response shape. For users: more reliable property coverage and better fallback when one provider is missing data. See [Property data providers](/third-party-integrations/property-data).
 - **Home-imagery utility endpoints.** `POST /v1/utility/get-home-images` returns home photos for an address with automatic provider fallback, or you can pin a provider with `source`. `POST /v1/utility/deduplicate-images` removes exact and visually-similar duplicates from a set of image URLs using perceptual hashing. For users: easier to confirm a property has usable imagery before kicking off a report, and cleaner photo sets when combining sources.
@@ -285,15 +306,14 @@ A skim-friendly recap of what shipped this week. See the dated entries below for
 - **Comparables modal opens without preset filters.** The Vision AI Report comparables modal opens showing the full comparable set, letting users opt into status, list date, or similarity filters themselves.
 - **Sell 360 "Initial payment made" matches the gross initial check.** The deduction in the **02 Resale transaction** section of the Sell 360 transaction summary uses the gross initial payment, so deductions correctly sum to the resale transaction proceeds shown in section 01.
 - **Editing Revive AI reports saves correctly.** Fixed a regression where some edits to a report were silently dropped on save.
-- **Renovation configurator selections preserved.** Switching packages no longer shows a stale "Apply Changes" prompt, and changing one material no longer resets the others.
-- **RMA check-run cutoff respects timezone.** RMAs near the daily cutoff are now categorized consistently across timezones.
-- **Owner's rep "Select All" persists.** The owner's rep filter on the admin RMA list keeps "Select All" while navigating between pages.
-- **Edit-value modal Save button.** The "Save changes" button in the report's edit-value modal now activates correctly after edits. Previously it could stay disabled in certain edit sequences.
+- **Edit-value modal Save button.** "Save changes" in the report's edit-value modal now activates correctly after edits.
 - **RenoVision material selection.** Switching design packages no longer surfaces a stray "Apply Changes" prompt, and changing one material no longer resets the others.
-- **RMA check-run cutoff timezone.** The weekly RMA check-run cutoff now respects the configured timezone, so RMAs submitted near the boundary are bucketed into the correct week.
+- **RMA check-run cutoff timezone.** The weekly RMA check-run cutoff now respects the configured timezone, so RMAs near the boundary land in the correct week.
+- **Owner's rep "Select All" persists.** The owner's rep filter on the admin RMA list keeps "Select All" across page navigation.
 
 ### Action required
 
+None. The new `/v1/utility/*` endpoints and the new `source` and room-type fields on existing responses are additive. Existing integrations continue to work unchanged.
 None. The new `/v1/utility/*` endpoints are additive, and the new `source` and room-type fields on existing responses are additive. Existing integrations continue to work unchanged. If you have GTM tags or HubSpot workflows that consumed the previous `gettingStartedSubmission` event with SHA-256 hashed user data, retarget them to the `hubspot-form-success` event and the plain `hsFormEmail`, `hsFormFirstName`, `hsFormLastName`, and `hsFormPhone` fields.
 
 </Update>
