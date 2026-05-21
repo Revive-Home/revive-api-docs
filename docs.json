@@ -37,10 +37,10 @@
         ]
       },
       {
-        "tab": "Release Notes",
+        "tab": "Release notes",
         "groups": [
           {
-            "group": "Release Notes",
+            "group": "Release notes",
             "pages": [
               "release-notes",
               "release-notes/may-2026",
@@ -104,7 +104,7 @@
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "API reference",
         "openapi": "openapi.json"
       }
     ],
