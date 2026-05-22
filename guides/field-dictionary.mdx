@@ -38,7 +38,7 @@ All timestamps are ISO 8601 UTC unless noted otherwise.
 | `startTime` | Unix ms | `1713100000000` |
 
 <Info>
-  `executed_at` is set on an RMA when it transitions to the `executed` status. The Admin RMA list uses this timestamp (falling back to `updated_at`) to decide whether an RMA falls into **Ready for Check Run** or **Next Check Run**, based on the most recent Friday 23:59:59 cutoff.
+  `executed_at` is set on an RMA when it transitions to the `executed` status. The Admin RMA list uses this timestamp (falling back to `updated_at`) to bucket each RMA into **Ready for Check Run** or **Next Check Run**. The cutoff is the most recent Friday at 23:59:59.
 </Info>
 
 <Warning>
