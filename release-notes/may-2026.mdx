@@ -169,7 +169,7 @@ No action required for existing integrations.
 - **Live RMA pipeline stage labels from HubSpot.** RMA detail responses now resolve the current pipeline stage label directly from HubSpot at read time, so the displayed stage name always matches the latest HubSpot configuration.
 - **Admin-only AI image renders store `contactId: null`.** When `POST /v1/predictions/` is called with an `adminId` and no `reportId`, the AI image render job document explicitly stores `contactId: null` so downstream consumers don't associate the render with a homeowner.
 - **Public access on select report routes.** A small set of routes intended to be publicly shareable no longer require auth, so unauthenticated viewers can load them as designed.
-- **Revive-owner deal check.** The Revive-owned deal check now applies regardless of HIC availability and recognizes the Sell 360 mapped name.
+- **Revive-owned deal check.** The Revive-owned deal check now applies regardless of HIC availability and recognizes the Sell 360 mapped name.
 
 ### Fixed
 
