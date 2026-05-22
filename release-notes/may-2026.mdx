@@ -3,6 +3,54 @@ title: "May 2026"
 description: "May 2026 Revive release notes: Revive AI Report v4, AnyProp data, AI weekly updates, RMA rush workflow, and RenoVision and Comparables slides."
 ---
 
+<Update label="Week of May 22, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard", "revive-admin"]}>
+
+A skim-friendly recap of what shipped this week across the API, dashboard, and admin app. See the dated entries below for full per-release detail.
+
+### New
+
+- **Revive AI Report v4 across the homeowner dashboard and admin panel.** The next-generation report is now live end-to-end, with AnyProp-sourced comparables, room-aware photo grouping, and the refreshed renovation estimate flow. Existing report URLs continue to work — v4 is served automatically.
+- **RenoVision and Comparables slides in the preliminary estimate.** The shareable Renovate-to-Stay pre-estimate now includes an AI-rendered "after" view and a focused comparable-homes slide alongside the renovation breakdown.
+- **PDF download for preliminary estimates.** A one-click PDF export is available from the preliminary estimate view, with an address-based filename so files are easy to find and share.
+- **Faster, mobile-friendly comparables.** Comparable analysis runs noticeably faster, with grade badges on each comp, a dedicated mobile layout, and smoother progress messaging while results load.
+- **Mobile layouts across the report.** Home Condition Summary now uses connector lines on mobile, the Mortgage section has a dedicated mobile layout, and the rejection modal surfaces selling options inline.
+- **Refined sharing and filtering on the report.** Share options on the report's top menu now open in a single popover, and the report dashboard filter modal uses a popover-based date picker with cleaner service options.
+- **Auto-filled RMA material advance.** When you create an RMA, the material advance now populates automatically from the linked PO sheet — no more manual copying.
+- **Renovate-to-Stay sharing without ARV / as-is.** Admins can share a Renovate-to-Stay project without filling in ARV or as-is values, removing a blocker when those numbers aren't known yet.
+- **Scope item labels in weekly updates.** Custom scope-item labels now appear in the weekly update scope picker and in the homeowner-facing weekly update view, so homeowners see the same item names project managers use. See [AI weekly updates](/guides/ai-weekly-updates).
+- **RMA rush from the list view.** Any admin can now request or remove rush on an RMA directly from the RMA list. Approve and decline still require the `rmaAdmin` permission.
+
+### Improved
+
+- **Live HubSpot pipeline stage on RMAs.** RMA detail responses resolve the current pipeline stage label directly from HubSpot at read time, so the displayed stage always matches the latest configuration.
+- **Public access on shareable report routes.** A small set of routes intended to be publicly shareable no longer require sign-in, so unauthenticated viewers can load them as designed.
+- **Revive-owned deal check.** Now applies regardless of HIC availability and recognizes the Sell 360 mapped name, fixing a few mis-flagged deals.
+- **Admin-only AI image renders.** Renders started by admins without a linked deal (for example, from the Renovision configurator) no longer attribute the job to a homeowner contact.
+- **Owner's rep "Select All" persists.** The owner's rep filter on the admin RMA list keeps "Select All" across page navigation.
+- **Estimate display polish.** Pricing columns widened to 120px, parent items show a single `TBD` badge when every sub-item is TBD, and admin estimate PDFs now use an address-based filename.
+- **More resilient external property data retries.** Rate-limit retry behavior for upstream property-data calls has been tightened, reducing transient failures during report generation.
+- **Activity logging for room-type comparisons.** Room-type comparison actions on the report are now captured in the activity log alongside other report interactions.
+
+### Fixed
+
+- **RenoVision configurator stability.** Switching design packages no longer surfaces a stray "Apply Changes" prompt, changing one material no longer resets the others, and the configurator no longer gets stuck loading or re-renders in a loop. Hover-state UI glitch on the design style buttons resolved.
+- **Editing Revive AI reports saves correctly.** Resolved a regression where some edits to a report were silently dropped on save.
+- **Edit-value modal Save button.** "Save changes" in the report's edit-value modal now activates correctly after edits.
+- **Best-selling condition display.** The best-selling condition badge now renders consistently where it was previously missing in some scenarios.
+- **Subject property persists after analysis.** The subject property entered during a Revive AI analysis is no longer cleared from the form once results come back.
+- **Report header back navigation.** The report header now respects a back route when present, so exiting the report returns you to where you came from.
+- **Comparables analysis polish.** Concurrent refresh attempts are collapsed into one, status messages no longer loop, and repeated notification chimes have been silenced.
+- **Safer report data handling.** Hardened the report against missing fields with additional null checks, eliminating a class of rendering errors on partial data.
+- **RMA check-run cutoff respects timezone.** RMAs submitted near the daily cutoff are now categorized into the correct week across timezones.
+- **Cents rounding on monetary totals** eliminates sub-cent drift in derived figures.
+- **Concierge ID resolution.** Corrected the Revive Concierge identifiers used in opportunity routing so concierge assignments resolve to the right user.
+
+### Action required
+
+None. All changes are additive or transparent to existing integrations. See [Property data providers](/third-party-integrations/property-data) and [AI weekly updates](/guides/ai-weekly-updates) for related guides.
+
+</Update>
+
 <Update label="May 21, 2026" description="dashboard-v2.4.0 / admin-v3.4.0" tags={["revive-dashboard", "revive-admin"]}>
 
 ### New
