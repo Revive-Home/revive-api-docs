@@ -65,12 +65,17 @@ jobs:
           SOURCE_REPO: ${{ env.SOURCE_REPO }}
         run: node scripts/generate-release-notes.mjs
 
+      - name: Audit docs for accuracy
+        env:
+          GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
+        run: node scripts/audit-docs-on-release.mjs --release-file release-notes.mdx
+
       - name: Commit and push directly
         id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add release-notes.mdx release-notes/
+          git add release-notes.mdx release-notes/ audit-report.md
           if git diff --cached --quiet; then
             echo "No changes to commit"
             echo "pushed=false" >> "$GITHUB_OUTPUT"
@@ -93,7 +98,7 @@ jobs:
             -H "Content-Type: application/json" \
             -d @-
           {
-            "text": "<!channel> :rocket: *New tech release!* *${VERSION}* just shipped for *${REPO_LABEL}*\n\nTo see what's new, check out the release notes:\n<${DOCS_URL}|:clipboard: View Release Notes>\n\nPassword: \`ChampionHomeowners\`",
+            "text": "<!channel> :rocket: *New tech release!* *${VERSION}* just shipped for *${REPO_LABEL}*\n\nTo see what's new, check out the release notes:\n<${DOCS_URL}|:clipboard: View Release Notes>\n\n:mag: A docs audit ran automatically — check \`audit-report.md\` in the repo for any guides, integrations, or API reference pages that may need updating.\n\nPassword: \`ChampionHomeowners\`",
             "unfurl_links": false
           }
           EOF
