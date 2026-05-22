@@ -1,11 +1,11 @@
 ---
 title: "May 2026"
-description: "May 2026 Revive release notes: Revive AI Report v4, AnyProp data, AI weekly updates, RMA rush workflow, and RenoVision and Comparables slides."
+description: "May 2026 Revive release notes: Revive AI Report v4, AnyProp data, AI weekly updates, RMA rush workflow, RenoVision and Comparables slides, and mobile app v1.80 / v1.81."
 ---
 
-<Update label="Week of May 22, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard", "revive-admin"]}>
+<Update label="Week of May 22, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard", "revive-admin", "revive-mobile"]}>
 
-A skim-friendly recap of what shipped this week across the API, dashboard, and admin app. See the dated entries below for full per-release detail.
+A skim-friendly recap of what shipped this week across the API, dashboard, admin app, and mobile app. See the dated entries below for full per-release detail.
 
 ### New
 
@@ -19,10 +19,13 @@ A skim-friendly recap of what shipped this week across the API, dashboard, and a
 - **Renovate-to-Stay sharing without ARV / as-is.** Admins can share a Renovate-to-Stay project without filling in ARV or as-is values, removing a blocker when those numbers aren't known yet.
 - **Scope item labels in weekly updates.** Custom scope-item labels now appear in the weekly update scope picker and in the homeowner-facing weekly update view, so homeowners see the same item names project managers use. See [AI weekly updates](/guides/ai-weekly-updates).
 - **RMA rush from the list view.** Any admin can now request or remove rush on an RMA directly from the RMA list. Approve and decline still require the `rmaAdmin` permission.
+- **Mobile app v1.81.** The renovation steps section in the property report picks up clearer scoring and a tighter UI, and the report v4 layout is now live in the mobile app to match the homeowner dashboard.
+- **Mobile app v1.80.** Project scope items in the mobile app now show custom labels, matching what project managers see in admin tools. Weekly updates picked up a **Save for later** action so contractors can pause a draft mid-flow and finish it later. See [AI weekly updates](/guides/ai-weekly-updates).
 
 ### Improved
 
 - **Live HubSpot pipeline stage on RMAs.** RMA detail responses resolve the current pipeline stage label directly from HubSpot at read time, so the displayed stage always matches the latest configuration.
+- **Mobile neighborhood scoring.** Tightened the neighborhood scoring logic that feeds the property report on the mobile app, so neighborhood grades line up more consistently with the dashboard.
 - **Public access on shareable report routes.** A small set of routes intended to be publicly shareable no longer require sign-in, so unauthenticated viewers can load them as designed.
 - **Revive-owned deal check.** Now applies regardless of HIC availability and recognizes the Sell 360 mapped name, fixing a few mis-flagged deals.
 - **Admin-only AI image renders.** Renders started by admins without a linked deal (for example, from the Renovision configurator) no longer attribute the job to a homeowner contact.
@@ -44,10 +47,45 @@ A skim-friendly recap of what shipped this week across the API, dashboard, and a
 - **RMA check-run cutoff respects timezone.** RMAs submitted near the daily cutoff are now categorized into the correct week across timezones.
 - **Cents rounding on monetary totals** eliminates sub-cent drift in derived figures.
 - **Concierge ID resolution.** Corrected the Revive Concierge identifiers used in opportunity routing so concierge assignments resolve to the right user.
+- **Mobile build on Xcode 26.** Applied a Podfile workaround for the `fmt` library so the iOS app builds cleanly on Xcode 26.
 
 ### Action required
 
-None. All changes are additive or transparent to existing integrations. See [Property data providers](/third-party-integrations/property-data) and [AI weekly updates](/guides/ai-weekly-updates) for related guides.
+None. All changes are additive or transparent to existing integrations. Mobile users will pick up v1.81 on the next app update. See [Property data providers](/third-party-integrations/property-data) and [AI weekly updates](/guides/ai-weekly-updates) for related guides.
+
+</Update>
+
+<Update label="May 21, 2026" description="mobile-v1.81.0" tags={["revive-mobile"]}>
+
+### New
+
+- **Refreshed renovation steps in the property report.** The renovation steps section now uses clearer scoring logic and a tighter UI, so contractors and homeowners can see at a glance what's driving each room's score.
+
+### Improved
+
+- **Revive AI Report v4 on mobile.** The mobile app now renders the v4 report layout, bringing the homeowner property report to parity with the dashboard.
+- **Neighborhood scoring.** Tightened the neighborhood scoring logic that feeds the property report, so neighborhood grades line up more consistently with what the dashboard shows.
+
+### Fixed
+
+- **iOS build on Xcode 26.** Applied a Podfile workaround for the `fmt` library so the iOS app builds cleanly on the latest Xcode.
+
+### Action required
+
+No action required. Users will pick up v1.81 on the next app update.
+
+</Update>
+
+<Update label="May 18, 2026" description="mobile-v1.80.0" tags={["revive-mobile"]}>
+
+### New
+
+- **Custom labels on project scope items.** Project scope items in the mobile app now display the same custom labels project managers use in admin tools, so contractors and homeowners see consistent item names everywhere.
+- **Save for later in weekly updates.** The weekly update flow now has a **Save for later** action, so contractors can pause a draft mid-flow and pick it back up without losing notes, photos, or progress. See [AI weekly updates](/guides/ai-weekly-updates).
+
+### Action required
+
+No action required. Users will pick up v1.80 on the next app update.
 
 </Update>
 
