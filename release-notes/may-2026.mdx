@@ -27,7 +27,7 @@ A skim-friendly recap of what shipped this week across the API, dashboard, and a
 - **Revive-owned deal check.** Now applies regardless of HIC availability and recognizes the Sell 360 mapped name, fixing a few mis-flagged deals.
 - **Admin-only AI image renders.** Renders started by admins without a linked deal (for example, from the Renovision configurator) no longer attribute the job to a homeowner contact.
 - **Owner's rep "Select All" persists.** The owner's rep filter on the admin RMA list keeps "Select All" across page navigation.
-- **Estimate display polish.** Pricing columns widened to 120px, parent items show a single `TBD` badge when every sub-item is TBD, and admin estimate PDFs now use an address-based filename.
+- **Estimate display polish.** Pricing columns widened to 120px, parent items show a single `TBD` badge when every sub-item is TBD, and admin estimate PDFs now use an address-based filename. Scope and full estimate PDFs also surface the project total in the header and strip inline styles from rich-text notes so additional notes, selection descriptions, and variant notes render with consistent typography.
 - **More resilient external property data retries.** Rate-limit retry behavior for upstream property-data calls has been tightened, reducing transient failures during report generation.
 - **Activity logging for room-type comparisons.** Room-type comparison actions on the report are now captured in the activity log alongside other report interactions.
 
