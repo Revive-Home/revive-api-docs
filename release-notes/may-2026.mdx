@@ -9,7 +9,7 @@ A skim-friendly recap of what shipped this week. See the dated entry below for f
 
 ### New
 
-- **Public status page.** A new `/status` page in the admin app shows the live operational state of HubSpot, Firebase, ATTOM, RestB, PandaDoc, AnyProp, and Revive's own dashboard, admin app, and APIs. The page refreshes every minute and is embeddable in any site. See [Third-party status](/guides/health).
+- **Public status page.** A new `/status` page in the admin app shows the live operational state of HubSpot, Firebase, ATTOM, RestB, PandaDoc, AnyProp, and Revive's own dashboard, admin app, and APIs. It refreshes every minute and embeds in any site. See [Third-party status](/guides/health).
 - **Public health API.** A `GET /api/health-status` endpoint exposes the same checks for programmatic use, with edge caching for fast reads.
 - **Automatic Slack alerts on outages.** Background checks run continuously and post to Slack whenever a service transitions between operational, degraded, and down — so the team sees real incidents without the noise of first observations.
 - **Smarter check type for auth-gated endpoints.** Services that legitimately reject anonymous requests (like PandaDoc and AnyProp) are no longer flagged as down on a `401` or `403`.
