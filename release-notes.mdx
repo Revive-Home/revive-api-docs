@@ -3,6 +3,26 @@ title: "Release notes"
 description: "What's new across revive-api, dashboard, admin, and mobile — new features, improvements, bug fixes, breaking changes, and required migration steps."
 ---
 
+<Update label="Week of May 25, 2026" description="Weekly recap" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
+
+A skim-friendly recap of what shipped this week. See the dated entries below for full per-release detail.
+
+### New
+
+- **Public status page and health API.** A new `/status` page on the admin app and a `GET /api/health-status` endpoint surface the live operational state of HubSpot, Firebase, ATTOM (Estated), RestB, PandaDoc, AnyProp, and Revive's own API, dashboard, and admin app. The page auto-refreshes every minute and both endpoints can be embedded from any origin. See [Third-party status](/guides/health).
+- **Background health checks with Slack alerts.** Health checks now run every 5 minutes in the background and post a Slack alert when a service transitions between `operational`, `degraded`, and `down` in production, so the team is notified before users feel it.
+- **Total cost in admin estimate PDFs.** The scope and full estimate PDFs now show the total cost in the header alongside the property address, so reviewers see the headline number on every page.
+
+### Improved
+
+- **Cleaner notes formatting in estimate PDFs.** Rich-text styles pasted into estimate notes are stripped on PDF export, so notes render consistently and don't carry over stray fonts or colors from the source. Long property addresses also stay pinned to the address column without wrapping into other fields.
+
+### Action required
+
+None. All changes are additive or transparent to existing integrations.
+
+</Update>
+
 <Update label="Week of May 22, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard", "revive-admin"]}>
 
 A skim-friendly recap of what shipped this week across the API, dashboard, and admin app. See the dated entries below for full per-release detail.
