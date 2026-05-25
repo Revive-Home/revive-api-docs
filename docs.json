@@ -31,7 +31,8 @@
               "guides/webhooks",
               "guides/ai-weekly-updates",
               "guides/field-dictionary",
-              "guides/changelog"
+              "guides/changelog",
+              "guides/health"
             ]
           }
         ]

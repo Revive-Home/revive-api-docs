@@ -1,0 +1,52 @@
+---
+title: "Third-party status"
+description: "Live operational status of HubSpot, Firebase, ATTOM (Estated), and RestB — the third-party services the Revive API depends on."
+---
+
+## Live status
+
+The board below is served by the Revive admin app at `/status`. It polls each provider's public status feed every minute and rolls up the health of the third-party dependencies the Revive API talks to.
+
+src="https://admin.revive.realestate/status"
+
+<iframe
+  src="https://revive-admin-git-tec-7294-create-comb-91c930-revive-real-estate.vercel.app/status"
+  title="Revive third-party status"
+  width="100%"
+  height="860"
+  style={{
+    border: "1px solid var(--mintlify-bg-2, #2a2a2a)",
+    borderRadius: "12px",
+  }}
+/>
+
+<Note>
+  Replace the `src` above with your environment's admin URL if you're embedding
+  from staging or a preview deployment. The page itself lives at
+  [`apps/admin/pages/status.tsx`](https://github.com/Revive-Home/revive-apps)
+  and is backed by the API route at `apps/admin/pages/api/health-status.ts`.
+</Note>
+
+---
+
+## How it works
+
+| Service         | Endpoint                                            | Check type                    |
+| --------------- | --------------------------------------------------- | ----------------------------- |
+| HubSpot         | `https://status.hubspot.com/api/v2/status.json`     | Statuspage `status.indicator` |
+| Firebase        | `https://status.firebase.google.com/incidents.json` | Ongoing-incident filter       |
+| ATTOM (Estated) | `https://api.developer.attomdata.com/home`          | HTTP 200                      |
+| RestB           | `https://api-eu.restb.ai/`                          | HTTP 200                      |
+
+The admin API route (`/api/health-status`) runs the checks server-side and caches the response for 60 seconds (`Cache-Control: s-maxage=60`). The page on `/status` re-fetches every minute and re-renders.
+
+<Note>
+  Estated's own API (`api.estated.com`) was sunset after ATTOM's 2022
+  acquisition. The check points at the ATTOM developer portal instead.
+</Note>
+
+---
+
+## Embedding elsewhere
+
+The page sends permissive frame headers (`Content-Security-Policy: frame-ancestors *`, `X-Frame-Options: ALLOWALL`) so it can be embedded from any origin — these docs, an internal wiki, a Notion page, etc. Use a regular `<iframe>` tag with the page's URL as the `src`.
