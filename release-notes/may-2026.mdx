@@ -3,6 +3,20 @@ title: "May 2026"
 description: "May 2026 Revive release notes: Revive AI Report v4, AnyProp data, AI weekly updates, RMA rush workflow, RenoVision and Comparables slides, and mobile app v1.80 / v1.81."
 ---
 
+<Update label="May 25, 2026" description="Third-party status monitoring" tags={["revive-api", "revive-admin"]}>
+
+### New
+
+- **Public status page and health API.** A new `/status` page on the admin app and a `GET /api/health-status` endpoint surface the live operational state of HubSpot, Firebase, ATTOM (Estated), RestB, PandaDoc, AnyProp, and Revive's own production API, admin API, dashboard, and admin app. The page auto-refreshes every minute, the API caches at the edge for 60 seconds, and both endpoints allow embedding from any origin (`frame-ancestors *`). See [Third-party status](/guides/health).
+- **Background health checks with Slack alerts.** A cron job runs the same checks every 5 minutes, persists each result to the `systemHealth` Firestore collection, and posts a Slack alert to the health-alerts channel whenever a service transitions between `operational`, `degraded`, and `down` in production. First observations and unknown→known transitions are silent.
+- **`http-reachable` check type.** A new check type treats any response below `500` as healthy, so endpoints that legitimately reject anonymous requests (PandaDoc, AnyProp) don't get falsely flagged as down on a `401` or `403`.
+
+### Action required
+
+No action required. To wire the Slack alerts to a different channel, set `SLACK_ACTIVITY_PRODUCTION` in the API environment.
+
+</Update>
+
 <Update label="Week of May 22, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard", "revive-admin", "revive-mobile"]}>
 
 A skim-friendly recap of what shipped this week across the API, dashboard, admin app, and mobile app. See the dated entries below for full per-release detail.

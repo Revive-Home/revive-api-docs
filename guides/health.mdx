@@ -1,16 +1,14 @@
 ---
 title: "Third-party status"
-description: "Live operational status of HubSpot, Firebase, ATTOM (Estated), and RestB — the third-party services the Revive API depends on."
+description: "Live operational status of HubSpot, Firebase, ATTOM, RestB, PandaDoc, AnyProp, and Revive's own apps — the services the Revive API depends on."
 ---
 
 ## Live status
 
-The board below is served by the Revive admin app at `/status`. It polls each provider's public status feed every minute and rolls up the health of the third-party dependencies the Revive API talks to.
-
-src="https://admin.revive.realestate/status"
+The Revive admin app serves the board below at `/status`. It polls each provider's public status feed every minute and rolls up the health of the third-party dependencies — and Revive's own production apps — that the platform talks to.
 
 <iframe
-  src="https://revive-admin-git-tec-7294-create-comb-91c930-revive-real-estate.vercel.app/status"
+  src="https://admin.revive.realestate/status"
   title="Revive third-party status"
   width="100%"
   height="860"
@@ -22,31 +20,137 @@ src="https://admin.revive.realestate/status"
 
 <Note>
   Replace the `src` above with your environment's admin URL if you're embedding
-  from staging or a preview deployment. The page itself lives at
-  [`apps/admin/pages/status.tsx`](https://github.com/Revive-Home/revive-apps)
-  and is backed by the API route at `apps/admin/pages/api/health-status.ts`.
+  from staging or a preview deployment. The page sends permissive frame headers
+  (`Content-Security-Policy: frame-ancestors *`, `X-Frame-Options: ALLOWALL`)
+  so you can embed it from any origin.
 </Note>
 
 ---
 
-## How it works
+## What's monitored
 
-| Service         | Endpoint                                            | Check type                    |
-| --------------- | --------------------------------------------------- | ----------------------------- |
-| HubSpot         | `https://status.hubspot.com/api/v2/status.json`     | Statuspage `status.indicator` |
-| Firebase        | `https://status.firebase.google.com/incidents.json` | Ongoing-incident filter       |
-| ATTOM (Estated) | `https://api.developer.attomdata.com/home`          | HTTP 200                      |
-| RestB           | `https://api-eu.restb.ai/`                          | HTTP 200                      |
+The status board groups checks into two buckets — external providers Revive integrates with, and Revive's own production surfaces.
 
-The admin API route (`/api/health-status`) runs the checks server-side and caches the response for 60 seconds (`Cache-Control: s-maxage=60`). The page on `/status` re-fetches every minute and re-renders.
+### Third-party providers
+
+| Service         | Endpoint                                              | Check type                    |
+| --------------- | ----------------------------------------------------- | ----------------------------- |
+| HubSpot         | `https://status.hubspot.com/api/v2/status.json`       | Statuspage `status.indicator` |
+| Firebase        | `https://status.firebase.google.com/incidents.json`   | Ongoing-incident filter       |
+| ATTOM (Estated) | `https://api.developer.attomdata.com/home`            | HTTP 200                      |
+| RestB           | `https://api-eu.restb.ai/`                            | HTTP 200                      |
+| PandaDoc        | `https://api.pandadoc.com/public/v1/documents`        | `http-reachable`              |
+| AnyProp         | `https://api.anyprop.com/v1`                          | `http-reachable`              |
+
+### Revive production surfaces
+
+| Service              | Endpoint                                                          | Check type |
+| -------------------- | ----------------------------------------------------------------- | ---------- |
+| Production API       | `https://revive-api-v2-production.herokuapp.com/health`           | HTTP 200   |
+| Admin Production API | `https://admin-production-api-862f6777c9e4.herokuapp.com/health`  | HTTP 200   |
+| Dashboard App        | `https://dashboard.revive.realestate/`                            | HTTP 200   |
+| Admin App            | `https://admin.revive.realestate/`                                | HTTP 200   |
 
 <Note>
-  Estated's own API (`api.estated.com`) was sunset after ATTOM's 2022
-  acquisition. The check points at the ATTOM developer portal instead.
+  ATTOM retired Estated's own API (`api.estated.com`) after the 2022
+  acquisition, so this check points at the ATTOM developer portal instead.
+</Note>
+
+### Check types
+
+- **`http`** — a `2xx` response means the service is `operational`. Anything else is `down`.
+- **`http-reachable`** — used for endpoints that legitimately reject anonymous requests (PandaDoc, AnyProp). Any response below `500` counts as `operational`; `5xx` is `down`. This avoids treating an expected `401` or `403` as an outage.
+- **`statuspage`** — parses Statuspage's `status.indicator` (`none`, `minor`, `major`, `critical`) and maps it to `operational` / `degraded` / `down`.
+- **`firebase-incidents`** — fetches Firebase's incident feed and looks for entries without an `end` timestamp. High-severity ongoing incidents map to `down`; everything else with an open incident maps to `degraded`.
+
+Each check has an 8-second timeout. A timeout or thrown error maps to `down` with the error reason in the response message.
+
+---
+
+## Public health API
+
+`GET /api/health-status` on the admin app powers the status page. The endpoint runs all checks server-side, rolls them up, and returns a structured JSON response. You can call it from any origin — it sends `Access-Control-Allow-Origin: *` (CORS) — and the edge caches the response for 60 seconds (`Cache-Control: public, s-maxage=60, stale-while-revalidate=300`).
+
+### Request
+
+```bash
+curl https://admin.revive.realestate/api/health-status
+```
+
+Only `GET` is accepted. Any other method returns `405 Method Not Allowed`.
+
+### Response
+
+```json
+{
+  "overall": "operational",
+  "checkedAt": "2026-05-25T11:31:02.114Z",
+  "services": [
+    {
+      "name": "HubSpot",
+      "url": "https://status.hubspot.com/api/v2/status.json",
+      "status": "operational",
+      "message": "All Systems Operational"
+    },
+    {
+      "name": "Firebase",
+      "url": "https://status.firebase.google.com/incidents.json",
+      "status": "operational",
+      "message": "No ongoing incidents"
+    },
+    {
+      "name": "PandaDoc",
+      "url": "https://api.pandadoc.com/public/v1/documents",
+      "status": "operational",
+      "message": "Reachable (HTTP 401)"
+    }
+  ]
+}
+```
+
+The `overall` field rolls up the per-service results: `down` if any service is down, `degraded` if any is degraded (and none are down), `operational` if every service is operational, otherwise `unknown`.
+
+### Status values
+
+| Status        | Meaning                                                                                  |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| `operational` | The service responded as expected.                                                       |
+| `degraded`    | The service is reachable but the provider reports a partial issue or open incident.      |
+| `down`        | The service failed its check — non-`2xx` response, `5xx`, timeout, or high-severity incident. |
+| `unknown`     | Mixed signals — typically only seen on a fresh deploy before the first check completes.  |
+
+---
+
+## Background checks and Slack alerts
+
+In addition to the on-demand admin endpoint, the Revive API runs the same checks on a background schedule:
+
+- A cron job runs **every 5 minutes** (`*/5 * * * *`, America/Los_Angeles).
+- Each run evaluates every service, persists the latest result to the Firestore `systemHealth` collection (keyed by service), and records `lastTransitionAt` plus `previousStatus` whenever a status changes.
+- When a service transitions to a new status in **production** — for example, `operational → down` or `degraded → operational` — the job posts a message to the Slack channel configured by `SLACK_ACTIVITY_PRODUCTION` (exposed in config as `slackChannels.healthAlerts`).
+- The first observation for a service never triggers an alert (the previous status starts as `unknown`); alerts only fire on real transitions between known states.
+
+Alerts use emoji indicators so they're easy to scan: `:white_check_mark:` operational, `:warning:` degraded, `:rotating_light:` down, `:grey_question:` unknown. Each alert includes the previous status, the new status, a link to the endpoint, and the message returned by the check.
+
+<Note>
+  Background alerts run on the production API only. Local and review-app
+  deployments still surface live status through `/status` and
+  `/api/health-status`, but won't post to Slack.
 </Note>
 
 ---
 
 ## Embedding elsewhere
 
-The page sends permissive frame headers (`Content-Security-Policy: frame-ancestors *`, `X-Frame-Options: ALLOWALL`) so it can be embedded from any origin — these docs, an internal wiki, a Notion page, etc. Use a regular `<iframe>` tag with the page's URL as the `src`.
+Because both `/status` and `/api/health-status` send `frame-ancestors *` and `X-Frame-Options: ALLOWALL`, you can embed the page from any origin — these docs, an internal wiki, a Notion page, a TV dashboard, etc. Use a regular `<iframe>` with the page's URL as the `src`:
+
+```html
+<iframe
+  src="https://admin.revive.realestate/status"
+  title="Revive third-party status"
+  width="100%"
+  height="860"
+></iframe>
+```
+
+If you only want the raw data — for a custom dashboard, an uptime aggregator, or a CI smoke check — call `GET /api/health-status` directly and consume the JSON.
