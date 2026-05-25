@@ -17,6 +17,22 @@ No action required. To wire the Slack alerts to a different channel, set `SLACK_
 
 </Update>
 
+<Update label="May 22, 2026" description="dashboard-v2.5.0" tags={["revive-dashboard"]}>
+
+### New
+
+- **Project total in scope and full estimate PDF headers.** Scope and full estimate PDF exports now show the project total directly in the header, so anyone opening the PDF sees the bottom-line number without scrolling. The property address is pinned to its own column so longer addresses no longer wrap into the totals.
+
+### Fixed
+
+- **Consistent typography in estimate PDF notes.** Inline styles are now stripped from rich-text fields — additional notes, selection descriptions, and variant notes — so they render with the PDF's own typography instead of carrying over editor-specific fonts, colors, or sizing.
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
 <Update label="Week of May 22, 2026" description="Weekly recap" tags={["revive-api", "revive-dashboard", "revive-admin", "revive-mobile"]}>
 
 A skim-friendly recap of what shipped this week across the API, dashboard, admin app, and mobile app. See the dated entries below for full per-release detail.
