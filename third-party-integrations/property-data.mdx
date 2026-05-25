@@ -1,20 +1,33 @@
 ---
 title: "Property data providers (AVM)"
-description: "Property data and AVM providers (including House Canary) that revive-api fetches on demand for valuation ranges, enrichment, and Firestore-cached results."
+description: "Property data, AVM, and home-imagery providers (AnyProp, House Canary, Estated, Zillow, Redfin, RentCast, RestB) that revive-api uses for valuations, comparables, imagery, and room-type classification."
 ---
 
 ## What it is
 
-Revive uses multiple property data providers to support valuation and analysis.
+Revive uses multiple property data and imagery providers to support valuation, comparable analysis, home photos, and room-type classification.
 
 ## Why we use it
 
-Using multiple providers improves coverage and allows Revive to generate valuation ranges and enrichment even when a single provider is missing data.
+Using multiple providers improves coverage and allows Revive to generate valuation ranges, comparables, and enriched imagery even when a single provider is missing data. Provider fallback chains ensure the best available data is always surfaced.
+
+## Providers
+
+| Provider | Data types | Notes |
+|----------|-----------|-------|
+| **AnyProp** | Comparable listings, property records, home photos | Added May 2026. Primary comparable and photo source. |
+| **RestB** | Home photos, room-type classification | AI-powered photo classification. Fallback photo source. |
+| **Zillow** | Home photos, estimated values | Fallback photo and valuation source. |
+| **Estated** | Property records, mortgage data, ownership | Core AVM and mortgage provider. |
+| **House Canary** | AVM, market health, property data | AVM and market analytics. |
+| **Redfin** | AVM, mortgage data | AVM provider. |
+| **RentCast** | Rental values, mortgage data | Rental analysis and mortgage data. |
 
 ## Data flow
 
 - The API fetches provider data on demand.
-- Results are stored in Firestore for caching.
+- Results are stored in Firestore for caching (30-day TTL for AVM records).
+- Comparable room-type classifications are cached after first request.
 
 ## Owner app(s)
 
@@ -22,13 +35,29 @@ Using multiple providers improves coverage and allows Revive to generate valuati
 
 ## Relevant modules/endpoints
 
+### AVM endpoints
+
 - `POST /v1/avm/` — Trigger an AVM lookup for an address. Pass `withMortgageData: true` to also populate mortgage, ownership, and tax fields on the cached AVM record.
 - `POST /v1/avm/mortgage` — Synchronously fetch standardized mortgage and ownership data across all providers (Estated, House Canary, Zillow, Redfin, RentCast). Each provider's response is normalized to the same shape, so consumers can pick the best available value per field.
+
+### Home imagery endpoints
+
+- `POST /v1/utility/get-home-images` — Returns home photos for an address with automatic provider fallback (RestB → AnyProp → Zillow). Pass `source: "restb" | "anyprop" | "zillow"` to pin a specific provider. Used during intake to confirm a property has usable imagery before starting a report.
+- `POST /v1/utility/deduplicate-images` — Accepts an array of image URLs and returns the set with exact and visually-similar duplicates removed via perceptual hashing. Useful when combining photos from multiple sources before sending into a render or report.
+- `POST /v1/utility/house-canary/market-health` — Returns House Canary market health metrics for an address.
+
+### Room-type classification
+
+Comparable images returned by report endpoints include per-image room types (`kitchen`, `bathroom`, `bedroom`, `living`, `exterior`, etc.) and an aggregated `roomTypes` list per comparable. Results are cached after the first request, so reopening a comp is instant.
+
+### Code modules
+
 - `apps/api/src/automated-valuation-models/avm.service.ts`
 - `apps/api/src/utils/estated/index.js`
 - `apps/api/src/lib/houseCanary/index.js`
 - `apps/api/src/lib/rentcast/index.ts`
 - `apps/api/src/lib/apify/index.ts`
+- `apps/api/src/lib/anyprop/index.ts`
 
 ## Mortgage data shape
 

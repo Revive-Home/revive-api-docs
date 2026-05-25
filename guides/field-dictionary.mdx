@@ -178,6 +178,45 @@ Each entry in an RMA's activity log uses one of the following action values.
 
 ---
 
+## Opportunity & contractor fields
+
+Fields on opportunity and contractor responses, expanded in the May 2026 releases.
+
+| Field | Type | Example | Description |
+|-------|------|---------|-------------|
+| `contractors` | array | `[{ "id": "contr_1", ... }]` | All HubSpot-linked contractors for the deal. Use this when a project has multiple contractors. |
+| `contractor` | object \| null | `{ "id": "contr_1" }` | Single contractor (first entry from `contractors`). Preserved for backwards compatibility. |
+| `is_home_prep` | boolean | `true` | Whether the contractor is approved for home-prep work. Read from HubSpot. |
+| `pipeline_stage_label` | string | `"Contract Signed"` | Live pipeline stage label resolved from HubSpot at read time (on RMA detail responses). |
+| `verifiedEndDate` | ISO 8601 | `"2026-07-15T00:00:00.000Z"` | Project end date confirmed during a weekly update. Displayed in preference to `endDate` when present. |
+
+---
+
+## AI & predictions fields
+
+Fields on AI image render jobs and prediction records.
+
+| Field | Type | Example | Description |
+|-------|------|---------|-------------|
+| `adminId` | string \| null | `"user_admin1"` | Firebase UID of the admin who initiated the render. `null` for homeowner-initiated renders. |
+| `jobId` | string | `"job_abc123"` | Unique identifier for a Firestore-backed AI render job. |
+| `contactId` | string \| null | `"cont_abc123"` | Homeowner contact associated with the render. Explicitly `null` for admin-only renders. |
+
+---
+
+## Comparable & property data fields
+
+Fields on comparable responses and home-imagery endpoints (added May 2026 with AnyProp integration and room-type classification).
+
+| Field | Type | Example | Description |
+|-------|------|---------|-------------|
+| `roomTypes` | array | `["kitchen", "bathroom", "exterior"]` | Aggregated room-type labels for a comparable property, derived from per-image classification. |
+| `roomType` | string | `"kitchen"` | Per-image room-type classification (kitchen, bathroom, bedroom, living, exterior, etc.). |
+| `source` | string | `"anyprop"` | Data/imagery provider for the record. Values: `"restb"`, `"anyprop"`, `"zillow"`, `"estated"`, `"houseCanary"`, `"rentcast"`. |
+| `grade` | string | `"A-"` | Comparable quality grade badge displayed in the comparables UI. |
+
+---
+
 ## Property & valuation fields
 
 These fields appear in property reports, Vision AI, and analysis endpoints.

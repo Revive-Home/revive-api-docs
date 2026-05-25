@@ -37,15 +37,15 @@ These endpoints were introduced or migrated to `/v2` for improved schemas:
 
 | Area | v2 endpoints | Key improvements |
 |------|-------------|-----------------|
-| **Deals** | `POST /v2/deals/`, `GET /v2/deals/{dealId}` | Simplified deal creation, consistent field naming |
-| **Users** | `POST /v2/users/`, `PATCH /v2/users/{uid}` | Role-based creation, HubSpot owner linking |
-| **Opportunities** | `GET /v2/opportunities/admin/{adminId}`, `PATCH /v2/opportunities/{opportunityId}` | Admin views, contact association endpoints |
-| **Vision AI** | `POST /v2/vision-ai/`, `POST /v2/vision-ai/condition` | Condition analysis, scraper, custom objects |
-| **Analyze** | `POST /v2/analyze/create-report`, `POST /v2/analyze/photos` | Photo analysis, comparables, renovation estimates |
-| **Calendars** | `POST /v2/calendars/`, CRUD operations | Full calendar management for meeting scheduling |
-| **Payments** | `POST /v2/payments/reno/payment-intents` | Stripe payment intent creation |
+| **Deals** | `POST /v2/deals/` | Simplified deal creation, consistent field naming |
+| **Users** | `POST /v2/users/`, `PATCH /v2/users/{uid}`, `GET /v2/users/owners` | Role-based creation, HubSpot owner linking, list owners |
+| **Opportunities** | `GET /v2/opportunities/`, `GET /v2/opportunities/admin/{adminId}`, `PATCH /v2/opportunities/{opportunityId}` | Admin views, contact association/disassociation, onsite visit |
+| **Vision AI** | `POST /v2/vision-ai/`, `POST /v2/vision-ai/condition`, `POST /v2/vision-ai/scraper`, `POST /v2/vision-ai/scraper/csv`, `POST /v2/vision-ai/scraper/generate-report`, `GET /v2/vision-ai/images`, `PATCH /v2/vision-ai/custom-object/{recordId}`, `PATCH /v2/vision-ai/rejected-report-note/{recordId}` | Condition analysis, scraper (single + CSV batch + report generation), image listing, custom objects, rejected report notes |
+| **Analyze** | `POST /v2/analyze/create-report`, `POST /v2/analyze/photos`, `POST /v2/analyze/comparables`, `POST /v2/analyze/v2/comparables`, `POST /v2/analyze/condition`, `POST /v2/analyze/reanalyze`, `POST /v2/analyze/renovation/{id}`, `POST /v2/analyze/feedback/{id}` | Photo analysis, comparables (v1 + v2), condition, re-analysis, renovation estimates, feedback |
+| **Calendars** | `POST /v2/calendars/`, `GET /v2/calendars/{calendarId}`, `PATCH /v2/calendars/{calendarId}`, `DELETE /v2/calendars/{calendarId}` | Full calendar CRUD for meeting scheduling |
+| **Payments** | `POST /v2/payments/reno/payment-intents`, `POST /v2/payments/reno/create-checkout-session`, `GET /v2/payments/reno/user-subscription`, `DELETE /v2/payments/reno/remove-subscription`, `POST /v2/payments/reno/webhook` | Stripe payment intents, checkout sessions, subscriptions, webhook |
 | **Referrals** | `POST /v2/referrals/` | Simplified referral creation |
-| **Properties** | `GET /v2/properties/{objectType}` | HubSpot property definitions |
+| **Properties** | `GET /v2/properties/{objectType}`, `GET /v2/properties/{objectType}/{propertyName}` | HubSpot property definitions (list + individual) |
 
 ---
 

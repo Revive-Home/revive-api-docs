@@ -237,6 +237,17 @@ curl -X POST https://revive-api-v2-production.herokuapp.com/v1/weekly-updates/ai
 
 ---
 
+## Scope item labels
+
+As of May 2026 (dashboard-v2.3.0 / admin-v3.3.0), custom **scope item labels** appear throughout the weekly update experience:
+
+- **Scope picker** — when a project manager selects a scope during weekly update creation, the picker displays the scope item label alongside the scope name to disambiguate similar entries.
+- **Homeowner-facing view** — the published weekly update shows the same labels homeowners see elsewhere, ensuring consistent naming between project managers and homeowners.
+
+Labels are derived from the `label` field on scope items in the linked project scope document. If a scope item has no custom label, the default scope name is shown.
+
+---
+
 ## Notes and limits
 
 - The static system prompt enforces tone, formatting, and the four-section template — you do not need to replicate it on the client.
