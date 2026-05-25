@@ -5,7 +5,7 @@ description: "Live operational status of HubSpot, Firebase, ATTOM, RestB, PandaD
 
 ## Live status
 
-The board below is served by the Revive admin app at `/status`. It polls each provider's public status feed every minute and rolls up the health of the third-party dependencies — and Revive's own production apps — that the platform talks to.
+The Revive admin app serves the board below at `/status`. It polls each provider's public status feed every minute and rolls up the health of the third-party dependencies — and Revive's own production apps — that the platform talks to.
 
 <iframe
   src="https://admin.revive.realestate/status"
@@ -52,8 +52,8 @@ The status board groups checks into two buckets — external providers Revive in
 | Admin App            | `https://admin.revive.realestate/`                                | HTTP 200   |
 
 <Note>
-  Estated's own API (`api.estated.com`) was sunset after ATTOM's 2022
-  acquisition. The check points at the ATTOM developer portal instead.
+  ATTOM retired Estated's own API (`api.estated.com`) after the 2022
+  acquisition, so this check points at the ATTOM developer portal instead.
 </Note>
 
 ### Check types
@@ -69,7 +69,7 @@ Each check has an 8-second timeout. A timeout or thrown error maps to `down` wit
 
 ## Public health API
 
-The status page is backed by `GET /api/health-status` on the admin app. The endpoint runs all checks server-side, rolls them up, and returns a structured JSON response. It's safe to call from any origin (CORS is wide open) and is cached for 60 seconds at the edge (`Cache-Control: public, s-maxage=60, stale-while-revalidate=300`).
+`GET /api/health-status` on the admin app powers the status page. The endpoint runs all checks server-side, rolls them up, and returns a structured JSON response. You can call it from any origin — it sends `Access-Control-Allow-Origin: *` (CORS) — and the edge caches the response for 60 seconds (`Cache-Control: public, s-maxage=60, stale-while-revalidate=300`).
 
 ### Request
 
@@ -128,7 +128,7 @@ In addition to the on-demand admin endpoint, the Revive API runs the same checks
 - A cron job runs **every 5 minutes** (`*/5 * * * *`, America/Los_Angeles).
 - Each run evaluates every service, persists the latest result to the Firestore `systemHealth` collection (keyed by service), and records `lastTransitionAt` plus `previousStatus` whenever a status changes.
 - When a service transitions to a new status in **production** — for example, `operational → down` or `degraded → operational` — the job posts a message to the Slack channel configured by `SLACK_ACTIVITY_PRODUCTION` (exposed in config as `slackChannels.healthAlerts`).
-- The first observation for a service is never alerted on (the previous status starts as `unknown`); alerts only fire on real transitions between known states.
+- The first observation for a service never triggers an alert (the previous status starts as `unknown`); alerts only fire on real transitions between known states.
 
 Alerts use emoji indicators so they're easy to scan: `:white_check_mark:` operational, `:warning:` degraded, `:rotating_light:` down, `:grey_question:` unknown. Each alert includes the previous status, the new status, a link to the endpoint, and the message returned by the check.
 
