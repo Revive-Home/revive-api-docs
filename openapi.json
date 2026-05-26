@@ -3,7 +3,7 @@
   "info": {
     "title": "Revive API",
     "description": "Backend API for the Revive platform — pre-sale renovation management, property analysis, deal tracking, and more.",
-    "version": "v2.156.0"
+    "version": "v3.3.0"
   },
   "servers": [
     {
@@ -20178,6 +20178,292 @@
         "description": "`POST /v1/property/upgrade-to-v2`\n\nUpgrades a legacy V1 report to V2 format with enhanced analysis."
       }
     },
+    "/v1/property/dashboard": {
+      "post": {
+        "operationId": "post_v1_property_dashboard",
+        "summary": "Create or update a property dashboard",
+        "tags": [
+          "Property"
+        ],
+        "responses": {
+          "201": {
+            "description": "Property dashboard created or updated. Background feature extraction and room-type classification are triggered automatically.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "comparables": [],
+                    "features": {},
+                    "roomTypes": {}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request — invalid or missing parameters.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Validation failed.",
+                  "errors": [
+                    {
+                      "field": "streetAddress",
+                      "message": "streetAddress is required."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "streetAddress": {
+                    "type": "string",
+                    "description": "Full street address of the property."
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "City name."
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "Two-letter state code."
+                  },
+                  "postalCode": {
+                    "type": "string",
+                    "description": "ZIP code."
+                  }
+                },
+                "required": [
+                  "streetAddress",
+                  "state"
+                ]
+              }
+            }
+          }
+        },
+        "description": "`POST /v1/property/dashboard`\n\nCreates or updates a property dashboard with comparable data, room-type classification, and automatic background feature extraction. Room-type labels (kitchen, bathroom, bedroom, living, exterior, etc.) and per-room feature summaries are saved and cached for subsequent reads."
+      }
+    },
+    "/v1/property/neighborhood-dashboard": {
+      "post": {
+        "operationId": "post_v1_property_neighborhood_dashboard",
+        "summary": "Create a neighborhood dashboard",
+        "tags": [
+          "Property"
+        ],
+        "responses": {
+          "201": {
+            "description": "Neighborhood dashboard created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "reportId": "rpt_xyz789",
+                    "neighborhood": {},
+                    "comparables": [],
+                    "marketHealth": {}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request — invalid or missing parameters.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Validation failed.",
+                  "errors": [
+                    {
+                      "field": "streetAddress",
+                      "message": "streetAddress is required."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "streetAddress": {
+                    "type": "string",
+                    "description": "Full street address of the property."
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "City name."
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "Two-letter state code."
+                  },
+                  "postalCode": {
+                    "type": "string",
+                    "description": "ZIP code."
+                  }
+                },
+                "required": [
+                  "streetAddress",
+                  "state"
+                ]
+              }
+            }
+          }
+        },
+        "description": "`POST /v1/property/neighborhood-dashboard`\n\nCreates a neighborhood-level dashboard with comparable listings, market health data, and neighborhood context for a given address. Used by the Revive AI Report comparables slide."
+      }
+    },
     "/v1/property/{id}": {
       "get": {
         "operationId": "get_v1_property_id_",
@@ -26931,7 +27217,7 @@
     "/v1/utility/get-home-images": {
       "post": {
         "operationId": "post_v1_utility_get_home_images",
-        "summary": "Create Utility get home images",
+        "summary": "Get home images for an address",
         "tags": [
           "Utility"
         ],
@@ -27048,7 +27334,7 @@
             }
           }
         },
-        "description": "`POST /v1/utility/get-home-images`"
+        "description": "`POST /v1/utility/get-home-images`\n\nReturns home photos for an address. With no `source` specified, falls back across providers (RestB → AnyProp → Zillow) and returns the first successful, deduplicated set. Pass `source` to pin a specific provider. Used during intake to confirm a property has usable imagery before kicking off a report."
       }
     },
     "/v1/utility/house-canary/market-health": {
@@ -27193,6 +27479,160 @@
           }
         },
         "description": "`POST /v1/utility/house-canary/market-health`\n\nRetrieves market health indicators for given ZIP codes using House Canary."
+      }
+    },
+    "/v1/utility/check-home-images": {
+      "post": {
+        "operationId": "post_v1_utility_check_home_images",
+        "summary": "Check home images",
+        "tags": [
+          "Utility"
+        ],
+        "responses": {
+          "200": {
+            "description": "Home images.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "images": [
+                      {
+                        "url": "https://photos.example.com/property_01.jpg",
+                        "source": "AnyProp",
+                        "type": "exterior"
+                      },
+                      {
+                        "url": "https://photos.example.com/property_02.jpg",
+                        "source": "Zillow",
+                        "type": "interior"
+                      }
+                    ],
+                    "totalFound": 12,
+                    "duplicatesRemoved": 3
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request — invalid or missing parameters.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Validation failed.",
+                  "errors": [
+                    {
+                      "field": "streetAddress",
+                      "message": "streetAddress is required."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid Bearer token.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "streetAddress": {
+                    "type": "string",
+                    "description": "Full street address of the property."
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "Two-letter state code."
+                  },
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "restb",
+                      "anyprop",
+                      "zillow"
+                    ],
+                    "description": "Optional. Pin a specific provider to check."
+                  }
+                },
+                "required": [
+                  "streetAddress",
+                  "state"
+                ]
+              }
+            }
+          }
+        },
+        "description": "`POST /v1/utility/check-home-images`\n\nMulti-source home image lookup by address. Queries AnyProp, Zillow, RestB, deduplicates results."
       }
     },
     "/v1/vision-ai/": {

@@ -36,7 +36,19 @@ Firebase is the primary system of record for the Revive platform and enables rea
 - `apps/admin/utils/firebase.ts`
 - `apps/dashboard/src/utils/firebase.ts`
 
+## Key Firestore collections (May 2026)
+
+| Collection | Purpose | Key fields |
+|-----------|---------|-----------|
+| **AI image render jobs** | Persistent tracking of prediction/render jobs | `jobId`, `adminId`, `reportId`, `contactId`, `status`, `createdAt` |
+| **AI weekly update conversations** | Per-deal, per-week chat threads for Claude-generated weekly updates | `dealId`, `weekId`, `createdBy`, `appliedAssistantMessageId` |
+| **AI weekly update messages** | Messages within a conversation (user + assistant) | `conversationId`, `role`, `content`, `createdAt` |
+| **Room-type classifications** | Cached room-type labels per comparable photo | `comparableId`, `imageUrl`, `roomType`, `roomTypes` |
+| **AVM records** | Cached property valuation data (30-day TTL) | `address`, `providers`, `mortgageData`, `withMortgageData` |
+
 ## Operational notes
 
 - Treat Firestore schemas as shared contracts across all clients.
 - Keep migrations and backfills in the API app when possible so all clients converge on the same data model.
+- AI render jobs moved from in-memory to Firestore-backed persistent storage in May 2026, enabling cross-request job tracking and admin-initiated render filtering.
+- AVM records are cached for 30 days. Setting `withMortgageData: true` on a cached record without mortgage fields triggers a background backfill so subsequent reads include mortgage data.

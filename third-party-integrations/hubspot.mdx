@@ -47,6 +47,15 @@ Code modules:
 - `apps/api/src/utils/transactional-emails.js`
 - `apps/api/src/webhooks/webhooks.routes.js`
 
+## Live data from HubSpot (May 2026)
+
+Several API responses now resolve data live from HubSpot at read time rather than relying on cached values:
+
+- **RMA pipeline stage labels.** `GET /v1/rma/{rmaId}` resolves the current pipeline stage label directly from HubSpot, so the displayed stage always matches the latest HubSpot configuration. The field is returned as `pipeline_stage_label`.
+- **All linked contractors on opportunities.** `GET /v1/opportunities/{id}` now resolves every contractor associated with the deal in HubSpot and returns them on a `contractors` array. The existing `contractor` field is preserved for backwards compatibility (contains the first entry or `null`).
+- **`is_home_prep` on contractor records.** Contractor objects returned by opportunity and contractor endpoints include `is_home_prep` (boolean), identifying contractors approved for home-prep work. Read directly from HubSpot — no migration required.
+- **Meeting scheduling via HubSpot Scheduler API.** The intake meeting scheduler and calendar endpoints now use the HubSpot Scheduler API for availability and booking, replacing the previous direct calendar integration.
+
 ## Operational notes
 
 - Webhook handlers typically update Firestore and may fan out internal notifications.

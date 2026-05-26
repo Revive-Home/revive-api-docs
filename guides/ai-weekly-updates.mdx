@@ -1,6 +1,6 @@
 ---
-title: 'AI weekly updates'
-description: 'Generate homeowner-facing weekly renovation updates with Claude using one-shot drafts or persisted per-deal chat conversations under /v1/weekly-updates.'
+title: "AI weekly updates"
+description: "Generate homeowner-facing weekly renovation updates with Claude using one-shot drafts or persisted per-deal chat conversations under /v1/weekly-updates."
 ---
 
 ## Overview
@@ -234,6 +234,17 @@ curl -X POST https://revive-api-v2-production.herokuapp.com/v1/weekly-updates/ai
   -d '{ "assistantMessageId": "msg_abc456" }'
 # → { "ok": true }
 ```
+
+---
+
+## Scope item labels
+
+As of May 2026 (dashboard-v2.3.0 / admin-v3.3.0), custom **scope item labels** appear throughout the weekly update experience:
+
+- **Scope picker** — when a project manager selects a scope during weekly update creation, the picker displays the scope item label alongside the scope name to disambiguate similar entries.
+- **Homeowner-facing view** — the published weekly update shows the same labels homeowners see elsewhere, ensuring consistent naming between project managers and homeowners.
+
+Labels are derived from the `label` field on scope items in the linked project scope document. If a scope item has no custom label, the default scope name is shown.
 
 ---
 

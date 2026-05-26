@@ -72,13 +72,24 @@ When all five property parameters are provided, the **Property Details** step is
 
 ### Meeting and advisor selection
 
-By default, the intake flow ends with a **Select property advisor** step (where the user picks a specific Revive property advisor or chooses **Anyone**) followed by a **Schedule meeting** step. Use `showcalendar=false` to skip both steps for funnels that don't need an immediate meeting booking.
+By default, the intake flow ends with a **Select property advisor** step (where the user picks a specific Revive property advisor or chooses **Anyone available**) followed by a **Schedule meeting** step. Use `showcalendar=false` to skip both steps for funnels that don't need an immediate meeting booking.
 
 | Parameter      | Type   | Description                                                                 | Accepted values |
 | -------------- | ------ | --------------------------------------------------------------------------- | --------------- |
 | `showcalendar` | string | Whether to show the property advisor selection and meeting scheduling steps | `false`         |
 
-<Note>The advisor list is merged from HubSpot meeting calendars and the Firestore `admins` collection (members with `position: "Property Advisor"`). If a user picks **Anyone**, the meeting step shows the default round-robin calendar.</Note>
+<Note>The advisor list is merged from HubSpot meeting calendars and the Firestore `admins` collection (members with `position: "Property Advisor"`). If a user picks **Anyone available**, the meeting step shows the default round-robin calendar.</Note>
+
+**Meeting scheduler UI (as of May 2026):** The scheduler step uses a redesigned interface with:
+
+- **Week strip** — horizontal date selector for browsing available days
+- **Timezone picker** — auto-detects browser timezone; user can override
+- **Responsive time-slot grid** — available slots displayed in a card grid
+- **Property-advisor selector** — pick a named advisor or choose "Anyone available" for round-robin
+- **In-home visit messaging** — homeowners see an in-home visit note; advisor selection is hidden for homeowner users to simplify the flow
+- **Completion banner** — after booking, the confirmation step shows a "Meeting scheduled" banner and "Go to my project" navigation
+
+The scheduler fetches availability from the HubSpot Scheduler API. Slot filtering, highlighted selection, and the simplified booking footer are all responsive.
 
 ### Other
 

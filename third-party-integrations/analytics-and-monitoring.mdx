@@ -1,26 +1,64 @@
 ---
 title: "Analytics and monitoring"
-description: "Product analytics, session replay, and client error monitoring vendors used by the dashboard, admin, and mobile apps to track usage and debug issues."
+description: "Product analytics (Mixpanel), Google Tag Manager, and client error monitoring used by the dashboard, admin, and mobile apps to track usage, attribution, and debug issues."
 ---
 
 ## What it is
 
-Analytics and monitoring integrations capture product usage and help diagnose production issues.
+Analytics and monitoring integrations capture product usage, marketing attribution, and help diagnose production issues.
 
 ## Why we use it
 
 - Understand product usage patterns and funnels
+- Attribute intake conversions to marketing channels (via GTM + HubSpot)
 - Debug production issues with richer client context
 
 ## Data flow
 
 - Frontends initialize analytics/monitoring vendors in their app roots.
+- GTM dataLayer events fire on user actions and are consumed by HubSpot and downstream marketing tooling.
 
 ## Owner app(s)
 
 - `admin` (in `revive-apps`)
 - `dashboard` (in `revive-apps`)
 - `revive-mobile` (standalone)
+
+## Vendors
+
+| Vendor | Purpose | Apps |
+|--------|---------|------|
+| **Mixpanel** | Product analytics and funnel tracking | dashboard, admin, mobile |
+| **Google Tag Manager** | Marketing attribution, conversion tracking | dashboard |
+| **ErrorBoundary** | Client-side error capture and display | dashboard, admin |
+
+## Google Tag Manager events
+
+The dashboard pushes events to the GTM `dataLayer` on key user actions. These events are consumed by HubSpot workflows and marketing tooling for attribution.
+
+### `hubspot-form-success` (Getting Started intake)
+
+Fires when a user completes phone verification during the Getting Started intake on production. Contains plain (non-hashed) form fields for HubSpot attribution.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `event` | string | Always `"hubspot-form-success"` |
+| `hsFormEmail` | string | User's email address |
+| `hsFormFirstName` | string | User's first name |
+| `hsFormLastName` | string | User's last name |
+| `hsFormPhone` | string | User's phone number |
+| `hsFormName` | string | Always `"Revive Intake Form"` |
+| `address` | string | Property address |
+| `city` | string | Property city |
+| `postal_code` | string | Property ZIP code |
+
+<Warning>
+  As of May 2026, the Getting Started event uses **plain** form fields (not SHA-256 hashed). If you have GTM tags or HubSpot workflows that consumed the previous `gettingStartedSubmission` event with hashed `user_data`, retarget them to `hubspot-form-success` and the plain `hsForm*` fields above.
+</Warning>
+
+### Revive AI report submission
+
+A Google Tag event fires when submitting Revive AI reports from the dashboard, enabling HubSpot to attribute report submissions.
 
 ## Relevant modules/endpoints
 
@@ -31,3 +69,9 @@ Analytics and monitoring integrations capture product usage and help diagnose pr
 - `apps/dashboard/src/components/common/ErrorBoundary.tsx`
 - `apps/admin/pages/_app.tsx`
 - `apps/dashboard/src/pages/_app.tsx`
+
+## Operational notes
+
+- The GTM event fires only in production and failures are logged without blocking sign-up.
+- The intake confirmation step no longer fires a duplicate GTM event — the Getting Started event is the single source of truth for intake attribution.
+- Mixpanel tracks usage across all three client apps using shared utility wrappers.

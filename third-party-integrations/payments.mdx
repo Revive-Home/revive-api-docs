@@ -1,30 +1,51 @@
 ---
 title: "Payments"
-description: "Stripe and other payment provider integrations that revive-api uses for renovation payment intents, billing workflows, and webhook-driven reconciliation."
+description: "Stripe payment integration — payment intents, checkout sessions, subscriptions, and webhook-driven reconciliation for renovation payments in revive-api."
 ---
 
 ## What it is
 
-Payments integrations support payment processing and billing workflows.
+Stripe is used for processing renovation payments, material advances, checkout sessions, and subscription billing.
 
 ## Why we use it
 
-To process payments securely and handle payment lifecycle events.
+To process payments securely, create payment intents for renovation milestones, manage user subscriptions, and handle payment lifecycle events via webhooks.
 
 ## Data flow
 
-- Inbound: payment providers can send webhook events to the API.
-- Outbound: the API calls provider APIs to create sessions/intents and reconcile state.
+- Inbound: Stripe sends webhook events to `POST /v2/payments/reno/webhook` on payment status changes (succeeded, failed, refunded).
+- Outbound: the API calls the Stripe API to create payment intents, checkout sessions, and manage subscriptions.
 
 ## Owner app(s)
 
 - `api` (in `revive-apps`)
 
-## Relevant modules/endpoints
+## Relevant endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v2/payments/reno/payment-intents` | POST | Create a Stripe payment intent for a renovation payment |
+| `/v2/payments/reno/create-checkout-session` | POST | Create a Stripe Checkout session for one-time or subscription billing |
+| `/v2/payments/reno/user-subscription` | GET | Retrieve the current user's active subscription |
+| `/v2/payments/reno/remove-subscription` | DELETE | Cancel an active subscription |
+| `/v2/payments/reno/webhook` | POST | Stripe webhook receiver — processes `payment_intent.succeeded`, `payment_intent.payment_failed`, `charge.refunded`, and subscription lifecycle events |
+
+## Code modules
 
 - `apps/api/src/lib/stripe/index.js`
 - `apps/api/src/payments/payments.controller.js`
+- `apps/api/src/payments/payments.routes.js`
+
+## RMA payment flows
+
+RMAs (Renovation Management Agreements) integrate with payments for:
+
+- **Material advance** — auto-populated from the linked PO sheet when creating an RMA (May 2026). Paid out as a Stripe payment intent.
+- **Check runs** — weekly payment batches for executed RMAs. The check-run cutoff (Friday 23:59:59) determines which RMAs are included.
+- **Final payment** — released when the RMA transitions to `paid` status.
 
 ## Operational notes
 
 - Webhook handlers should be idempotent and safe to retry.
+- The webhook endpoint does not require Firebase JWT authentication — it uses Stripe signature verification.
+- Payment intents include `metadata.dealId` and `metadata.type` for downstream reconciliation.
