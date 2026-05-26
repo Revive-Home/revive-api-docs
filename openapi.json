@@ -20186,7 +20186,7 @@
           "Property"
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Property dashboard created or updated. Background feature extraction and room-type classification are triggered automatically.",
             "content": {
               "application/json": {
@@ -20226,6 +20226,45 @@
                 "example": {
                   "status": "error",
                   "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
                 }
               }
             }
@@ -20290,7 +20329,7 @@
           "Property"
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Neighborhood dashboard created.",
             "content": {
               "application/json": {
@@ -20330,6 +20369,45 @@
                 "example": {
                   "status": "error",
                   "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
                 }
               }
             }
@@ -27406,21 +27484,32 @@
     "/v1/utility/check-home-images": {
       "post": {
         "operationId": "post_v1_utility_check_home_images",
-        "summary": "Check home images availability",
+        "summary": "Check home images",
         "tags": [
           "Utility"
         ],
         "responses": {
           "200": {
-            "description": "Image availability check result.",
+            "description": "Home images.",
             "content": {
               "application/json": {
                 "example": {
                   "status": "success",
                   "data": {
-                    "hasImages": true,
-                    "provider": "anyprop",
-                    "imageCount": 12
+                    "images": [
+                      {
+                        "url": "https://photos.example.com/property_01.jpg",
+                        "source": "AnyProp",
+                        "type": "exterior"
+                      },
+                      {
+                        "url": "https://photos.example.com/property_02.jpg",
+                        "source": "Zillow",
+                        "type": "interior"
+                      }
+                    ],
+                    "totalFound": 12,
+                    "duplicatesRemoved": 3
                   }
                 }
               }
@@ -27450,6 +27539,45 @@
                 "example": {
                   "status": "error",
                   "message": "Authentication required. Provide a valid Firebase JWT in the Authorization header."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — you do not have permission to access this resource.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Insufficient permissions."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found — the requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Resource not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity — request was understood but contains semantic errors.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Unprocessable entity.",
+                  "errors": [
+                    {
+                      "field": "dealId",
+                      "message": "Deal is already closed."
+                    }
+                  ]
                 }
               }
             }
@@ -27504,7 +27632,7 @@
             }
           }
         },
-        "description": "`POST /v1/utility/check-home-images`\n\nChecks whether home photos are available for an address without fetching the full image set. Returns availability, provider, and image count. Used as a lightweight pre-check before kicking off a report."
+        "description": "`POST /v1/utility/check-home-images`\n\nMulti-source home image lookup by address. Queries AnyProp, Zillow, RestB, deduplicates results."
       }
     },
     "/v1/vision-ai/": {
