@@ -31,8 +31,7 @@
               "guides/webhooks",
               "guides/ai-weekly-updates",
               "guides/field-dictionary",
-              "guides/changelog",
-              "guides/health"
+              "guides/changelog"
             ]
           }
         ]
@@ -107,6 +106,17 @@
       {
         "tab": "API reference",
         "openapi": "openapi.json"
+      },
+      {
+        "tab": "System Status",
+        "groups": [
+          {
+            "group": "System Status",
+            "pages": [
+              "system-status"
+            ]
+          }
+        ]
       }
     ],
     "global": {
