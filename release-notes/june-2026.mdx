@@ -3,6 +3,181 @@ title: "June 2026"
 description: "June 2026 release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."
 ---
 
+<Update label="June 4, 2026" description="dashboard-v2.7.0" tags={["dashboard"]}>
+
+### New
+
+- Integrated Revive AI report package into the admin UI. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Bug Fixes & Improvements. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Wrapped admin UI with tooltip support and report provider for improved behavior and notifications. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Navigation Updates. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Rebranded routes and links from /vision-ai to /revive-ai for consistency. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Removals. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Removed the Renovision configurator and numerous legacy Vision AI report/modals and related UI components. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Added admin-scoped job querying so admin views surface admin-specific generated images and jobs. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Exposed the shared configurator component for reuse in admin and modal workflows. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+
+### Improved
+
+- Consolidated RenoVision Configurator into a shared package and updated references so the configurator UI is reused across apps. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Rewired imports and packaging to centralize configurator behavior and improve maintainability. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Improved image upload pipeline with HEIC→JPG conversion support. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+
+### Fixed
+
+No bug fixes in this release.
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+<Update label="June 4, 2026" description="dashboard-v2.7.0" tags={["admin"]}>
+
+### New
+
+- Integrated Revive AI report package into the admin UI. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Bug Fixes & Improvements. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Wrapped admin UI with tooltip support and report provider for improved behavior and notifications. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Navigation Updates. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Rebranded routes and links from /vision-ai to /revive-ai for consistency. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Removals. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Removed the Renovision configurator and numerous legacy Vision AI report/modals and related UI components. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- AI "Generate with AI" workflow for custom item descriptions (chat modal, attachments, project-photo picker, apply-to-form). ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- New RMA subcontractor-commitment flow and preserved additional-cost field across estimate recalculations. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Admin status page with consolidated health checks. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Bug Fixes / UX. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Require at least two comparables before making a prediction (400 error). ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Rating-based status badges, refined analyzing visuals, and rounded currency displays. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Prevent duplicating signed estimates; prefetch report pages when generation completes. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Status page showing third‑party health with per‑service indicators, overall summary and "Last checked"; auto‑refreshes every 60s. ([#108](https://github.com/Revive-Home/revive-apps/pull/108))
+- Public health API returning aggregated status, per‑service details, caching and CORS headers, and proper method handling. ([#108](https://github.com/Revive-Home/revive-apps/pull/108))
+- Background job every 5 minutes to run health checks and trigger alerts in production. ([#108](https://github.com/Revive-Home/revive-apps/pull/108))
+- Health check service that evaluates services, persists results, and posts Slack alerts on status transitions. ([#108](https://github.com/Revive-Home/revive-apps/pull/108))
+- Compact cash-offer display added across comparison views and PDFs; new parsing/formatting utilities support this. ([#128](https://github.com/Revive-Home/revive-apps/pull/128))
+- Estimates now include per-product cost breakdowns and explicit per-item cost totals. ([#115](https://github.com/Revive-Home/revive-apps/pull/115))
+- When creating a new custom item, the pricing mode now defaults to the factored view for a smoother setup experience. ([#120](https://github.com/Revive-Home/revive-apps/pull/120))
+- Subcontractor commitment amounts surfaced across opportunities, RMAs, UI and APIs; contract generation accepts an optional subcontractor amount and records commitment basis. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Finance view shows subcontractor rows, visual de-emphasis of reference items, and adjusted totals/charting. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Generate/Create RMA modals show conditional banner/radio/input, inline validation, and clearer error handling. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Activity feed includes commitment_set entries; project metrics derive PC totals from multiple commitment sources. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Newly created renovation updates are automatically selected and shown in the UI. ([#119](https://github.com/Revive-Home/revive-apps/pull/119))
+- Performance Improvements. ([#119](https://github.com/Revive-Home/revive-apps/pull/119))
+- Renovation update details now load related images/contacts concurrently for faster display. ([#119](https://github.com/Revive-Home/revive-apps/pull/119))
+- Fire Google Tag event on user registration. ([#126](https://github.com/Revive-Home/revive-apps/pull/126))
+- Admins can add a persistent flat "Additional cost" to global estimate options. ([#110](https://github.com/Revive-Home/revive-apps/pull/110))
+- UI shows an editable "Additional cost" field; global "Cost" is disabled with an info tooltip when applicable. ([#110](https://github.com/Revive-Home/revive-apps/pull/110))
+- Added admin-scoped job querying so admin views surface admin-specific generated images and jobs. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Exposed the shared configurator component for reuse in admin and modal workflows. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Resolve Home Prep affiliate contractors: when a deal is marked "home prep," the system substitutes the canonical Home Prep contractor and updates contract recipients. ([#113](https://github.com/Revive-Home/revive-apps/pull/113))
+- Use the canonical contractor’s primary contact as the signer when available; if missing, fall back and emit a warning. ([#113](https://github.com/Revive-Home/revive-apps/pull/113))
+- Applies to PC contract generation and estimate document creation flows. ([#113](https://github.com/Revive-Home/revive-apps/pull/113))
+- Add workflow to post Vercel preview links as ClickUp comments. ([#117](https://github.com/Revive-Home/revive-apps/pull/117))
+- MVP Build Change Order GPT. ([#103](https://github.com/Revive-Home/revive-apps/pull/103))
+
+### Improved
+
+- Comparables/media fetched in parallel; comparables now backfill ratings. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- V2 project completion uses cost-weighted progress when item costs are present for more accurate reporting. ([#115](https://github.com/Revive-Home/revive-apps/pull/115))
+- Project-scope naming, status, and progress logic centralized for consistent displays across the app. ([#115](https://github.com/Revive-Home/revive-apps/pull/115))
+- Progress submission UI reflects loading state: “Back” is disabled during submission and “Send” shows loading. ([#115](https://github.com/Revive-Home/revive-apps/pull/115))
+- New API validation for optional subcontractor commitment amount on contract creation. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Removed special-case handling for contractor–deal associations and consolidated to a standardized association flow. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Simplified error handling across services by dropping unused error variables while preserving existing error behavior. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Calculation engine now records a computed formula result and combines it with any admin-added cost when producing totals, preserving prior values during migration. ([#110](https://github.com/Revive-Home/revive-apps/pull/110))
+- Consolidated RenoVision Configurator into a shared package and updated references so the configurator UI is reused across apps. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Rewired imports and packaging to centralize configurator behavior and improve maintainability. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Improved image upload pipeline with HEIC→JPG conversion support. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+
+### Fixed
+
+- Replace @semantic release/npm with @semantic release/exec for ve…. ([#132](https://github.com/Revive-Home/revive-apps/pull/132))
+- Corrected estimate math so the 25% labor adjustment is deducted at the selection level, variant/deduction subtotals are aggregated as provided, and totals are rounded once at the end for accurate pricing. ([#120](https://github.com/Revive-Home/revive-apps/pull/120))
+- On-site visit scheduling accepts an additional optional field to improve scheduling input handling. ([#119](https://github.com/Revive-Home/revive-apps/pull/119))
+- Disabled the duplicate action for estimates once an estimate is signed; clicking it shows a warning toast and no longer creates a duplicate. ([#100](https://github.com/Revive-Home/revive-apps/pull/100))
+- Stability. ([#100](https://github.com/Revive-Home/revive-apps/pull/100))
+- Improved error handling in estimate remove/duplicate flows: failures now log errors explicitly and continue to show failure notifications. ([#100](https://github.com/Revive-Home/revive-apps/pull/100))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+<Update label="June 4, 2026" description="dashboard-v2.7.0" tags={["api"]}>
+
+### New
+
+- Integrated Revive AI report package into the admin UI. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Bug Fixes & Improvements. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Wrapped admin UI with tooltip support and report provider for improved behavior and notifications. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Navigation Updates. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Rebranded routes and links from /vision-ai to /revive-ai for consistency. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Removals. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- Removed the Renovision configurator and numerous legacy Vision AI report/modals and related UI components. ([#102](https://github.com/Revive-Home/revive-apps/pull/102))
+- AI "Generate with AI" workflow for custom item descriptions (chat modal, attachments, project-photo picker, apply-to-form). ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- New RMA subcontractor-commitment flow and preserved additional-cost field across estimate recalculations. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Admin status page with consolidated health checks. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Bug Fixes / UX. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Require at least two comparables before making a prediction (400 error). ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Rating-based status badges, refined analyzing visuals, and rounded currency displays. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Prevent duplicating signed estimates; prefetch report pages when generation completes. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- Status page showing third‑party health with per‑service indicators, overall summary and "Last checked"; auto‑refreshes every 60s. ([#108](https://github.com/Revive-Home/revive-apps/pull/108))
+- Public health API returning aggregated status, per‑service details, caching and CORS headers, and proper method handling. ([#108](https://github.com/Revive-Home/revive-apps/pull/108))
+- Background job every 5 minutes to run health checks and trigger alerts in production. ([#108](https://github.com/Revive-Home/revive-apps/pull/108))
+- Health check service that evaluates services, persists results, and posts Slack alerts on status transitions. ([#108](https://github.com/Revive-Home/revive-apps/pull/108))
+- Compact cash-offer display added across comparison views and PDFs; new parsing/formatting utilities support this. ([#128](https://github.com/Revive-Home/revive-apps/pull/128))
+- Estimates now include per-product cost breakdowns and explicit per-item cost totals. ([#115](https://github.com/Revive-Home/revive-apps/pull/115))
+- When creating a new custom item, the pricing mode now defaults to the factored view for a smoother setup experience. ([#120](https://github.com/Revive-Home/revive-apps/pull/120))
+- Subcontractor commitment amounts surfaced across opportunities, RMAs, UI and APIs; contract generation accepts an optional subcontractor amount and records commitment basis. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Finance view shows subcontractor rows, visual de-emphasis of reference items, and adjusted totals/charting. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Generate/Create RMA modals show conditional banner/radio/input, inline validation, and clearer error handling. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Activity feed includes commitment_set entries; project metrics derive PC totals from multiple commitment sources. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Newly created renovation updates are automatically selected and shown in the UI. ([#119](https://github.com/Revive-Home/revive-apps/pull/119))
+- Performance Improvements. ([#119](https://github.com/Revive-Home/revive-apps/pull/119))
+- Renovation update details now load related images/contacts concurrently for faster display. ([#119](https://github.com/Revive-Home/revive-apps/pull/119))
+- Fire Google Tag event on user registration. ([#126](https://github.com/Revive-Home/revive-apps/pull/126))
+- Admins can add a persistent flat "Additional cost" to global estimate options. ([#110](https://github.com/Revive-Home/revive-apps/pull/110))
+- UI shows an editable "Additional cost" field; global "Cost" is disabled with an info tooltip when applicable. ([#110](https://github.com/Revive-Home/revive-apps/pull/110))
+- Added admin-scoped job querying so admin views surface admin-specific generated images and jobs. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Exposed the shared configurator component for reuse in admin and modal workflows. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Resolve Home Prep affiliate contractors: when a deal is marked "home prep," the system substitutes the canonical Home Prep contractor and updates contract recipients. ([#113](https://github.com/Revive-Home/revive-apps/pull/113))
+- Use the canonical contractor’s primary contact as the signer when available; if missing, fall back and emit a warning. ([#113](https://github.com/Revive-Home/revive-apps/pull/113))
+- Applies to PC contract generation and estimate document creation flows. ([#113](https://github.com/Revive-Home/revive-apps/pull/113))
+- Add workflow to post Vercel preview links as ClickUp comments. ([#117](https://github.com/Revive-Home/revive-apps/pull/117))
+- MVP Build Change Order GPT. ([#103](https://github.com/Revive-Home/revive-apps/pull/103))
+
+### Improved
+
+- Comparables/media fetched in parallel; comparables now backfill ratings. ([#96](https://github.com/Revive-Home/revive-apps/pull/96))
+- V2 project completion uses cost-weighted progress when item costs are present for more accurate reporting. ([#115](https://github.com/Revive-Home/revive-apps/pull/115))
+- Project-scope naming, status, and progress logic centralized for consistent displays across the app. ([#115](https://github.com/Revive-Home/revive-apps/pull/115))
+- Progress submission UI reflects loading state: “Back” is disabled during submission and “Send” shows loading. ([#115](https://github.com/Revive-Home/revive-apps/pull/115))
+- New API validation for optional subcontractor commitment amount on contract creation. ([#123](https://github.com/Revive-Home/revive-apps/pull/123))
+- Removed special-case handling for contractor–deal associations and consolidated to a standardized association flow. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Simplified error handling across services by dropping unused error variables while preserving existing error behavior. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Calculation engine now records a computed formula result and combines it with any admin-added cost when producing totals, preserving prior values during migration. ([#110](https://github.com/Revive-Home/revive-apps/pull/110))
+- Consolidated RenoVision Configurator into a shared package and updated references so the configurator UI is reused across apps. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Rewired imports and packaging to centralize configurator behavior and improve maintainability. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+- Improved image upload pipeline with HEIC→JPG conversion support. ([#125](https://github.com/Revive-Home/revive-apps/pull/125))
+
+### Fixed
+
+- Replace @semantic release/npm with @semantic release/exec for ve…. ([#132](https://github.com/Revive-Home/revive-apps/pull/132))
+- Corrected estimate math so the 25% labor adjustment is deducted at the selection level, variant/deduction subtotals are aggregated as provided, and totals are rounded once at the end for accurate pricing. ([#120](https://github.com/Revive-Home/revive-apps/pull/120))
+- On-site visit scheduling accepts an additional optional field to improve scheduling input handling. ([#119](https://github.com/Revive-Home/revive-apps/pull/119))
+- Disabled the duplicate action for estimates once an estimate is signed; clicking it shows a warning toast and no longer creates a duplicate. ([#100](https://github.com/Revive-Home/revive-apps/pull/100))
+- Stability. ([#100](https://github.com/Revive-Home/revive-apps/pull/100))
+- Improved error handling in estimate remove/duplicate flows: failures now log errors explicitly and continue to show failure notifications. ([#100](https://github.com/Revive-Home/revive-apps/pull/100))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="June 4, 2026" description="dashboard-v2.6.0" tags={["dashboard"]}>
 
 ### New
