@@ -1,8 +1,8 @@
 # 📋 Docs Audit Report
 
-Generated: 2026-05-22T04:59 UTC
+Generated: 2026-06-04T19:33 UTC
 
-Found **51** item(s) to review:
+Found **58** item(s) to review:
 
 ## API Reference (openapi.json)
 
@@ -38,25 +38,32 @@ Found **51** item(s) to review:
 
 ## Guides
 
+- [ ] Release notes link to `/guides/health` ("Third-party status") but that guide doesn't exist.
 - [ ] Guide `guides/intake-url-parameters.mdx` may need updating — release mentions "intake" in a new feature context.
 - [ ] Guide `guides/ai-weekly-updates.mdx` may need updating — release mentions "weekly update" in a new feature context.
 
 ## Third-party integrations
 
-- [ ] Integration doc `third-party-integrations/hubspot.mdx` may need updating — release mentions "HubSpot" in: "Live HubSpot pipeline stage on RMAs."
-- [ ] Integration doc `third-party-integrations/firebase.mdx` may need updating — release mentions "Firebase" in: "AI-generated weekly updates."
-- [ ] Integration doc `third-party-integrations/analytics-and-monitoring.mdx` may need updating — release mentions "Google Tag" in: "Getting Started GTM event simplified."
-- [ ] Integration doc `third-party-integrations/analytics-and-monitoring.mdx` may need updating — release mentions "GTM" in: "Getting Started GTM event simplified."
-- [ ] Integration doc `third-party-integrations/property-data.mdx` may need updating — release mentions "AnyProp" in: "Revive AI Report v4 is live end-to-end."
+- [ ] Integration doc `third-party-integrations/hubspot.mdx` may need updating — release mentions "HubSpot" in: "Public status page and health API."
+- [ ] Integration doc `third-party-integrations/pandadoc.mdx` may need updating — release mentions "PandaDoc" in: "Public status page and health API."
+- [ ] Integration doc `third-party-integrations/firebase.mdx` may need updating — release mentions "Firebase" in: "Public status page and health API."
+- [ ] Integration doc `third-party-integrations/analytics-and-monitoring.mdx` may need updating — release mentions "Google Tag" in: "GTM tracking on intake sign-up."
+- [ ] Integration doc `third-party-integrations/analytics-and-monitoring.mdx` may need updating — release mentions "GTM" in: "GTM tracking on intake sign-up."
+- [ ] Integration doc `third-party-integrations/property-data.mdx` may need updating — release mentions "AnyProp" in: "Public status page and health API."
+- [ ] Integration doc `third-party-integrations/property-data.mdx` may need updating — release mentions "ATTOM" in: "Public status page and health API."
 
 ## Field dictionary
 
-- [ ] Field `jobId` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
+- [ ] Field `operational` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
+- [ ] Field `down` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
+- [ ] Field `address` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
+- [ ] Field `group` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `withMortgageData` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `materials` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `version` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `homeIncrease` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `valueOpportunity` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
+- [ ] Field `value` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `agentCommission` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `sell360TransactionSummary.shared` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `firstCheckAmount` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.

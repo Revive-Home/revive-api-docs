@@ -3,6 +3,221 @@ title: "Release notes"
 description: "What's new across revive-api, dashboard, admin, and mobile — new features, improvements, bug fixes, breaking changes, and required migration steps."
 ---
 
+<Update label="June 4, 2026" description="api-v3.3.2" tags={["dashboard"]}>
+
+### New
+
+- PDF estimate header updated to a three-column layout showing the logo, opportunity address, and estimate total (when prices are visible). ([#105](https://github.com/Revive-Home/revive-apps/pull/105))
+- Added multiple view format options for PDF estimate generation: summary, scope, full, and preliminary views, automatically selected based on estimate configuration. ([#97](https://github.com/Revive-Home/revive-apps/pull/97))
+- Improved filename generation for estimates using opportunity address information when available. ([#97](https://github.com/Revive-Home/revive-apps/pull/97))
+- Room-type comparison modal with image lightbox and mobile support. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Investment calculator (Flip360) and “Add to projects” CTA. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Neighborhood condition exploration with per-room insights and score visuals. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Invite & contact info modals and enhanced activity item view. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Rich PDF exports (preliminary/summary/scope/full) with download/share flows. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- New full-estimate UI: searchable sidebar, grouped line items, view modes, value cards, social icons. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Many new preestimate sections and visual components (charts, RenoVision gallery, condition/photo viewers, design presentation). ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Create notify release notes.yml. ([#86](https://github.com/Revive-Home/revive-apps/pull/86))
+- “Renovate to Stay” experience: new sections (renovation plan, process, design presentation, RenoVision gallery, success story, neighborhood condition). ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Embedded Google Slides viewer and fullscreen before/after image modal. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Interactive renovation donut chart and categorized renovation breakdown. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Photo galleries, thumbnails, filters, and downloadable styled-room images. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Multiple estimate view modes (Summary / Scope / Full) with PDF layouts and selectable download options; download flow shows success/error feedback. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Searchable, grouped sidebar and full “line items” estimate view with expandable details, value cards, and responsive headers/actions. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Improved sharing UI (Facebook/LinkedIn/email) and copy-link modal; Actions/Views dropdowns and Download modal. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- New small brand icons and improved dropdown/menu UI; added responsive breakpoints. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Added "Coming soon" labels to unavailable room options. ([#78](https://github.com/Revive-Home/revive-apps/pull/78))
+- Condition badges replace star visuals across comparisons and property cards. ([#78](https://github.com/Revive-Home/revive-apps/pull/78))
+- Made the "Need photos" pill interactive to allow uploading from the score area. ([#78](https://github.com/Revive-Home/revive-apps/pull/78))
+- RMA detail pages and related modals now show a "View PO sheet (Total Material Cost)" link when a spec sheet URL is available, opening the sheet in a new tab. ([#55](https://github.com/Revive-Home/revive-apps/pull/55))
+- RMA creation now attempts to read the material total from a provided spec sheet, attaches the computed material advance to the RMA when found, and records an activity log entry noting the sourced amount. ([#55](https://github.com/Revive-Home/revive-apps/pull/55))
+- Owners‑rep “Select all” option is supported and preserved in the page URL, preventing the default owner filter from being applied when chosen. ([#72](https://github.com/Revive-Home/revive-apps/pull/72))
+- Custom labels now appear as visual badges next to project scope labels and task headers. ([#69](https://github.com/Revive-Home/revive-apps/pull/69))
+- UI Improvements. ([#69](https://github.com/Revive-Home/revive-apps/pull/69))
+- Labels and badges are placed in a flex-wrapping container so they align and wrap responsively. ([#69](https://github.com/Revive-Home/revive-apps/pull/69))
+- Badges use a compact, outlined style for clearer, space-efficient display in headers. ([#69](https://github.com/Revive-Home/revive-apps/pull/69))
+- Contract-type indicators now display on estimate line items. ([#27](https://github.com/Revive-Home/revive-apps/pull/27))
+- Preliminary estimates can be downloaded as PDFs; header respects price visibility. ([#27](https://github.com/Revive-Home/revive-apps/pull/27))
+- Tooltips for categories with no photos. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Optional extra content overlays with before/after images; mobile shows after-only image. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Mobile attribution: "After renovation reimagined by RenoVision AI". ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Full-screen, multi-phase Revive AI loader with animated globe map, radar sweep, live comparable pins, phased camera moves, progress sidebar, and completion chime. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+- New Revive AI UI components: Map view, Sidebar, Step list, Comparable cards, and loader types. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+- HOTFIX(TEC 7772): fetch property details from Estated when AddressInput is skipped. ([#74](https://github.com/Revive-Home/revive-apps/pull/74))
+
+### Improved
+
+- Removed special-case handling for contractor–deal associations and consolidated to a standardized association flow. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Simplified error handling across services by dropping unused error variables while preserving existing error behavior. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Update update apple app site association. ([#111](https://github.com/Revive-Home/revive-apps/pull/111))
+- Richer comparables UI (status-aware markers, v2 map behavior, improved filtering). ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- New valuation chart and current value estimates panel. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Revised header/top-menu with updated share/download flows. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- RMA session creation no longer requires an email parameter; RMA creation resolves related data concurrently. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Behavior Change. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Rush/unrush controls now depend only on RMA status (no admin gate). ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- UI. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Optional badges for custom labels, data table supports select-all and reset callbacks, spec-sheet links shown when available. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Image comparison supports vertical and horizontal modes; redesigned slider/handle. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Neighborhood condition analysis and richer comparable details (distance, ratings, media). ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Modal navigation: step flow and Back/step-indicator visibility refined. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Reorganized broadcast component placement within the application layout structure for improved architectural organization. ([#83](https://github.com/Revive-Home/revive-apps/pull/83))
+- Reorganized estimate UI into modular full/preliminary/pdf layouts and new helper hooks/components. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Resetting filters now fully clears the owners‑rep default and reflects the change immediately. ([#72](https://github.com/Revive-Home/revive-apps/pull/72))
+- Background saving of comparables/media for faster perceived UX. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+- Enhanced retry/backoff and request timeouts for external calls. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+- Deduplicated auth token refresh; Mapbox styling and deps added for map rendering. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+
+### Fixed
+
+- Notes and descriptions now have embedded style and class attributes removed before rendering, improving consistency and visual cleanliness across estimate PDFs. ([#105](https://github.com/Revive-Home/revive-apps/pull/105))
+- Phone field made optional to avoid rendering errors. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Improved handling of missing report data when generating social media preview URLs to prevent broken links. ([#92](https://github.com/Revive-Home/revive-apps/pull/92))
+- Fixed crashes in the property analysis card when valuation data is incomplete or unavailable. ([#91](https://github.com/Revive-Home/revive-apps/pull/91))
+- Improved display handling for cards showing potential property values and renovation estimates. ([#91](https://github.com/Revive-Home/revive-apps/pull/91))
+- Improved stability of preview image generation for shared content by adding better handling for missing data fields. ([#89](https://github.com/Revive-Home/revive-apps/pull/89))
+- Improved validation for potential score submissions so valid entries with no prior current value are no longer blocked. ([#88](https://github.com/Revive-Home/revive-apps/pull/88))
+- Updated report submission behavior to omit current-value data when not applicable, preventing incorrect overwrites in predictions. ([#88](https://github.com/Revive-Home/revive-apps/pull/88))
+- Image render jobs no longer leave the UI stuck; non-user jobs hide download. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Job creation tolerates missing IDs and sets contact to null for admin-only jobs. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Fixed estimate grouping and chart data construction. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Improved deal pipeline stage resolution to accurately fetch and display stage labels from the service, with fallback handling when stage information is unavailable. ([#77](https://github.com/Revive-Home/revive-apps/pull/77))
+- Improved pricing accuracy for Purchase Discount and Revive Services by applying cent-level rounding to discount calculations. ([#82](https://github.com/Revive-Home/revive-apps/pull/82))
+- Removed certain excluded product line items from the pricing table display when specific additional options are selected. ([#82](https://github.com/Revive-Home/revive-apps/pull/82))
+- Prevented overlapping marker bubbles in score visualizations. ([#78](https://github.com/Revive-Home/revive-apps/pull/78))
+- Rush/Remove Rush actions now appear correctly based on execution and rush state rather than role gating. ([#72](https://github.com/Revive-Home/revive-apps/pull/72))
+- Restored missing product grouping data on older estimates. ([#27](https://github.com/Revive-Home/revive-apps/pull/27))
+- Improved sub-item pricing and total calculations. ([#27](https://github.com/Revive-Home/revive-apps/pull/27))
+- Reordered design presentation section in renovate-to-stay flow. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Improved responsive layouts and spacing across preestimate sections. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Consistent View Estimate button hover behavior. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+<Update label="June 4, 2026" description="api-v3.3.2" tags={["admin"]}>
+
+### New
+
+- PDF estimate header updated to a three-column layout showing the logo, opportunity address, and estimate total (when prices are visible). ([#105](https://github.com/Revive-Home/revive-apps/pull/105))
+- Added multiple view format options for PDF estimate generation: summary, scope, full, and preliminary views, automatically selected based on estimate configuration. ([#97](https://github.com/Revive-Home/revive-apps/pull/97))
+- Improved filename generation for estimates using opportunity address information when available. ([#97](https://github.com/Revive-Home/revive-apps/pull/97))
+- Room-type comparison modal with image lightbox and mobile support. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Investment calculator (Flip360) and “Add to projects” CTA. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Neighborhood condition exploration with per-room insights and score visuals. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Invite & contact info modals and enhanced activity item view. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Rich PDF exports (preliminary/summary/scope/full) with download/share flows. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- New full-estimate UI: searchable sidebar, grouped line items, view modes, value cards, social icons. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Many new preestimate sections and visual components (charts, RenoVision gallery, condition/photo viewers, design presentation). ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Create notify release notes.yml. ([#86](https://github.com/Revive-Home/revive-apps/pull/86))
+- “Renovate to Stay” experience: new sections (renovation plan, process, design presentation, RenoVision gallery, success story, neighborhood condition). ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Embedded Google Slides viewer and fullscreen before/after image modal. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Interactive renovation donut chart and categorized renovation breakdown. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Photo galleries, thumbnails, filters, and downloadable styled-room images. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Multiple estimate view modes (Summary / Scope / Full) with PDF layouts and selectable download options; download flow shows success/error feedback. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Searchable, grouped sidebar and full “line items” estimate view with expandable details, value cards, and responsive headers/actions. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Improved sharing UI (Facebook/LinkedIn/email) and copy-link modal; Actions/Views dropdowns and Download modal. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- New small brand icons and improved dropdown/menu UI; added responsive breakpoints. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Added "Coming soon" labels to unavailable room options. ([#78](https://github.com/Revive-Home/revive-apps/pull/78))
+- Condition badges replace star visuals across comparisons and property cards. ([#78](https://github.com/Revive-Home/revive-apps/pull/78))
+- Made the "Need photos" pill interactive to allow uploading from the score area. ([#78](https://github.com/Revive-Home/revive-apps/pull/78))
+- RMA detail pages and related modals now show a "View PO sheet (Total Material Cost)" link when a spec sheet URL is available, opening the sheet in a new tab. ([#55](https://github.com/Revive-Home/revive-apps/pull/55))
+- RMA creation now attempts to read the material total from a provided spec sheet, attaches the computed material advance to the RMA when found, and records an activity log entry noting the sourced amount. ([#55](https://github.com/Revive-Home/revive-apps/pull/55))
+- Owners‑rep “Select all” option is supported and preserved in the page URL, preventing the default owner filter from being applied when chosen. ([#72](https://github.com/Revive-Home/revive-apps/pull/72))
+- Custom labels now appear as visual badges next to project scope labels and task headers. ([#69](https://github.com/Revive-Home/revive-apps/pull/69))
+- UI Improvements. ([#69](https://github.com/Revive-Home/revive-apps/pull/69))
+- Labels and badges are placed in a flex-wrapping container so they align and wrap responsively. ([#69](https://github.com/Revive-Home/revive-apps/pull/69))
+- Badges use a compact, outlined style for clearer, space-efficient display in headers. ([#69](https://github.com/Revive-Home/revive-apps/pull/69))
+- Contract-type indicators now display on estimate line items. ([#27](https://github.com/Revive-Home/revive-apps/pull/27))
+- Preliminary estimates can be downloaded as PDFs; header respects price visibility. ([#27](https://github.com/Revive-Home/revive-apps/pull/27))
+- Tooltips for categories with no photos. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Optional extra content overlays with before/after images; mobile shows after-only image. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Mobile attribution: "After renovation reimagined by RenoVision AI". ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Full-screen, multi-phase Revive AI loader with animated globe map, radar sweep, live comparable pins, phased camera moves, progress sidebar, and completion chime. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+- New Revive AI UI components: Map view, Sidebar, Step list, Comparable cards, and loader types. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+- HOTFIX(TEC 7772): fetch property details from Estated when AddressInput is skipped. ([#74](https://github.com/Revive-Home/revive-apps/pull/74))
+
+### Improved
+
+- Removed special-case handling for contractor–deal associations and consolidated to a standardized association flow. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Simplified error handling across services by dropping unused error variables while preserving existing error behavior. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Update update apple app site association. ([#111](https://github.com/Revive-Home/revive-apps/pull/111))
+- Richer comparables UI (status-aware markers, v2 map behavior, improved filtering). ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- New valuation chart and current value estimates panel. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Revised header/top-menu with updated share/download flows. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- RMA session creation no longer requires an email parameter; RMA creation resolves related data concurrently. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Behavior Change. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Rush/unrush controls now depend only on RMA status (no admin gate). ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- UI. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Optional badges for custom labels, data table supports select-all and reset callbacks, spec-sheet links shown when available. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Image comparison supports vertical and horizontal modes; redesigned slider/handle. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Neighborhood condition analysis and richer comparable details (distance, ratings, media). ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Modal navigation: step flow and Back/step-indicator visibility refined. ([#21](https://github.com/Revive-Home/revive-apps/pull/21))
+- Reorganized broadcast component placement within the application layout structure for improved architectural organization. ([#83](https://github.com/Revive-Home/revive-apps/pull/83))
+- Reorganized estimate UI into modular full/preliminary/pdf layouts and new helper hooks/components. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Resetting filters now fully clears the owners‑rep default and reflects the change immediately. ([#72](https://github.com/Revive-Home/revive-apps/pull/72))
+- Background saving of comparables/media for faster perceived UX. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+- Enhanced retry/backoff and request timeouts for external calls. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+- Deduplicated auth token refresh; Mapbox styling and deps added for map rendering. ([#50](https://github.com/Revive-Home/revive-apps/pull/50))
+
+### Fixed
+
+- Notes and descriptions now have embedded style and class attributes removed before rendering, improving consistency and visual cleanliness across estimate PDFs. ([#105](https://github.com/Revive-Home/revive-apps/pull/105))
+- Phone field made optional to avoid rendering errors. ([#81](https://github.com/Revive-Home/revive-apps/pull/81))
+- Improved handling of missing report data when generating social media preview URLs to prevent broken links. ([#92](https://github.com/Revive-Home/revive-apps/pull/92))
+- Fixed crashes in the property analysis card when valuation data is incomplete or unavailable. ([#91](https://github.com/Revive-Home/revive-apps/pull/91))
+- Improved display handling for cards showing potential property values and renovation estimates. ([#91](https://github.com/Revive-Home/revive-apps/pull/91))
+- Improved stability of preview image generation for shared content by adding better handling for missing data fields. ([#89](https://github.com/Revive-Home/revive-apps/pull/89))
+- Improved validation for potential score submissions so valid entries with no prior current value are no longer blocked. ([#88](https://github.com/Revive-Home/revive-apps/pull/88))
+- Updated report submission behavior to omit current-value data when not applicable, preventing incorrect overwrites in predictions. ([#88](https://github.com/Revive-Home/revive-apps/pull/88))
+- Image render jobs no longer leave the UI stuck; non-user jobs hide download. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Job creation tolerates missing IDs and sets contact to null for admin-only jobs. ([#10](https://github.com/Revive-Home/revive-apps/pull/10))
+- Fixed estimate grouping and chart data construction. ([#20](https://github.com/Revive-Home/revive-apps/pull/20))
+- Improved deal pipeline stage resolution to accurately fetch and display stage labels from the service, with fallback handling when stage information is unavailable. ([#77](https://github.com/Revive-Home/revive-apps/pull/77))
+- Improved pricing accuracy for Purchase Discount and Revive Services by applying cent-level rounding to discount calculations. ([#82](https://github.com/Revive-Home/revive-apps/pull/82))
+- Removed certain excluded product line items from the pricing table display when specific additional options are selected. ([#82](https://github.com/Revive-Home/revive-apps/pull/82))
+- Prevented overlapping marker bubbles in score visualizations. ([#78](https://github.com/Revive-Home/revive-apps/pull/78))
+- Rush/Remove Rush actions now appear correctly based on execution and rush state rather than role gating. ([#72](https://github.com/Revive-Home/revive-apps/pull/72))
+- Restored missing product grouping data on older estimates. ([#27](https://github.com/Revive-Home/revive-apps/pull/27))
+- Improved sub-item pricing and total calculations. ([#27](https://github.com/Revive-Home/revive-apps/pull/27))
+- Reordered design presentation section in renovate-to-stay flow. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Improved responsive layouts and spacing across preestimate sections. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+- Consistent View Estimate button hover behavior. ([#73](https://github.com/Revive-Home/revive-apps/pull/73))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+<Update label="June 4, 2026" description="api-v3.3.2" tags={["api"]}>
+
+### New
+
+- PDF estimate header updated to a three-column layout showing the logo, opportunity address, and estimate total (when prices are visible). ([#105](https://github.com/Revive-Home/revive-apps/pull/105))
+- Added multiple view format options for PDF estimate generation: summary, scope, full, and preliminary views, automatically selected based on estimate configuration. ([#97](https://github.com/Revive-Home/revive-apps/pull/97))
+- Improved filename generation for estimates using opportunity address information when available. ([#97](https://github.com/Revive-Home/revive-apps/pull/97))
+
+### Improved
+
+- Removed special-case handling for contractor–deal associations and consolidated to a standardized association flow. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Simplified error handling across services by dropping unused error variables while preserving existing error behavior. ([#129](https://github.com/Revive-Home/revive-apps/pull/129))
+- Update update apple app site association. ([#111](https://github.com/Revive-Home/revive-apps/pull/111))
+
+### Fixed
+
+- Notes and descriptions now have embedded style and class attributes removed before rendering, improving consistency and visual cleanliness across estimate PDFs. ([#105](https://github.com/Revive-Home/revive-apps/pull/105))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="Week of May 25, 2026" description="Weekly recap" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
 
 A skim-friendly recap of what shipped this week. See the dated entries below for full per-release detail.
