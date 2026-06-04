@@ -2,7 +2,7 @@
 
 Generated: 2026-06-04T19:35 UTC
 
-Found **58** item(s) to review:
+Found **57** item(s) to review:
 
 ## API Reference (openapi.json)
 
@@ -60,7 +60,6 @@ Found **58** item(s) to review:
 - [ ] Field `withMortgageData` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `other` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `materials` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `version` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `homeIncrease` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `valueOpportunity` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `value` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
