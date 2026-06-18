@@ -3,6 +3,108 @@ title: "Release notes"
 description: "What's new across revive-api, dashboard, admin, and mobile — new features, improvements, bug fixes, breaking changes, and required migration steps."
 ---
 
+<Update label="June 18, 2026" description="admin-v3.7.0" tags={["admin"]}>
+
+### New
+
+- Added “Download photos” as a ZIP export in the photos modal. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- Admin opportunities now include an experimental **Sales [EXPERIMENTAL]** tab with equity verification and valuation. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- Admin comparables now have a map preview plus a dedicated modal, with manual refresh and Map/Satellite switching. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- Bug Fixes / UI. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- Consolidated add-contact into a single dialog for more reliable behavior. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- “Create RMA request” now explains requirements and disables until a project manager is assigned. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- Getting Started meeting scheduling is timezone-aware; MLS/photos auto-load failures show an error; meeting success banner updates reliably. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- Renovation scope button only appears for rooms with a condition score; completion requires 100% progress. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- Enhanced custom item modal with improved description editor styling and layout. ([#172](https://github.com/Revive-Home/revive-apps/pull/172))
+- Added an optional **Original Verified End Date** field across home/opportunity/estimate data and API responses. ([#175](https://github.com/Revive-Home/revive-apps/pull/175))
+- Enhanced timeline cards to compare original vs current verified end dates, displaying an “Original …” slip badge (with day variance) when they differ. ([#175](https://github.com/Revive-Home/revive-apps/pull/175))
+- Tec 7801/admin sales add comps to sales/nehme saikali. ([#169](https://github.com/Revive-Home/revive-apps/pull/169))
+- Added property photo thumbnail with sequential upload, plus non-modal “Property Photos” gallery and lightbox on deal cards. ([#158](https://github.com/Revive-Home/revive-apps/pull/158))
+- Introduced “Valuation + Equity Verification” overview with status badges, completion progress, per-document history, and quick navigation. ([#158](https://github.com/Revive-Home/revive-apps/pull/158))
+- Added Valuation card for As‑Is, After Renovation, and Renovation Budget. ([#158](https://github.com/Revive-Home/revive-apps/pull/158))
+- Added experimental “Sales” tab across multiple opportunity workflows to surface the overview/valuation flow. ([#158](https://github.com/Revive-Home/revive-apps/pull/158))
+- Implemented underwriting webhook syncing and surfaced underwriting and equity document status/history on deals. ([#158](https://github.com/Revive-Home/revive-apps/pull/158))
+- Multiline AI chat input and a reusable loading spinner for a smoother editor and consistent loading visuals. ([#148](https://github.com/Revive-Home/revive-apps/pull/148))
+- "Apply" actions now appear when an AI message is eligible for use. ([#148](https://github.com/Revive-Home/revive-apps/pull/148))
+- Users can now toggle between Map and Satellite views in the mapping interface. ([#149](https://github.com/Revive-Home/revive-apps/pull/149))
+- Deep links accept latitude/longitude and detailed property fields; Property Details step won’t be auto-skipped. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- Photo download (ZIP) export and gated “Download photos” action. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- Upload existing media into a deal/gallery. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- Out-of-state routing with a dedicated research path and adjusted qualification flow. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Timezone-aware meeting UI so displayed slots and selections align with user timezone. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Heroku 26 stack upgrade. ([#137](https://github.com/Revive-Home/revive-apps/pull/137))
+- Tooltip added to the Create RMA request button with contextual display behavior tied to project manager presence. ([#135](https://github.com/Revive-Home/revive-apps/pull/135))
+- Backend now exposes a project-manager presence flag and the data model includes an optional project-manager indicator. ([#135](https://github.com/Revive-Home/revive-apps/pull/135))
+
+### Improved
+
+- Enhanced Vision AI search to avoid stale results and keep clear/loading behavior consistent. ([#133](https://github.com/Revive-Home/revive-apps/pull/133))
+- Streamlined the Getting Started “research” onboarding flow by removing two intermediate research-specific steps and jumping directly to the remaining shared sequence. ([#166](https://github.com/Revive-Home/revive-apps/pull/166))
+- Search is now controlled and more responsive: trimmed input, typing debounced (500ms), Enter/submit and clear run immediately, and closing header search reliably clears the query. ([#152](https://github.com/Revive-Home/revive-apps/pull/152))
+- Empty-state handling refined: distinct "no results" vs default "no reports yet" views. ([#152](https://github.com/Revive-Home/revive-apps/pull/152))
+- Refined equity-document status normalization and Firestore/HubSpot synchronization logic. ([#158](https://github.com/Revive-Home/revive-apps/pull/158))
+- Better sanitization, normalization, and extraction of AI-generated descriptions. ([#148](https://github.com/Revive-Home/revive-apps/pull/148))
+- Tighter AI response formatting and instruction handling for more consistent outputs. ([#148](https://github.com/Revive-Home/revive-apps/pull/148))
+- Updated the agent request modal’s layout and contact card presentation, including refreshed contact icons and streamlined unauthenticated flow so the modal displays more clearly and consistently. ([#140](https://github.com/Revive-Home/revive-apps/pull/140))
+- Code formatting and error logging consolidation for improved maintainability. ([#164](https://github.com/Revive-Home/revive-apps/pull/164))
+- Create RMA request button availability updated to require project-manager assignment in addition to existing RMA checks. ([#135](https://github.com/Revive-Home/revive-apps/pull/135))
+- Strengthened TypeScript type safety across many components by adding explicit typings for callbacks and selectors. ([#138](https://github.com/Revive-Home/revive-apps/pull/138))
+- Cleaned up code by consolidating imports and removing unused error parameters. ([#138](https://github.com/Revive-Home/revive-apps/pull/138))
+- No user-facing behavior or public APIs were changed; only compile-time/type and code-quality improvements. ([#138](https://github.com/Revive-Home/revive-apps/pull/138))
+
+### Fixed
+
+- Improved duplicate listing detection with stronger address normalization, including punctuation cleanup, directional/suffix canonicalization, and unit-token removal for more reliable exact matches. ([#167](https://github.com/Revive-Home/revive-apps/pull/167))
+- Added a last-resort fuzzy matching approach when exact matching fails, combining street-name similarity with geographic proximity to identify likely duplicates. ([#167](https://github.com/Revive-Home/revive-apps/pull/167))
+- Updated deduplication to consistently keep the earliest suitable match among candidates. ([#167](https://github.com/Revive-Home/revive-apps/pull/167))
+- Improved baseline/verification behavior by requesting, mapping, and safely deriving the original verified end date when available; uses fallback behavior when values are missing. ([#175](https://github.com/Revive-Home/revive-apps/pull/175))
+- Photo uploads now preserve the detected file type when available (falling back to JPEG) and improve spacing before the upload step. ([#166](https://github.com/Revive-Home/revive-apps/pull/166))
+- Selecting “research” help now routes users based on sign-in status (signed in: Completion; not signed in: User Signup). ([#166](https://github.com/Revive-Home/revive-apps/pull/166))
+- Bring ids google ads tag and neighborhood intake sign in button to new intake. ([#163](https://github.com/Revive-Home/revive-apps/pull/163))
+- Pending background searches cancel on clear/submit/unmount to avoid stale updates. ([#152](https://github.com/Revive-Home/revive-apps/pull/152))
+- Search results protected from out-of-order responses. ([#152](https://github.com/Revive-Home/revive-apps/pull/152))
+- Improved required documents modal open/close behavior. ([#158](https://github.com/Revive-Home/revive-apps/pull/158))
+- Fixed an issue where scope of work items could be marked as completed regardless of actual progress. The system now prevents status updates to completed unless progress reaches 100% and displays an error message if attempted. ([#151](https://github.com/Revive-Home/revive-apps/pull/151))
+- Logs a warning and gracefully handles unrecognized home-type values to prevent incorrect filtering. ([#161](https://github.com/Revive-Home/revive-apps/pull/161))
+- Corrected single-family classification by removing an improper category, improving data accuracy. ([#161](https://github.com/Revive-Home/revive-apps/pull/161))
+- Treats missing lot sizes for attached homes/condos as zero and correctly computes lot-size differences for comparables. ([#161](https://github.com/Revive-Home/revive-apps/pull/161))
+- Improved image deduplication and resizing robustness to reduce processing failures. ([#161](https://github.com/Revive-Home/revive-apps/pull/161))
+- Improved chat auto-scrolling to keep latest messages visible during loads and sends. ([#148](https://github.com/Revive-Home/revive-apps/pull/148))
+- More robust error handling for AI draft requests. ([#148](https://github.com/Revive-Home/revive-apps/pull/148))
+- Improved photo upload metadata handling for document files. ([#164](https://github.com/Revive-Home/revive-apps/pull/164))
+- Prevent tooltip text from being cut off (TEC 7959). ([#146](https://github.com/Revive-Home/revive-apps/pull/146))
+- Success notification after creating a deal now lasts 4 seconds and is manually dismissible. ([#145](https://github.com/Revive-Home/revive-apps/pull/145))
+- Improved error handling: failures are logged and loading state reliably resets on error. ([#145](https://github.com/Revive-Home/revive-apps/pull/145))
+- Enhanced contract handling to reduce processing failures and provide clearer error messages for support escalation. ([#162](https://github.com/Revive-Home/revive-apps/pull/162))
+- Enhanced responsive layout and spacing adjustments to improve mobile display quality. ([#149](https://github.com/Revive-Home/revive-apps/pull/149))
+- Prevented crashes by adding defensive checks across report UIs (maps now only render comparables with location data; modals, galleries, charts, cards, headers, and drawers handle missing nested fields). ([#150](https://github.com/Revive-Home/revive-apps/pull/150))
+- Safer avatar/brokerage initials, agent/contact displays, and image lists when names/media are absent; improved address verification to validate responses before use. ([#150](https://github.com/Revive-Home/revive-apps/pull/150))
+- Avoided errors in cost calculations by treating missing material prices as zero. ([#150](https://github.com/Revive-Home/revive-apps/pull/150))
+- Fixed step titles in the Getting Started flow to correctly display based on user role. Agent users now see titles referring to "you," while non-agent users see client-focused wording. ([#157](https://github.com/Revive-Home/revive-apps/pull/157))
+- Enrichment preserves existing lat/lng and user-entered property values and fetches only when needed. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- Address input won’t clear prefilled data unless the user actually edited it. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- MLS/report photo auto-load failures show an error toast. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- UI. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- Room scope action shown only when a room has a condition score. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- Upload modal: stricter validation, 50-photo cap, view guidelines, improved finish/download flows. ([#143](https://github.com/Revive-Home/revive-apps/pull/143))
+- Preserve and normalize state from address suggestions and URL params. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Low-valuation screening limited to in‑state cases. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Skipping certain steps clears pending meeting drafts. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Behavior Changes. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Removed single-suggestion auto-selection; users must choose explicitly. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Meeting slots standardized to 30‑minute granularity. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- UX. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Meeting booking reported as successful only after confirmation completes. ([#147](https://github.com/Revive-Home/revive-apps/pull/147))
+- Prevent sell360 proposal content from clipping on shor…. ([#144](https://github.com/Revive-Home/revive-apps/pull/144))
+- Contact search no longer closes the Opportunity contacts sidebar. ([#142](https://github.com/Revive-Home/revive-apps/pull/142))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="June 18, 2026" description="dashboard-v2.8.0" tags={["dashboard"]}>
 
 ### New
