@@ -3,6 +3,31 @@ title: "Release notes"
 description: "What's new across revive-api, dashboard, admin, and mobile — new features, improvements, bug fixes, breaking changes, and required migration steps."
 ---
 
+<Update label="June 24, 2026" description="dashboard-v2.9.1" tags={["dashboard"]}>
+
+### New
+
+No new features in this release.
+
+### Improved
+
+No improvements in this release.
+
+### Fixed
+
+- Improved the save-and-redirect flow so it continues even if adding a note fails, reducing the chance of interrupted progress. ([#192](https://github.com/Revive-Home/revive-apps/pull/192))
+- Updated a production contact-owner mapping to route records to the correct owner ID. ([#192](https://github.com/Revive-Home/revive-apps/pull/192))
+- Improved address lookup reliability by handling failed requests gracefully. ([#191](https://github.com/Revive-Home/revive-apps/pull/191))
+- On failure, the app now logs the issue and returns a safe empty result instead of breaking the flow. ([#191](https://github.com/Revive-Home/revive-apps/pull/191))
+- Improved error handling for opportunities fetching so failures are logged and surfaced as explicit server errors instead of failing silently. ([#181](https://github.com/Revive-Home/revive-apps/pull/181))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="June 24, 2026" description="api-v3.6.3" tags={["api"]}>
 
 ### New
