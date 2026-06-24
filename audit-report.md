@@ -1,8 +1,8 @@
 # 📋 Docs Audit Report
 
-Generated: 2026-06-19T18:01 UTC
+Generated: 2026-06-24T18:48 UTC
 
-Found **55** item(s) to review:
+Found **54** item(s) to review:
 
 ## API Reference (openapi.json)
 
@@ -55,7 +55,6 @@ Found **55** item(s) to review:
 ## Field dictionary
 
 - [ ] Field `operational` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `address` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `group` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `withMortgageData` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `materials` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
