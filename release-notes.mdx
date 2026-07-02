@@ -3,6 +3,117 @@ title: "Release notes"
 description: "What's new across revive-api, dashboard, admin, and mobile — new features, improvements, bug fixes, breaking changes, and required migration steps."
 ---
 
+<Update label="July 2, 2026" description="admin-v3.9.0" tags={["admin"]}>
+
+### New
+
+- Adds case-study pin syncing to external maps, with a case-studies map/modal experience in admin. ([#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- Introduces estimate version history with snapshot/restore and AI-generated change summaries, plus new compare/review UI. ([#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- Adds admin “Import from web” photo flow and improved MLS photo intake with multi-source fallback. ([#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- Adds a safer public image proxy endpoint for fetching remote images. ([#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- Improved onboarding to better recognize manufactured/mobile homes from address details. ([#218](https://github.com/Revive-Home/revive-apps/pull/218))
+- Users who are already signed in now skip unnecessary signup and phone verification steps. ([#218](https://github.com/Revive-Home/revive-apps/pull/218))
+- Implement property valuation checks to streamline intake process (Less then 400k). ([#190](https://github.com/Revive-Home/revive-apps/pull/190))
+- Added a guarded backend image proxy for safe remote image loading, including improved image detection and caching. ([#213](https://github.com/Revive-Home/revive-apps/pull/213))
+- Dashboard now proxies `http/https` image URLs through the backend. ([#213](https://github.com/Revive-Home/revive-apps/pull/213))
+- Remote (MLS) photo uploads are processed in smaller sequential batches to reduce load. ([#213](https://github.com/Revive-Home/revive-apps/pull/213))
+- Add Smarty service to health check. ([#187](https://github.com/Revive-Home/revive-apps/pull/187))
+- Added a new case studies experience in the admin app with a searchable, sortable list synchronized to an interactive map. ([#216](https://github.com/Revive-Home/revive-apps/pull/216))
+- Users can browse nearby case studies with profit/distance indicators and photo previews, including before/after toggles and next/previous navigation. ([#216](https://github.com/Revive-Home/revive-apps/pull/216))
+- Added a dedicated case studies modal and clickable case study cards with optional “View case study” links. ([#216](https://github.com/Revive-Home/revive-apps/pull/216))
+- Added address-based web photo import for home card thumbnails, including a new import modal with selectable photo grid and optional upload. ([#208](https://github.com/Revive-Home/revive-apps/pull/208))
+- Expanded comparables into a filterable/searchable/sortable list + map experience with improved cards, lightbox media, and an Adjust Comparables modal. ([#208](https://github.com/Revive-Home/revive-apps/pull/208))
+- Introduced comparables actions to update selections and revert comparables back to the Restb data source. ([#208](https://github.com/Revive-Home/revive-apps/pull/208))
+- Added estimate version history with browsing, AI-generated change summaries, detailed views, and version restore. ([#215](https://github.com/Revive-Home/revive-apps/pull/215))
+- Introduced a new compare experience with selectable items and expandable add-ons/notes. ([#215](https://github.com/Revive-Home/revive-apps/pull/215))
+- Refreshed estimate sharing with simplified link generation, PDF download, CSV export, and saveable view preferences. ([#215](https://github.com/Revive-Home/revive-apps/pull/215))
+- Added improved app monitoring across admin and dashboard experiences, including better tracking for page navigation, server requests, and edge/runtime activity. ([#195](https://github.com/Revive-Home/revive-apps/pull/195))
+- Introduced custom error handling so standard error pages are reported more reliably. ([#195](https://github.com/Revive-Home/revive-apps/pull/195))
+- Added an admin version history experience for estimates/change orders, including a dockable history panel, version detail view, and AI-generated “Summarize changes” when available. ([#194](https://github.com/Revive-Home/revive-apps/pull/194))
+- Added restore with a confirmation modal, plus temporary controls to run a manual snapshot and reset today’s snapshot. ([#194](https://github.com/Revive-Home/revive-apps/pull/194))
+- Enabled history access from the review UI. ([#194](https://github.com/Revive-Home/revive-apps/pull/194))
+- Health checks now better handle temporary network issues and timeouts, reducing noisy status changes. ([#200](https://github.com/Revive-Home/revive-apps/pull/200))
+- Estimate screens now show TBD items more consistently, including in preliminary and sidebar views. ([#200](https://github.com/Revive-Home/revive-apps/pull/200))
+- Preliminary estimates now include enabled global items when available. ([#200](https://github.com/Revive-Home/revive-apps/pull/200))
+- Added automatic recovery for dashboard load failures to reduce the chance of blank screens. ([#199](https://github.com/Revive-Home/revive-apps/pull/199))
+- ReportV4 Add roomtype and media metadata to AnyProp comps. ([#185](https://github.com/Revive-Home/revive-apps/pull/185))
+- Case Studies Map Automate pin creation when a case study link is added in the Admin Dashboard. ([#173](https://github.com/Revive-Home/revive-apps/pull/173))
+- Add estimate comparison split view with bidirectional…. ([#174](https://github.com/Revive-Home/revive-apps/pull/174))
+- Searchable, grouped sidebar and selectable detail view in estimate preview. ([#139](https://github.com/Revive-Home/revive-apps/pull/139))
+- Share dialog now supports copy, download, and open for with/without‑price links. ([#139](https://github.com/Revive-Home/revive-apps/pull/139))
+- New dialogs: Edit Info, Duplicate Estimate, Remove Item; plus an Actions menu. ([#139](https://github.com/Revive-Home/revive-apps/pull/139))
+- UI/UX Improvements. ([#139](https://github.com/Revive-Home/revive-apps/pull/139))
+- Responsive two‑pane review layout and revamped header. ([#139](https://github.com/Revive-Home/revive-apps/pull/139))
+- Compact checkbox mode, smaller radio indicator, and compact rendering options propagated to lists. ([#139](https://github.com/Revive-Home/revive-apps/pull/139))
+
+### Improved
+
+- Implemented refresh plus loading and error states for nearby results, with responsive list/map layouts on smaller screens. ([#216](https://github.com/Revive-Home/revive-apps/pull/216))
+- Updated Firebase authentication integration in reporting module hooks for improved dependency management. ([#189](https://github.com/Revive-Home/revive-apps/pull/189))
+
+### Fixed
+
+- Reduces backend race conditions around deferred comparable/room-type scoring and makes room-type enrichment merge-safe. ([#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- Monitoring. ([#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- Enhances error handling/redaction, adds Sentry, dashboard chunk auto-recovery, and richer health monitoring. ([#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- Expanded qualification checks so more manufactured/mobile homes are routed correctly. ([#218](https://github.com/Revive-Home/revive-apps/pull/218))
+- Address lookup flows now handle manufactured-home cases more consistently, reducing misclassification during setup. ([#218](https://github.com/Revive-Home/revive-apps/pull/218))
+- Photo upload failures are now logged and surfaced via an error toast, prompting users to retry when images don’t load. ([#213](https://github.com/Revive-Home/revive-apps/pull/213))
+- The image proxy now blocks unsafe/invalid URLs, rejects non-image responses, and retries temporary upstream throttling/service errors. ([#213](https://github.com/Revive-Home/revive-apps/pull/213))
+- The API server now restarts more reliably during development and stays attached to the running session, improving responsiveness to changes. ([#217](https://github.com/Revive-Home/revive-apps/pull/217))
+- Strengthened access control on Revive AI admin pages by requiring sign-in before pages load. ([#212](https://github.com/Revive-Home/revive-apps/pull/212))
+- Preserved existing redirect behavior for the project page while adding server-side protection. ([#212](https://github.com/Revive-Home/revive-apps/pull/212))
+- Improved comparables refresh handling with source-aware outcomes (including report/no-report states), clearer empty/error/retry flows, and more consistent price/status marker rendering. ([#208](https://github.com/Revive-Home/revive-apps/pull/208))
+- Improved accessibility and keyboard support for compact checkbox interactions. ([#215](https://github.com/Revive-Home/revive-apps/pull/215))
+- Enhanced review/preview flows with better mobile behavior, debounced search, and clearer confirmation dialogs for restore/removal. ([#215](https://github.com/Revive-Home/revive-apps/pull/215))
+- Improved error visibility to help diagnose issues faster. ([#195](https://github.com/Revive-Home/revive-apps/pull/195))
+- Reduced unnecessary data sharing in monitoring. ([#195](https://github.com/Revive-Home/revive-apps/pull/195))
+- Cleared tracked user context on sign-out for more accurate session reporting. ([#195](https://github.com/Revive-Home/revive-apps/pull/195))
+- Improved API shutdown with graceful SIGTERM/SIGINT handling, draining in-flight requests before exit. ([#209](https://github.com/Revive-Home/revive-apps/pull/209))
+- Ensures all scheduled background cron work is tracked and stopped cleanly during shutdown. ([#209](https://github.com/Revive-Home/revive-apps/pull/209))
+- Added a fallback for cron schedule loading to avoid crashes when schedules can’t be imported. ([#209](https://github.com/Revive-Home/revive-apps/pull/209))
+- Improved restore and post-action UI refresh so restored metadata stays consistent. ([#194](https://github.com/Revive-Home/revive-apps/pull/194))
+- Updated remove-item flow to show “Removing…” and prevent closing the modal while the action is in progress. ([#194](https://github.com/Revive-Home/revive-apps/pull/194))
+- Updated app link path matching so more URLs can now open the app, including paths under `/preestimate/`. ([#197](https://github.com/Revive-Home/revive-apps/pull/197))
+- Improved API error responses to return consistent JSON with reliable status codes/messages. ([#184](https://github.com/Revive-Home/revive-apps/pull/184))
+- Centralized request validation error handling to ensure predictable responses. ([#184](https://github.com/Revive-Home/revive-apps/pull/184))
+- Security / Logging. ([#184](https://github.com/Revive-Home/revive-apps/pull/184))
+- Redacted sensitive values in logs (including common credential/token fields) and reduced logged payload exposure. ([#184](https://github.com/Revive-Home/revive-apps/pull/184))
+- Standardized structured error logging with safer query/body masking behavior. ([#184](https://github.com/Revive-Home/revive-apps/pull/184))
+- Operational Improvements. ([#184](https://github.com/Revive-Home/revive-apps/pull/184))
+- Downgraded several non-critical “deferred” failures from error to warning to reduce log noise while preserving behavior. ([#184](https://github.com/Revive-Home/revive-apps/pull/184))
+- Renovation estimates now derive condition differentials from null-safe condition scores, preventing missing/unavailable categories from skewing recommendations. ([#203](https://github.com/Revive-Home/revive-apps/pull/203))
+- Bathroom cost calculations now always treat the first full bathroom as primary and any additional full bathrooms as secondary; dual-sink detection no longer changes the split. ([#203](https://github.com/Revive-Home/revive-apps/pull/203))
+- Kitchen refresh/remodel decisions now use a tightened condition-differential threshold only. ([#203](https://github.com/Revive-Home/revive-apps/pull/203))
+- When condition categories are missing, null categories are replaced using the safest available “worst” score; unavailable data is handled more predictably. ([#203](https://github.com/Revive-Home/revive-apps/pull/203))
+- Room type comparables are now returned more consistently when comparables are absent. ([#203](https://github.com/Revive-Home/revive-apps/pull/203))
+- Down/degraded alerts are now triggered only after consecutive failures, while recovery is recognized immediately. ([#200](https://github.com/Revive-Home/revive-apps/pull/200))
+- Subtotals and labels now display correctly for TBD items in estimate views. ([#200](https://github.com/Revive-Home/revive-apps/pull/200))
+- The app now detects failed chunk/module or critical asset loads and triggers a safe reload. ([#199](https://github.com/Revive-Home/revive-apps/pull/199))
+- Implemented a cooldown to prevent repeated reload loops during recovery attempts. ([#199](https://github.com/Revive-Home/revive-apps/pull/199))
+- Improved service health checks with timeout handling and automatic retries for temporary failures. ([#198](https://github.com/Revive-Home/revive-apps/pull/198))
+- Reduced false alerts by confirming outages only after repeated failed checks. ([#198](https://github.com/Revive-Home/revive-apps/pull/198))
+- Recovery is now recognized immediately once a service becomes healthy again. ([#198](https://github.com/Revive-Home/revive-apps/pull/198))
+- Alerting and saved status information now better reflect the confirmed state versus the most recent check result. ([#198](https://github.com/Revive-Home/revive-apps/pull/198))
+- Improved reliability of home/MLS photo loading by applying a capped request timeout to utility image requests. ([#177](https://github.com/Revive-Home/revive-apps/pull/177))
+- Updated photo retrieval to try multiple address sources sequentially and fall back when earlier attempts return no images. ([#177](https://github.com/Revive-Home/revive-apps/pull/177))
+- Refreshed the UI import flow to use the fallback results, including correct success counts and unchanged empty/error handling. ([#177](https://github.com/Revive-Home/revive-apps/pull/177))
+- Improved the save-and-redirect flow so it continues even if adding a note fails, reducing the chance of interrupted progress. ([#192](https://github.com/Revive-Home/revive-apps/pull/192))
+- Updated a production contact-owner mapping to route records to the correct owner ID. ([#192](https://github.com/Revive-Home/revive-apps/pull/192))
+- Improved address lookup reliability by handling failed requests gracefully. ([#191](https://github.com/Revive-Home/revive-apps/pull/191))
+- On failure, the app now logs the issue and returns a safe empty result instead of breaking the flow. ([#191](https://github.com/Revive-Home/revive-apps/pull/191))
+- Updated Tailwind class scanning to pick up the AI report module in both Admin and Dashboard. ([#188](https://github.com/Revive-Home/revive-apps/pull/188))
+- Firebase client initialization is now standardized across apps for more reliable Auth/Firestore/Storage access. ([#188](https://github.com/Revive-Home/revive-apps/pull/188))
+- Production builds now stop on TypeScript errors in Admin and Dashboard (instead of continuing). ([#188](https://github.com/Revive-Home/revive-apps/pull/188))
+- Improved error handling for opportunities fetching so failures are logged and surfaced as explicit server errors instead of failing silently. ([#181](https://github.com/Revive-Home/revive-apps/pull/181))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="July 2, 2026" description="dashboard-v2.10.0" tags={["dashboard"]}>
 
 ### New
