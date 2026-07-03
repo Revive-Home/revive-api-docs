@@ -3,6 +3,29 @@ title: "July 2026"
 description: "July 2026 release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."
 ---
 
+<Update label="July 3, 2026" description="admin-v3.10.0" tags={["admin"]}>
+
+### New
+
+- Added a new “Reset to draft” option in the estimate preview actions for eligible items (e.g., when awaiting signature). ([#224](https://github.com/Revive-Home/revive-apps/pull/224))
+- Added a confirmation dialog that adapts its message for estimates vs. change orders. ([#224](https://github.com/Revive-Home/revive-apps/pull/224))
+
+### Improved
+
+No improvements in this release.
+
+### Fixed
+
+- Improved the reset flow with loading feedback, success/error notifications, and auto-closing on completion. ([#224](https://github.com/Revive-Home/revive-apps/pull/224))
+- Ensured the reset logic only performs RSA cleanup for estimates, avoiding unintended removals when resetting change orders. ([#224](https://github.com/Revive-Home/revive-apps/pull/224))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="July 3, 2026" description="api-v3.7.1" tags={["api"]}>
 
 ### New
