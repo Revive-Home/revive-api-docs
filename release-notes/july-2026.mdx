@@ -3,6 +3,104 @@ title: "July 2026"
 description: "July 2026 release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."
 ---
 
+<Update label="July 30, 2026" description="api-v3.10.0" tags={["api"]}>
+
+### New
+
+- Added manual API deployment with selectable staging/production target. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- Added Sell 360 “Temporary renovation amount” editing plus calculator modal/card for Sell 360 opportunities. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- Added playbook creation workflow (transcript-to-answers) with results editing and a HubSpot “push note” action. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- Investment and profit estimates now account for agent commission. ([#297](https://github.com/Revive-Home/revive-apps/pull/297))
+- Estimated profit and total profit are displayed as separate values. ([#297](https://github.com/Revive-Home/revive-apps/pull/297))
+- ROI calculations now reflect commission-inclusive total profit. ([#297](https://github.com/Revive-Home/revive-apps/pull/297))
+- Report-based intake now skips property confirmation when details are already available. ([#295](https://github.com/Revive-Home/revive-apps/pull/295))
+- Property information is automatically enriched with missing valuation, ownership, address, and structural details. ([#295](https://github.com/Revive-Home/revive-apps/pull/295))
+- Homeowners can bypass the ownership question during onboarding. ([#295](https://github.com/Revive-Home/revive-apps/pull/295))
+- Photo steps are preselected based on whether the report includes photos. ([#295](https://github.com/Revive-Home/revive-apps/pull/295))
+- Report location data is retained throughout the intake flow. ([#295](https://github.com/Revive-Home/revive-apps/pull/295))
+- Improved map marker layering for clearer display of hovered, selected, and active markers. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
+- Popup cards now anchor more accurately to their corresponding markers and adapt to available screen space. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
+- Open popups now close when the map is dragged or zoomed. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
+- Added a “Temporary renovation amount” field for Sell 360 estimate editing, with backend support and validation. ([#300](https://github.com/Revive-Home/revive-apps/pull/300))
+- Sell 360 proposal and transaction calculations now use an effective renovation amount and return renovation item presence for controlling Sell 360 experiences. ([#300](https://github.com/Revive-Home/revive-apps/pull/300))
+- Added conditional “View estimate”/Sell 360 UI hiding when no real renovation items exist. ([#300](https://github.com/Revive-Home/revive-apps/pull/300))
+- Added playbook extraction for opportunity transcripts via uploaded files, pasted text, or selected recorded calls. ([#296](https://github.com/Revive-Home/revive-apps/pull/296))
+- Introduced a Playbook results card and an editable results modal with “Additional Insights” and a “Create HubSpot Note” action. ([#296](https://github.com/Revive-Home/revive-apps/pull/296))
+- Added a one-click copy button with “copied” feedback. ([#296](https://github.com/Revive-Home/revive-apps/pull/296))
+- Added “Sell 360” calculator card and full-screen calculator with scenario comparison, estimated proceeds, and auto-saved progress. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
+- Added distance filtering for case studies with preset options (10/25/50 miles, defaulting to 50). ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
+- Implement New Rules for Updating HubSpot Sold Date. ([#291](https://github.com/Revive-Home/revive-apps/pull/291))
+- Added automatic background deduplication for newly uploaded deal images. ([#269](https://github.com/Revive-Home/revive-apps/pull/269))
+- Added automatic background deduplication for VisionAI report photos. ([#269](https://github.com/Revive-Home/revive-apps/pull/269))
+- Preserves the earliest valid image and removes duplicate database references without blocking uploads or deleting stored image files. ([#269](https://github.com/Revive-Home/revive-apps/pull/269))
+- “Additional notes” can stay editable on estimate items even when other item details are locked. ([#279](https://github.com/Revive-Home/revive-apps/pull/279))
+- Notes can be saved independently without affecting pricing, removal status, or other estimate details. ([#279](https://github.com/Revive-Home/revive-apps/pull/279))
+- Added support for updating notes at both the product level and for individual add-ons. ([#279](https://github.com/Revive-Home/revive-apps/pull/279))
+- Remove Meticulous. ([#278](https://github.com/Revive-Home/revive-apps/pull/278))
+
+### Improved
+
+- Enabled notes-only updates for estimates (product and add-ons), including decoupled “Additional notes” editability. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- Improved getting-started property enrichment and pinned address selection. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- Improved stacked dialog/sheet overlays so backdrops don’t compound dark/animate incorrectly. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- Reduced client error noise by filtering additional known Firebase messaging/browser rejections. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- “Sell 360” now appears conditionally based on deal type. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
+- Enhanced case study thumbnails (try next image on errors), and updated address formatting. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
+- Expanded case studies modal width and improved paginated gallery thumbnail sizing; kept delete action only. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
+- New user accounts receive a default password when one is not provided. ([#292](https://github.com/Revive-Home/revive-apps/pull/292))
+- Property activity and migration processes now follow more consistent behavior and formatting. ([#292](https://github.com/Revive-Home/revive-apps/pull/292))
+- Reduced repeated image downloads and limited concurrent image processing for more reliable cleanup. ([#294](https://github.com/Revive-Home/revive-apps/pull/294))
+
+### Fixed
+
+- Improved phone verification reCAPTCHA retry/reset behavior. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- Prevented report-provided property valuations and photo decisions from being overwritten. ([#295](https://github.com/Revive-Home/revive-apps/pull/295))
+- Refined marker hover and click areas for more consistent interaction. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
+- Improved popup positioning across different marker locations and viewport sizes. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
+- Updated Sell 360 sharing flow to show the edit-info step for Sell 360 estimates (not only when pre-share info is missing). ([#300](https://github.com/Revive-Home/revive-apps/pull/300))
+- Improved comparables marker enrichment and more defensive fallback behavior. ([#300](https://github.com/Revive-Home/revive-apps/pull/300))
+- Improved autosizing text inputs for answers/notes as content grows. ([#296](https://github.com/Revive-Home/revive-apps/pull/296))
+- Case study image fallback now advances to the next available image on load failures. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
+- Address suggestions now keep the location details the user selected, improving consistency in saved address information. ([#210](https://github.com/Revive-Home/revive-apps/pull/210))
+- Full address values and related property details now reflect the chosen street, city, state, and ZIP more reliably. ([#210](https://github.com/Revive-Home/revive-apps/pull/210))
+- Deal-rejection behavior for low-valuation cases now uses the selected state, making state-based checks more accurate. ([#210](https://github.com/Revive-Home/revive-apps/pull/210))
+- Improved resilience when external property-data providers are unavailable, returning `null`/empty results instead of failing requests. ([#274](https://github.com/Revive-Home/revive-apps/pull/274))
+- Improved handling for provider permission-approval scenarios, avoiding interruptions and returning consistent outcomes. ([#274](https://github.com/Revive-Home/revive-apps/pull/274))
+- Strengthened image extraction: only accepts valid high-quality `.jpg/.jpeg` HTTP(S) links with expected quality markers, deduplicates results, and improves recursive fallback. ([#274](https://github.com/Revive-Home/revive-apps/pull/274))
+- Updated property-data behavior so Redfin may return `null` when data can’t be retrieved. ([#274](https://github.com/Revive-Home/revive-apps/pull/274))
+- Activity logs now record accurate update timestamps across property views, call requests, report creation, and PDF downloads. ([#292](https://github.com/Revive-Home/revive-apps/pull/292))
+- Anonymous activity is handled more reliably when no user details are available. ([#292](https://github.com/Revive-Home/revive-apps/pull/292))
+- User lookups now return a clear “not found” result when no matching account exists. ([#292](https://github.com/Revive-Home/revive-apps/pull/292))
+- User records from supported account sources now include more complete profile and feature information. ([#292](https://github.com/Revive-Home/revive-apps/pull/292))
+- Improved brokerage linking during profile updates by handling cleared, free-typed, or invalid brokerage values safely. ([#277](https://github.com/Revive-Home/revive-apps/pull/277))
+- Added clearer error notifications when brokerage association fails. ([#277](https://github.com/Revive-Home/revive-apps/pull/277))
+- Prevented profile updates from remaining stuck in a loading state after brokerage-linking errors. ([#277](https://github.com/Revive-Home/revive-apps/pull/277))
+- Improved error reporting for brokerage creation and profile update failures. ([#277](https://github.com/Revive-Home/revive-apps/pull/277))
+- Improved the “Archive report” control in the rejection modal. ([#288](https://github.com/Revive-Home/revive-apps/pull/288))
+- Updated tooltip and dialog behavior for a more consistent interaction experience. ([#288](https://github.com/Revive-Home/revive-apps/pull/288))
+- Cleaned surrounding whitespace from media URLs when storing and loading assets. ([#294](https://github.com/Revive-Home/revive-apps/pull/294))
+- Improved background image deduplication, including reuse of previously calculated hashes. ([#294](https://github.com/Revive-Home/revive-apps/pull/294))
+- Added safeguards for unsafe, oversized, invalid, or inaccessible image URLs. ([#294](https://github.com/Revive-Home/revive-apps/pull/294))
+- Preserved upload processing when hash storage or duplicate cleanup encounters an error. ([#294](https://github.com/Revive-Home/revive-apps/pull/294))
+- Improved layered dialogs, alert dialogs, and sheets so stacked overlays no longer combine into an overly dark background. ([#272](https://github.com/Revive-Home/revive-apps/pull/272))
+- Ensured only the base overlay applies the dimmed scrim, while additional layered overlays remain transparent. ([#272](https://github.com/Revive-Home/revive-apps/pull/272))
+- Preserved existing animations, styling, and component behavior. ([#272](https://github.com/Revive-Home/revive-apps/pull/272))
+- Improved resilience and concurrency handling by coalescing overlapping dedup requests and swallowing errors so uploads and report updates continue. ([#269](https://github.com/Revive-Home/revive-apps/pull/269))
+- Unsafe or unprocessable images are preserved. ([#269](https://github.com/Revive-Home/revive-apps/pull/269))
+- Notes-only saves now preserve existing estimate item information more reliably. ([#279](https://github.com/Revive-Home/revive-apps/pull/279))
+- Improved phone verification recovery by reliably resetting the reCAPTCHA challenge after unsuccessful code requests. ([#276](https://github.com/Revive-Home/revive-apps/pull/276))
+- Streamlined verification handling to reduce unnecessary interruptions during phone number confirmation. ([#276](https://github.com/Revive-Home/revive-apps/pull/276))
+- Improved error monitoring by filtering known, non-actionable Firebase messaging and network errors from reported events. ([#276](https://github.com/Revive-Home/revive-apps/pull/276))
+- Improved error log redaction to better protect sensitive information within nested error objects. ([#282](https://github.com/Revive-Home/revive-apps/pull/282))
+- Added safeguards for circular/cyclic error data to prevent logging failures while still redacting sensitive values. ([#282](https://github.com/Revive-Home/revive-apps/pull/282))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="July 16, 2026" description="admin-v3.12.0" tags={["admin"]}>
 
 ### New
