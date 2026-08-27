@@ -3,6 +3,127 @@ title: "August 2026"
 description: "August 2026 release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."
 ---
 
+<Update label="August 27, 2026" description="admin-v3.15.0" tags={["admin"]}>
+
+### New
+
+- Sprint 16. ([#367](https://github.com/Revive-Home/revive-apps/pull/367))
+- Added a comprehensive project dashboard with summary, log, scope, photos, assets, team, marketing, and contract views. ([#229](https://github.com/Revive-Home/revive-apps/pull/229))
+- Added progress tracking, timelines, weekly updates, check-ins, media galleries, shared photo imports, document search, downloads, and notification deep links. ([#229](https://github.com/Revive-Home/revive-apps/pull/229))
+- Added team invitations, role editing, visit tracking, comments, feedback, engagement notifications, and automated follow-up task handling. ([#229](https://github.com/Revive-Home/revive-apps/pull/229))
+- Added renovation activity management, agreement statuses, required-document workflows, multi-file uploads, and administrative timeline controls. ([#229](https://github.com/Revive-Home/revive-apps/pull/229))
+- Added a nearby contractors panel to opportunity overviews. ([#414](https://github.com/Revive-Home/revive-apps/pull/414))
+- Displays contractor names, callable phone numbers, distances, and loading, error, invalid-location, and empty-result states. ([#414](https://github.com/Revive-Home/revive-apps/pull/414))
+- Added a map view showing the opportunity location and nearby contractors. ([#414](https://github.com/Revive-Home/revive-apps/pull/414))
+- Added automatic location lookup for contractors without valid stored coordinates. ([#414](https://github.com/Revive-Home/revive-apps/pull/414))
+- Added nearby contractor retrieval, with five results shown by default and up to 20 supported. ([#414](https://github.com/Revive-Home/revive-apps/pull/414))
+- Added automated document review for uploaded files, including listing agreements, mortgage statements, title reports, trust documents, and reconveyances. ([#398](https://github.com/Revive-Home/revive-apps/pull/398))
+- Reviews identify missing, outdated, inconsistent, illegible, or low-confidence information and provide structured findings. ([#398](https://github.com/Revive-Home/revive-apps/pull/398))
+- Added admin tools to manually rerun reviews and receive results in Slack. ([#398](https://github.com/Revive-Home/revive-apps/pull/398))
+- Added equity verification note generation with financial calculations, review findings, and automated posting. ([#398](https://github.com/Revive-Home/revive-apps/pull/398))
+- Underwriting completion now captures vesting and debt information for downstream verification. ([#398](https://github.com/Revive-Home/revive-apps/pull/398))
+- Document reviews now run automatically after uploads. ([#398](https://github.com/Revive-Home/revive-apps/pull/398))
+- Added configurable review-check suppression and clearer failure notifications. ([#398](https://github.com/Revive-Home/revive-apps/pull/398))
+- Added Marketing Center quota tracking across admin and dashboard experiences. ([#400](https://github.com/Revive-Home/revive-apps/pull/400))
+- Added clear availability and loading states for material-generation actions. ([#400](https://github.com/Revive-Home/revive-apps/pull/400))
+- Added quota details to help indicate remaining generation capacity. ([#400](https://github.com/Revive-Home/revive-apps/pull/400))
+- Preview deployments now automatically connect to the matching review API environment. ([#394](https://github.com/Revive-Home/revive-apps/pull/394))
+- Added automated checks to confirm deployed previews use the correct API host. ([#394](https://github.com/Revive-Home/revive-apps/pull/394))
+- Pull requests receive status updates when API configuration is missing or mismatched. ([#394](https://github.com/Revive-Home/revive-apps/pull/394))
+- Added automated deployment of Firestore and Storage security rules to staging, with controlled manual deployment to production. ([#377](https://github.com/Revive-Home/revive-apps/pull/377))
+- Added public read access for platform versions, Vision AI reports and related media, and before/after gallery assets. ([#377](https://github.com/Revive-Home/revive-apps/pull/377))
+- Security. ([#377](https://github.com/Revive-Home/revive-apps/pull/377))
+- Firestore access now requires authentication by default. ([#377](https://github.com/Revive-Home/revive-apps/pull/377))
+- Storage reads and writes require authentication, except authorized media downloads. ([#377](https://github.com/Revive-Home/revive-apps/pull/377))
+- Unauthenticated users can view eligible report details but cannot browse report lists or perform writes. ([#377](https://github.com/Revive-Home/revive-apps/pull/377))
+- Added configurable RMA tabs with tab-specific columns, sorting, filters, and date ranges. ([#410](https://github.com/Revive-Home/revive-apps/pull/410))
+- Added row selection and bulk status updates for Paid, Hold, and Not Approved items, with confirmation prompts and notes. ([#410](https://github.com/Revive-Home/revive-apps/pull/410))
+- Added pipeline-stage information and expanded payment-date details. ([#410](https://github.com/Revive-Home/revive-apps/pull/410))
+- Added selected-row CSV exports and persistent tab, filter, date, and pagination settings. ([#410](https://github.com/Revive-Home/revive-apps/pull/410))
+- Finance views now show RMA progress, statuses, dates, and final indicators across responsive layouts. ([#411](https://github.com/Revive-Home/revive-apps/pull/411))
+- Outside vendor payments are grouped by invoice with payment progress, balances, statuses, and detailed views. ([#411](https://github.com/Revive-Home/revive-apps/pull/411))
+- Payment requests can be started from an invoice’s remaining balance with key details prefilled. ([#411](https://github.com/Revive-Home/revive-apps/pull/411))
+- Vendors and invoices can be automatically selected when creating payments. ([#411](https://github.com/Revive-Home/revive-apps/pull/411))
+- Payment records now retain their associated invoice details. ([#411](https://github.com/Revive-Home/revive-apps/pull/411))
+- Added a dedicated lead-capture page at `/reviveai/` with brokerage and agent details plus social sharing metadata. ([#254](https://github.com/Revive-Home/revive-apps/pull/254))
+- Construction opportunity markers now show the deal type, current deal stage, renovation amount in USD, and a direct link to the related HubSpot deal. ([#405](https://github.com/Revive-Home/revive-apps/pull/405))
+- Marker details support richer HTML presentation and include a convenient HubSpot action button. ([#405](https://github.com/Revive-Home/revive-apps/pull/405))
+- Marker pin colors now reflect the opportunity’s deal type. ([#405](https://github.com/Revive-Home/revive-apps/pull/405))
+- Missing marker categories are created automatically when needed. ([#405](https://github.com/Revive-Home/revive-apps/pull/405))
+- Added schedule validation requiring a future replacement date when a project’s end date has passed. ([#395](https://github.com/Revive-Home/revive-apps/pull/395))
+- Added clearer warnings and date guidance during publishing. ([#395](https://github.com/Revive-Home/revive-apps/pull/395))
+- Schedule statuses and delayed-update details now use consistent verified dates. ([#395](https://github.com/Revive-Home/revive-apps/pull/395))
+- Added contract ID, deal type, pipeline stage, and requested amount details to RMA information. ([#380](https://github.com/Revive-Home/revive-apps/pull/380))
+- Added contract document previews from the RMA list for eligible contracts. ([#380](https://github.com/Revive-Home/revive-apps/pull/380))
+- Added synchronization for active construction opportunities on the Atlist map. ([#391](https://github.com/Revive-Home/revive-apps/pull/391))
+- Map markers now update automatically when opportunity stages or pipelines change. ([#391](https://github.com/Revive-Home/revive-apps/pull/391))
+- Added an authenticated option to manually synchronize all active construction markers. ([#391](https://github.com/Revive-Home/revive-apps/pull/391))
+- Added scheduled daily synchronization and cleanup of outdated or ineligible markers. ([#391](https://github.com/Revive-Home/revive-apps/pull/391))
+- Import photos from listing URLs directly into photo and document uploads. ([#378](https://github.com/Revive-Home/revive-apps/pull/378))
+- Added MLS photo retrieval and upload during the intake workflow. ([#378](https://github.com/Revive-Home/revive-apps/pull/378))
+- Existing, newly uploaded, and MLS photos are now managed together. ([#378](https://github.com/Revive-Home/revive-apps/pull/378))
+- Photo analysis displays progress while uploads are being finalized. ([#378](https://github.com/Revive-Home/revive-apps/pull/378))
+- Added support for downloading multiple remote photos for upload. ([#378](https://github.com/Revive-Home/revive-apps/pull/378))
+
+### Improved
+
+- Updated the contractor document identifier to `contractor_services_agreement` while retaining the display title “Contractor Services Agreement.”. ([#416](https://github.com/Revive-Home/revive-apps/pull/416))
+- Contractor document validation now recognizes the updated identifier, ensuring this document can be added and processed correctly. ([#416](https://github.com/Revive-Home/revive-apps/pull/416))
+- Existing contractor records and workflows using the displayed document title remain unchanged. ([#416](https://github.com/Revive-Home/revive-apps/pull/416))
+- Simplified the Revive AI report page to render report content only. ([#254](https://github.com/Revive-Home/revive-apps/pull/254))
+- Contract actions now download previews for finalized contracts or open editing sessions for drafts. ([#380](https://github.com/Revive-Home/revive-apps/pull/380))
+- Removed the contract breakdown section from RMA details. ([#380](https://github.com/Revive-Home/revive-apps/pull/380))
+- Added loading feedback, error notifications, and safeguards against outdated preview requests. ([#380](https://github.com/Revive-Home/revive-apps/pull/380))
+
+### Fixed
+
+- Improved loading, caching, responsive layouts, media fallbacks, file naming, authentication handling, and deletion safeguards. ([#229](https://github.com/Revive-Home/revive-apps/pull/229))
+- Improved coordinate validation and request handling to prevent outdated results from replacing current data. ([#414](https://github.com/Revive-Home/revive-apps/pull/414))
+- Prevented generation when capacity is insufficient or cannot be confirmed. ([#400](https://github.com/Revive-Home/revive-apps/pull/400))
+- Improved partial-failure handling so successful materials continue processing. ([#400](https://github.com/Revive-Home/revive-apps/pull/400))
+- Improved error reporting during material generation. ([#400](https://github.com/Revive-Home/revive-apps/pull/400))
+- Allowed removal actions to continue when adding materials is unavailable. ([#400](https://github.com/Revive-Home/revive-apps/pull/400))
+- Improved cleanup of preview-specific API settings after review environments are removed. ([#394](https://github.com/Revive-Home/revive-apps/pull/394))
+- Preview rebuild and verification failures are reported without blocking other deployment operations. ([#394](https://github.com/Revive-Home/revive-apps/pull/394))
+- Improved image handling by falling back to the original file when HEIC conversion fails. ([#393](https://github.com/Revive-Home/revive-apps/pull/393))
+- Prevented issues when meeting organizer information is unavailable. ([#393](https://github.com/Revive-Home/revive-apps/pull/393))
+- Reduced irrelevant error reports from browser extensions and improved handling of unhandled promise rejections. ([#393](https://github.com/Revive-Home/revive-apps/pull/393))
+- Preserved additional error details when report association fails. ([#393](https://github.com/Revive-Home/revive-apps/pull/393))
+- Improved public deal loading by using available deal information without requiring additional private data access. ([#377](https://github.com/Revive-Home/revive-apps/pull/377))
+- Improved timezone-aware date filtering, grouping, totals, and item counts. ([#410](https://github.com/Revive-Home/revive-apps/pull/410))
+- Prevented locked or completed items from being updated accidentally. ([#410](https://github.com/Revive-Home/revive-apps/pull/410))
+- Payment requests now validate against invoice balances and prevent duplicate or excessive requests. ([#411](https://github.com/Revive-Home/revive-apps/pull/411))
+- Added support for partially paid invoice statuses and consistent currency/date formatting. ([#411](https://github.com/Revive-Home/revive-apps/pull/411))
+- Updated QR codes, copied links, menus, carousel actions, emails, and reminders to use `/reviveai/`. ([#254](https://github.com/Revive-Home/revive-apps/pull/254))
+- Legacy `/revive-ai/` links now redirect to `/reviveai/` while preserving applicable query parameters. ([#254](https://github.com/Revive-Home/revive-apps/pull/254))
+- Ensured `/reviveai/` links open in the browser instead of the mobile app. ([#254](https://github.com/Revive-Home/revive-apps/pull/254))
+- Improved synchronization of renovation and deal-type information during individual and bulk updates. ([#405](https://github.com/Revive-Home/revive-apps/pull/405))
+- Deal-stage labels now reflect the latest available values. ([#405](https://github.com/Revive-Home/revive-apps/pull/405))
+- Improved handling of special characters in marker details. ([#405](https://github.com/Revive-Home/revive-apps/pull/405))
+- Improved uploaded image filename handling for safer, more reliable storage and download URLs. ([#372](https://github.com/Revive-Home/revive-apps/pull/372))
+- Normalized filenames containing accents or special characters during image and logo uploads. ([#372](https://github.com/Revive-Home/revive-apps/pull/372))
+- Corrected delayed-project calculations when updates are approved, unpublished, or deleted. ([#395](https://github.com/Revive-Home/revive-apps/pull/395))
+- Refreshed project schedule details after updates are published or removed. ([#395](https://github.com/Revive-Home/revive-apps/pull/395))
+- Hid date ranges for on-schedule updates. ([#395](https://github.com/Revive-Home/revive-apps/pull/395))
+- Improved invalid-date and timezone handling. ([#395](https://github.com/Revive-Home/revive-apps/pull/395))
+- Failed photo downloads now provide warning feedback instead of being silently omitted. ([#378](https://github.com/Revive-Home/revive-apps/pull/378))
+- Imports are prevented when no photos download successfully. ([#378](https://github.com/Revive-Home/revive-apps/pull/378))
+- Improved cleanup when removing newly uploaded photos. ([#378](https://github.com/Revive-Home/revive-apps/pull/378))
+- Improved reliability when downloading completed contract, estimate, and RMA PDFs. ([#370](https://github.com/Revive-Home/revive-apps/pull/370))
+- Added automatic retries for temporary service responses and request timeouts. ([#370](https://github.com/Revive-Home/revive-apps/pull/370))
+- Downloads now require successful responses and clean up failed files. ([#370](https://github.com/Revive-Home/revive-apps/pull/370))
+- Improved handling of document completion and partial signer progress. ([#370](https://github.com/Revive-Home/revive-apps/pull/370))
+- Prevented duplicate processing of already-completed contracts. ([#370](https://github.com/Revive-Home/revive-apps/pull/370))
+- Added fallback handling when document or contract metadata is incomplete. ([#370](https://github.com/Revive-Home/revive-apps/pull/370))
+- Added clearer errors for unavailable, timed-out, or unsuccessful document downloads. ([#370](https://github.com/Revive-Home/revive-apps/pull/370))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="August 27, 2026" description="dashboard-v2.13.0" tags={["dashboard"]}>
 
 ### New
