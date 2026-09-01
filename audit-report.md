@@ -1,6 +1,6 @@
 # 📋 Docs Audit Report
 
-Generated: 2026-08-27T08:07 UTC
+Generated: 2026-09-01T07:30 UTC
 
 Found **54** item(s) to review:
 
