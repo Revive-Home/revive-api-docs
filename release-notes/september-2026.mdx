@@ -3,6 +3,29 @@ title: "September 2026"
 description: "September 2026 release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."
 ---
 
+<Update label="September 10, 2026" description="api-v3.13.1" tags={["api"]}>
+
+### New
+
+- Valuation generation now uses HouseCanary as the primary provider. ([#470](https://github.com/Revive-Home/revive-apps/pull/470))
+- Market-value lookups prioritize HouseCanary, followed by Zillow, Redfin, and Estated. ([#470](https://github.com/Revive-Home/revive-apps/pull/470))
+- RentCast is excluded from market-value fallback selection. ([#470](https://github.com/Revive-Home/revive-apps/pull/470))
+
+### Improved
+
+No improvements in this release.
+
+### Fixed
+
+- Failed provider requests remain eligible for retry, while completed requests are not unnecessarily repeated. ([#470](https://github.com/Revive-Home/revive-apps/pull/470))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="September 10, 2026" description="admin-v3.17.0" tags={["admin"]}>
 
 ### New
