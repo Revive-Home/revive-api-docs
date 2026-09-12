@@ -3,6 +3,36 @@ title: "Release notes"
 description: "What's new across revive-api, dashboard, admin, and mobile — new features, improvements, bug fixes, breaking changes, and required migration steps."
 ---
 
+<Update label="September 12, 2026" description="api-v3.14.0" tags={["api"]}>
+
+### New
+
+- Listing-status synchronization now retrieves listing, sale, status, and agent details from the Property API. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Listing-agent information is mapped to HubSpot, including name, phone, and email. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Synchronization results now include Property API listing details. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+
+### Improved
+
+No improvements in this release.
+
+### Fixed
+
+- Improved exact contact searches for phone numbers entered in different formats. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Phone searches now support national and international formats, including valid extensions. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Added fallback matching when normalized phone-number searches do not immediately return results. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Improved phone-number formatting for free-form U.S. numbers and valid regional lengths. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Corrected stored phone values during duplicate resolution and contact reactivation when verified phone information is available. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Property matching now rejects ambiguous, number-only, partial house-number, and partial street-name matches. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Missing agent values are normalized consistently, preventing stale or incomplete data. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Synchronization clearly reports when the Property API is unavailable or not configured. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="September 10, 2026" description="api-v3.13.1" tags={["api"]}>
 
 ### New
