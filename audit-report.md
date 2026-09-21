@@ -1,8 +1,8 @@
 # 📋 Docs Audit Report
 
-Generated: 2026-09-12T11:35 UTC
+Generated: 2026-09-21T23:22 UTC
 
-Found **56** item(s) to review:
+Found **54** item(s) to review:
 
 ## API Reference (openapi.json)
 
@@ -55,11 +55,9 @@ Found **56** item(s) to review:
 ## Field dictionary
 
 - [ ] Field `operational` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `down` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `address` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `email` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `withMortgageData` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `materials` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `homeIncrease` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `valueOpportunity` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `agentCommission` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.

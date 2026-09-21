@@ -3,6 +3,43 @@ title: "Release notes"
 description: "What's new across revive-api, dashboard, admin, and mobile — new features, improvements, bug fixes, breaking changes, and required migration steps."
 ---
 
+<Update label="September 21, 2026" description="api-v3.15.0" tags={["api"]}>
+
+### New
+
+- Added mortgage valuation data to valuation results, including the provider source. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Added separate mortgage retrieval status so results can indicate when mortgage information is still pending. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Mortgage lookups prioritize providers that supply loan terms. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Valuation requests now retrieve market-value and mortgage data independently. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Homeseller referral maps now use the appropriate map configuration for each environment. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Referral markers are categorized by recent sale dates, with matching colors and categories created automatically. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Marker synchronization now retrieves all available map results, including paginated results. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Sold dates are synchronized from HubSpot and displayed as Sold Date information. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Construction marketing materials are generated automatically for eligible production deals, including scheduled daily processing. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Marketing templates can use selected opportunity exterior photos, with Street View fallback when available. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Marketing profile updates now show background material-generation progress and completion or failure status. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Incomplete marketing profiles are identified before materials are generated. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Project marketing drawers display a loading state while materials are being created. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+
+### Improved
+
+No improvements in this release.
+
+### Fixed
+
+- Improved handling of incomplete mortgage responses, missing documents, and provider errors. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Mortgage backfills now support reliable completion tracking and retries for failed saves. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Duplicate referral markers are identified and removed, prioritizing markers with category information. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Automated map synchronization is limited to production environments to prevent unintended updates elsewhere. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Improved handling of image validation, downloads, generation failures, and cleanup operations. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="September 12, 2026" description="api-v3.14.1" tags={["api"]}>
 
 ### New
