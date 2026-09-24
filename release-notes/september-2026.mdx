@@ -3,6 +3,124 @@ title: "September 2026"
 description: "September 2026 release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."
 ---
 
+<Update label="September 24, 2026" description="dashboard-v2.15.0" tags={["dashboard"]}>
+
+### New
+
+- Added an MLS listings workspace with scored listings, filters, sortable tables, property details, photos, and tools to flag or dismiss listings. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Added bathroom design customization with room-specific materials, image selection, and AI-generated designs. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Payment forms now collect W-9 and, when needed, ACH authorization documents; payment notifications include links to submitted documents. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Added groundbreaking-photo selection for construction marketing materials. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Weekly project updates now show author attribution, photos, and attachment details. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Marketing profiles can be edited before saving profile and brokerage changes. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Preview links now use the dashboard’s configured URL, improving navigation when reports are hosted outside the site root. ([#520](https://github.com/Revive-Home/revive-apps/pull/520))
+- Added an MLS Listings page with scored listings, property details, photos, and links to maps and property information. ([#516](https://github.com/Revive-Home/revive-apps/pull/516))
+- Filter listings by renovation or development focus and minimum score. Review score and condition breakdowns, flag listings, or dismiss them with a reason. ([#516](https://github.com/Revive-Home/revive-apps/pull/516))
+- Added guidance explaining how listing scores are calculated. ([#516](https://github.com/Revive-Home/revive-apps/pull/516))
+- Scores highlight renovation and development opportunities using listing details, remarks, and property condition. ([#516](https://github.com/Revive-Home/revive-apps/pull/516))
+- Accessibility. ([#516](https://github.com/Revive-Home/revive-apps/pull/516))
+- Sort table columns using keyboard-accessible controls, with the current sort direction announced to assistive technology. ([#516](https://github.com/Revive-Home/revive-apps/pull/516))
+- Weekly updates now show creator and publisher attribution, including names, avatars, and creation or publication dates. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Renovation updates include photo thumbnails, attachment counts, and a media lightbox. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Pending updates display loading placeholders. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Check-ins can show creator photos and attendee avatars. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Service-provider notes now include clear author and date attribution. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Style & Accessibility. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Refined update timelines, publication badges, buttons, and responsive layouts. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Improved skeleton loading accessibility and motion behavior. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Updated icons in renovation update actions. ([#508](https://github.com/Revive-Home/revive-apps/pull/508))
+- Added support for selecting and using an opportunity’s groundbreaking photo in marketing templates. ([#509](https://github.com/Revive-Home/revive-apps/pull/509))
+- Added an additional construction marketing template. ([#509](https://github.com/Revive-Home/revive-apps/pull/509))
+- Added demolition photo evaluation and improved photo scoring, room classification, and selection across eligible project photos. ([#509](https://github.com/Revive-Home/revive-apps/pull/509))
+- Added groundbreaking-photo selection based on demolition completion status, with demolition-photo fallback support. ([#509](https://github.com/Revive-Home/revive-apps/pull/509))
+- Added construction project-log messaging when marketing collateral is delivered. ([#509](https://github.com/Revive-Home/revive-apps/pull/509))
+- Added mortgage valuation data to valuation results, including the provider source. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Added separate mortgage retrieval status so results can indicate when mortgage information is still pending. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Mortgage lookups prioritize providers that supply loan terms. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Valuation requests now retrieve market-value and mortgage data independently. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Added support for opening the marketing profile modal directly in Edit mode. ([#501](https://github.com/Revive-Home/revive-apps/pull/501))
+- Selecting **Edit Profile** now takes users straight to profile editing instead of the review step. ([#501](https://github.com/Revive-Home/revive-apps/pull/501))
+- Existing profiles preserve the requested starting step when the modal opens. ([#501](https://github.com/Revive-Home/revive-apps/pull/501))
+- Upload W-9 and ACH authorization documents when creating payments, with validation and 20 MB limits. ([#493](https://github.com/Revive-Home/revive-apps/pull/493))
+- View, download, replace, or remove uploaded vendor documents. ([#493](https://github.com/Revive-Home/revive-apps/pull/493))
+- Payment emails and Slack notifications now include document links. ([#493](https://github.com/Revive-Home/revive-apps/pull/493))
+- Homeseller referral map markers now show sold-status categories and colors. ([#493](https://github.com/Revive-Home/revive-apps/pull/493))
+- Map synchronization now supports paginated marker results. ([#493](https://github.com/Revive-Home/revive-apps/pull/493))
+- Added bathroom renovation customization alongside kitchen projects. ([#186](https://github.com/Revive-Home/revive-apps/pull/186))
+- Added bathroom room selection with room-specific images, galleries, materials, and renovation results. ([#186](https://github.com/Revive-Home/revive-apps/pull/186))
+- Added bathroom material categories for fixtures, hardware, accessories, tubs, mirrors, and more. ([#186](https://github.com/Revive-Home/revive-apps/pull/186))
+- Added room-aware renovation prompts supporting bathroom material selections. ([#186](https://github.com/Revive-Home/revive-apps/pull/186))
+- Homeseller referral maps now use the appropriate map configuration for each environment. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Referral markers are categorized by recent sale dates, with matching colors and categories created automatically. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Marker synchronization now retrieves all available map results, including paginated results. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Sold dates are synchronized from HubSpot and displayed as Sold Date information. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Profile photo and brokerage logo changes now appear as previews before saving. ([#482](https://github.com/Revive-Home/revive-apps/pull/482))
+- Saving a marketing profile persists the selected photo and updated brokerage logo information. ([#482](https://github.com/Revive-Home/revive-apps/pull/482))
+- Canceling edits restores the previously saved marketing profile. ([#482](https://github.com/Revive-Home/revive-apps/pull/482))
+- Construction marketing materials are generated automatically for eligible production deals, including scheduled daily processing. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Marketing templates can use selected opportunity exterior photos, with Street View fallback when available. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Marketing profile updates now show background material-generation progress and completion or failure status. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Incomplete marketing profiles are identified before materials are generated. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Project marketing drawers display a loading state while materials are being created. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Listing-status synchronization now retrieves listing, sale, status, and agent details from the Property API. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Listing-agent information is mapped to HubSpot, including name, phone, and email. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Synchronization results now include Property API listing details. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Valuation generation now uses HouseCanary as the primary provider. ([#470](https://github.com/Revive-Home/revive-apps/pull/470))
+- Market-value lookups prioritize HouseCanary, followed by Zillow, Redfin, and Estated. ([#470](https://github.com/Revive-Home/revive-apps/pull/470))
+- RentCast is excluded from market-value fallback selection. ([#470](https://github.com/Revive-Home/revive-apps/pull/470))
+
+### Improved
+
+- Skipped and punch-list weekly updates are now displayed consistently as standard weekly-update entries. ([#514](https://github.com/Revive-Home/revive-apps/pull/514))
+- These updates are included in comment tracking and can qualify for approved progress milestones. ([#514](https://github.com/Revive-Home/revive-apps/pull/514))
+- Separate generic activity entries for skipped and punch-list updates are no longer shown. ([#514](https://github.com/Revive-Home/revive-apps/pull/514))
+- Material categories now show only available options and applicable add-ons. ([#186](https://github.com/Revive-Home/revive-apps/pull/186))
+- Room changes now update customization content and results more reliably. ([#186](https://github.com/Revive-Home/revive-apps/pull/186))
+
+### Fixed
+
+- Improved project summary loading and handling of missing property data. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Listing status synchronization now runs daily and stops safely when the property service is unavailable. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Improved report preview links and selling-option recommendations based on available renovation options. ([#467](https://github.com/Revive-Home/revive-apps/pull/467))
+- Selling-option buttons now open the appropriate option based on available renovation choices. ([#520](https://github.com/Revive-Home/revive-apps/pull/520))
+- Renovation-related tabs are shown or hidden according to whether renovation options are available. ([#520](https://github.com/Revive-Home/revive-apps/pull/520))
+- Improved property data synchronization reliability with a service health check. ([#475](https://github.com/Revive-Home/revive-apps/pull/475))
+- Synchronization now stops safely after 500 consecutive property-service failures and reports failure details. ([#475](https://github.com/Revive-Home/revive-apps/pull/475))
+- Completed batch updates are flushed before synchronization stops. ([#475](https://github.com/Revive-Home/revive-apps/pull/475))
+- Improved handling of property-service failures while keeping unrelated lookup errors separate. ([#475](https://github.com/Revive-Home/revive-apps/pull/475))
+- Synchronization is skipped outside production environments. ([#475](https://github.com/Revive-Home/revive-apps/pull/475))
+- Prevented groundbreaking collateral from being generated before demolition work is complete or when no suitable photo is available. ([#509](https://github.com/Revive-Home/revive-apps/pull/509))
+- Improved handling of incomplete mortgage responses, missing documents, and provider errors. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Mortgage backfills now support reliable completion tracking and retries for failed saves. ([#512](https://github.com/Revive-Home/revive-apps/pull/512))
+- Uploading a profile photo or brokerage logo no longer marks the profile as edited before other changes are made. ([#501](https://github.com/Revive-Home/revive-apps/pull/501))
+- Prevented duplicate map markers during synchronization. ([#493](https://github.com/Revive-Home/revive-apps/pull/493))
+- Restricted full map synchronization to production environments. ([#493](https://github.com/Revive-Home/revive-apps/pull/493))
+- Added clearer handling when rendering is attempted without selected materials. ([#186](https://github.com/Revive-Home/revive-apps/pull/186))
+- Duplicate referral markers are identified and removed, prioritizing markers with category information. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Automated map synchronization is limited to production environments to prevent unintended updates elsewhere. ([#485](https://github.com/Revive-Home/revive-apps/pull/485))
+- Improved loading behavior on the project home page so the full-page loader remains visible until summary data is ready. ([#483](https://github.com/Revive-Home/revive-apps/pull/483))
+- Prevented incomplete summary content from appearing while dashboard visit, activity, and construction progress data is loading. ([#483](https://github.com/Revive-Home/revive-apps/pull/483))
+- Added a compact loading indicator for relevant summary loading states. ([#483](https://github.com/Revive-Home/revive-apps/pull/483))
+- Preview and share links now use the configured dashboard URL, improving link reliability across environments. ([#479](https://github.com/Revive-Home/revive-apps/pull/479))
+- Improved handling of image validation, downloads, generation failures, and cleanup operations. ([#466](https://github.com/Revive-Home/revive-apps/pull/466))
+- Updated the HubSpot email template used for new content notifications. ([#477](https://github.com/Revive-Home/revive-apps/pull/477))
+- Improved exact contact searches for phone numbers entered in different formats. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Phone searches now support national and international formats, including valid extensions. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Added fallback matching when normalized phone-number searches do not immediately return results. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Improved phone-number formatting for free-form U.S. numbers and valid regional lengths. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Corrected stored phone values during duplicate resolution and contact reactivation when verified phone information is available. ([#472](https://github.com/Revive-Home/revive-apps/pull/472))
+- Property matching now rejects ambiguous, number-only, partial house-number, and partial street-name matches. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Missing agent values are normalized consistently, preventing stale or incomplete data. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Synchronization clearly reports when the Property API is unavailable or not configured. ([#469](https://github.com/Revive-Home/revive-apps/pull/469))
+- Failed provider requests remain eligible for retry, while completed requests are not unnecessarily repeated. ([#470](https://github.com/Revive-Home/revive-apps/pull/470))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="September 21, 2026" description="api-v3.15.0" tags={["api"]}>
 
 ### New
