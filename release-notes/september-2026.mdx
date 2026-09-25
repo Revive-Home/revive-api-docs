@@ -3,6 +3,38 @@ title: "September 2026"
 description: "September 2026 release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."
 ---
 
+<Update label="September 25, 2026" description="admin-v3.17.2" tags={["admin"]}>
+
+### New
+
+- Listing photo galleries display photos in the order provided, excluding photos removed by the listing provider. ([#533](https://github.com/Revive-Home/revive-apps/pull/533))
+- Photo galleries show the latest selection when you open another listing before an earlier photo request finishes. ([#533](https://github.com/Revive-Home/revive-apps/pull/533))
+- Listing scores now reflect price-based adjustments for development opportunities and use a 90-point ceiling. ([#533](https://github.com/Revive-Home/revive-apps/pull/533))
+- Score explanations clarify how recommended products are selected and how their badges relate to listing scores. ([#533](https://github.com/Revive-Home/revive-apps/pull/533))
+- Added Sales Pipeline, Sell 360, Flip 360, and Renovate to Sell pages and calculators. ([#526](https://github.com/Revive-Home/revive-apps/pull/526))
+- Added deal sheets for renovation budgets, property details, offer breakdowns, and selling options, with calculator results connected to deal information. ([#526](https://github.com/Revive-Home/revive-apps/pull/526))
+- Added map pages for active construction sites and home seller referrals. ([#526](https://github.com/Revive-Home/revive-apps/pull/526))
+- Property addresses can open in Google Maps, and comparable listings can show saved exterior photos with improved image fallbacks. ([#526](https://github.com/Revive-Home/revive-apps/pull/526))
+- Weekly updates can generate in the background and provide concise status summaries. ([#526](https://github.com/Revive-Home/revive-apps/pull/526))
+
+### Improved
+
+- Sales and Advisor tabs are ordered consistently across opportunity workflows. ([#526](https://github.com/Revive-Home/revive-apps/pull/526))
+- Updated weekly update headings and formatting for easier reading. ([#526](https://github.com/Revive-Home/revive-apps/pull/526))
+- Improved comparable property details, document handling, and signing-session error messages. ([#526](https://github.com/Revive-Home/revive-apps/pull/526))
+
+### Fixed
+
+- Requests for photos from a listing that cannot be found now return a clearer “Listing not found” message. ([#533](https://github.com/Revive-Home/revive-apps/pull/533))
+- Closing a photo gallery clears its photos and loading state, preventing results from an earlier request from reappearing. ([#533](https://github.com/Revive-Home/revive-apps/pull/533))
+
+### Action required
+
+No action required for existing integrations.
+
+</Update>
+
+
 <Update label="September 25, 2026" description="api-v3.15.1" tags={["api"]}>
 
 ### New
