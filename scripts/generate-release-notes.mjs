@@ -478,6 +478,7 @@ async function main() {
 
   // Now process all collected PRs into release note entries
   const processed = Object.fromEntries(targetApps.map((r) => [r, []]));
+  const contextPrs = [];
 
   for (const app of targetApps) {
     for (const pr of grouped[app]) {
@@ -486,6 +487,16 @@ async function main() {
         console.log(`  Skipping PR #${pr.number}: "${title}" (excluded pattern)`);
         continue;
       }
+
+      contextPrs.push({
+        repo: APPS.includes(app) ? MONOREPO : app,
+        app,
+        number: pr.number,
+        title,
+        url: pr.html_url,
+        merged_at: pr.merged_at,
+        body: pr.body || '',
+      });
 
       // Try CodeRabbit structured summary first
       const codeRabbit = parseCodeRabbitSummary(pr.body);
@@ -519,6 +530,12 @@ async function main() {
         });
       }
     }
+  }
+
+  // Hand the shipped PRs to scripts/curate-latest-features.mjs
+  if (process.env.RELEASE_CONTEXT_FILE) {
+    fs.writeFileSync(process.env.RELEASE_CONTEXT_FILE, JSON.stringify({ version, prs: contextPrs }, null, 2));
+    console.log(`Wrote ${contextPrs.length} PR(s) to ${process.env.RELEASE_CONTEXT_FILE}`);
   }
 
   // Sort entries within each app by merge date (newest first)

@@ -35,6 +35,8 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    outputs:
+      new_features: ${{ steps.curate.outputs.new_count }}
     env:
       VERSION: ${{ inputs.release_version || github.event.client_payload.release_version }}
       OVERWRITE: ${{ inputs.overwrite || github.event.client_payload.overwrite || 'false' }}
@@ -63,7 +65,18 @@ jobs:
           RELEASE_SINCE: ${{ env.SINCE }}
           RELEASE_LABEL: ${{ env.LABEL }}
           SOURCE_REPO: ${{ env.SOURCE_REPO }}
+          RELEASE_CONTEXT_FILE: ${{ runner.temp }}/release-context.json
         run: node scripts/generate-release-notes.mjs
+
+      - name: Curate latest features
+        id: curate
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB }}
+          RELEASE_VERSION: ${{ env.VERSION }}
+          RELEASE_CONTEXT_FILE: ${{ runner.temp }}/release-context.json
+        run: node scripts/curate-latest-features.mjs
 
       - name: Audit docs for accuracy
         env:
@@ -75,7 +88,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add release-notes.mdx release-notes/ audit-report.md
+          git add release-notes.mdx release-notes/ audit-report.md latest-features/ latest-features.mdx
           if git diff --cached --quiet; then
             echo "No changes to commit"
             echo "pushed=false" >> "$GITHUB_OUTPUT"
@@ -102,3 +115,22 @@ jobs:
             "unfurl_links": false
           }
           EOF
+
+      - name: Notify Slack of new latest features
+        if: steps.commit.outputs.pushed == 'true' && steps.curate.outputs.new_count != '' && steps.curate.outputs.new_count != '0'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_RELEASE_NOTES_WEBHOOK }}
+          HIGHLIGHTS: ${{ steps.curate.outputs.highlights }}
+        run: |
+          TEXT=$(printf ':sparkles: *New in Latest Features* (from %s)\n\n%s\n\nThese are live in the dashboard feed. If one looks wrong, edit or remove it in `latest-features/feed.json` on main.' "$VERSION" "$HIGHLIGHTS")
+          jq -n --arg text "$TEXT" '{text: $text, unfurl_links: false}' \
+            | curl -sf -X POST "$SLACK_WEBHOOK" -H "Content-Type: application/json" -d @-
+
+  publish-latest-features:
+    needs: generate
+    if: fromJSON(needs.generate.outputs.new_features || '0') > 0
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/publish-latest-features.yml

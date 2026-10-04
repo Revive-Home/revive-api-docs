@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "title": "Latest features",
+  "description": "Everything we shipped, newest first.",
+  "updated_at": "2026-10-04T00:00:00.000Z",
+  "items": [
+    {
+      "id": "2026-09-24-construction-marketing-materials",
+      "date": "2026-09-24",
+      "title": "Your projects now market themselves",
+      "summary": "When a project breaks ground, Revive turns its photos into branded marketing pieces with your name on them. Show clients your work and stay top of mind without opening a design tool.",
+      "cta": {
+        "label": "See your materials",
+        "url": "https://dashboard.revive.realestate/marketing-center"
+      },
+      "audience": [
+        "Realtor"
+      ],
+      "source": {
+        "releases": [
+          "dashboard-v2.15.0"
+        ],
+        "prs": [
+          "revive-apps#466",
+          "revive-apps#509"
+        ],
+        "curated_by": "manual"
+      }
+    },
+    {
+      "id": "2026-09-10-marketing-profile-setup",
+      "date": "2026-09-10",
+      "title": "Look polished on every piece you share",
+      "summary": "Add your photo, brokerage logo, and contact details once, and Revive brands your Marketing Center materials as you. Update your profile anytime and refresh your materials to match.",
+      "cta": {
+        "label": "Set up your profile",
+        "url": "https://dashboard.revive.realestate/marketing-center"
+      },
+      "audience": [
+        "Realtor"
+      ],
+      "source": {
+        "releases": [
+          "dashboard-v2.14.0"
+        ],
+        "prs": [
+          "revive-apps#420"
+        ],
+        "curated_by": "manual"
+      }
+    },
+    {
+      "id": "2026-09-10-phone-first-sign-in",
+      "date": "2026-09-10",
+      "title": "Sign in with just your phone number",
+      "summary": "Getting into Revive now starts with your phone number, so there's one less password to remember. Have more than one account? Pick the one you want and you're in.",
+      "cta": null,
+      "audience": [],
+      "source": {
+        "releases": [
+          "dashboard-v2.14.0"
+        ],
+        "prs": [
+          "revive-apps#350",
+          "revive-apps#301"
+        ],
+        "curated_by": "manual"
+      }
+    },
+    {
+      "id": "2026-08-27-project-page",
+      "date": "2026-08-27",
+      "title": "See your whole renovation in one place",
+      "summary": "Every project now has its own page with progress, photos, scope, team, and contracts side by side. Revive also highlights what changed since your last visit, so you never miss an update.",
+      "cta": {
+        "label": "View your projects",
+        "url": "https://dashboard.revive.realestate/homes"
+      },
+      "audience": [],
+      "source": {
+        "releases": [
+          "dashboard-v2.13.0"
+        ],
+        "prs": [
+          "revive-apps#229"
+        ],
+        "curated_by": "manual"
+      }
+    },
+    {
+      "id": "2026-08-13-weekly-update-documents",
+      "date": "2026-08-13",
+      "title": "Project documents arrive with your weekly update",
+      "summary": "Weekly updates now bring documents along with the photos. Open or download them right from the update instead of hunting for them somewhere else.",
+      "cta": {
+        "label": "See your latest update",
+        "url": "https://dashboard.revive.realestate/homes"
+      },
+      "audience": [],
+      "source": {
+        "releases": [
+          "dashboard-v2.12.0"
+        ],
+        "prs": [
+          "revive-apps#333"
+        ],
+        "curated_by": "manual"
+      }
+    },
+    {
+      "id": "2026-07-30-report-driven-intake",
+      "date": "2026-07-30",
+      "title": "Go from Revive AI report to project in fewer steps",
+      "summary": "Start a project from any Revive AI report and Revive fills in the property details and photos it already has. Skip the repeat questions and get your project moving sooner.",
+      "cta": {
+        "label": "Open your reports",
+        "url": "https://dashboard.revive.realestate/revive-ai"
+      },
+      "audience": [
+        "Realtor"
+      ],
+      "source": {
+        "releases": [
+          "dashboard-v2.11.0"
+        ],
+        "prs": [
+          "revive-apps#295"
+        ],
+        "curated_by": "manual"
+      }
+    }
+  ]
+}
