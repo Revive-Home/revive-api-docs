@@ -14,6 +14,15 @@ export function makeGhJson(token) {
   };
 }
 
+// Pre-monorepo repos map to a single area
+const STANDALONE_AREAS = { 'revive-mobile': 'mobile', 'revive-api': 'api', 'revive-dashboard': 'dashboard', 'revive-admin': 'admin' };
+
+export function guessAreas(repo) {
+  const areas = { dashboard: 0, mobile: 0, shared: 0, api: 0, admin: 0, other: 0 };
+  areas[STANDALONE_AREAS[repo] || 'other'] = 1;
+  return areas;
+}
+
 // Counts changed files per app area so we know where a PR actually landed.
 export async function getTouchedAreas(ghJson, repo, number) {
   const areas = { dashboard: 0, mobile: 0, shared: 0, api: 0, admin: 0, other: 0 };
@@ -21,7 +30,7 @@ export async function getTouchedAreas(ghJson, repo, number) {
     const files = await ghJson(`https://api.github.com/repos/${ORG}/${repo}/pulls/${number}/files?per_page=100&page=${page}`);
     for (const { filename } of files) {
       const area =
-        repo === 'revive-mobile' ? 'mobile' :
+        STANDALONE_AREAS[repo] ||
         filename.startsWith('apps/dashboard/') ? 'dashboard' :
         filename.startsWith('apps/admin/') ? 'admin' :
         filename.startsWith('apps/api/') ? 'api' :

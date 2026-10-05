@@ -586,12 +586,17 @@ async function main() {
 
   // Try the AI writer first: one clean block for the whole release
   let blocks = [];
+  let aiHandled = false;
   if (contextPrs.length > 0 && process.env.ANTHROPIC_API_KEY) {
     try {
       for (const pr of contextPrs) pr.areas = await getTouchedAreas(ghJson, pr.repo, pr.number);
-      blocks = [await writeReleaseBlock({ dateLabel, versions: [version], prs: contextPrs })];
-      const highlights = blocks[0].match(/^\*\*Highlights:\*\* (.+)$/m)?.[1];
-      if (highlights && process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `highlights=${highlights}\n`);
+      const block = await writeReleaseBlock({ dateLabel, versions: [version], prs: contextPrs });
+      aiHandled = true;
+      if (block) {
+        blocks = [block];
+        const highlights = block.match(/^\*\*Highlights:\*\* (.+)$/m)?.[1];
+        if (highlights && process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `highlights=${highlights}\n`);
+      }
     } catch (e) {
       console.warn(`  ⚠ AI release notes failed, falling back to PR summaries: ${e.message}`);
     }
@@ -603,7 +608,7 @@ async function main() {
     console.log(`Wrote ${contextPrs.length} PR(s) to ${process.env.RELEASE_CONTEXT_FILE}`);
   }
 
-  if (blocks.length === 0) {
+  if (blocks.length === 0 && !aiHandled) {
     // Sort entries within each app by merge date (newest first)
     for (const app of targetApps) {
       processed[app].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt));

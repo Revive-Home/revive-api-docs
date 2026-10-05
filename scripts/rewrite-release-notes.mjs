@@ -6,7 +6,7 @@
 // Env: GITHUB_TOKEN, ANTHROPIC_API_KEY
 import fs from 'node:fs';
 import path from 'node:path';
-import { ORG, makeGhJson, getTouchedAreas, extractPrRefs } from './lib/github.mjs';
+import { ORG, makeGhJson, getTouchedAreas, guessAreas, extractPrRefs } from './lib/github.mjs';
 import { writeReleaseBlock } from './lib/release-writer.mjs';
 
 const ROOT = process.cwd();
@@ -37,11 +37,26 @@ const splitFrontmatter = (mdx) => {
   return [mdx.slice(0, end), mdx.slice(end)];
 };
 
-async function loadPr(ref) {
+// Bullets in the existing notes that link to this PR, used when GitHub can't return it
+function existingNotesFor(ref, raws) {
   const [repo, number] = ref.split('#');
-  const pr = await ghJson(`https://api.github.com/repos/${ORG}/${repo}/pulls/${number}`);
-  return { ref, repo, number: Number(number), title: pr.title || '', body: pr.body || '', areas: await getTouchedAreas(ghJson, repo, number) };
+  const needle = `/${repo}/pull/${number})`;
+  return raws.flatMap((raw) => raw.split('\n')).filter((l) => l.includes(needle)).join('\n');
 }
+
+async function loadPr(ref, raws) {
+  const [repo, number] = ref.split('#');
+  try {
+    const pr = await ghJson(`https://api.github.com/repos/${ORG}/${repo}/pulls/${number}`);
+    return { ref, repo, number: Number(number), title: pr.title || '', body: pr.body || '', areas: await getTouchedAreas(ghJson, repo, number) };
+  } catch (e) {
+    console.warn(`  Couldn't load ${ref} from GitHub (${e.message.slice(0, 80)}); using the existing notes instead`);
+    return { ref, repo, number: Number(number), title: '(PR details unavailable; existing release-note text below)', body: existingNotesFor(ref, raws), areas: guessAreas(repo) };
+  }
+}
+
+const PLACEHOLDER_RE = /^- (No (new features|improvements|bug fixes) in this release|No action required)/;
+const hasHandWrittenContent = (b) => b.refs.size === 0 && b.raw.split('\n').some((l) => l.startsWith('- ') && !PLACEHOLDER_RE.test(l));
 
 async function main() {
   const mainMdx = fs.readFileSync(MAIN_PAGE, 'utf8');
@@ -56,26 +71,42 @@ async function main() {
   // PRs already listed before the rewrite window don't get repeated
   const seen = new Set(parseBlocks(mainMdx).filter((b) => b.date < earliest).flatMap((b) => [...b.refs]));
 
+  const written = [];
   const byLabel = new Map();
   for (const r of releases) {
-    if (!byLabel.has(r.label)) byLabel.set(r.label, { label: r.label, date: r.date, versions: [], refs: [] });
+    // Hand-written entries without PR links can't be rebuilt from GitHub, so keep them as they are
+    if (hasHandWrittenContent(r)) {
+      written.push({ label: r.label, date: r.date, block: r.raw });
+      continue;
+    }
+    if (!byLabel.has(r.label)) byLabel.set(r.label, { label: r.label, date: r.date, versions: [], refs: [], raws: [] });
     const group = byLabel.get(r.label);
+    group.raws.push(r.raw);
     for (const v of r.description.split(', ').filter(Boolean)) if (!group.versions.includes(v)) group.versions.push(v);
     for (const ref of r.refs) if (!seen.has(ref)) { seen.add(ref); group.refs.push(ref); }
   }
 
-  const written = [];
+  const failed = [];
   for (const group of byLabel.values()) {
+    const name = `${group.label} (${group.versions.join(', ')})`;
     if (!group.refs.length) {
-      console.log(`${group.label} (${group.versions.join(', ')}): no new PRs, skipped`);
+      console.log(`${name}: no new PRs, skipped`);
       continue;
     }
-    console.log(`${group.label} (${group.versions.join(', ')}): ${group.refs.length} PR(s)`);
-    const prs = [];
-    for (const ref of group.refs) prs.push(await loadPr(ref));
-    const block = await writeReleaseBlock({ dateLabel: group.label, versions: group.versions, prs });
-    written.push({ ...group, block });
+    console.log(`${name}: ${group.refs.length} PR(s)`);
+    try {
+      const prs = [];
+      for (const ref of group.refs) prs.push(await loadPr(ref, group.raws));
+      const block = await writeReleaseBlock({ dateLabel: group.label, versions: group.versions, prs });
+      if (block) written.push({ ...group, block });
+    } catch (e) {
+      // Keep the original entries for this date rather than losing them
+      console.log(`::warning::${name}: rewrite failed, kept the original entries. ${e.message.slice(0, 300)}`);
+      failed.push(name);
+      for (const raw of group.raws) written.push({ ...group, block: raw });
+    }
   }
+  if (failed.length) console.log(`\n${failed.length} date(s) kept their original notes: ${failed.join('; ')}`);
 
   if (dryRun) {
     console.log(written.map((w) => w.block).join('\n\n'));

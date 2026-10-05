@@ -133,13 +133,23 @@ export function renderReleaseBlock({ dateLabel, versions, highlights, items, act
   return lines.join('\n');
 }
 
-// prs: [{ ref, title, body, areas }]. Throws if Claude fails or returns nothing usable.
+// prs: [{ ref, title, body, areas }]. Returns null when every PR is noise (nothing worth listing).
+// Throws if Claude fails or every item it wrote failed validation.
 export async function writeReleaseBlock({ dateLabel, versions, prs }) {
   const prRefs = prs.map((p) => p.ref);
   console.log(`  Writing release notes for ${versions.join(', ')} from ${prs.length} PR(s)...`);
-  const raw = await callClaude({ system: SYSTEM_PROMPT, user: buildUserPrompt(versions, prs), schema: buildSchema(prRefs) });
+  const raw = await callClaude({
+    system: SYSTEM_PROMPT,
+    user: buildUserPrompt(versions, prs),
+    schema: buildSchema(prRefs),
+    maxTokens: 32000,
+  });
+  if (!raw.items.length) {
+    console.log('  Nothing worth listing in this release.');
+    return null;
+  }
   const result = validate(raw, prRefs);
-  if (!result.items.length) throw new Error('Claude returned no usable release-note items');
+  if (!result.items.length) throw new Error('Every release-note item Claude wrote failed validation');
 
   const cited = new Set(result.items.flatMap((i) => i.source_prs));
   const uncited = prRefs.filter((r) => !cited.has(r));
