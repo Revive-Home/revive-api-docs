@@ -62,11 +62,23 @@ When adding a new page, you must add it to the appropriate `pages` array in `doc
 ## Release notes
 
 Release notes are auto-generated via GitHub Actions (`.github/workflows/generate-release-notes.yml`). The workflow:
-1. Is triggered manually with a `release_version` input (e.g. `v1.146.0`)
-2. Runs `scripts/generate-release-notes.mjs` — pulls PRs labeled `released` from repos: `revive-dashboard`, `revive-admin`, `revive-mobile`, `revive-api`
-3. Creates a PR with the new MDX file in `release-notes/`
+1. Is triggered by a `repository_dispatch` when a release is published in `revive-apps` (tags like `admin-v3.17.2`) or a `v*` tag is pushed in `revive-mobile`. It can also be run manually.
+2. Runs `scripts/generate-release-notes.mjs`. It collects the release's PRs, skips PRs already listed in an earlier release, and attributes each PR to Dashboard, Mobile, Admin, API, or Platform by its changed files.
+3. Claude Sonnet (`scripts/lib/release-writer.mjs`) writes one plain-English `<Update>` block per release: highlights, then New / Improved / Fixed per app. If the AI step fails, it falls back to the older per-app CodeRabbit bullets.
+4. Prepends the block to `release-notes.mdx` and the monthly file in `release-notes/`, adds new months to `docs.json`, and commits directly to `main`.
+5. Runs `scripts/curate-latest-features.mjs` (see below), the docs audit, and posts to Slack with the release highlights.
 
-After merging a generated PR, add the new page to the `docs.json` navigation under the correct year group.
+To rewrite past months in the new style, run the **Rewrite release notes** workflow (`scripts/rewrite-release-notes.mjs`). It opens a PR for review.
+
+## Latest features feed
+
+`latest-features/feed.json` powers the **Latest Features** panel in the customer dashboard. It's published to GitHub Pages at `https://revive-home.github.io/revive-api-docs/latest-features.json` by `.github/workflows/publish-latest-features.yml`.
+
+- On each release, Claude picks at most two customer-facing highlights and writes them in an outcome-focused voice. Most releases add nothing.
+- CTA links can only point to pages in `latest-features/routes.json`. Add new dashboard pages there.
+- To edit or remove an entry, change `feed.json` and run `node scripts/curate-latest-features.mjs --render-only` to regenerate `latest-features.mdx`.
+
+Required secrets: `ANTHROPIC_API_KEY`, `RELEASE_NOTES_GITHUB`, `SLACK_RELEASE_NOTES_WEBHOOK`.
 
 ## Style rules
 
@@ -79,7 +91,9 @@ After merging a generated PR, add the new page to the `docs.json` navigation und
 
 ## Key files to know
 
-- `scripts/generate-release-notes.mjs` — main release note generator (~1000+ lines, ES module)
+- `scripts/generate-release-notes.mjs` — main release note generator (ES module)
+- `scripts/lib/release-writer.mjs` — AI prompt and rendering for release notes
+- `scripts/curate-latest-features.mjs` — AI curation for the customer Latest Features feed
 - `api-reference/introduction.mdx` — authentication, base URLs, quick-start
 - `third-party-integrations.mdx` — overview page with architecture diagram
 

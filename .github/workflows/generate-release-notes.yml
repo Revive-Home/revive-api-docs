@@ -58,6 +58,7 @@ jobs:
           node-version: "20"
 
       - name: Generate release notes
+        id: generate
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -103,19 +104,17 @@ jobs:
         if: steps.commit.outputs.pushed == 'true'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_RELEASE_NOTES_WEBHOOK }}
+          HIGHLIGHTS: ${{ steps.generate.outputs.highlights }}
         run: |
           REPO_LABEL="${{ env.SOURCE_REPO }}"
           [ -z "$REPO_LABEL" ] && REPO_LABEL="multiple repos"
           DOCS_URL="https://tech.revive.realestate/release-notes"
+          SUMMARY=""
+          [ -n "$HIGHLIGHTS" ] && SUMMARY="*In short:* ${HIGHLIGHTS}"$'\n\n'
 
-          cat <<EOF | curl -sf -X POST "$SLACK_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d @-
-          {
-            "text": "<!channel> :rocket: *New tech release!* *${VERSION}* just shipped for *${REPO_LABEL}*\n\nTo see what's new, check out the release notes:\n<${DOCS_URL}|:clipboard: View Release Notes>\n\n:mag: A docs audit ran automatically — check \`audit-report.md\` in the repo for any guides, integrations, or API reference pages that may need updating.\n\nPassword: \`ChampionHomeowners\`",
-            "unfurl_links": false
-          }
-          EOF
+          TEXT=$(printf '<!channel> :rocket: *New tech release!* *%s* just shipped for *%s*\n\n%sTo see what'"'"'s new, check out the release notes:\n<%s|:clipboard: View Release Notes>\n\n:mag: A docs audit ran automatically — check `audit-report.md` in the repo for any guides, integrations, or API reference pages that may need updating.\n\nPassword: `ChampionHomeowners`' "$VERSION" "$REPO_LABEL" "$SUMMARY" "$DOCS_URL")
+          jq -n --arg text "$TEXT" '{text: $text, unfurl_links: false}' \
+            | curl -sf -X POST "$SLACK_WEBHOOK" -H "Content-Type: application/json" -d @-
 
       - name: Notify Slack of new latest features
         if: steps.commit.outputs.pushed == 'true' && steps.curate.outputs.new_count != '' && steps.curate.outputs.new_count != '0'

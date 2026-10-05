@@ -590,6 +590,8 @@ async function main() {
     try {
       for (const pr of contextPrs) pr.areas = await getTouchedAreas(ghJson, pr.repo, pr.number);
       blocks = [await writeReleaseBlock({ dateLabel, versions: [version], prs: contextPrs })];
+      const highlights = blocks[0].match(/^\*\*Highlights:\*\* (.+)$/m)?.[1];
+      if (highlights && process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `highlights=${highlights}\n`);
     } catch (e) {
       console.warn(`  ⚠ AI release notes failed, falling back to PR summaries: ${e.message}`);
     }

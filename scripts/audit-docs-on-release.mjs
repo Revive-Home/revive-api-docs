@@ -154,9 +154,10 @@ function extractGuideRefs(text) {
 }
 
 function extractNewFeatureKeywords(text) {
-  // Extract key feature keywords from "### New" sections
+  // Extract key feature keywords from "### New" sections (older format) and the
+  // "**New**" groups under each app heading (AI-written format)
   const features = [];
-  const newSectionPattern = /### New\n([\s\S]*?)(?=###|<\/Update>|$)/g;
+  const newSectionPattern = /(?:### New|\*\*New\*\*)\n([\s\S]*?)(?=###|\*\*(?:Improved|Fixed)\*\*|<\/Update>|$)/g;
   let match;
   while ((match = newSectionPattern.exec(text)) !== null) {
     const section = match[1];
@@ -164,7 +165,7 @@ function extractNewFeatureKeywords(text) {
     const boldPattern = /\*\*([^*]+)\*\*/g;
     let boldMatch;
     while ((boldMatch = boldPattern.exec(section)) !== null) {
-      features.push(boldMatch[1].replace(/\.$/, ''));
+      features.push(boldMatch[1].replace(/[.:]$/, ''));
     }
   }
   return features;
