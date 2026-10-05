@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       months:
-        description: "Monthly pages to rewrite (comma-separated file names, e.g. july-2026,august-2026)"
+        description: "Months to rewrite, comma-separated (e.g. june-2026, may-2026) or all"
         required: true
         default: "july-2026,august-2026,september-2026"
         type: string

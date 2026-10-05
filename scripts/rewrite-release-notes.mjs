@@ -15,8 +15,24 @@ const BLOCK_RE = /^<Update[^>]*>[\s\S]*?^<\/Update>/gm;
 
 const argv = process.argv.slice(2);
 const dryRun = argv.includes('--dry-run');
-const monthsArg = argv[argv.indexOf('--months') + 1];
-const months = (argv.includes('--months') ? monthsArg : 'july-2026,august-2026,september-2026').split(',').map((m) => m.trim());
+const monthsArg = argv.includes('--months') ? argv[argv.indexOf('--months') + 1] : 'july-2026,august-2026,september-2026';
+
+// Accepts "june-2026", "June 2026", "june", or "all"
+function resolveMonths(input) {
+  const available = fs.readdirSync(path.join(ROOT, 'release-notes')).filter((f) => f.endsWith('.mdx')).map((f) => f.replace(/\.mdx$/, ''));
+  const resolved = new Set();
+  for (const raw of input.split(',')) {
+    const want = raw.trim().toLowerCase().replace(/\s+/g, '-');
+    if (!want) continue;
+    const matches = want === 'all' ? available : available.filter((m) => m === want || m.startsWith(`${want}-`));
+    if (!matches.length) throw new Error(`No release-notes page matches "${raw.trim()}". Use names like: ${available.join(', ')}`);
+    matches.forEach((m) => resolved.add(m));
+  }
+  return [...resolved];
+}
+
+const months = resolveMonths(monthsArg);
+console.log(`Rewriting: ${months.join(', ')}`);
 
 const token = process.env.GITHUB_TOKEN;
 if (!token) throw new Error('Missing required env var: GITHUB_TOKEN');
