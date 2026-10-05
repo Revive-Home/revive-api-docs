@@ -5,145 +5,147 @@ description: "July 2026 release notes for the Revive platform — features, impr
 
 <Update label="July 30, 2026" description="admin-v3.13.0, dashboard-v2.11.0, api-v3.10.0" tags={["dashboard","admin","api","platform"]}>
 
-**Highlights:** Admin gets a Sell 360 calculator, a temporary renovation amount for Sell 360 estimates, and a playbook tool that turns call transcripts into answers and HubSpot notes. The Getting Started flow, map markers and several dashboard bugs are also improved.
+**Highlights:** Admin gets a Sell 360 calculator, a temporary renovation amount for Sell 360 estimates, and AI playbook extraction from sales call transcripts. Duplicate deal and report photos are now cleaned up automatically.
 
 ### Dashboard
 
 **Improved**
 
-- **Sell 360 sharing and estimate view:** Sharing a Sell 360 estimate now shows the edit-info step. The "View estimate" option and Sell 360 experience are hidden when an estimate has no real renovation items. ([#300](https://github.com/Revive-Home/revive-apps/pull/300))
-- **Agent commission in Flip360 profit:** Flip360 now includes a 3% agent commission in its profit math. Estimated profit shows the investor's profit only, and ROI uses total profit including commission. ([#297](https://github.com/Revive-Home/revive-apps/pull/297))
-- **Smoother Getting Started intake:** Report-based intake skips property confirmation when details are already known and fills in missing valuation and ownership data. Signed-in homeowners also skip the "Are you the owner?" question. ([#295](https://github.com/Revive-Home/revive-apps/pull/295), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
-- **Duplicate photos removed automatically:** Duplicate photos in deal uploads and Revive AI reports are now cleaned up in the background after upload, keeping the earliest copy. Uploads are not slowed down. Extra spaces in photo links are also trimmed. ([#269](https://github.com/Revive-Home/revive-apps/pull/269), [#294](https://github.com/Revive-Home/revive-apps/pull/294))
-- **Session recording removed for speed:** The Meticulous session recorder is gone from the dashboard because it was slowing pages down. ([#278](https://github.com/Revive-Home/revive-apps/pull/278), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- **Sell 360 hides when there are no renovation items:** "View estimate" and other Sell 360 options no longer show when an estimate has no real renovation items. The sharing flow now shows the edit-info step for Sell 360 estimates. ([#300](https://github.com/Revive-Home/revive-apps/pull/300))
+- **Flip360 includes agent commission:** Flip360 now counts a 3% agent commission in its profit math. Estimated profit shows the investor's profit only, and ROI uses total profit including the commission. ([#297](https://github.com/Revive-Home/revive-apps/pull/297))
+- **Faster intake when starting from a report:** Starting from a report skips property confirmation when details are known, and signed-in homeowners skip the owner question. Property details still load, and the photo step follows whether the report has photos. ([#295](https://github.com/Revive-Home/revive-apps/pull/295), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- **Map popups close when you move the map:** Open comparable popups close when you drag or zoom the map, so they no longer drift away from their markers. Hovered and selected markers also stack more clearly. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
+- **Dashboard runs faster without session recording:** The Meticulous session recorder is removed because it slowed the dashboard down. ([#278](https://github.com/Revive-Home/revive-apps/pull/278), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
 
 **Fixed**
 
-- Getting Started keeps the city, state and ZIP the user picked from the address suggestions, so going Back no longer flips the city and report links use the right one. ([#210](https://github.com/Revive-Home/revive-apps/pull/210), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
-- Map markers no longer disappear when you hover over them. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
-- Map popup cards sit right next to their marker at any size and close when you drag or zoom the map. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
-- Saving a profile no longer hangs with a spinning loader when the brokerage field is cleared or typed without picking a suggestion, and your other edits are saved. ([#277](https://github.com/Revive-Home/revive-apps/pull/277))
-- Windows opened on top of other windows no longer turn the background almost solid black. ([#272](https://github.com/Revive-Home/revive-apps/pull/272), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- The address step keeps the street, city, state and ZIP you pick from the suggestions, so going Back no longer flips the city and report links use the right city. ([#210](https://github.com/Revive-Home/revive-apps/pull/210), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- Comparable markers on the map no longer vanish on hover, and their popups sit right above the marker instead of floating too high. ([#298](https://github.com/Revive-Home/revive-apps/pull/298))
+- Saving your profile after clearing or typing a brokerage by hand no longer hangs on a spinner, and your edits are saved. ([#277](https://github.com/Revive-Home/revive-apps/pull/277))
+- Stacked dialogs and side sheets no longer turn the backdrop near-solid black. ([#272](https://github.com/Revive-Home/revive-apps/pull/272), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
 - Phone verification resets its reCAPTCHA check after a failed code request, so you can try again. ([#276](https://github.com/Revive-Home/revive-apps/pull/276), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
 
 ### Admin
 
 **New**
 
-- **Sell 360 calculator:** Opportunities now have a Sell 360 card and a full-screen calculator. It compares scenarios, shows estimated proceeds and saves progress automatically. The card only appears for the right deal types. ([#285](https://github.com/Revive-Home/revive-apps/pull/285), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
-- **Temporary renovation amount for Sell 360 estimates:** You can set a temporary renovation amount when editing a Sell 360 estimate. Sell 360 proposals and calculations use it, so estimates with no renovation items are no longer skipped. ([#300](https://github.com/Revive-Home/revive-apps/pull/300), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
-- **Playbooks from call transcripts:** Create a playbook for an opportunity from an uploaded file, pasted text or a recorded call. Edit the results, add insights and create a HubSpot note in one click. A new copy button confirms when text is copied. ([#296](https://github.com/Revive-Home/revive-apps/pull/296), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- **Sell 360 calculator:** A Sell 360 card and full-screen calculator compare scenarios and show estimated proceeds. Progress saves automatically. Sell 360 only appears for the right deal types. ([#285](https://github.com/Revive-Home/revive-apps/pull/285), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- **Temporary renovation amount for Sell 360:** You can now set a temporary renovation amount when editing a Sell 360 estimate. Sell 360 proposals and transactions use it in their calculations, which helps when an estimate comes in at $0. ([#300](https://github.com/Revive-Home/revive-apps/pull/300), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- **Playbook extraction from call transcripts:** Create a playbook for an opportunity from an uploaded file, pasted text, or a recorded call. Review and edit the answers, then create a HubSpot note with one click. A copy button is also added. ([#296](https://github.com/Revive-Home/revive-apps/pull/296), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- **Distance filter for case studies:** Filter case studies by distance with presets of 10, 25 or 50 miles (default 50). The case studies modal is wider, and thumbnails and address formatting look better. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
 
 **Improved**
 
-- **Edit estimate notes on locked items:** "Additional notes" stay editable on estimate products and add-ons even when other details are locked. Saving notes leaves pricing and removal status unchanged. ([#279](https://github.com/Revive-Home/revive-apps/pull/279), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
-- **Distance filter for case studies:** Filter case studies by distance: 10, 25 or 50 miles, defaulting to 50. The case studies window is also wider, and addresses are formatted more clearly. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
+- **Edit estimate notes without changing anything else:** "Additional notes" on estimate items and add-ons stay editable when other details are locked. Saving a note does not change pricing, removal status or other estimate details. ([#279](https://github.com/Revive-Home/revive-apps/pull/279), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
 
 **Fixed**
 
-- Case study thumbnails move on to the next available image when one fails to load. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
+- Case study thumbnails try the next available image when one fails to load, so you no longer see broken images. ([#285](https://github.com/Revive-Home/revive-apps/pull/285))
 
 ### API
 
+**New**
+
+- **Automatic duplicate photo cleanup:** Duplicate photos on new deal uploads and VisionAI reports are removed in the background without slowing uploads. The earliest photo is kept, and stored image files are not deleted. ([#269](https://github.com/Revive-Home/revive-apps/pull/269), [#294](https://github.com/Revive-Home/revive-apps/pull/294))
+
 **Improved**
 
-- **New rules for HubSpot Sold Date updates:** The Saturday HubSpot job now updates Sold Date and Sold Price only when the sale is after the deal was created. Otherwise it clears both fields and sets the listing status to "Not in the Market". ([#291](https://github.com/Revive-Home/revive-apps/pull/291))
+- **New HubSpot sold date rules:** The Saturday 2:00 AM (California time) job updates Sold Date and Sold Price only when the sale is after the deal was created. Otherwise it clears both and sets the listing status to "Not in the Market". ([#291](https://github.com/Revive-Home/revive-apps/pull/291))
 
 **Fixed**
 
-- Property value lookups still complete when Redfin or Zillow data is temporarily unavailable, instead of failing. ([#274](https://github.com/Revive-Home/revive-apps/pull/274))
-- Activity logging no longer fails when a signed-in user has no matching staff or HubSpot contact. ([#292](https://github.com/Revive-Home/revive-apps/pull/292))
+- Image links with stray spaces are cleaned up when saved, so those photos display correctly. ([#294](https://github.com/Revive-Home/revive-apps/pull/294))
+- Valuation runs finish without Redfin data when that provider is unavailable, and known provider outages no longer trigger error alerts. ([#274](https://github.com/Revive-Home/revive-apps/pull/274))
+- Property activity logging no longer crashes when a signed-in user has no matching staff or HubSpot contact. ([#292](https://github.com/Revive-Home/revive-apps/pull/292))
 
 ### Platform
 
 **New**
 
-- **Manual API deployment:** Engineers can now start an API deployment by hand and choose staging or production as the target. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
+- **Manual API deployment:** You can now deploy the API by hand and choose staging or production as the target. ([#267](https://github.com/Revive-Home/revive-apps/pull/267))
 
 **Improved**
 
-- **Quieter error tracking:** Known, harmless Firebase messaging and browser errors are filtered out of error reports, so real problems stand out. ([#267](https://github.com/Revive-Home/revive-apps/pull/267), [#276](https://github.com/Revive-Home/revive-apps/pull/276))
-
-**Fixed**
-
-- API error logs no longer expose the HubSpot private app token or other sensitive values from nested error details. ([#282](https://github.com/Revive-Home/revive-apps/pull/282))
+- **Safer, quieter error logs:** Error logs now hide secrets such as the HubSpot token, even in nested error data. Known harmless Firebase and browser errors are filtered out of error tracking. ([#282](https://github.com/Revive-Home/revive-apps/pull/282), [#276](https://github.com/Revive-Home/revive-apps/pull/276), [#267](https://github.com/Revive-Home/revive-apps/pull/267))
 
 </Update>
 
 <Update label="July 16, 2026" description="admin-v3.12.0, dashboard-v2.10.1, api-v3.9.0" tags={["dashboard","admin","api","platform"]}>
 
-**Highlights:** Revive now syncs MLS listing status and listing agent details into HubSpot deals every weekend. Admin adds a new contractor document experience and an Export CSV button for the RET catalog.
+**Highlights:** Admin gets a new contractor document manager and a RET catalog CSV export. The API now syncs MLS listing status and listing agent details into HubSpot deals every weekend, and dashboards support deals with multiple contractors.
 
 ### Dashboard
 
 **Improved**
 
-- **Support for multiple contractors:** Contact and dashboard views now handle more than one contractor per contact. Deals are counted once, and referral and deal statuses are more accurate. ([#242](https://github.com/Revive-Home/revive-apps/pull/242))
-- **Chat removed from Dashboard and Admin:** The unused chat feature is gone. That includes the property page chat panel, unread counts, and active-user indicators. ([#220](https://github.com/Revive-Home/revive-apps/pull/220), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- **Deals with multiple contractors:** Contact and dashboard views now handle deals that have more than one contractor. Service Provider dashboards count each deal once, so deal totals are no longer inflated by duplicates. ([#242](https://github.com/Revive-Home/revive-apps/pull/242))
+- **Chat removed from Dashboard and Admin:** The unused chat feature is gone from both apps, including the chat panel on the property page and unread and active-user indicators. ([#220](https://github.com/Revive-Home/revive-apps/pull/220), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
 
 **Fixed**
 
-- Service Provider dashboards total their deals from unique deals, so duplicates no longer inflate the numbers. ([#242](https://github.com/Revive-Home/revive-apps/pull/242))
-- Homeowners whose property is already listed on the market skip meeting scheduling in Getting Started, and any earlier meeting choices are cleared. ([#263](https://github.com/Revive-Home/revive-apps/pull/263))
-- The Photos tab loads on networks that block live data streaming, instead of failing with a "Failed to fetch" error. ([#207](https://github.com/Revive-Home/revive-apps/pull/207))
-- The photo upload success message appears only after uploads finish, and error messages say whether one or several images failed. ([#207](https://github.com/Revive-Home/revive-apps/pull/207), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
-- The weekly update list highlights the selected item correctly and can be used with the keyboard. ([#260](https://github.com/Revive-Home/revive-apps/pull/260))
-- Public and anonymous requests no longer fail when no signed-in user details are available. ([#240](https://github.com/Revive-Home/revive-apps/pull/240), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
-- Documents load only when a valid document is linked, and deal images and address lookups are more reliable. ([#240](https://github.com/Revive-Home/revive-apps/pull/240))
-- Brokerage charts have better spacing on mobile screens. ([#236](https://github.com/Revive-Home/revive-apps/pull/236))
+- Homeowners whose property is already listed on the market skip meeting scheduling, and no meeting confirmation or old scheduling details carry through the Getting Started flow. ([#263](https://github.com/Revive-Home/revive-apps/pull/263))
+- The property Photos tab no longer fails to load for people on networks that block realtime connections. ([#207](https://github.com/Revive-Home/revive-apps/pull/207))
+- The photo upload success message only appears after uploads finish, and error messages now say whether one or several images failed. ([#207](https://github.com/Revive-Home/revive-apps/pull/207), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- Weekly update items show the correct selected highlight and cursor, and can be selected with Enter or Space. ([#260](https://github.com/Revive-Home/revive-apps/pull/260))
+- Anonymous and public visitors no longer trigger errors when user details aren't available. ([#240](https://github.com/Revive-Home/revive-apps/pull/240))
+- Documents load only when they have a valid reference, and deal images and address lookups are more reliable. ([#240](https://github.com/Revive-Home/revive-apps/pull/240))
 
 ### Admin
 
 **New**
 
-- **Contractor document management:** Upload, edit, replace, preview, download, and archive contractor documents in one guided flow. Browse archived versions with search and filters. Status badges show complete, missing, expiring, or expired. ([#236](https://github.com/Revive-Home/revive-apps/pull/236), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
-- **Payment documents for contractors:** Manage ACH authorizations and voided checks on the contractor record. Preview each file inline and save or cancel your changes. ([#236](https://github.com/Revive-Home/revive-apps/pull/236), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
-- **Export the RET catalog to CSV:** A new Export CSV button on the catalog page downloads the full catalog as a spreadsheet with one row per item. Prices are in dollars, and add-ons are marked separately from deductions. Use it for analysis or offline edits. ([#244](https://github.com/Revive-Home/revive-apps/pull/244), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- **Contractor document management:** Upload, edit, replace, preview, download and archive contractor documents, and browse archived versions with search and filters. Status labels show whether each document is complete, missing, expiring or expired. ([#236](https://github.com/Revive-Home/revive-apps/pull/236), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- **Payment documents for contractors:** Manage ACH authorizations and voided checks for each contractor, with inline preview and save or cancel. Payment paperwork now lives with the rest of the contractor's documents. ([#236](https://github.com/Revive-Home/revive-apps/pull/236), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- **Export the RET catalog to CSV:** The catalog page has an Export CSV button. It downloads one row per catalog item, with prices in dollars and add-ons and deductions labeled, so you can analyze or edit the catalog offline. ([#244](https://github.com/Revive-Home/revive-apps/pull/244), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
 
 **Improved**
 
-- **Owner's rep signs Home Prep change orders:** For Home Prep contractors, the contractor signature on a change order now goes to the deal's owner's rep instead of the Home Prep primary contact. Creating the document shows a clear error if no owner's rep is assigned. ([#211](https://github.com/Revive-Home/revive-apps/pull/211))
-- **Price difference in comparison views:** Comparing two items now shows the price difference in dollars. Label fields also get focus as soon as they open, so you can type right away. ([#261](https://github.com/Revive-Home/revive-apps/pull/261))
-- **New estimates show totals right away:** New estimates display their calculated initial total immediately. Change orders keep their existing total behavior. ([#261](https://github.com/Revive-Home/revive-apps/pull/261))
+- **Home Prep change orders go to the owner's rep:** For Home Prep deals, the contractor signer on a change order is now the deal's owner's rep instead of the Home Prep LLC primary contact. Document creation is blocked if no owner's rep is assigned. ([#211](https://github.com/Revive-Home/revive-apps/pull/211))
+- **Price difference in version comparisons:** Comparing two RET versions now shows the price difference as currency. Label fields also open ready to type in. ([#261](https://github.com/Revive-Home/revive-apps/pull/261))
 
 **Fixed**
 
-- The opportunities page sends signed-out users to login and shows an empty list on other errors, instead of crashing. ([#221](https://github.com/Revive-Home/revive-apps/pull/221), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
-- Push notification setup no longer throws errors in browsers that don't support it, such as iOS Safari. ([#241](https://github.com/Revive-Home/revive-apps/pull/241), [#240](https://github.com/Revive-Home/revive-apps/pull/240), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
-- Several expired-session errors at once now trigger a single sign-in refresh before requests retry. ([#241](https://github.com/Revive-Home/revive-apps/pull/241))
-- Custom labels stay the same across estimate preview and editing, including labels you clear. ([#261](https://github.com/Revive-Home/revive-apps/pull/261))
-- The "This comparable already exists" message is readable in white text instead of blending into its red background. ([#266](https://github.com/Revive-Home/revive-apps/pull/266))
-- Calendar dropdowns no longer appear behind other elements on the page. ([#236](https://github.com/Revive-Home/revive-apps/pull/236))
+- Custom labels, including cleared ones, now stay the same between estimate preview and editing. ([#261](https://github.com/Revive-Home/revive-apps/pull/261))
+- New estimates show their calculated initial total right away; change orders keep their existing totals. ([#261](https://github.com/Revive-Home/revive-apps/pull/261))
+- The "This comparable already exists" message in the Add New Comparable window is now readable instead of showing as a blank pink box. ([#266](https://github.com/Revive-Home/revive-apps/pull/266))
+- Calendar dropdowns no longer appear behind other parts of the page. ([#236](https://github.com/Revive-Home/revive-apps/pull/236))
+- The opportunities page sends signed-out users to login and shows an empty list, instead of crashing, when the server has an error. ([#221](https://github.com/Revive-Home/revive-apps/pull/221), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- Push notification setup no longer errors on iOS Safari and other browsers that don't support it. ([#241](https://github.com/Revive-Home/revive-apps/pull/241))
+- When several requests fail with a sign-in error at once, the app refreshes the session once and retries, so sessions recover more reliably. ([#241](https://github.com/Revive-Home/revive-apps/pull/241))
 
 ### API
 
 **New**
 
-- **Weekend listing status sync to HubSpot:** Every Saturday at 2 AM Pacific, Revive checks the market status of each HubSpot deal address using AnyProp. It updates listing status, last-updated date, sold date, and the listing agent's name, phone, and email. ([#204](https://github.com/Revive-Home/revive-apps/pull/204), [#248](https://github.com/Revive-Home/revive-apps/pull/248), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- **Weekly MLS listing status sync to HubSpot:** Every Saturday at 2 AM California time, Revive checks AnyProp for every deal address in HubSpot. It updates listing status, last updated date, sold date and the listing agent's name, phone and email. ([#204](https://github.com/Revive-Home/revive-apps/pull/204), [#248](https://github.com/Revive-Home/revive-apps/pull/248), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
 
 **Improved**
 
-- **Better address matching for listing status:** When the strict address search finds nothing, the sync now tries a street-name fallback. More deal addresses get a listing status. ([#204](https://github.com/Revive-Home/revive-apps/pull/204), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- **Better address matching with AnyProp:** When an exact address match isn't found, the lookup now falls back to matching on street name. More addresses return a listing status. ([#204](https://github.com/Revive-Home/revive-apps/pull/204), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
 
 **Fixed**
 
-- Updating a verified end date keeps its earlier history. ([#242](https://github.com/Revive-Home/revive-apps/pull/242))
-- Login, agent, contact, realtor, and brokerage requests now return the real error instead of a misleading 500. ([#238](https://github.com/Revive-Home/revive-apps/pull/238), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- HubSpot contacts, deals and referrals load more reliably on dashboards, and verified end-date history is kept when a date is updated. ([#242](https://github.com/Revive-Home/revive-apps/pull/242))
+- Login, agent, contact, realtor and brokerage endpoints now report the real cause of an error instead of a misleading 500. ([#238](https://github.com/Revive-Home/revive-apps/pull/238))
+- Anonymous report notifications no longer crash. ([#219](https://github.com/Revive-Home/revive-apps/pull/219))
 
 ### Platform
 
 **Improved**
 
-- **Better monitoring and health checks:** The API now reports unexpected server errors with request and deployment details. The health status page also checks Vercel and reads PandaDoc's official status page. Common third-party tracking errors no longer add noise to error reports. ([#239](https://github.com/Revive-Home/revive-apps/pull/239), [#255](https://github.com/Revive-Home/revive-apps/pull/255), [#265](https://github.com/Revive-Home/revive-apps/pull/265), [#240](https://github.com/Revive-Home/revive-apps/pull/240), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
-- **More reliable builds and deployments:** API servers now build only the API, and Admin and Dashboard builds no longer run out of memory on Vercel. API startup no longer crashes or warns about deprecated settings. ([#250](https://github.com/Revive-Home/revive-apps/pull/250), [#247](https://github.com/Revive-Home/revive-apps/pull/247), [#221](https://github.com/Revive-Home/revive-apps/pull/221), [#222](https://github.com/Revive-Home/revive-apps/pull/222))
+- **Monitoring and health check updates:** The API now reports unexpected server errors with request and deployment context, and noisy third-party errors are filtered out. The admin health page now checks Vercel and uses PandaDoc's status page. ([#239](https://github.com/Revive-Home/revive-apps/pull/239), [#240](https://github.com/Revive-Home/revive-apps/pull/240), [#255](https://github.com/Revive-Home/revive-apps/pull/255), [#265](https://github.com/Revive-Home/revive-apps/pull/265), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+
+**Fixed**
+
+- API servers start reliably again, and Vercel builds no longer run out of memory. API-only servers no longer build the admin and dashboard apps. ([#221](https://github.com/Revive-Home/revive-apps/pull/221), [#222](https://github.com/Revive-Home/revive-apps/pull/222), [#247](https://github.com/Revive-Home/revive-apps/pull/247), [#250](https://github.com/Revive-Home/revive-apps/pull/250))
 
 ### Action required
 
-- Chat is removed from Admin and Dashboard. Anyone who still used it needs another way to communicate. ([#220](https://github.com/Revive-Home/revive-apps/pull/220), [#219](https://github.com/Revive-Home/revive-apps/pull/219))
+- Assign an owner's rep (project manager) to every Home Prep deal before creating a change order. Creation is now blocked when none is assigned. ([#211](https://github.com/Revive-Home/revive-apps/pull/211))
 
 </Update>
 
-<Update label="July 7, 2026" description="admin-v3.10.3, api-v3.7.2" tags={["admin","api"]}>
+<Update label="July 7, 2026" description="admin-v3.10.3, api-v3.7.2" tags={["admin","api","platform"]}>
 
 **Highlights:** The contractor network map in Admin shows markers again. Syncing now updates the map in place instead of rebuilding it.
 
@@ -151,21 +153,23 @@ description: "July 2026 release notes for the Revive platform — features, impr
 
 **Improved**
 
-- **More reliable contractor map sync:** Contractor markers now update in place. New contractors are added and only contractors who no longer qualify are removed. This avoids missing or duplicate markers, and an empty contractor list can't wipe the map. ([#237](https://github.com/Revive-Home/revive-apps/pull/237))
+- **More reliable contractor map sync:** The map now updates existing contractor markers, adds new ones, and removes only contractors who no longer qualify. This avoids missing, duplicate, or outdated markers. An empty contractor list can no longer wipe the map. ([#237](https://github.com/Revive-Home/revive-apps/pull/237))
 
 **Fixed**
 
-- The contractor network map no longer shows up empty, because the Admin page now points to the correct live map. ([#237](https://github.com/Revive-Home/revive-apps/pull/237))
+- The contractor network map no longer shows up empty, because it now points to the correct live map. ([#237](https://github.com/Revive-Home/revive-apps/pull/237))
 
 ### API
 
-**Improved**
-
-- **Clearer errors for map sync failures:** When a contractor marker fails to sync, the failure and its cause are now logged instead of being skipped silently. This makes problems easier to track down. ([#237](https://github.com/Revive-Home/revive-apps/pull/237))
-
 **Fixed**
 
-- Contractor map markers are saved with their order, which the map provider now requires, so syncs no longer fail on that. ([#237](https://github.com/Revive-Home/revive-apps/pull/237))
+- Contractor markers are no longer rejected when created or updated, and their order stays consistent between syncs. ([#237](https://github.com/Revive-Home/revive-apps/pull/237))
+
+### Platform
+
+**Improved**
+
+- **Better logging for map sync errors:** Failures on individual contractor markers are now logged with the underlying error, so problems are easier to track down. ([#237](https://github.com/Revive-Home/revive-apps/pull/237))
 
 </Update>
 
@@ -175,92 +179,97 @@ description: "July 2026 release notes for the Revive platform — features, impr
 
 **Fixed**
 
-- The Contractors Map in AT List Maps now shows contractor markers instead of loading an empty map. ([#228](https://github.com/Revive-Home/revive-apps/pull/228))
+- The Contractors Map in AT List Maps shows contractor markers again, instead of opening an empty map. ([#228](https://github.com/Revive-Home/revive-apps/pull/228))
 
 </Update>
 
 <Update label="July 3, 2026" description="admin-v3.10.1, admin-v3.10.0, api-v3.7.1" tags={["admin"]}>
 
-**Highlights:** Admin estimates get back two features dropped in the review-mode redesign: Sell 360 financial fields with a pre-share reminder, and the "Reset to draft" action for contracts awaiting signature.
-
-### Admin
-
-**Improved**
-
-- **Sell 360 financials in Edit info:** Edit info again includes Mortgage/liens, 1st transaction commission, and 1st check amount for Sell 360 estimates. It also shows a recommended maximum first check, based on 80% of the as-is value. ([#223](https://github.com/Revive-Home/revive-apps/pull/223))
-- **Reminder to complete property values before sharing:** Sharing an estimate now opens Edit info first if the as-is or after-renovation value is missing. You can save the values or skip, then continue to the share window. This works from both the review and build headers. ([#223](https://github.com/Revive-Home/revive-apps/pull/223))
-- **Reset to draft for estimates awaiting signature:** The Actions menu again shows "Reset to draft" while an estimate is awaiting signature. It voids the contract in PandaDoc, clears the contract records, and returns the estimate to draft. A confirmation asks first and adapts for estimates and change orders. ([#224](https://github.com/Revive-Home/revive-apps/pull/224))
-
-**Fixed**
-
-- Resetting a change order to draft no longer removes the estimate's signed agreement records. ([#224](https://github.com/Revive-Home/revive-apps/pull/224))
-
-</Update>
-
-<Update label="July 2, 2026" description="admin-v3.9.0, dashboard-v2.10.0, api-v3.7.0" tags={["dashboard","mobile","admin","api","platform"]}>
-
-**Highlights:** Admin gets estimate version history with restore, side-by-side estimate comparison, and a case studies map in the Sales tab. The Getting Started flow now screens out manufactured homes and properties under $400,000 up front.
-
-### Dashboard
-
-**Improved**
-
-- **Manufactured homes caught from the address:** Getting Started now spots manufactured and mobile homes from address details when property data can't classify them. These homes go straight to the Not Qualified step. ([#218](https://github.com/Revive-Home/revive-apps/pull/218))
-- **Homes under $400,000 screened out up front:** Properties valued under $400,000 go straight to Not Qualified, including when the valuation comes from a report. The Research &amp; explore option is hidden when the flow starts from a report. ([#190](https://github.com/Revive-Home/revive-apps/pull/190))
-- **Signed-in users skip signup steps:** People who are already signed in no longer see the signup and phone verification steps in Getting Started. ([#218](https://github.com/Revive-Home/revive-apps/pull/218))
-- **More reliable MLS photo loading:** Photo lookup tries several address sources in turn and waits longer for slow ones. Remote photos upload in small batches, and the image proxy blocks unsafe links and retries when image hosts throttle requests. ([#177](https://github.com/Revive-Home/revive-apps/pull/177), [#213](https://github.com/Revive-Home/revive-apps/pull/213), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
-- **TBD items shown consistently in estimates:** TBD items now appear in preliminary estimates and the sidebar with correct labels and subtotals. Preliminary estimates also include enabled global items when available. ([#200](https://github.com/Revive-Home/revive-apps/pull/200))
-- **More accurate renovation estimates for distressed homes:** Missing condition scores no longer cause renovations to be skipped, full kitchen remodels are reachable again, and the first full bath is always priced as primary. One test home rose from $66,092 to $92,092. ([#203](https://github.com/Revive-Home/revive-apps/pull/203))
-
-**Fixed**
-
-- A failed photo upload now shows an error toast, so reports are no longer quietly generated without photos. ([#213](https://github.com/Revive-Home/revive-apps/pull/213))
-- The login page no longer shows a blank box when scripts fail to load, because the page now reloads once automatically to recover. ([#199](https://github.com/Revive-Home/revive-apps/pull/199))
-
-### Mobile
-
-**Improved**
-
-- **Preestimate links open in the mobile app:** App links now match more URLs, including paths under /preestimate/, so they can open in the mobile app. ([#197](https://github.com/Revive-Home/revive-apps/pull/197))
+**Highlights:** Admin restores two estimate features dropped in the review-mode redesign: Sell 360 financial fields with a pre-share reminder, and the "Reset to draft" action for estimates awaiting signature.
 
 ### Admin
 
 **New**
 
-- **Estimate version history:** Browse earlier versions of an estimate or change order, open any version, and restore it after a confirmation. An AI summary of what changed is available when you need a quick read. ([#176](https://github.com/Revive-Home/revive-apps/pull/176), [#194](https://github.com/Revive-Home/revive-apps/pull/194), [#215](https://github.com/Revive-Home/revive-apps/pull/215))
-- **Side-by-side estimate comparison:** Pick another estimate and compare the two next to each other, including add-ons, notes, and updated subtotals. The Compare estimates action is now clickable. ([#174](https://github.com/Revive-Home/revive-apps/pull/174), [#215](https://github.com/Revive-Home/revive-apps/pull/215), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
-- **Case studies map in the Sales tab:** Browse nearby case studies in a searchable, sortable list that stays in sync with an interactive map. Each card shows profit and distance, with photo previews, before/after toggles, and a View case study link. ([#216](https://github.com/Revive-Home/revive-apps/pull/216), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
-- **Case study pins sync to the Atlist map:** Adding a case study website link to an opportunity now creates the pin on the case studies map automatically. The form shows the sync status when you save. ([#173](https://github.com/Revive-Home/revive-apps/pull/173), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
-- **Import home photos from the web:** Import photos for a home card thumbnail by address. Choose from a photo grid and optionally upload the ones you pick. ([#208](https://github.com/Revive-Home/revive-apps/pull/208), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- **Reset to draft for estimates awaiting signature:** The Actions menu again offers "Reset to draft" while an estimate is awaiting signature. It voids the contract in PandaDoc, clears the contract records, and returns the estimate to draft. A confirmation shows first, with wording for estimates or change orders. ([#224](https://github.com/Revive-Home/revive-apps/pull/224))
 
 **Improved**
 
-- **Redesigned estimate review screen:** Review mode has a searchable, grouped sidebar and a two-pane layout that adapts to smaller screens. New dialogs cover editing info, duplicating an estimate, and removing an item, plus a new actions menu. ([#139](https://github.com/Revive-Home/revive-apps/pull/139))
-- **Easier estimate sharing and export:** Copy, download, or open share links with or without prices. You can also download a PDF, export a CSV, and save your view preferences. ([#139](https://github.com/Revive-Home/revive-apps/pull/139), [#215](https://github.com/Revive-Home/revive-apps/pull/215))
-- **Comparables list and map:** Comparables now appear in a filterable, searchable, sortable list next to a map, with richer cards and a photo lightbox. An Adjust Comparables modal updates selections, and you can revert to Restb comps. Empty and error states offer retry. ([#208](https://github.com/Revive-Home/revive-apps/pull/208))
-- **Richer service status page:** The status page now monitors Smarty with more accurate checks. A live badge and a hover tooltip show details and how long the check took. ([#187](https://github.com/Revive-Home/revive-apps/pull/187))
+- **Sell 360 financials in Edit info:** Edit info again includes Mortgage/liens, 1st transaction commission, and 1st check amount for Sell 360 estimates. It also shows a recommended max first check, set at 80% of the as-is value. ([#223](https://github.com/Revive-Home/revive-apps/pull/223))
+- **Pre-share reminder for missing property values:** Sharing an estimate with a missing as-is or after-renovation value now opens Edit info first. You can fill in the values or skip, then continue to the share window. This works from both the review and build headers. ([#223](https://github.com/Revive-Home/revive-apps/pull/223))
 
 **Fixed**
 
-- Removing an item now shows Removing... and the dialog can't be closed until the action finishes. ([#194](https://github.com/Revive-Home/revive-apps/pull/194))
-- Saving an opportunity now shows clear error messages for the tab you are on, and the screen reflects the saved changes more reliably. ([#173](https://github.com/Revive-Home/revive-apps/pull/173))
+- Resetting a change order to draft no longer removes the estimate's RSA records, so only estimate resets clear them. ([#224](https://github.com/Revive-Home/revive-apps/pull/224))
+
+</Update>
+
+<Update label="July 2, 2026" description="admin-v3.9.0, dashboard-v2.10.0, api-v3.7.0" tags={["dashboard","mobile","admin","api","platform"]}>
+
+**Highlights:** Admin adds estimate version history with restore, side-by-side estimate comparison, and a case studies map. Getting Started now screens out manufactured homes and properties valued under $400,000 up front.
+
+### Dashboard
+
+**New**
+
+- **Manufactured home screening in Getting Started:** Getting Started now spots manufactured and mobile homes from the address, even when property data can't classify them. These homes go straight to the not-qualified step. ([#218](https://github.com/Revive-Home/revive-apps/pull/218))
+- **Low-value property screening in Getting Started:** Properties valued under $400,000 now go straight to the not-qualified step, including when a report passes the value along. The "Research &amp; explore" option is hidden when starting from a report. ([#190](https://github.com/Revive-Home/revive-apps/pull/190))
+
+**Improved**
+
+- **Faster, more reliable MLS photo loading:** Photo lookup waits up to 90 seconds and tries several address sources in turn. Photos upload in small batches, so photo hosts are less likely to block them. ([#177](https://github.com/Revive-Home/revive-apps/pull/177), [#213](https://github.com/Revive-Home/revive-apps/pull/213))
+- **Global items in preliminary estimates:** Preliminary estimates now include enabled global items when they are available. ([#200](https://github.com/Revive-Home/revive-apps/pull/200))
+
+**Fixed**
+
+- A failed photo upload now shows an error message, so reports are no longer generated silently without photos. ([#213](https://github.com/Revive-Home/revive-apps/pull/213))
+- The login page reloads itself once when a page file fails to load, so it no longer shows a blank white box. ([#199](https://github.com/Revive-Home/revive-apps/pull/199), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- TBD custom items now show their TBD label and correct subtotals in preliminary estimate and sidebar views. ([#200](https://github.com/Revive-Home/revive-apps/pull/200))
+
+### Mobile
+
+**Fixed**
+
+- Links to pre-estimate pages can now open in the Revive mobile app on iPhone. ([#197](https://github.com/Revive-Home/revive-apps/pull/197))
+
+### Admin
+
+**New**
+
+- **Estimate version history:** Browse past versions of estimates and change orders, view details, and get an AI summary of what changed. Restore any version after a confirmation. Temporary controls run or reset today's snapshot. ([#194](https://github.com/Revive-Home/revive-apps/pull/194), [#215](https://github.com/Revive-Home/revive-apps/pull/215), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- **Side-by-side estimate comparison:** Pick another estimate and compare it next to the current one. The view shows item breakdowns, add-ons, notes, and subtotals. The Compare estimates action is now clickable. ([#174](https://github.com/Revive-Home/revive-apps/pull/174), [#215](https://github.com/Revive-Home/revive-apps/pull/215))
+- **Case studies map on the sales tab:** Browse nearby case studies in a searchable, sortable list linked to an interactive map. Cards show profit and distance, with before/after photo previews and a case studies modal. ([#216](https://github.com/Revive-Home/revive-apps/pull/216), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- **Automatic case study map pins:** Adding a case study link to an opportunity now creates its pin on the Atlist map. A message shows the sync status when you save. ([#173](https://github.com/Revive-Home/revive-apps/pull/173), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- **Import photos from the web:** Import photos for a home's thumbnail by address. Pick from a photo grid and optionally upload the ones you choose. ([#208](https://github.com/Revive-Home/revive-apps/pull/208), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+
+**Improved**
+
+- **Redesigned estimate review:** Review estimates in a two-pane layout with a searchable, grouped sidebar and a detail view. New dialogs cover editing info, duplicating an estimate, and removing an item, plus a new Actions menu. ([#139](https://github.com/Revive-Home/revive-apps/pull/139), [#215](https://github.com/Revive-Home/revive-apps/pull/215))
+- **Easier estimate sharing and export:** Copy, download, or open links with or without prices from the share dialog. You can also download a PDF, export a CSV, and save your view preferences. ([#139](https://github.com/Revive-Home/revive-apps/pull/139), [#215](https://github.com/Revive-Home/revive-apps/pull/215))
+- **Comparables list and map:** Comparables now appear in a filterable, searchable, sortable list next to a map. A new Adjust Comparables modal lets you update selections or revert to the Restb data. Empty and error states are clearer. ([#208](https://github.com/Revive-Home/revive-apps/pull/208), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- **Richer service health status page:** The status page now monitors Smarty and shows a live badge. Hover over a service to see details and how long the check took. ([#187](https://github.com/Revive-Home/revive-apps/pull/187))
+
+**Fixed**
+
+- Removing an item now shows "Removing…" and keeps the window open until it finishes. ([#194](https://github.com/Revive-Home/revive-apps/pull/194))
 - Revive AI admin pages now require sign-in before they load. ([#212](https://github.com/Revive-Home/revive-apps/pull/212))
 
 ### API
 
+**Improved**
+
+- **More accurate renovation estimates for distressed homes:** Missing condition categories no longer skew results, full kitchen remodels are reachable again, and the first full bath is always priced as primary. One test home rose from $66k to $92k. ([#203](https://github.com/Revive-Home/revive-apps/pull/203))
+- **Safer image proxy for remote photos:** The image proxy blocks unsafe addresses, rejects replies that aren't images, and retries when a photo host is busy. Remote photos load more reliably. ([#213](https://github.com/Revive-Home/revive-apps/pull/213), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+
 **Fixed**
 
-- Comparable and room-type scoring no longer starts before comparables finish saving, so room types are saved reliably. ([#185](https://github.com/Revive-Home/revive-apps/pull/185))
+- Room-type scoring no longer starts before comparables finish saving, so room types fill in reliably. ([#185](https://github.com/Revive-Home/revive-apps/pull/185), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
 
 ### Platform
 
 **Improved**
 
-- **Better error monitoring:** Sentry now tracks errors in Admin and Dashboard, and user data is cleared on sign-out. API errors log one detailed line with sensitive values redacted, and server errors trigger alerts without noise from handled issues. ([#195](https://github.com/Revive-Home/revive-apps/pull/195), [#184](https://github.com/Revive-Home/revive-apps/pull/184), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
-- **Safer deploys and builds:** The API now finishes in-flight requests and stops scheduled jobs cleanly on shutdown. Production builds of Admin and Dashboard now stop on TypeScript errors, and the local API server restarts more reliably. ([#209](https://github.com/Revive-Home/revive-apps/pull/209), [#217](https://github.com/Revive-Home/revive-apps/pull/217), [#188](https://github.com/Revive-Home/revive-apps/pull/188))
-
-**Fixed**
-
-- Service health alerts fire only after repeated failed checks, so brief network blips no longer cause false alarms, and recovery is recognized immediately. ([#198](https://github.com/Revive-Home/revive-apps/pull/198), [#200](https://github.com/Revive-Home/revive-apps/pull/200))
+- **Better monitoring and error tracking:** Admin and dashboard now report errors to Sentry. API errors log one detailed line each, with sensitive values hidden. Health checks retry and alert only after repeated failures. ([#195](https://github.com/Revive-Home/revive-apps/pull/195), [#184](https://github.com/Revive-Home/revive-apps/pull/184), [#198](https://github.com/Revive-Home/revive-apps/pull/198), [#200](https://github.com/Revive-Home/revive-apps/pull/200), [#176](https://github.com/Revive-Home/revive-apps/pull/176))
+- **Safer API restarts and stricter builds:** The API finishes in-flight requests before shutting down and no longer restarts when files change in production. Production builds also stop on TypeScript errors in Admin and Dashboard. ([#209](https://github.com/Revive-Home/revive-apps/pull/209), [#217](https://github.com/Revive-Home/revive-apps/pull/217), [#188](https://github.com/Revive-Home/revive-apps/pull/188))
 
 </Update>

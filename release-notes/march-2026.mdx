@@ -3,25 +3,42 @@ title: "March 2026"
 description: "March 2026 Revive release notes — async Predictions image generation API, admin contract signing links, HubSpot document sync, and pre-estimate analytics."
 ---
 
-<Update label="March 26, 2026" description="v2.149.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
+<Update label="March 26, 2026" description="v2.149.0" tags={["dashboard","admin","api"]}>
 
-### New
+**Highlights:** Staff can now view and copy signing links for contract recipients. A new Predictions API handles image-generation jobs, and equity document uploads now keep HubSpot statuses up to date.
 
-- Predictions API: create and poll async image-generation jobs with a new admin endpoint for contract signing links. ([#1897](https://github.com/Revive-Home/revive-api/pull/1897))
-- Copy signing links for contract recipients and estimates in Admin. ([#1723](https://github.com/Revive-Home/revive-admin/pull/1723))
-- Document status sync to HubSpot with mapped property translations. ([#1913](https://github.com/Revive-Home/revive-api/pull/1913))
+### Dashboard
 
-### Improved
+**Improved**
 
-- Smarter renovation update selection and optimistic weekly-update handling in Admin. ([#1723](https://github.com/Revive-Home/revive-admin/pull/1723))
-- Pre-estimate analytics: page views, time-on-page, per-section tracking in Dashboard. ([#2327](https://github.com/Revive-Home/revive-dashboard/pull/2327))
+- **New weekly updates are selected automatically:** After you create a weekly update, it is selected right away and shows in the list. If you pick an update yourself, that choice stays. ([dashboard#2327](https://github.com/Revive-Home/revive-dashboard/pull/2327))
+- **Notes removed from weekly updates:** Weekly updates no longer show or track notes, which keeps the update fields simpler. ([dashboard#2327](https://github.com/Revive-Home/revive-dashboard/pull/2327))
+- **Better analytics on the Pre-Estimate page:** The Pre-Estimate flow now records page views, time on page, time spent in each section, button clicks, successful sign-ins and modal closes. This gives the team a clearer view of how customers use it. ([dashboard#2327](https://github.com/Revive-Home/revive-dashboard/pull/2327))
 
-### Fixed
+### Admin
 
-- Fixed a condition that determines when the V2-specific edit modal is displayed in Admin. ([#1735](https://github.com/Revive-Home/revive-admin/pull/1735))
+**New**
 
-### Action required
+- **Signing links for contract recipients:** View, select and copy signing links for contract recipients and estimates. A Share button on contract cards opens the links, so you can send them without leaving Admin. ([api#1897](https://github.com/Revive-Home/revive-api/pull/1897), [admin#1723](https://github.com/Revive-Home/revive-admin/pull/1723))
 
-No action required for existing integrations.
+**Improved**
+
+- **Equity document status syncs to HubSpot:** Uploading an equity document now updates its matching status field in HubSpot. Deleting a document resets the status to blank, so HubSpot reflects where each document stands. ([api#1913](https://github.com/Revive-Home/revive-api/pull/1913))
+- **Smoother weekly update selection:** Admin picks the right renovation update more reliably, and new weekly updates appear right away. Success, error and warning messages now look and behave the same across the app. ([admin#1723](https://github.com/Revive-Home/revive-admin/pull/1723))
+
+**Fixed**
+
+- The correct edit window now appears when updating a project's workflow, based on the project's scope. ([admin#1735](https://github.com/Revive-Home/revive-admin/pull/1735))
+
+### API
+
+**New**
+
+- **Predictions API for image generation:** Image-generation jobs can now be created and checked on through new endpoints. Jobs run in the background, so requests return quickly. ([api#1897](https://github.com/Revive-Home/revive-api/pull/1897))
+
+**Improved**
+
+- **Renovate to Stay contracts use their own template:** Renovate to Stay contracts now use a dedicated template and payload, and skip the generic RSA pricing step. The template IDs are updated. ([api#1897](https://github.com/Revive-Home/revive-api/pull/1897))
+- **No signing order set for contract recipients:** Contracts no longer set an explicit signing order for recipients. ([api#1897](https://github.com/Revive-Home/revive-api/pull/1897))
 
 </Update>

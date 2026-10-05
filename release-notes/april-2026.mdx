@@ -3,165 +3,85 @@ title: "April 2026"
 description: "April 2026 Revive release notes — property advisor selection, MLS photo intake, HubSpot phone repair admin endpoints, and Vision AI condition handling fixes."
 ---
 
-<Update label="April 30, 2026" description="API hotfix" tags={["revive-api"]}>
+<Update label="April 30, 2026" description="API hotfix" tags={["admin","platform"]}>
 
-### New
+**Highlights:** Staff can now find HubSpot contacts with malformed phone numbers and fix them in bulk from the Admin app.
 
-- **Admin endpoints to repair HubSpot phone numbers.** `GET /v1/webhooks/hubspot/get-broken-phone-numbers` scans HubSpot contacts and returns any whose `phone` property is not in Revive's canonical format (`+1(NPA) NXX-XXXX`), along with a `suggestedFix` for each. `POST /v1/webhooks/hubspot/fix-broken-phone-numbers` accepts the corrected values and applies them in batches of 100, reporting per-contact failures without aborting the request. Both endpoints require a Firebase JWT mapped to an admin user. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+### Admin
 
-### Fixed
+**New**
 
-- **Safer Vision AI condition handling.** `handleNullConditionScores` no longer mutates the condition objects passed in; it clones them before normalizing missing scores, eliminating a class of side-effect bugs in renovation and Vision AI flows. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
-- **More useful error logs.** Failures in the Firestore `updateById` helper and in `completePropertyDashboard` now log the underlying error details, making production issues easier to triage. ([#1999](https://github.com/Revive-Home/revive-api/pull/1999))
+- **Bulk fix for broken HubSpot phone numbers:** Staff can scan HubSpot contacts for malformed phone numbers, preview the suggested standard format, and fix them in bulk. Fixes run in small, throttled batches, and only valid numbers are accepted. ([api#1999](https://github.com/Revive-Home/revive-api/pull/1999))
 
-### Action required
+### Platform
 
-No action required. The new admin endpoints are additive and do not change existing webhook contracts.
+**Improved**
 
-</Update>
-
-<Update label="April 29, 2026" description="Dashboard hotfix" tags={["revive-dashboard"]}>
-
-### Improved
-
-- **Earlier deal creation in the meeting flow.** When the intake includes the meeting steps, the deal is now created as soon as the seller enters the **Select property advisor** step (or immediately after phone verification when the user is signing up). This guarantees the deal exists before the **Schedule meeting** step books a meeting against it, eliminating a race condition where meetings could be created before the deal was associated. The completion step still creates the deal as a fallback for flows that skip the meeting steps entirely. ([#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
-- **More resilient photo upload on completion.** If selected MLS or uploaded photos haven't been pushed to Firebase by the time the seller reaches the completion step (for example, in flows that skip phone verification), the completion step now uploads them and writes the document records before generating the report. Previously these photos could be dropped silently. ([#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
-- **Default property-advisor calendar updated.** The fallback calendar used when no specific advisor is selected is now **Northern California** (previously **Property Assessment**), aligning the default round-robin behavior with the production HubSpot calendar layout. ([#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
-
-### Action required
-
-No action required. Existing intake URL parameters and the `showcalendar` flag continue to work as documented in [Intake URL parameters](/guides/intake-url-parameters).
+- **Clearer error logging:** Failed record updates and property dashboard completion errors now log the actual error details, which makes problems easier to trace and fix. ([api#1999](https://github.com/Revive-Home/revive-api/pull/1999))
 
 </Update>
 
-<Update label="April 28, 2026" description="Dashboard hotfix" tags={["revive-dashboard"]}>
+<Update label="April 29, 2026" description="Dashboard hotfix" tags={["dashboard"]}>
 
-### Improved
+**Highlights:** New users now get a deal created automatically when they sign up, and they can upload photos during the Getting Started flow.
 
-- **Inline "Add more" photo upload on the MLS photos step.** Sellers can now upload additional photos directly from the **MLS Photos Selection** step using a new **Add more** tile, without leaving the page. Uploaded photos appear alongside MLS photos in the same gallery and can be selected or deselected the same way. JPG, PNG, HEIC, HEIF, and WEBP files are accepted; HEIC/HEIF files are converted to JPG automatically. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
-- **Streamlined intake submission.** The intake flow no longer creates a deal up front on address selection. Deals are now created at the end of the flow on the completion step, which prevents orphaned deals when sellers abandon the intake midway and reduces duplicate records when address details change. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
-- **Cleaner state when changing addresses.** Selecting a different address (or clearing the address) now resets any previously fetched MLS photos and uploaded files so the photo gallery always matches the current property. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+### Dashboard
 
-### Fixed
+**New**
 
-- **Photo upload reliability in the research flow.** Authenticated users who skipped the phone-verification step previously had their selected photos dropped before report generation. Photos are now uploaded on the completion step when needed, and the VisionAI report falls back to a neighborhood report only when no photos are available. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+- **Automatic deal creation at signup:** A deal is now created for you when you sign up. This makes the Getting Started process quicker, so you can begin right away. ([dashboard#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
+- **Photo upload in Getting Started:** You can now upload photos as part of the Getting Started flow. You no longer need to add them in a separate step later. ([dashboard#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
 
-### Removed
+**Improved**
 
-- **Standalone "Review photos" step.** The separate **Review photos** step has been removed from the Getting Started intake. Photo review now happens inline on the **MLS Photos Selection** step, which also hosts the **Add more** upload tile. Funnels that used `showcalendar=false` or `hidePhotos` flags are unaffected. ([#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
-
-### Action required
-
-No action required. The intake URL parameters and `showcalendar` / photo-hiding flags continue to work as documented in [Intake URL parameters](/guides/intake-url-parameters).
+- **Clearer errors for account and photo problems:** Account creation and photo uploads now handle errors better. When something goes wrong, the experience is smoother and easier to recover from. ([dashboard#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
+- **Clearer default calendar name:** The default calendar name is updated to be easier to understand. ([dashboard#2397](https://github.com/Revive-Home/revive-dashboard/pull/2397))
 
 </Update>
 
-<Update label="April 28, 2026" description="v1.151.0" tags={["revive-dashboard"]}>
+<Update label="April 28, 2026" description="Dashboard hotfix, v1.151.0, Dashboard v1.151.0" tags={["dashboard"]}>
 
-### New
+**Highlights:** Homeowners can now pick a property advisor before scheduling a meeting, and Getting Started can pull in MLS listing photos. Brokerage setup also gets search, duplicate detection and logo upload.
 
-- Property advisor selection and advisor-aware week-based meeting scheduler with explicit timezone. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
-- Expanded photo flow: MLS photo import, add-more prompt, drag-and-drop review, HEIC→JPG conversion, and uploads tied to deals. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
-- Image proxy API and URL→File helper; service to fetch home images. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
-- End-to-end photo workflow: fetch MLS/listing photos, select from report/address, add uploads, and review before continuing. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
-- Image proxy endpoint to support remote image-to-file conversion. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
+### Dashboard
 
-### Improved
+**New**
 
-- Update ReportV4 with main. ([#2388](https://github.com/Revive-Home/revive-dashboard/pull/2388))
-- Option to hide photo steps via preference/query flag. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
-- HEIC→JPG conversion, size validation, and hosted image URLs returned from uploads. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
-- Upload state tracking with retries, toasts, and prevention of duplicate uploads. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
-- Selected photos are included in report generation and uploaded after sign-up. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
+- **Choose a property advisor in Getting Started:** Homeowners who aren't listed on the market, or who are in the instant-cash program, can pick a specific advisor or choose "anyone" before scheduling. They can also skip the step. ([dashboard#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
+- **MLS listing photos in Getting Started:** Users can pull in listing photos for their address and choose which to keep. They can also add their own. Selected photos go into report generation and are uploaded to the deal after signup. ([dashboard#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383), [dashboard#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+- **Easier brokerage selection and setup:** Users can search for a brokerage, get address suggestions when creating one, and upload a brokerage logo. ([dashboard#2388](https://github.com/Revive-Home/revive-dashboard/pull/2388))
+- **Brokerage validation and duplicate detection:** Brokerage phone numbers and emails are now validated. If a new brokerage looks like an existing one, users are guided through resolving the duplicate. ([dashboard#2388](https://github.com/Revive-Home/revive-dashboard/pull/2388))
+- **TBD labels on custom estimate items:** Custom items in estimates now show a "TBD" label, placed in the item's content area. ([dashboard#2388](https://github.com/Revive-Home/revive-dashboard/pull/2388))
 
-### Fixed
+**Improved**
 
-- Prevent wizard state carryover on route changes; more consistent step navigation and skip behavior. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
+- **Meeting scheduler follows the chosen advisor:** The scheduler shows times by week with the time zone spelled out. It uses the advisor the homeowner picked, so meetings are booked with the right person. ([dashboard#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
+- **More reliable photo uploads:** HEIC photos convert to JPG and large files are checked. Uploads retry on failure, show clear messages and skip duplicates. Photo steps can also be hidden with a setting. ([dashboard#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
+- **Deal and report are created when Getting Started finishes:** The final step now creates the deal and uploads photos. In the research flow it also starts the photo-based report. The separate review-photos step and background loading spinner are gone. ([dashboard#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+- **Updated disclaimer on pre-estimate slides:** The disclaimer text is updated across all pre-estimate slides. ([dashboard#2388](https://github.com/Revive-Home/revive-dashboard/pull/2388))
 
-### Action required
+**Fixed**
 
-No action required for existing integrations.
-
-</Update>
-
-<Update label="April 28, 2026" description="Dashboard v1.151.0" tags={["revive-dashboard"]}>
-
-### New
-
-- **Select property advisor in intake.** Authenticated users now pick a specific Revive property advisor before scheduling their meeting at the end of the intake flow. The new step appears between sign-up/phone verification and **Schedule meeting**, and offers an **Anyone** option to keep the existing round-robin behavior. The chosen advisor's HubSpot calendar is preselected on the next step so the user only sees that advisor's availability. ([Revive-Home/revive-dashboard#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
-
-### Improved
-
-- **Property advisor list now merges HubSpot and Firestore.** The advisor list is hydrated from HubSpot meeting calendars and the Firestore `admins` collection (members with `position: "Property Advisor"`). Firestore entries take priority on duplicates, and the shared `info@revive.realestate` "Revive Concierge" calendar is excluded so only individual advisors appear.
-
-### Action required
-
-No action required. Funnels that don't need the meeting steps can continue to skip them by appending `showcalendar=false` to the intake URL — see [Intake URL parameters](/guides/intake-url-parameters#meeting-and-advisor-selection).
+- Changing or clearing the address resets the selected and uploaded photos, so photos from an earlier address no longer carry over. ([dashboard#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
+- Moving between pages no longer leaves old Getting Started answers behind, and step navigation and skipping behave more consistently. ([dashboard#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
+- The Getting Started header is spaced correctly and lines up with the rest of the page. ([dashboard#2395](https://github.com/Revive-Home/revive-dashboard/pull/2395))
 
 </Update>
 
-<Update label="April 28, 2026" description="Dashboard v1.151.0" tags={["revive-dashboard"]}>
+<Update label="April 27, 2026" description="Report V4" tags={["dashboard"]}>
 
-### New
+**Highlights:** Property reports now include AI-written renovation insights for each room type, built from the features detected in the property's photos.
 
-- **MLS photos in the Getting Started intake** — When a property has MLS imagery available, sellers can review and select which MLS photos to include in their report directly from the intake flow. A new **Additional photos** step lets sellers upload supplemental photos (JPG, PNG, HEIC, or WEBP) before submission. ([#2383](https://github.com/Revive-Home/revive-dashboard/pull/2383))
-- **Property advisor selection during intake** — A new **Select your property advisor** step appears in the Getting Started flow before scheduling. Sellers can pick a specific property advisor (sourced from HubSpot calendars and Firestore admins) or choose **Anyone available** to use the team's general availability. The selected advisor is then used to filter calendar slots on the **Schedule meeting** step. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
-- **Calendar integration on Schedule meeting** — The Schedule meeting step now reflects the seller's selected advisor when fetching available time slots, and falls back to the team-wide pool when **Anyone available** is chosen. ([#2371](https://github.com/Revive-Home/revive-dashboard/pull/2371))
+### Dashboard
 
-### Improved
+**New**
 
-- **`GET /v1/meetings/available-calendars` grouping** — The endpoint now accepts an optional `isSeparateByGroup` query parameter. When `true`, the response is split into `team` and `people` arrays so the dashboard can render team calendars and individual advisor calendars separately. When omitted or `false`, the response keeps the existing combined shape. The change is backwards compatible — existing integrations that read the flat list continue to work.
+- **AI renovation insights by room type:** Property reports now group the features found in listing photos by room type. Each room gets a short, plain-language summary of what was detected, so renovation opportunities are easier to see. ([api#1881](https://github.com/Revive-Home/revive-api/pull/1881))
+- **Top features across comparable properties:** Reports can now show the most common features per room among comparable properties. Room types are sorted into standard groups such as kitchen, bathroom, bedroom, living and exterior, which keeps comparisons consistent. ([api#1881](https://github.com/Revive-Home/revive-api/pull/1881))
 
-### Action required
+**Improved**
 
-No action required for existing integrations. The new `isSeparateByGroup` query parameter on `GET /v1/meetings/available-calendars` is optional and the default response shape is unchanged.
-
-</Update>
-
-<Update label="April 27, 2026" description="Report V4" tags={["revive-api"]}>
-
-### New
-
-- **Mortgage data endpoint** — New `POST /v1/avm/mortgage` returns standardized mortgage and ownership data (loan amount, lender, interest rate, term, recording date, equity, owner name, tax amount, monthly HOA, annual insurance, price history) from five providers (Estated, House Canary, Zillow, Redfin, RentCast). Each provider response is normalized into the same shape so consumers can pick the best available value across sources. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- **Mortgage data on AVM lookup** — `POST /v1/avm/` accepts a new optional `withMortgageData` boolean. When `true`, the AVM cache is populated with mortgage and ownership fields alongside valuation data, enabling downstream reports to display mortgage context without an extra round trip. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- **Readable property features endpoint** — New `POST /v1/property/{reportId}/generate-readable-features` analyzes a report's media, comparables, and condition ratings to generate AI-written renovation insights per room type (`kitchen`, `bathroom`, `interior`, `exterior`, `other`). The response groups insights into `short`, `afterRenovationCondition`, `valueImpact`, and `buyerAppealScore` blocks suitable for direct display in a report UI. Property dashboard creation also runs this in the background and saves the result to the report. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-- **Reimagine V2 (material-based renderings)** — `POST /v1/reimagine/create-image` accepts a new `version: "v2"` flag and a `materials` object. When V2 is selected, the API uses Google Gemini and the supplied materials (countertops, backsplash, cabinets, hardware, faucet, sink, flooring, paint, appliances) — including reference images — to generate a photorealistic renovation of the source photo. `roomType` and `roomStyle` become optional in V2 (`materials` drives the prompt instead). The legacy V1 prompt-based flow is unchanged when `version` is omitted. ([#1881](https://github.com/Revive-Home/revive-api/pull/1881))
-
-### Improved
-
-- **Property dashboard responses include mortgage context** — `POST /v1/property/dashboard` and `POST /v1/property/neighborhood-dashboard` now request mortgage data from the AVM service automatically, so the cached AVM record exposes lender, loan, equity, and ownership fields when downstream consumers fetch it.
-- **Multi-source home image lookup** — `POST /v1/utility/get-home-images` accepts an optional `source` (`"restb"`, `"anyprop"`, or `"zillow"`). When `source` is omitted, the endpoint waterfalls through AnyProp → RestB → Zillow and returns the first non-empty deduplicated result, increasing image coverage during intake.
-
-### Action required
-
-- **`/v1/utility/check-home-images` renamed to `/v1/utility/get-home-images`** — The public intake-flow endpoint has been renamed. Update any direct callers from `POST /v1/utility/check-home-images` to `POST /v1/utility/get-home-images`. The request body now expects `streetAddress`, `city`, `state`, and `postalCode` (all required), plus an optional `source`. The response shape (`{ images: string[] }`) is unchanged.
-- **Reimagine V1 callers — no action needed** — Existing `POST /v1/reimagine/create-image` requests without a `version` field continue to use the legacy prompt-based flow. Adopt `version: "v2"` only when you are ready to send a `materials` object.
-
-</Update>
-
-<Update label="April 23, 2026" description="v2.133.0" tags={["revive-admin"]}>
-
-### New
-
-- **RMA list — deal type column and pipeline stage.** The RMA list now shows the opportunity's deal type (for example, Renovate to sell, Sell 360, Flip 360, Renovate to stay) alongside pipeline stage, making it easier to triage RMAs across programs. Deal type labels are normalized from the HubSpot `dealtype` values. ([#1755](https://github.com/Revive-Home/revive-admin/pull/1755))
-- **RMA `executed_at` timestamp.** RMAs now record the moment they move to the Executed status. The RMA detail page shows "Executed on M/D/YY at H:MM AM" beneath the status badge. ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
-- **Custom items support TBD pricing in RET.** When pricing isn't final, you can flag a custom line item as **TBD** in the Renovation Estimate Tool. TBD items appear in the estimate preview and review panel without a firm price, and the flag is reset automatically if the item is converted to a non-custom product. ([#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
-- **Group dropdown on custom items.** Custom items in RET now include a **Group** selector in both the custom item modal and the review side panel, so custom work can be grouped alongside catalog products for cleaner proposals. ([#1756](https://github.com/Revive-Home/revive-admin/pull/1756))
-- **Groups on Level 1 products in the RET Catalog.** Catalog admins can now assign a group to Level 1 (global) products when adding or editing catalog items. Groups flow through to Level 2 and Level 4 drag-and-drop reordering. ([#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
-
-### Improved
-
-- **Check Run tabs use execution date.** The **Ready for Check Run** and **Next Check Run** tabs now filter by `executed_at` (falling back to `updated_at`) instead of `created_at`, so RMAs appear in the correct tab based on when they were actually executed. ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
-- **Check run cutoff moved to Friday.** The weekly cutoff for the Ready list shifted from Thursday to Friday 11:59 PM. RMAs executed on Friday now stay in **Next Check Run** until Saturday, keeping the Ready list stable on processing day. ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
-
-### Fixed
-
-- Fixed a TypeScript error in Level 2 and Level 4 drag-and-drop reorder by including the missing `group` field on catalog product updates. ([#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
-- The **TBD** flag on custom items is now reset when an item is changed from custom to a catalog product, preventing stale TBD state in the RET preview. ([#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
-
-### Action required
-
-No action required for existing integrations. These changes are internal to Revive Admin and do not affect the public API.
+- **Reports analyze photos automatically:** When you create or complete a property dashboard that has photos, the feature analysis and insights now run in the background. You don't need to start anything yourself. ([api#1881](https://github.com/Revive-Home/revive-api/pull/1881))
 
 </Update>
 
@@ -192,201 +112,145 @@ No action required for existing integrations. The `POST /v1/brokerages/` request
 
 </Update>
 
-<Update label="April 23, 2026" description="Dashboard Sprint 7" tags={["revive-dashboard"]}>
+<Update label="April 23, 2026" description="v2.133.0, Dashboard Sprint 7, v2.154.2, v2.154.0, v2.153.0" tags={["dashboard","admin","api"]}>
 
-### New
+**Highlights:** Agents can now add a missing brokerage right from the brokerage picker, and custom estimate items can be marked TBD in Admin. Sell360 comparisons add payoff and commission lines and subtract debt from the cash offer.
 
-- **Create brokerage from the dashboard** — Agents can add a new brokerage from **Account Settings → My Profile** without contacting support. The new modal captures name, website, email, phone, address (via autocomplete), logo, and brand colors, and runs a duplicate check against existing records before creating the brokerage. ([#2358](https://github.com/Revive-Home/revive-dashboard/pull/2358))
-- **TBD cost labels on custom estimate items** — Renovation estimate custom items can now be flagged as **TBD** when a price has not been finalized. Items marked TBD display a red `TBD` label in place of the total cost in the proposal view, side menu, and products list. ([#2370](https://github.com/Revive-Home/revive-dashboard/pull/2370))
-- **Disclaimer text on pre-estimate slides** — Added "Individual results may vary" disclaimers to the **Nearby Case Studies** and **Value Opportunity** sections, and clarified language on the **Sell 360 Scenario Comparison** modal, **Sell 360 Transaction Summary**, and the scenario-comparison PDF. ([#2376](https://github.com/Revive-Home/revive-dashboard/pull/2376))
+### Dashboard
 
-### Improved
+**New**
 
-- **Sell 360 proposal finalization** — Updated cash-offer coloring, home-increase copy, row alignment, address trimming, and PDF formatting on the Sell 360 pre-estimate proposal and scenario-comparison modal. ([#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359), [#2364](https://github.com/Revive-Home/revive-dashboard/pull/2364), [#2365](https://github.com/Revive-Home/revive-dashboard/pull/2365), [#2367](https://github.com/Revive-Home/revive-dashboard/pull/2367), [#2368](https://github.com/Revive-Home/revive-dashboard/pull/2368), [#2369](https://github.com/Revive-Home/revive-dashboard/pull/2369))
-- **Brokerage create request** — `POST /v1/brokerages/` now accepts optional `email` and `phone` fields. Address fields (`address`, `city`, `state`, `zip`) are now optional at the client level — omit them to create a brokerage without a physical address.
+- **Add a new brokerage from the picker:** The brokerage picker is now searchable. If yours is missing, add it with a logo, address and optional email and phone. Duplicates are flagged for review, and the new brokerage links to your account. ([dashboard#2358](https://github.com/Revive-Home/revive-dashboard/pull/2358))
+- **Payoff and commission lines in Sell360:** Sell360 scenario comparisons and transaction summaries now show estimated mortgage or debt payoff and estimated agent commission. The layout is updated to fit the new rows. ([dashboard#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- **Getting Started skips prefilled steps:** When a link includes property details, Getting Started skips the steps already filled in. It creates the deal in the background and shows a loading spinner meanwhile. ([dashboard#2363](https://github.com/Revive-Home/revive-dashboard/pull/2363))
 
-### Fixed
+**Improved**
 
-- **Intake flow** — Removed the legacy `refer-renovate` option from the "What can we help with?" step so the intake flow no longer skips screens for that path. ([#2372](https://github.com/Revive-Home/revive-dashboard/pull/2372))
-- **Intake address prefill** — Address details passed via URL parameters now prefill correctly, and the deal is created in the background so users can continue through the flow without waiting. ([#2363](https://github.com/Revive-Home/revive-dashboard/pull/2363))
+- **Clearer red for below-cash-offer values:** "Below cash offer" and other negative comparison values in Sell360 now appear in bold red, so shortfalls are easier to spot. ([dashboard#2364](https://github.com/Revive-Home/revive-dashboard/pull/2364), [dashboard#2365](https://github.com/Revive-Home/revive-dashboard/pull/2365))
+- **Updated disclaimers on pre-estimate slides:** Pre-estimate and Sell360 comparison slides now say figures are estimates, not guarantees, and can vary with market conditions. The case studies section notes that individual results vary. ([dashboard#2376](https://github.com/Revive-Home/revive-dashboard/pull/2376))
+- **"Home increase" wording in opportunity insights:** Opportunity insights now use the term "home increase" for property value metrics, to match Sell360. ([api#1953](https://github.com/Revive-Home/revive-api/pull/1953))
+- **Simpler Getting Started renovate options:** The separate "refer to renovate" option is gone. Agents now choose "Renovate to Stay" and get steps and a summary that match their role. ([dashboard#2372](https://github.com/Revive-Home/revive-dashboard/pull/2372))
 
-### Action required
+**Fixed**
 
-No action required for existing integrations. The new `email` and `phone` fields on `POST /v1/brokerages/` are optional and backwards compatible.
+- Sell360 scenario comparisons now subtract debt from the cash offer baseline, so the cost comparisons are accurate. ([api#1951](https://github.com/Revive-Home/revive-api/pull/1951))
+- The "1st Check" in Sell360 comparisons shows the corrected initial payment. ([dashboard#2359](https://github.com/Revive-Home/revive-dashboard/pull/2359))
+- Sell360 benefit text uses the actual home increase value instead of default wording in some scenarios. ([dashboard#2368](https://github.com/Revive-Home/revive-dashboard/pull/2368))
 
-</Update>
+### Admin
 
-<Update label="April 23, 2026" description="v2.154.2" tags={["revive-api"]}>
+**New**
 
-### New
+- **TBD option for custom estimate items:** Custom items in the estimate tool can be marked TBD and saved without a price. They show "TBD" wherever prices appear, including the HIC, and count as $0 in totals. Unchecking TBD restores normal pricing. ([dashboard#2370](https://github.com/Revive-Home/revive-dashboard/pull/2370))
 
-No new features in this release.
+### API
 
-### Improved
+**Improved**
 
-No improvements in this release.
+- **Faster estimate and opportunity loading:** Estimate and opportunity data is now fetched in parallel, which should speed up loading. ([api#1953](https://github.com/Revive-Home/revive-api/pull/1953))
 
-### Fixed
+**Fixed**
 
-- Fixed incorrect contractor sandbox IDs in the HubSpot configuration, which caused contractor lookups to fail in the staging environment. ([#1991](https://github.com/Revive-Home/revive-api/pull/1991))
-- Fixed missing imports and improved error handling in the meeting booking service. Timezone defaults are now applied when retrieving availability, and bookings are normalized consistently across calendar providers. ([#1987](https://github.com/Revive-Home/revive-api/pull/1987))
-
-### Action required
-
-No action required for existing integrations.
+- New contractors are created with the production HubSpot pipeline and stage in every environment. ([api#1991](https://github.com/Revive-Home/revive-api/pull/1991))
 
 </Update>
 
-<Update label="April 23, 2026" description="v2.154.0" tags={["revive-api"]}>
+<Update label="April 20, 2026" description="v2.132.0" tags={["admin"]}>
 
-### New
+**Highlights:** Catalog and custom items in the estimate tool can now be assigned to groups, and custom items can be marked TBD. The Ready for Check Run list no longer grows on Fridays.
 
-- The estimate proposal response now includes a `homeIncrease` field in the `valueOpportunity` object. When present, it contains a formatted currency string (e.g. `"$45,000"`) representing the estimated increase in home value from renovations. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
+### Admin
 
-### Improved
+**New**
 
-- Estimate proposals and opportunity lookups load faster — comparables, case studies, HubSpot metadata, and associated records are now fetched concurrently. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
-- The `trendText` label in the comparison chart now reads `"$X home increase"` instead of `"$X est. profit"` to better describe the value. ([#1953](https://github.com/Revive-Home/revive-api/pull/1953))
+- **Groups for catalog and custom items:** Catalog items and custom items now have a required Group: Interior, Exterior, MEP, Structural modifications, Appliances or Soft cost. Pick it when adding or editing an item. This helps display items in the new estimate. ([admin#1752](https://github.com/Revive-Home/revive-admin/pull/1752), [admin#1756](https://github.com/Revive-Home/revive-admin/pull/1756))
+- **TBD option for custom items:** Custom items now have a TBD checkbox. A TBD item saves without a price, shows "TBD" in subtotals, totals and CSV exports, and counts as 0 in totals. Unchecking the box restores normal pricing. ([admin#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
+- **Deal Type and Pipeline Stage on RMAs:** The RMA list has a new Deal Type column. The RMA detail page shows Deal Type and the HubSpot pipeline stage. Deal Type uses Revive product names, such as Renovate to sell, and shows a dash when empty. ([admin#1755](https://github.com/Revive-Home/revive-admin/pull/1755))
 
-### Fixed
+**Improved**
 
-No bug fixes in this release.
+- **RMA execution date:** Revive now records when an RMA is executed and shows the date next to the Executed badge on the detail page. Check run tabs use this date. Older RMAs without one fall back to their last updated date. ([admin#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
+- **Ready for Check Run list stays fixed on Fridays:** RMAs executed on a Friday now stay in Next Check Run all day and move to Ready for Check Run on Saturday. Admins finish payouts with the same list they started with. ([admin#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
 
-### Action required
+**Fixed**
 
-- **`trendText` label changed** — The `trendText` field in the `comparisonChart` section of `GET /v1/estimates/{estimateId}/proposal` now uses "home increase" instead of "est. profit". If you parse or match against this string, update your code to expect the new label.
-
-</Update>
-
-<Update label="April 23, 2026" description="v2.153.0" tags={["revive-api"]}>
-
-### New
-
-- The Sell 360 cash offer comparison now subtracts existing mortgage/liens from the cash offer amount, giving homeowners a more accurate side-by-side comparison. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
-
-### Improved
-
-- RMA contract generation now resolves the contractor signer from the completed PC contract instead of HubSpot contact associations, ensuring the signer on the RMA matches the signer who executed the PC contract. ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
-- Generating an RMA contract once again requires a signed Purchase Commitment (PC) contract on the associated opportunity (restores the requirement removed in v2.151.0). ([#1951](https://github.com/Revive-Home/revive-api/pull/1951))
-
-### Fixed
-
-- The renovation plan form now correctly saves the **rehab used** amount when updating estimates. Previously, this value could be omitted from the save payload.
-
-### Action required
-
-- **Signed PC contract required for RMA generation** — The `POST /v1/rma/:rmaId/contract` endpoint now requires a completed PC contract on the associated opportunity. If no completed PC contract exists, the endpoint returns a `400` error. This reverses the v2.151.0 change. Ensure a PC contract is completed before generating RMA contracts.
-- **Sell 360 `comparisonDiff` values will change** — The `comparisonDiff` field in `GET /v1/estimates/{estimateId}/proposal` now reflects a lower cash offer baseline (debt is subtracted). If you display or use `comparisonDiff` in calculations, values will be higher for homeowners with existing mortgage balances.
+- Reordering catalog items by drag and drop keeps each item's group and updates the screen after saving, so the list no longer shows stale data. ([admin#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
+- Status badges and RMA names no longer wrap onto a second line in the RMA views, so they are easier to read. ([admin#1755](https://github.com/Revive-Home/revive-admin/pull/1755))
 
 </Update>
 
-<Update label="April 20, 2026" description="v2.132.0" tags={["revive-admin"]}>
+<Update label="April 14, 2026" description="v2.152.0" tags={["dashboard"]}>
 
-### New
+**Highlights:** Sell360 numbers are now finalized. Transaction summaries show debt and agent commission, and the fee, holding cost, net comparison, and break-even calculations are updated.
 
-- **RET Catalog item groups** — Level 1 catalog items now have a required `group` field (one of `Interior`, `Exterior`, `MEP`, `Structural`, `Appliances`, `Soft cost`). The Add/Edit Item modal exposes a **Group** dropdown alongside the category name. ([#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
-- **Custom item groups in RET** — Custom items in the estimate builder now require a **Group** selection in both the Custom Item modal and the review panel. ([#1756](https://github.com/Revive-Home/revive-admin/pull/1756))
-- **TBD pricing for custom items** — Custom items can now be marked **TBD** when a price isn't yet known. TBD items show `TBD` instead of a currency value in the review panel, side menu, and CSV export, and `value`/`factoredValue` are persisted as `0`. ([#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
-- **RMA list — Deal Type column** — The RMA list view now includes a **Deal Type** column sourced from the associated opportunity's HubSpot dealtype, with a human-readable label mapping (e.g. `Contract Buy-out` → `Renovate to sell`). ([#1755](https://github.com/Revive-Home/revive-admin/pull/1755))
-- **RMA detail — Deal Type and Pipeline Stage** — The RMA detail Information panel now displays **Deal Type** and **Pipeline Stage** fields from the opportunity. ([#1755](https://github.com/Revive-Home/revive-admin/pull/1755))
-- **RMA `executed_at` timestamp** — RMAs now persist an `executed_at` timestamp when they transition to the Executed status. The detail view shows "Executed on M/D/YY at h:mm a". ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
+### Dashboard
 
-### Improved
+**New**
 
-- **RMA check-run cutoff moved to Friday** — The Ready for Check Run and Next Check Run tabs now split on the most recent **Friday 23:59:59** (previously Thursday). The cutoff is evaluated against `executed_at` (falling back to `updated_at`) instead of `created_at`, so RMAs appear in the correct bucket based on when they were executed rather than when they were drafted. Check run totals are now computed from the full tab-filtered set, not just the current page. ([#1758](https://github.com/Revive-Home/revive-admin/pull/1758))
-- **Catalog access** — `carlo@revive.realestate` and `nehme@revive.realestate` added to the RET Catalog allowed-email list. ([#1756](https://github.com/Revive-Home/revive-admin/pull/1756))
-- **Catalog drag-reorder reliability** — L1, L2, and L4 catalog reorders now wait for the server update before updating local state, and preserve the `group` field when reordering. ([#1752](https://github.com/Revive-Home/revive-admin/pull/1752))
+- **Debt and agent commission in Sell360 summaries:** Sell360 transaction summaries now show debt and agent commission, so you can see more of the full deal picture in one place. ([api#1943](https://github.com/Revive-Home/revive-api/pull/1943))
 
-### Fixed
+**Improved**
 
-- **`isTBD` reset on non-custom items** — Non-custom RET items no longer retain an `isTBD` flag when edited through the preview panel. ([#1753](https://github.com/Revive-Home/revive-admin/pull/1753))
+- **First transaction commission replaces first check:** Deals and estimates now use the first transaction commission, and the first check amount is available too. Integration mappings are updated to match. ([api#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+- **Renovation estimates use a cost-based calculation:** Renovation estimate calculations now work from costs, and the initial payment is determined in a simpler way. Estimate figures may differ slightly from before. ([api#1950](https://github.com/Revive-Home/revive-api/pull/1950))
 
-### Action required
+**Fixed**
 
-- **Catalog items require a `group`** — Existing L1 catalog items without a `group` (or with a group not in the current list) will show an empty **Group** dropdown and must be updated before saving. Keep the admin list in sync with `revive-api`'s `ret-catalog.validation.js` `.valid()` list.
-- **Custom items require a `group`** — Saving a custom item without selecting a group now fails validation. Existing custom items on in-flight estimates should be re-opened and assigned a group.
-- **RMA `dealtype` field is now a label** — `useRmas` maps `opportunity.dealtype` through `getDealTypeLabel` before returning it, so consumers see `Renovate to sell`, `Sell 360`, etc. instead of raw HubSpot IDs like `Contract Buy-out` or `Buy It Now`. If you filter on this field client-side, use the label values.
-- **RMA check-run filter uses `executed_at`** — The Ready and Next Check Run tab split now uses `executed_at || updated_at` and a Friday cutoff. RMAs executed on Friday itself roll into Next Check Run until Saturday.
+- Sell360 numbers are more accurate, with updated program fee, holding cost, taxes, insurance, HOA, net comparison, and break-even calculations. ([api#1943](https://github.com/Revive-Home/revive-api/pull/1943))
 
 </Update>
 
-<Update label="April 14, 2026" description="v2.152.0" tags={["revive-api"]}>
+<Update label="April 10, 2026" description="v2.151.0" tags={["admin"]}>
 
-### New
+**Highlights:** Staff can now generate RMA contracts without a signed contract on file.
 
-- Tiered Sell 360 program fee — properties with ARV ≥ $1M now use a 4% rate; below $1M uses 3%. Previously a flat 3% applied to all. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
-- `debt` and `agentCommission` fields added to the `sell360TransactionSummary.shared` object so clients can display these deductions. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
-- New `firstCheckAmount` field on opportunity and deal responses, representing the first check amount stored in HubSpot. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
+### Admin
 
-### Improved
+**Improved**
 
-- Revised holding cost formula: `(initialPayment + renovationCost) × 1% × holdingMonths` — produces lower holding costs for most deals. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
-- Simplified taxes/insurance/HOA estimate: `asIsPrice × 0.16% × holdingMonths`. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
-- Break-even calculation no longer includes holding costs. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
-- Sell 360 comparison baseline now uses `asIsPrice × 90%` instead of a full as-is net calculation. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
-- Renovation timeline is now budget-based: 1 month per $100K increment, producing more consistent scenario projections. ([#1950](https://github.com/Revive-Home/revive-api/pull/1950))
-- Initial payment now sourced directly from the opportunity's `firstCheckAmount` instead of a break-even formula. ([#1950](https://github.com/Revive-Home/revive-api/pull/1950))
-- RMA contractor signer now sourced from the completed PC contract instead of HubSpot. ([#1943](https://github.com/Revive-Home/revive-api/pull/1943))
-
-### Fixed
-
-No bug fixes in this release.
-
-### Action required
-
-- **`agentCommissionSold` renamed to `firstTransactionCommission`** — Update any client code that reads this field on opportunity and deal responses.
-- **`isFirstCheckNegative` removed** — This boolean has been removed from `sell360TransactionSummary`. Check `firstCheckNet` directly instead.
-- **RMA contract generation requires completed PC contract** — `POST /v1/rma/:rmaId/contract` returns `400` if no completed PC contract exists.
-- **Sell 360 scenario values will change** — All calculated values (initial payment, holding costs, program fees, scenario projections) may differ due to the formula changes above.
+- **RMA contracts no longer need a signed contract:** Generating an RMA contract no longer requires a signed contract first, and the related error messages are simpler. Contract creation also checks the contractor's signer details more carefully, so contact details are accurate. ([admin#1746](https://github.com/Revive-Home/revive-admin/pull/1746), [api#1942](https://github.com/Revive-Home/revive-api/pull/1942))
 
 </Update>
 
-<Update label="April 10, 2026" description="v2.151.0" tags={["revive-api", "revive-admin"]}>
+<Update label="April 9, 2026" description="v2.150.0" tags={["dashboard","admin","api"]}>
 
-### New
+**Highlights:** The Admin RMA page is redesigned into tabs that follow the weekly check run, with CSV export and clearer statuses. Sell 360 deals now work in the estimate builder, and customers get a Sell 360 scenario comparison with PDF download.
 
-- RMA contract generation no longer requires a signed PC contract — you only need an owner's rep assigned and an Authorized Signer contact linked to the contractor in HubSpot. ([#1746](https://github.com/Revive-Home/revive-admin/pull/1746))
-- The RMA contract generation endpoint now resolves the contractor signer from HubSpot's Authorized Signer contact association instead of a signed PC contract. ([#1942](https://github.com/Revive-Home/revive-api/pull/1942))
+### Dashboard
 
-### Improved
+**New**
 
-No improvements in this release.
+- **Sell 360 scenario comparison with PDF download:** Customers can compare Sell 360 scenarios side by side and download the comparison as a PDF. ([dashboard#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
 
-### Fixed
+**Improved**
 
-No bug fixes in this release.
+- **Better mobile navigation and layout:** Phones and tablets get a new navigation header and sidebar for jumping between sections. Layouts, text sizes and spacing now adapt to screen size, and navigation works with a keyboard. ([dashboard#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+- **Improved map and property cards on mobile:** The map has a recenter option and smoother panning on mobile. Property cards are easier to see and the map sits better on smaller screens. ([dashboard#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
+- **Holding period in proposal calculations:** Proposal calculations now include how long the property is held. The months label updates to match. ([api#1932](https://github.com/Revive-Home/revive-api/pull/1932))
 
-### Action required
+### Admin
 
-- **RMA contract generation prerequisites changed** — The `POST /v1/rma/:rmaId/contract` endpoint no longer requires a completed PC contract. It now requires the contractor to have an Authorized Signer contact in HubSpot with a valid email. _Note: this was reverted in v2.152.0._
+**New**
 
-</Update>
+- **Tabbed RMA page for check run workflow:** The RMA list now has tabs: Pending, On Hold, Ready for Check Run, Next Check Run, Completed and All. A header shows the cutoff date, check run date and check run total, so it matches how Production works each week. ([admin#1737](https://github.com/Revive-Home/revive-admin/pull/1737), [admin#1740](https://github.com/Revive-Home/revive-admin/pull/1740))
+- **CSV export for RMA lists:** You can export the RMAs you are viewing to CSV. The file includes the current tab and any filters you applied. ([admin#1737](https://github.com/Revive-Home/revive-admin/pull/1737), [admin#1740](https://github.com/Revive-Home/revive-admin/pull/1740))
+- **Sell 360 deals in the estimate builder:** Sell 360 deals are now treated like Renovate to Sell. The renovation form and share window ask for mortgage/liens and agent commission, and sharing creates a pre-estimate link. ([admin#1737](https://github.com/Revive-Home/revive-admin/pull/1737), [admin#1742](https://github.com/Revive-Home/revive-admin/pull/1742))
 
-<Update label="April 9, 2026" description="v2.150.0" tags={["revive-api", "revive-admin", "revive-dashboard"]}>
+**Improved**
 
-### New
+- **Easier RMA filtering:** The owner filter now starts as you, and Reset brings that back. Filters have Select All and Deselect All, and you can filter by owner, contractor, opportunity or status. Statuses are listed in workflow order. ([admin#1737](https://github.com/Revive-Home/revive-admin/pull/1737), [admin#1740](https://github.com/Revive-Home/revive-admin/pull/1740))
+- **Updated RMA statuses and actions:** "Released" is now "Paid" and "Rejected" is now "Not Approved". There is a new Received status and a Mark Paid action. Held RMAs have a Resume action. Badges, tooltips and messages use the new names. ([admin#1737](https://github.com/Revive-Home/revive-admin/pull/1737), [admin#1741](https://github.com/Revive-Home/revive-admin/pull/1741), [admin#1740](https://github.com/Revive-Home/revive-admin/pull/1740))
+- **Hold and release limited for early-stage RMAs:** Hold and Release are turned off for RMAs that are requested, drafting or sent. A tooltip explains why, in both the list and the detail view. ([admin#1740](https://github.com/Revive-Home/revive-admin/pull/1740))
 
-- RMA tabbed list view with Pending, On Hold, Ready for Check Run, Next Check Run, Completed, and All tabs — each with live count badges. ([#1737](https://github.com/Revive-Home/revive-admin/pull/1737))
-- RMA CSV export for the currently filtered list. ([#1737](https://github.com/Revive-Home/revive-admin/pull/1737))
-- Sell 360 pre-estimate support — renovation plan forms now include mortgage/liens and agent commission fields. ([#1742](https://github.com/Revive-Home/revive-admin/pull/1742))
-- Sell 360 transaction summary with three financial scenarios (conservative, target, stretch) and downloadable PDF. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
-- Redesigned pre-estimate proposal pages with sidebar navigation, auto-hiding header, and responsive mobile layout. ([#2341](https://github.com/Revive-Home/revive-dashboard/pull/2341))
-- Predictions API for async image-generation jobs. ([#1897](https://github.com/Revive-Home/revive-api/pull/1897))
-- Pricing table added to Renovate-to-Stay RSA contracts. ([#1927](https://github.com/Revive-Home/revive-api/pull/1927))
+### API
 
-### Improved
+**New**
 
-- RMA statuses renamed for clarity: `drafting` → `preparing`, `sent` → `pending_signatures`, `review` → `executed`, `rejected` → `not_approved`, `released` → `paid`. ([#1741](https://github.com/Revive-Home/revive-admin/pull/1741))
-- RMA workflow guardrails — Hold and Paid actions disabled for pre-execution statuses. ([#1740](https://github.com/Revive-Home/revive-admin/pull/1740))
-- Estimate proposal response fields renamed from numbered slides to semantic names (e.g. `slide1` → `coverSlide`). ([#1932](https://github.com/Revive-Home/revive-api/pull/1932))
+- **Pricing table in Renovate-to-Stay RSAs:** The Renovate-to-Stay RSA now includes an itemized pricing table, like the Renovate-to-Sell RSA. It uses new PandaDoc templates. ([api#1927](https://github.com/Revive-Home/revive-api/pull/1927))
 
-### Fixed
+**Fixed**
 
-- Deal creation correctly handles unit and secondary address numbers, preventing duplicate deals for multi-unit properties. ([#1924](https://github.com/Revive-Home/revive-api/pull/1924))
-
-### Action required
-
-- **RMA status values changed** — Update any code that filters or updates RMAs by status. See the mapping: `drafting` → `preparing`, `sent` → `pending_signatures`, `review` → `executed`, `rejected` → `not_approved`, `released` → `paid`.
-- **Estimate proposal response shape changed** — Fields renamed: `slide1` → `coverSlide`, `slide2` → `neighborhoodComparables`, `slide3` → `valueOpportunity`, `slide4` → `comparisonChart`, `slide9` → `caseStudies`, `slide10` → `advisorNextSteps`. A new `sell360TransactionSummary` object is included when applicable.
+- Adding a Renovate-to-Stay RSA before the HIC is signed now works. It uses the signed estimate when one exists and opportunity details when it doesn't. ([api#1927](https://github.com/Revive-Home/revive-api/pull/1927))
+- Deals for properties with unit or apartment numbers now match the right address, so duplicate deals are less likely. ([api#1924](https://github.com/Revive-Home/revive-api/pull/1924))
 
 </Update>
