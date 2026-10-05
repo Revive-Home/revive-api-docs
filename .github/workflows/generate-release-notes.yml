@@ -60,6 +60,7 @@ jobs:
       - name: Generate release notes
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           RELEASE_VERSION: ${{ env.VERSION }}
           RELEASE_OVERWRITE: ${{ env.OVERWRITE }}
           RELEASE_SINCE: ${{ env.SINCE }}
@@ -88,7 +89,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add release-notes.mdx release-notes/ audit-report.md latest-features/ latest-features.mdx
+          git add release-notes.mdx release-notes/ audit-report.md latest-features/ latest-features.mdx docs.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
             echo "pushed=false" >> "$GITHUB_OUTPUT"

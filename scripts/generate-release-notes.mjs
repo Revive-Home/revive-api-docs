@@ -1,5 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { extractPrRefs, getTouchedAreas } from './lib/github.mjs';
+import { writeReleaseBlock } from './lib/release-writer.mjs';
 
 // ---------------------------------------------------------------------------
 // Config
@@ -370,11 +372,11 @@ function prependUpdateToReleaseNotes(releaseNotesPath, blocks) {
 
   const newBlocks = blocks.filter((block) => {
     const descMatch = block.match(/description="([^"]+)"/);
-    const tagMatch = block.match(/tags={\["([^"]+)"\]}/);
+    const tagMatch = block.match(/tags=\{(\[[^\]]*\])\}/);
     if (descMatch && tagMatch) {
-      const needle = `description="${descMatch[1]}" tags={["${tagMatch[1]}"]}`;
+      const needle = `description="${descMatch[1]}" tags={${tagMatch[1]}}`;
       if (content.includes(needle)) {
-        console.log(`  Skipping ${descMatch[1]} [${tagMatch[1]}] — already present.`);
+        console.log(`  Skipping ${descMatch[1]} ${tagMatch[1]} — already present.`);
         return false;
       }
     }
@@ -395,13 +397,41 @@ function prependUpdateToReleaseNotes(releaseNotesPath, blocks) {
 // ---------------------------------------------------------------------------
 // Prepend to monthly release-notes file (e.g. release-notes/may-2026.mdx)
 // ---------------------------------------------------------------------------
+function monthlyFilePath(date = new Date()) {
+  const monthName = date.toLocaleDateString('en-US', { month: 'long' }).toLowerCase();
+  return path.join(process.cwd(), 'release-notes', `${monthName}-${date.getFullYear()}.mdx`);
+}
+
+// Adds a version to the description of an existing block with the same date label.
+function addVersionToDateBlock(filePath, dateLabel, version) {
+  if (!fs.existsSync(filePath)) return false;
+  const content = fs.readFileSync(filePath, 'utf8');
+  const re = new RegExp(`(<Update label="${dateLabel}" description=")([^"]*)(")`);
+  const match = content.match(re);
+  if (!match || match[2].split(', ').includes(version)) return false;
+  fs.writeFileSync(filePath, content.replace(re, `$1$2, ${version}$3`));
+  return true;
+}
+
+// New monthly pages must be in docs.json or they never show in the sidebar.
+function ensureMonthInNav(fileName) {
+  const docsPath = path.join(process.cwd(), 'docs.json');
+  const docs = JSON.parse(fs.readFileSync(docsPath, 'utf8'));
+  const page = `release-notes/${fileName.replace(/\.mdx$/, '')}`;
+  const group = docs.navigation.tabs.flatMap((t) => t.groups || []).find((g) => g.pages.includes('release-notes'));
+  if (!group || group.pages.includes(page)) return;
+  group.pages.splice(group.pages.indexOf('release-notes') + 1, 0, page);
+  fs.writeFileSync(docsPath, JSON.stringify(docs, null, 2) + '\n');
+  console.log(`Added ${page} to docs.json navigation.`);
+}
+
 function prependToMonthlyFile(blocks) {
   const now = new Date();
   const monthName = now.toLocaleDateString('en-US', { month: 'long' }).toLowerCase();
   const year = now.getFullYear();
-  const fileName = `${monthName}-${year}.mdx`;
-  const monthlyDir = path.join(process.cwd(), 'release-notes');
-  const monthlyPath = path.join(monthlyDir, fileName);
+  const monthlyPath = monthlyFilePath(now);
+  const fileName = path.basename(monthlyPath);
+  const monthlyDir = path.dirname(monthlyPath);
 
   if (!fs.existsSync(monthlyDir)) {
     fs.mkdirSync(monthlyDir, { recursive: true });
@@ -413,6 +443,7 @@ function prependToMonthlyFile(blocks) {
   if (!fs.existsSync(monthlyPath)) {
     fs.writeFileSync(monthlyPath, frontmatter + '\n' + blocks.join('\n\n') + '\n');
     console.log(`Created ${fileName} with ${blocks.length} block(s).`);
+    ensureMonthInNav(fileName);
     return fileName;
   }
 
@@ -476,6 +507,15 @@ async function main() {
     grouped[app].push(pr);
   }
 
+  const releaseNotesPath = path.join(process.cwd(), 'release-notes.mdx');
+  if (!fs.existsSync(releaseNotesPath)) {
+    throw new Error(`Release notes page not found: ${releaseNotesPath}`);
+  }
+
+  // The monorepo tag compare returns every commit between two tags, so the same PR
+  // shows up in the api, admin, and dashboard releases. Only list each PR once.
+  const alreadyListed = extractPrRefs(fs.readFileSync(releaseNotesPath, 'utf8'));
+
   // Now process all collected PRs into release note entries
   const processed = Object.fromEntries(targetApps.map((r) => [r, []]));
   const contextPrs = [];
@@ -488,8 +528,17 @@ async function main() {
         continue;
       }
 
+      const repo = APPS.includes(app) ? MONOREPO : app;
+      const ref = `${repo}#${pr.number}`;
+      if (alreadyListed.has(ref)) {
+        console.log(`  Skipping PR #${pr.number}: already in an earlier release`);
+        continue;
+      }
+      alreadyListed.add(ref);
+
       contextPrs.push({
-        repo: APPS.includes(app) ? MONOREPO : app,
+        repo,
+        ref,
         app,
         number: pr.number,
         title,
@@ -532,36 +581,41 @@ async function main() {
     }
   }
 
+  const today = new Date();
+  const dateLabel = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Try the AI writer first: one clean block for the whole release
+  let blocks = [];
+  if (contextPrs.length > 0 && process.env.ANTHROPIC_API_KEY) {
+    try {
+      for (const pr of contextPrs) pr.areas = await getTouchedAreas(ghJson, pr.repo, pr.number);
+      blocks = [await writeReleaseBlock({ dateLabel, versions: [version], prs: contextPrs })];
+    } catch (e) {
+      console.warn(`  ⚠ AI release notes failed, falling back to PR summaries: ${e.message}`);
+    }
+  }
+
   // Hand the shipped PRs to scripts/curate-latest-features.mjs
   if (process.env.RELEASE_CONTEXT_FILE) {
     fs.writeFileSync(process.env.RELEASE_CONTEXT_FILE, JSON.stringify({ version, prs: contextPrs }, null, 2));
     console.log(`Wrote ${contextPrs.length} PR(s) to ${process.env.RELEASE_CONTEXT_FILE}`);
   }
 
-  // Sort entries within each app by merge date (newest first)
-  for (const app of targetApps) {
-    processed[app].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt));
-  }
-
-  // Build blocks
-  const today = new Date();
-  const dateLabel = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-  const blocks = [];
-  for (const app of targetApps) {
-    const entries = processed[app];
-    if (entries.length === 0) continue;
-    blocks.push(buildUpdateBlock(app, entries, dateLabel, version));
+  if (blocks.length === 0) {
+    // Sort entries within each app by merge date (newest first)
+    for (const app of targetApps) {
+      processed[app].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt));
+      if (processed[app].length > 0) blocks.push(buildUpdateBlock(app, processed[app], dateLabel, version));
+    }
   }
 
   if (blocks.length === 0) {
-    console.log('\nNo PRs found — nothing to generate.');
+    // Same-day releases of other apps usually ship PRs we already listed; note the version on that block.
+    const added = [releaseNotesPath, monthlyFilePath()].filter((p) => addVersionToDateBlock(p, dateLabel, version));
+    console.log(added.length
+      ? `\nNo new PRs — added ${version} to the ${dateLabel} entry.`
+      : '\nNo new PRs found — nothing to generate.');
     return;
-  }
-
-  const releaseNotesPath = path.join(process.cwd(), 'release-notes.mdx');
-  if (!fs.existsSync(releaseNotesPath)) {
-    throw new Error(`Release notes page not found: ${releaseNotesPath}`);
   }
 
   prependUpdateToReleaseNotes(releaseNotesPath, blocks);

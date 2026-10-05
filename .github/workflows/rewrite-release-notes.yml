@@ -1,0 +1,52 @@
+name: Rewrite release notes
+
+on:
+  workflow_dispatch:
+    inputs:
+      months:
+        description: "Monthly pages to rewrite (comma-separated file names, e.g. july-2026,august-2026)"
+        required: true
+        default: "july-2026,august-2026,september-2026"
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  rewrite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Rewrite release notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MONTHS: ${{ inputs.months }}
+        run: node scripts/rewrite-release-notes.mjs --months "$MONTHS"
+
+      - name: Open a pull request for review
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MONTHS: ${{ inputs.months }}
+        run: |
+          BRANCH="release-notes-rewrite-${{ github.run_id }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add release-notes.mdx release-notes/
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "docs: rewrite release notes for $MONTHS"
+          git push origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "docs: rewrite release notes for $MONTHS" \
+            --body "AI rewrite of the $MONTHS release notes: one entry per release date, each PR listed once, grouped by app. Review the wording before merging." \
+            || echo "::warning::Couldn't open the PR automatically. Open it from the $BRANCH branch."

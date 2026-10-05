@@ -10,14 +10,15 @@
 // Optional: LATEST_FEATURES_MODEL, RELEASE_DATE (YYYY-MM-DD), GITHUB_OUTPUT
 import fs from 'node:fs';
 import path from 'node:path';
+import { makeGhJson, getTouchedAreas, formatAreas, cleanPrBody } from './lib/github.mjs';
+import { callClaude, escapeMdx, DEFAULT_MODEL } from './lib/claude.mjs';
 
 const ROOT = process.cwd();
 const FEED_PATH = path.join(ROOT, 'latest-features', 'feed.json');
 const ROUTES_PATH = path.join(ROOT, 'latest-features', 'routes.json');
 const PAGE_PATH = path.join(ROOT, 'latest-features.mdx');
 
-const ORG = 'Revive-Home';
-const MODEL = process.env.LATEST_FEATURES_MODEL || 'claude-sonnet-5-5';
+const MODEL = process.env.LATEST_FEATURES_MODEL || DEFAULT_MODEL;
 const MAX_NEW_ITEMS = 2;
 const MAX_FEED_ITEMS = 50;
 const LIMITS = { title: 60, summary: 260, ctaLabel: 30 };
@@ -37,39 +38,6 @@ function requiredEnv(name) {
   const v = process.env[name];
   if (!v) throw new Error(`Missing required env var: ${name}`);
   return v;
-}
-
-// ---------------------------------------------------------------------------
-// GitHub: classify which apps a PR touches
-// ---------------------------------------------------------------------------
-async function ghJson(url) {
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${requiredEnv('GITHUB_TOKEN')}`,
-      Accept: 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
-    },
-  });
-  if (!res.ok) throw new Error(`GitHub API error ${res.status} for ${url}: ${await res.text()}`);
-  return res.json();
-}
-
-async function getTouchedAreas(repo, number) {
-  const areas = { dashboard: 0, mobile: 0, shared: 0, api: 0, admin: 0, other: 0 };
-  for (let page = 1; page <= 3; page++) {
-    const files = await ghJson(`https://api.github.com/repos/${ORG}/${repo}/pulls/${number}/files?per_page=100&page=${page}`);
-    for (const { filename } of files) {
-      const area =
-        repo === 'revive-mobile' ? 'mobile' :
-        filename.startsWith('apps/dashboard/') ? 'dashboard' :
-        filename.startsWith('apps/admin/') ? 'admin' :
-        filename.startsWith('apps/api/') ? 'api' :
-        filename.startsWith('packages/') ? 'shared' : 'other';
-      areas[area]++;
-    }
-    if (files.length < 100) break;
-  }
-  return areas;
 }
 
 const isPossiblyCustomerFacing = (a) => a.dashboard + a.mobile + a.shared + a.api > 0;
@@ -154,41 +122,6 @@ function buildSchema(routePaths, prRefs) {
   };
 }
 
-async function callClaude(userPrompt, schema) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-api-key': requiredEnv('ANTHROPIC_API_KEY'),
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 16000,
-      system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userPrompt }],
-      output_config: { effort: 'high', format: { type: 'json_schema', schema } },
-    }),
-  });
-  if (!res.ok) throw new Error(`Anthropic API error ${res.status}: ${await res.text()}`);
-  const data = await res.json();
-  if (data.stop_reason !== 'end_turn') throw new Error(`Unexpected stop_reason from Claude: ${data.stop_reason}`);
-  const text = data.content.find((b) => b.type === 'text')?.text;
-  if (!text) throw new Error('Claude returned no text content');
-  console.log(`  Claude usage: ${data.usage?.input_tokens} in / ${data.usage?.output_tokens} out`);
-  return JSON.parse(text);
-}
-
-function cleanBody(body = '') {
-  return body
-    .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<\/?[^>]+>/g, '')
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
-    .slice(0, 4000);
-}
-
 function buildUserPrompt({ version, candidates, routes, feed }) {
   const routeLines = routes.routes.map((r) =>
     `- ${r.path} (${r.page}): ${r.description} Audience: ${r.audience.length ? r.audience.join(', ') : 'everyone'}.`);
@@ -197,9 +130,9 @@ function buildUserPrompt({ version, candidates, routes, feed }) {
   const prBlocks = candidates.map((c) => [
     `### ${c.ref}: ${c.title}`,
     `Merged: ${c.merged_at?.slice(0, 10)}`,
-    `Files changed by area: ${Object.entries(c.areas).filter(([, n]) => n).map(([a, n]) => `${a}=${n}`).join(', ')}`,
+    `Files changed by area: ${formatAreas(c.areas)}`,
     '',
-    cleanBody(c.body) || '(no description)',
+    cleanPrBody(c.body) || '(no description)',
   ].join('\n'));
 
   return [
@@ -257,8 +190,6 @@ function toFeedItem(item, { date, version, routes, existingIds }) {
 // ---------------------------------------------------------------------------
 // MDX rendering
 // ---------------------------------------------------------------------------
-const escapeMdx = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/{/g, '&#123;').replace(/}/g, '&#125;');
-
 function formatDate(iso) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 }
@@ -309,13 +240,14 @@ async function curate(feed) {
   const routes = readJson(ROUTES_PATH);
   const featured = new Set(feed.items.flatMap((i) => i.source?.prs || []));
 
+  const ghJson = makeGhJson(requiredEnv('GITHUB_TOKEN'));
   const seen = new Set();
   const candidates = [];
   for (const pr of context.prs) {
     const ref = `${pr.repo}#${pr.number}`;
     if (seen.has(ref) || featured.has(ref)) continue;
     seen.add(ref);
-    const areas = await getTouchedAreas(pr.repo, pr.number);
+    const areas = pr.areas || await getTouchedAreas(ghJson, pr.repo, pr.number);
     if (!isPossiblyCustomerFacing(areas)) {
       console.log(`  Skipping ${ref} (admin/internal only)`);
       continue;
@@ -329,10 +261,12 @@ async function curate(feed) {
   }
 
   console.log(`Asking ${MODEL} to review ${candidates.length} PR(s) from ${version}...`);
-  const result = await callClaude(
-    buildUserPrompt({ version, candidates, routes, feed }),
-    buildSchema(routes.routes.map((r) => r.path), candidates.map((c) => c.ref)),
-  );
+  const result = await callClaude({
+    model: MODEL,
+    system: SYSTEM_PROMPT,
+    user: buildUserPrompt({ version, candidates, routes, feed }),
+    schema: buildSchema(routes.routes.map((r) => r.path), candidates.map((c) => c.ref)),
+  });
 
   const date = process.env.RELEASE_DATE || new Date().toISOString().slice(0, 10);
   const existingIds = new Set(feed.items.map((i) => i.id));
