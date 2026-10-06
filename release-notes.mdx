@@ -3,6 +3,25 @@ title: "Release notes"
 description: "What's new across revive-api, dashboard, admin, and mobile — new features, improvements, bug fixes, breaking changes, and required migration steps."
 ---
 
+<Update label="October 6, 2026" description="api-v3.15.2" tags={["dashboard","mobile"]}>
+
+**Highlights:** Opportunity details now fill in missing property information automatically when a full address is available. Pre-estimate links also now open in the browser instead of the mobile app.
+
+### Dashboard
+
+**Improved**
+
+- **Missing property details fill in automatically:** When you open an opportunity with a complete address but missing property information, the missing details are filled in for you. Existing values are never overwritten. If the lookup fails, the opportunity loads as before. ([#548](https://github.com/Revive-Home/revive-apps/pull/548))
+
+### Mobile
+
+**Fixed**
+
+- Pre-estimate links now open in the browser instead of the mobile app, so they no longer land in the wrong place. ([#540](https://github.com/Revive-Home/revive-apps/pull/540))
+
+</Update>
+
+
 <Update label="September 25, 2026" description="admin-v3.17.2, api-v3.15.1" tags={["admin","api"]}>
 
 **Highlights:** Admin gets new Sales Pipeline, Sell 360, Flip 360, and Renovate to Sell pages with deal sheets, plus new maps for active construction sites and home seller referrals. The MLS listings photo gallery now works.

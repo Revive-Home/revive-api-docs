@@ -1,8 +1,8 @@
 # 📋 Docs Audit Report
 
-Generated: 2026-09-25T20:50 UTC
+Generated: 2026-10-06T21:40 UTC
 
-Found **58** item(s) to review:
+Found **57** item(s) to review:
 
 ## API Reference (openapi.json)
 
@@ -38,30 +38,29 @@ Found **58** item(s) to review:
 
 ## Guides
 
-- [ ] Release notes link to `/guides/health` ("Third-party status") but that guide doesn't exist.
 - [ ] Guide `guides/intake-url-parameters.mdx` may need updating — release mentions "intake" in a new feature context.
 - [ ] Guide `guides/ai-weekly-updates.mdx` may need updating — release mentions "weekly update" in a new feature context.
+- [ ] Guide `guides/field-dictionary.mdx` may need updating — release mentions "field" in a new feature context.
 
 ## Third-party integrations
 
-- [ ] Integration doc `third-party-integrations/hubspot.mdx` may need updating — release mentions "HubSpot" in: "Public status page and health API."
-- [ ] Integration doc `third-party-integrations/pandadoc.mdx` may need updating — release mentions "PandaDoc" in: "Public status page and health API."
-- [ ] Integration doc `third-party-integrations/firebase.mdx` may need updating — release mentions "Firebase" in: "Public status page and health API."
+- [ ] Integration doc `third-party-integrations/hubspot.mdx` may need updating — release mentions "HubSpot" in: "Homeseller referral map colored by sold date:"
+- [ ] Integration doc `third-party-integrations/pandadoc.mdx` may need updating — release mentions "PandaDoc" in: "Better monitoring and health checks:"
+- [ ] Integration doc `third-party-integrations/firebase.mdx` may need updating — release mentions "Firebase" in: "Quieter error tracking:"
+- [ ] Integration doc `third-party-integrations/maps-and-geocoding.mdx` may need updating — release mentions "Google Maps" in: "Google Maps links and exterior photos on comparables:"
 - [ ] Integration doc `third-party-integrations/analytics-and-monitoring.mdx` may need updating — release mentions "Google Tag" in: "GTM tracking on intake sign-up."
 - [ ] Integration doc `third-party-integrations/analytics-and-monitoring.mdx` may need updating — release mentions "GTM" in: "GTM tracking on intake sign-up."
-- [ ] Integration doc `third-party-integrations/property-data.mdx` may need updating — release mentions "AnyProp" in: "Public status page and health API."
+- [ ] Integration doc `third-party-integrations/analytics-and-monitoring.mdx` may need updating — release mentions "Sentry" in: "Better error monitoring:"
+- [ ] Integration doc `third-party-integrations/property-data.mdx` may need updating — release mentions "AnyProp" in: "Highlights:"
 - [ ] Integration doc `third-party-integrations/property-data.mdx` may need updating — release mentions "ATTOM" in: "Public status page and health API."
 
 ## Field dictionary
 
 - [ ] Field `operational` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `down` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `reason` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `email` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
+- [ ] Field `phone` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
+- [ ] Field `admins` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `withMortgageData` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `kitchen` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `bathroom` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `materials` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `homeIncrease` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `valueOpportunity` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `agentCommission` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
