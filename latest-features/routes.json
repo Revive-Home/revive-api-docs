@@ -5,73 +5,110 @@
       "path": "/dashboard",
       "page": "Dashboard",
       "description": "Summary of the user's Revive activity.",
-      "audience": []
+      "audience": [
+        "Realtor",
+        "Homeowner",
+        "Service Provider",
+        "Loan Officer"
+      ]
     },
     {
       "path": "/homes",
       "page": "Projects",
       "description": "List of renovation projects. Each project opens a project page with summary, project log, scope, photos, team, marketing, and contracts.",
-      "audience": []
+      "audience": [
+        "Realtor",
+        "Homeowner",
+        "Service Provider"
+      ]
     },
     {
       "path": "/revive-ai",
       "page": "Revive AI Reports",
       "description": "Revive AI property reports: valuations, comparables, renovation estimates, and report sharing.",
-      "audience": ["Realtor", "Homeowner", "Loan Officer"]
+      "audience": [
+        "Realtor",
+        "Homeowner",
+        "Loan Officer"
+      ]
     },
     {
       "path": "/getting-started",
       "page": "Getting started",
       "description": "Guided flow for submitting a property as a new project.",
-      "audience": ["Realtor"]
+      "audience": [
+        "Realtor"
+      ]
     },
     {
       "path": "/engaged-leads",
       "page": "Engaged Leads",
       "description": "Leads who engaged with an agent's Revive AI reports and lead-capture pages.",
-      "audience": ["Realtor"]
+      "audience": [
+        "Realtor"
+      ]
     },
     {
       "path": "/reno-vision",
       "page": "RenoVision",
       "description": "AI-generated renovation design previews for rooms in a home.",
-      "audience": ["Realtor", "Homeowner", "Loan Officer"]
+      "audience": [
+        "Realtor",
+        "Homeowner",
+        "Loan Officer"
+      ]
     },
     {
       "path": "/edge",
       "page": "Seller Leads",
       "description": "Exclusive seller-lead program for agents.",
-      "audience": ["Realtor"]
+      "audience": [
+        "Realtor"
+      ]
     },
     {
       "path": "/agents",
       "page": "Agents",
       "description": "Brokerage view of agents and their activity. Only for users with brokerage access.",
-      "audience": ["Realtor"]
+      "audience": [
+        "Realtor"
+      ]
     },
     {
       "path": "/marketing-center",
       "page": "Marketing Center",
       "description": "Branded marketing materials, marketing profile setup, and downloads.",
-      "audience": ["Realtor"]
+      "audience": [
+        "Realtor"
+      ]
     },
     {
       "path": "/resources",
       "page": "Resources",
       "description": "Helpful guides and materials for agents.",
-      "audience": ["Realtor"]
+      "audience": [
+        "Realtor"
+      ]
     },
     {
       "path": "/invite-friends",
       "page": "Refer & Earn",
       "description": "Referral link, rewards, and referral status.",
-      "audience": ["Realtor", "Homeowner"]
+      "audience": [
+        "Realtor",
+        "Homeowner"
+      ]
     },
     {
       "path": "/profile",
       "page": "My profile",
       "description": "Account details, business info, and account settings.",
-      "audience": []
+      "audience": [
+        "Realtor",
+        "Homeowner",
+        "Service Provider",
+        "Loan Officer"
+      ]
     }
   ]
 }

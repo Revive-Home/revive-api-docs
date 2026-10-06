@@ -89,7 +89,7 @@ Example of a strong item:
 
 - cta_path: the single most relevant dashboard page from the provided list, or "none" if no page fits. Never guess.
 - cta_label: two to four words starting with a verb, for example "Open Marketing Center". Use an empty string when cta_path is "none".
-- audience: the user types who can use the feature. Use an empty array if every user type can. Use the page audience as a guide.
+- audience: every user type the feature applies to, listed explicitly. Never leave it empty; if it applies to everyone, list all four types. "Realtor" means real estate agents, "Homeowner" means homeowners, "Service Provider" means contractors, and "Loan Officer" means loan officers. Start from the page audience, then narrow it to who the change actually matters to. For example, a Marketing Center change is ["Realtor"], and a change to project pages is ["Realtor", "Homeowner"].
 - source_prs: the refs of the PRs the item is based on.
 - reasoning: one sentence explaining why customers will care.
 - skipped_reason: one sentence on why you didn't pick anything else.`;
@@ -124,7 +124,7 @@ function buildSchema(routePaths, prRefs) {
 
 function buildUserPrompt({ version, candidates, routes, feed }) {
   const routeLines = routes.routes.map((r) =>
-    `- ${r.path} (${r.page}): ${r.description} Audience: ${r.audience.length ? r.audience.join(', ') : 'everyone'}.`);
+    `- ${r.path} (${r.page}): ${r.description} Audience: ${r.audience.join(', ')}.`);
   const recent = feed.items.slice(0, 15).map((i) =>
     `- [${i.date}] ${i.title}: ${i.summary} (from ${i.source?.prs?.join(', ') || 'unknown'})`);
   const prBlocks = candidates.map((c) => [
@@ -168,6 +168,7 @@ function validateItem(item, featured) {
   if (HYPE_RE.test(`${title} ${summary}`)) problems.push('uses hype words');
   if (item.cta_path !== 'none' && (!item.cta_label.trim() || item.cta_label.length > LIMITS.ctaLabel)) problems.push('bad cta_label');
   if (!item.source_prs.length) problems.push('no source PRs');
+  if (!item.audience.length) problems.push('no audience');
   if (item.source_prs.some((ref) => featured.has(ref))) problems.push('source PR already featured');
   return problems;
 }
@@ -182,7 +183,7 @@ function toFeedItem(item, { date, version, routes, existingIds }) {
     title: item.title.trim(),
     summary: item.summary.trim(),
     cta: item.cta_path === 'none' ? null : { label: item.cta_label.trim(), url: `${routes.base_url}${item.cta_path}` },
-    audience: [...new Set(item.audience)],
+    audience: AUDIENCES.filter((a) => item.audience.includes(a)),
     source: { releases: [version], prs: item.source_prs, curated_by: MODEL },
   };
 }
@@ -204,7 +205,7 @@ function renderPage(feed) {
   const blocks = [...byDate].map(([date, items]) => {
     const body = items.map((i) => {
       const lines = [`### ${escapeMdx(i.title)}`, '', escapeMdx(i.summary)];
-      if (i.audience.length) lines.push('', `_For ${i.audience.map((a) => AUDIENCE_NAMES[a] || a).join(' and ')} accounts._`);
+      if (i.audience.length < AUDIENCES.length) lines.push('', `_For ${i.audience.map((a) => AUDIENCE_NAMES[a] || a).join(' and ')} accounts._`);
       if (i.cta) lines.push('', `[${escapeMdx(i.cta.label)} →](${i.cta.url})`);
       return lines.join('\n');
     }).join('\n\n');

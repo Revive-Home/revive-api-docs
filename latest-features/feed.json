@@ -55,7 +55,12 @@
       "title": "Sign in with just your phone number",
       "summary": "Getting into Revive now starts with your phone number, so there's one less password to remember. Have more than one account? Pick the one you want and you're in.",
       "cta": null,
-      "audience": [],
+      "audience": [
+        "Realtor",
+        "Homeowner",
+        "Service Provider",
+        "Loan Officer"
+      ],
       "source": {
         "releases": [
           "dashboard-v2.14.0"
@@ -76,7 +81,10 @@
         "label": "View your projects",
         "url": "https://dashboard.revive.realestate/homes"
       },
-      "audience": [],
+      "audience": [
+        "Realtor",
+        "Homeowner"
+      ],
       "source": {
         "releases": [
           "dashboard-v2.13.0"
@@ -96,7 +104,10 @@
         "label": "See your latest update",
         "url": "https://dashboard.revive.realestate/homes"
       },
-      "audience": [],
+      "audience": [
+        "Realtor",
+        "Homeowner"
+      ],
       "source": {
         "releases": [
           "dashboard-v2.12.0"
