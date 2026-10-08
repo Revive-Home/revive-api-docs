@@ -1,6 +1,6 @@
 # 📋 Docs Audit Report
 
-Generated: 2026-10-08T09:25 UTC
+Generated: 2026-10-08T09:28 UTC
 
 Found **57** item(s) to review:
 
@@ -44,7 +44,7 @@ Found **57** item(s) to review:
 
 ## Third-party integrations
 
-- [ ] Integration doc `third-party-integrations/hubspot.mdx` may need updating — release mentions "HubSpot" in: "New deals inherit the contact's HubSpot owner:"
+- [ ] Integration doc `third-party-integrations/hubspot.mdx` may need updating — release mentions "HubSpot" in: "Vision AI records backfilled with price per sqft:"
 - [ ] Integration doc `third-party-integrations/pandadoc.mdx` may need updating — release mentions "PandaDoc" in: "Better monitoring and health checks:"
 - [ ] Integration doc `third-party-integrations/firebase.mdx` may need updating — release mentions "Firebase" in: "Quieter error tracking:"
 - [ ] Integration doc `third-party-integrations/maps-and-geocoding.mdx` may need updating — release mentions "Google Maps" in: "Google Maps links and exterior photos on comparables:"
