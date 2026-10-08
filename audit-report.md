@@ -1,6 +1,6 @@
 # 📋 Docs Audit Report
 
-Generated: 2026-10-06T21:40 UTC
+Generated: 2026-10-08T09:25 UTC
 
 Found **57** item(s) to review:
 
@@ -44,7 +44,7 @@ Found **57** item(s) to review:
 
 ## Third-party integrations
 
-- [ ] Integration doc `third-party-integrations/hubspot.mdx` may need updating — release mentions "HubSpot" in: "Homeseller referral map colored by sold date:"
+- [ ] Integration doc `third-party-integrations/hubspot.mdx` may need updating — release mentions "HubSpot" in: "New deals inherit the contact's HubSpot owner:"
 - [ ] Integration doc `third-party-integrations/pandadoc.mdx` may need updating — release mentions "PandaDoc" in: "Better monitoring and health checks:"
 - [ ] Integration doc `third-party-integrations/firebase.mdx` may need updating — release mentions "Firebase" in: "Quieter error tracking:"
 - [ ] Integration doc `third-party-integrations/maps-and-geocoding.mdx` may need updating — release mentions "Google Maps" in: "Google Maps links and exterior photos on comparables:"
@@ -57,10 +57,10 @@ Found **57** item(s) to review:
 ## Field dictionary
 
 - [ ] Field `operational` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
-- [ ] Field `phone` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `admins` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `withMortgageData` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `kitchen` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
+- [ ] Field `other` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `homeIncrease` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `valueOpportunity` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.
 - [ ] Field `agentCommission` appears to be new in this release but isn't in the field dictionary. Consider adding it to `guides/field-dictionary.mdx`.

@@ -2,8 +2,56 @@
   "version": 1,
   "title": "Latest features",
   "description": "Everything we shipped, newest first.",
-  "updated_at": "2026-10-04T00:00:00.000Z",
+  "updated_at": "2026-10-08T09:25:27.608Z",
   "items": [
+    {
+      "id": "2026-10-08-a-new-profile-and-sidebar-to-manage-your-account",
+      "date": "2026-10-08",
+      "title": "A new profile and sidebar to manage your account",
+      "summary": "Edit your details, photo, and verified phone number in a redesigned profile, with a refreshed sidebar that collapses to save space. You can also review the latest features you've missed since your last login from your profile.",
+      "cta": {
+        "label": "Open your profile",
+        "url": "https://dashboard.revive.realestate/profile"
+      },
+      "audience": [
+        "Realtor",
+        "Homeowner",
+        "Service Provider",
+        "Loan Officer"
+      ],
+      "source": {
+        "releases": [
+          "api-v3.16.0"
+        ],
+        "prs": [
+          "revive-apps#435",
+          "revive-apps#559"
+        ],
+        "curated_by": "claude-sonnet-5-5"
+      }
+    },
+    {
+      "id": "2026-10-08-show-off-progress-at-the-halfway-mark",
+      "date": "2026-10-08",
+      "title": "Show off progress at the halfway mark",
+      "summary": "Once a project reaches 50% complete and has a good photo from a published weekly update, Revive offers a 50% completion marketing image. Share it to give clients a timely look at your work in progress.",
+      "cta": {
+        "label": "Open Marketing Center",
+        "url": "https://dashboard.revive.realestate/marketing-center"
+      },
+      "audience": [
+        "Realtor"
+      ],
+      "source": {
+        "releases": [
+          "api-v3.16.0"
+        ],
+        "prs": [
+          "revive-apps#566"
+        ],
+        "curated_by": "claude-sonnet-5-5"
+      }
+    },
     {
       "id": "2026-09-24-construction-marketing-materials",
       "date": "2026-09-24",

@@ -3,6 +3,77 @@ title: "October 2026"
 description: "October 2026 release notes for the Revive platform — features, improvements, bug fixes, and breaking changes shipped across the API and frontend apps."
 ---
 
+<Update label="October 8, 2026" description="api-v3.16.0" tags={["dashboard","admin","api","platform"]}>
+
+**Highlights:** Dashboard users get a redesigned profile page and sidebar, plus a new documents drawer in the construction dashboard. Admin can create estimates from deal sheets with AI, and the MLS listings page now filters, sorts and pages.
+
+### Dashboard
+
+**New**
+
+- **New profile settings and sidebar:** Every user type gets a redesigned profile page with photo upload, phone verification and completion guidance. Realtors can add a brokerage and see a Refer &amp; Earn panel. The new blue sidebar collapses, and mobile gets a drawer. ([#435](https://github.com/Revive-Home/revive-apps/pull/435))
+- **Latest Features tab in your profile:** Profile settings now list dated product announcements. Items added since your last login get a badge, and you can mark them all as read. On mobile, the back button is blocked while you have unsaved changes. ([#559](https://github.com/Revive-Home/revive-apps/pull/559))
+- **New documents drawer in the construction dashboard:** Search project documents, upload files or links with progress and cancel, and view, download or delete eligible files. Word documents and links now preview. Labels now read "Uploaded files" and "ADDED DOCUMENTS". ([#536](https://github.com/Revive-Home/revive-apps/pull/536))
+
+**Improved**
+
+- **Weekly update stats and photos in the project log:** Recent Activity and the Project Log now show comment, document and photo counts for each weekly update. Project Log cards also get a photo strip and an image viewer. ([#536](https://github.com/Revive-Home/revive-apps/pull/536))
+- **50-photo limit when choosing report photos:** Intake removes duplicate MLS photos and pre-selects the first 50. A counter shows how many are selected, and extra uploads are skipped with a notice. Reports no longer fail from too many photos. ([#534](https://github.com/Revive-Home/revive-apps/pull/534))
+- **Cleaner coming-soon cards on Revive AI reports:** Room cards that aren't available yet now show only "COMING SOON" without the "Summer 2026" line. Kitchen and bathroom cards are unchanged. ([#521](https://github.com/Revive-Home/revive-apps/pull/521), [#523](https://github.com/Revive-Home/revive-apps/pull/523))
+
+**Fixed**
+
+- Agents with more than 100 deals now see their newest properties on the Homes page instead of only the oldest 100. ([#553](https://github.com/Revive-Home/revive-apps/pull/553))
+- The Explore Neighborhood modal generates AI insights again instead of showing "AI insights are not ready", and new reports get them too. ([#547](https://github.com/Revive-Home/revive-apps/pull/547))
+- A new preestimate share link shows a loading state and keeps retrying while the estimate prepares, instead of sending you to a 404 page. ([#438](https://github.com/Revive-Home/revive-apps/pull/438))
+- Opening a Revive AI report no longer bounces back and forth between the report page and the explore page when your account has changed in another tab. ([#561](https://github.com/Revive-Home/revive-apps/pull/561))
+
+### Admin
+
+**New**
+
+- **Photos page for opportunities:** Opportunities have a Photos section for progress and before photos, videos and related activities. You can import from shared folders (images only), upload, and download everything as a ZIP. ([#536](https://github.com/Revive-Home/revive-apps/pull/536))
+- **Create an estimate from a deal sheet:** Start an estimate straight from a deal sheet. AI helps match items, you can add notes, and you see progress and a link to the finished estimate. ([#562](https://github.com/Revive-Home/revive-apps/pull/562))
+- **Change orders by document type:** Choose from three document types when creating a change order. Each has its own description, signers and amendment numbering. You can pick an Owner's Representative, skip contractor details where not needed, and add up to three homeowners. ([#409](https://github.com/Revive-Home/revive-apps/pull/409))
+- **Recent searches in deal search:** Click the empty deal search box to see your last five opened deals. Remove one with the x or clear them all. Pressing Enter on a result now opens it too. ([#570](https://github.com/Revive-Home/revive-apps/pull/570))
+- **AI reports and estimates on the Sales tab:** The Sales overview lists AI reports and estimates for the deal. Reports show type, creator and date, and estimates show status and total, with links to open them. The experimental label and Quick Navigation buttons are gone. ([#568](https://github.com/Revive-Home/revive-apps/pull/568))
+
+**Improved**
+
+- **Deal sheet and calculator upgrades:** Comparable photos show in a grid and open in a slideshow. Offer adjustments, first-check amounts and renovation costs are editable, with suggested costs by size. Deal sheets save as PDFs, and calculators link to deal sheet values. ([#555](https://github.com/Revive-Home/revive-apps/pull/555), [#562](https://github.com/Revive-Home/revive-apps/pull/562))
+- **MLS listings filter, sort and page:** Filter MLS listings by score, days on market, price and price per square foot. Browse by day, switch between new and updated listings, and see the total matches. Flagging and dismissing listings are removed. ([#545](https://github.com/Revive-Home/revive-apps/pull/545))
+
+**Fixed**
+
+- The Schedule check calendar in Publish Update now lets you pick dates in 2027 and later. ([#542](https://github.com/Revive-Home/revive-apps/pull/542))
+- The Vision AI report explorer shows a not-found page for missing reports, and an error message with a reload button when loading fails. ([#531](https://github.com/Revive-Home/revive-apps/pull/531))
+
+### API
+
+**New**
+
+- **50% completion marketing image:** A 50% completion image becomes available once a project is at least halfway done and has a suitable photo from a published weekly update. Construction photo scoring is expanded, and blurry Street View images are filtered out. ([#566](https://github.com/Revive-Home/revive-apps/pull/566))
+
+**Improved**
+
+- **New deals inherit the contact's HubSpot owner:** Deals agents submit now get the first associated contact's owner. Existing deals keep their owner, and a contact without an owner still creates the deal normally. ([#553](https://github.com/Revive-Home/revive-apps/pull/553))
+- **More reliable address matching for property lookups:** Property details and photo lookups now match different spellings such as Dr and Drive, units and ZIP+4. They no longer return a different street or condo. This also fixes stale listing statuses. ([#543](https://github.com/Revive-Home/revive-apps/pull/543), [#565](https://github.com/Revive-Home/revive-apps/pull/565), [#534](https://github.com/Revive-Home/revive-apps/pull/534))
+- **No personal info in Revive AI report links:** Report links in reminder emails and Follow Up Boss now carry an invite ID instead of name, email and phone. The sign-in form is still pre-filled. If the invite can't be created, the link falls back to the plain report link. ([#499](https://github.com/Revive-Home/revive-apps/pull/499))
+- **Missing property info filled in from Estated:** Deal details now fill in missing property information from Estated when the address is complete and coordinates are missing. ([#563](https://github.com/Revive-Home/revive-apps/pull/563))
+
+**Fixed**
+
+- Custom item AI draft requests no longer require a token cookie. ([#563](https://github.com/Revive-Home/revive-apps/pull/563))
+
+### Platform
+
+**Improved**
+
+- **Fewer false marketing center alerts:** Expected "not all pages generated" messages from template webhooks are no longer logged as errors. Real failures still log, so alerts now point to real problems. ([#529](https://github.com/Revive-Home/revive-apps/pull/529))
+
+</Update>
+
+
 <Update label="October 6, 2026" description="api-v3.15.2" tags={["dashboard","mobile"]}>
 
 **Highlights:** Opportunity details now fill in missing property information automatically when a full address is available. Pre-estimate links also now open in the browser instead of the mobile app.
